@@ -2,7 +2,7 @@
 
 > Haz que **cualquier sitio web** sea nativo para agentes de IA — sin tocar su código fuente — y con **auto-reparación** de selectores cuando el sitio se rediseña.
 
-[![CI](https://github.com/webmcpcss/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/webmcpcss/WebMCPcss/actions/workflows/ci.yml)
+[![CI](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
@@ -15,15 +15,15 @@ herramientas que un agente de IA puede usar en una web mediante un archivo
 ```css
 /* webmcp.css */
 [data-product] .btn-add {
-  webmcp-tool: "addToCart";
-  webmcp-param-productId: attr(data-product-id);
+  webmcp-tool: 'addToCart';
+  webmcp-param-productid: attr(data-product-id);
   webmcp-param-quantity: value(#qty-input);
-  webmcp-confirmation: ".cart-badge";
+  webmcp-confirmation: '.cart-badge';
 }
 
 .product-price {
-  webmcp-context: "price";
-  webmcp-format: "currency";
+  webmcp-context: 'price';
+  webmcp-format: 'currency';
 }
 ```
 
@@ -48,7 +48,7 @@ WebMCPcss lo convierte en un **tool map** JSON que cualquier agente entiende:
 
 ### 🩹 Auto-reparación
 
-Los sitios se rediseñan y los selectores se rompen. Cuando eso pasa, Guardian:
+Los sitios se rediseñan y los selectores se rompen. Cuando eso pasa, WebMCPcss:
 
 1. Detecta que el selector ya no existe.
 2. Activa el modo **visión**: busca el elemento por huella (atributos `data-*`,
@@ -70,28 +70,28 @@ npm install webmcpcss
 Desde el repositorio:
 
 ```bash
-git clone https://github.com/webmcpcss/WebMCPcss.git
+git clone https://github.com/cochinoraptor/WebMCPcss.git
 cd WebMCPcss
 npm install
 npm run build
-npm link   # opcional: habilita el comando global `guardian`
+npm link   # opcional: habilita el comando global `webmcpcss`
 ```
 
 ## Uso del CLI
 
 ```bash
 # 1) Grabar interacciones en un navegador y generar un .webmcp.css
-guardian generate https://mi-tienda.com -o webmcp.css
+webmcpcss generate https://mi-tienda.com -o webmcp.css
 
 # 2) Validar que los selectores existan en la página
-guardian validate https://mi-tienda.com webmcp.css
+webmcpcss validate https://mi-tienda.com webmcp.css
 
 # 3) Reparar automáticamente los selectores rotos (reescribe el archivo)
-guardian repair https://mi-tienda.com webmcp.css
+webmcpcss repair https://mi-tienda.com webmcp.css
 
 # Extra: parsear a JSON sin navegador, e inyectar estilos comunitarios
-guardian parse webmcp.css
-guardian inject https://example.com --dir ./community-styles
+webmcpcss parse webmcp.css
+webmcpcss inject https://example.com --dir ./community-styles
 ```
 
 Todos los comandos aceptan URLs `http(s)://`, rutas locales a HTML y `--verbose`.
@@ -101,7 +101,7 @@ Todos los comandos aceptan URLs `http(s)://`, rutas locales a HTML y `--verbose`
 ```ts
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
-import { parseWebMCP, GuardianMCP, PuppeteerAdapter } from 'webmcpcss';
+import { parseWebMCP, WebMCPcss, PuppeteerAdapter } from 'webmcpcss';
 
 const toolMap = parseWebMCP(fs.readFileSync('webmcp.css', 'utf8'));
 
@@ -109,14 +109,14 @@ const browser = await puppeteer.launch();
 const page = await browser.newPage();
 await page.goto('https://mi-tienda.com/producto/123');
 
-const guardian = new GuardianMCP(toolMap, new PuppeteerAdapter(page));
+const webmcp = new WebMCPcss(toolMap, new PuppeteerAdapter(page));
 
 // Ejecutar una herramienta (con auto-reparación transparente)
-const result = await guardian.execute('addToCart', { quantity: '2' });
+const result = await webmcp.execute('addToCart', { quantity: '2' });
 // → { success: true, data: { productId: 'SKU-42', quantity: '2', confirmed: true } }
 
 // Leer contexto
-const price = await guardian.getContext('price'); // → "249.900"
+const price = await webmcp.getContext('price'); // → "249.900"
 
 await browser.close();
 ```
@@ -130,26 +130,26 @@ El repo incluye una tienda demo en `examples/shopping-cart/`:
 
 ```bash
 # Validar el ejemplo contra su HTML local
-guardian validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css
+webmcpcss validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css
 
 # Romper un selector a propósito y ver la auto-reparación en acción
 sed -i 's/.btn-add/.boton-que-no-existe/' examples/shopping-cart/webmcp.css
-guardian validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css  # ✖ roto
-guardian repair examples/shopping-cart/index.html examples/shopping-cart/webmcp.css    # ✔ reparado
-guardian validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css  # ✔ OK
+webmcpcss validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css  # ✖ roto
+webmcpcss repair examples/shopping-cart/index.html examples/shopping-cart/webmcp.css    # ✔ reparado
+webmcpcss validate examples/shopping-cart/index.html examples/shopping-cart/webmcp.css  # ✔ OK
 ```
 
 ## Sintaxis `.webmcp.css`
 
-| Propiedad | Descripción | Ejemplo |
-|---|---|---|
-| `webmcp-tool` | Declara una herramienta sobre el selector de la regla | `webmcp-tool: "addToCart";` |
-| `webmcp-param-<nombre>` | Parámetro de la herramienta | `webmcp-param-qty: value(#qty);` |
-| `webmcp-trigger` | Evento de disparo (por defecto `click`) | `webmcp-trigger: "submit" on .form;` |
-| `webmcp-confirmation` | Selector que debe existir tras la acción | `webmcp-confirmation: ".cart-badge";` |
-| `webmcp-description` | Descripción legible | `webmcp-description: "Añade al carrito";` |
-| `webmcp-context` | Declara un dato de solo lectura | `webmcp-context: "price";` |
-| `webmcp-format` | Formato del contexto (`currency`, `number`, `text`) | `webmcp-format: "currency";` |
+| Propiedad               | Descripción                                           | Ejemplo                                   |
+| ----------------------- | ----------------------------------------------------- | ----------------------------------------- |
+| `webmcp-tool`           | Declara una herramienta sobre el selector de la regla | `webmcp-tool: "addToCart";`               |
+| `webmcp-param-<nombre>` | Parámetro de la herramienta                           | `webmcp-param-qty: value(#qty);`          |
+| `webmcp-trigger`        | Evento de disparo (por defecto `click`)               | `webmcp-trigger: "submit" on .form;`      |
+| `webmcp-confirmation`   | Selector que debe existir tras la acción              | `webmcp-confirmation: ".cart-badge";`     |
+| `webmcp-description`    | Descripción legible                                   | `webmcp-description: "Añade al carrito";` |
+| `webmcp-context`        | Declara un dato de solo lectura                       | `webmcp-context: "price";`                |
+| `webmcp-format`         | Formato del contexto (`currency`, `number`, `text`)   | `webmcp-format: "currency";`              |
 
 Fuentes de parámetros: `attr(nombre-atributo)`, `value(selector?)`, `text(selector?)`, `"literal"`.
 
@@ -161,7 +161,7 @@ dominio (con cadena de subdominios) e inyecta el tool map en la página como
 `window.__WEBMCP__` + `<style type="text/webmcp">`.
 
 ```bash
-guardian inject https://www.example.com --dir ./community-styles
+webmcpcss inject https://www.example.com --dir ./community-styles
 ```
 
 ## Desarrollo
@@ -177,7 +177,7 @@ npm run format     # Prettier
 Estructura relevante:
 
 - `src/parser/` — parseo/serialización de `.webmcp.css` (postcss).
-- `src/guardian/` — clase `GuardianMCP`, reparación (`repair.ts`) y visión (`vision.ts`).
+- `src/core/` — clase `WebMCPcss`, reparación (`repair.ts`) y visión (`vision.ts`).
 - `src/adapters/` — `PageAdapter` (interfaz), `PuppeteerAdapter`, `DomAdapter`.
 - `src/proxy/` — proxy comunitario e inyección de estilos.
 - `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`.

@@ -9,7 +9,7 @@ Sé respetuoso y constructivo. No se toleran ataques personales ni acoso.
 ## Cómo empezar
 
 ```bash
-git clone https://github.com/webmcpcss/WebMCPcss.git
+git clone https://github.com/cochinoraptor/WebMCPcss.git
 cd WebMCPcss
 npm install
 npm run build && npm test
@@ -74,14 +74,14 @@ Usa las plantillas de issues:
 
 ## Arquitectura (mapa rápido)
 
-| Módulo | Responsabilidad |
-|---|---|
-| `src/parser/` | `.webmcp.css` ⇄ `ToolMap` JSON (postcss) |
-| `src/guardian/` | Ejecución de herramientas + auto-reparación + visión |
-| `src/adapters/` | Abstracción `PageAdapter` (Puppeteer, DOM/jsdom) |
-| `src/proxy/` | Búsqueda e inyección de estilos comunitarios |
-| `src/cli.ts` | Comandos `generate` / `validate` / `repair` / `inject` / `parse` |
-| `src/utils/` | Logger con chalk y utilidades DOM auto-contenidas |
+| Módulo          | Responsabilidad                                                  |
+| --------------- | ---------------------------------------------------------------- |
+| `src/parser/`   | `.webmcp.css` ⇄ `ToolMap` JSON (postcss)                         |
+| `src/core/`     | Ejecución de herramientas + auto-reparación + visión             |
+| `src/adapters/` | Abstracción `PageAdapter` (Puppeteer, DOM/jsdom)                 |
+| `src/proxy/`    | Búsqueda e inyección de estilos comunitarios                     |
+| `src/cli.ts`    | Comandos `generate` / `validate` / `repair` / `inject` / `parse` |
+| `src/utils/`    | Logger con chalk y utilidades DOM auto-contenidas                |
 
 Regla de oro: la lógica central (visión, reparación) debe ser **pura y
 testeable sin navegador**; todo acceso a la página pasa por `PageAdapter`.

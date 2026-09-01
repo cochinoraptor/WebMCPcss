@@ -14,7 +14,7 @@
   "author": "WebMCPcss Contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/webmcpcss/WebMCPcss.git"
+    "url": "https://github.com/cochinoraptor/WebMCPcss.git"
   },
   "engines": {
     "node": ">=18"
@@ -22,7 +22,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "bin": {
-    "guardian": "dist/src/cli.js"
+    "webmcpcss": "dist/src/cli.js"
   },
   "files": [
     "dist",

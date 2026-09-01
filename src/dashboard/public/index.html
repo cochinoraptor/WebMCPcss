@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WebMCPcss · Dashboard</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --ok: #3fb950; --bad: #f85149;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  header {
+    display: flex; align-items: baseline; gap: 12px; padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 { font-size: 16px; margin: 0; }
+  header span { color: var(--muted); font-size: 12px; }
+  main { padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .card .num { font-size: 26px; color: var(--accent); }
+  .card .label { color: var(--muted); font-size: 12px; }
+  section { margin-bottom: 28px; }
+  section h2 { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: normal; font-size: 12px; }
+  td code { color: var(--accent); }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; border: 1px solid var(--border); }
+  .pill.ok { color: var(--ok); border-color: var(--ok); }
+  .pill.bad { color: var(--bad); border-color: var(--bad); }
+  #history li { color: var(--muted); padding: 3px 0; list-style: none; border-bottom: 1px dashed var(--border); }
+  #history { padding: 0; margin: 0; }
+  .empty { color: var(--muted); padding: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛡️ WebMCPcss</h1>
+  <span id="target">dashboard</span>
+</header>
+<main>
+  <div class="cards" id="cards"></div>
+  <section>
+    <h2>Herramientas</h2>
+    <table id="tools"><thead><tr><th>nombre</th><th>selector</th><th>params</th><th>descripción</th></tr></thead><tbody></tbody></table>
+  </section>
+  <section>
+    <h2>Contextos</h2>
+    <table id="contexts"><thead><tr><th>nombre</th><th>selector</th><th>formato</th></tr></thead><tbody></tbody></table>
+  </section>
+  <section>
+    <h2>Historial</h2>
+    <ul id="history"></ul>
+  </section>
+</main>
+<script>
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  var render = function (state) {
+    var tools = Object.entries(state.toolMap.tools || {});
+    var contexts = Object.entries(state.toolMap.context || {});
+    var stats = state.stats || {};
+    document.getElementById('cards').innerHTML =
+      '<div class="card"><div class="num">' + tools.length + '</div><div class="label">herramientas</div></div>' +
+      '<div class="card"><div class="num">' + contexts.length + '</div><div class="label">contextos</div></div>' +
+      '<div class="card"><div class="num">' + (stats.validate || 0) + '</div><div class="label">validaciones</div></div>' +
+      '<div class="card"><div class="num">' + (stats.repair || 0) + '</div><div class="label">reparaciones</div></div>';
+    document.querySelector('#tools tbody').innerHTML = tools.length ? tools.map(function (t) {
+      var params = Object.keys(t[1].params || {}).join(', ') || '—';
+      return '<tr><td><code>' + esc(t[0]) + '</code></td><td><code>' + esc(t[1].selector) +
+        '</code></td><td>' + esc(params) + '</td><td>' + esc(t[1].description || '') + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="empty">sin herramientas (arranca con --css archivo.webmcp.css)</td></tr>';
+    document.querySelector('#contexts tbody').innerHTML = contexts.length ? contexts.map(function (c) {
+      return '<tr><td><code>' + esc(c[0]) + '</code></td><td><code>' + esc(c[1].selector) +
+        '</code></td><td>' + esc(c[1].format) + '</td></tr>';
+    }).join('') : '<tr><td colspan="3" class="empty">sin contextos</td></tr>';
+    var events = (state.history || []).slice(-30).reverse();
+    document.getElementById('history').innerHTML = events.length ? events.map(function (e) {
+      var pill = e.ok === false ? 'bad' : 'ok';
+      var okPill = e.ok === undefined ? '' : '<span class="pill ' + pill + '">' + (e.ok ? 'ok' : 'falló') + '</span>';
+      return '<li>' + esc(e.ts) + ' · ' + esc(e.type) + ' · ' + esc(e.target || '') + ' ' + okPill + '</li>';
+    }).join('') : '<li class="empty">sin eventos todavía</li>';
+  };
+  var refresh = function () {
+    fetch('/api/state').then(function (r) { return r.json(); }).then(render).catch(function () {});
+  };
+  refresh();
+  setInterval(refresh, 2000);
+</script>
+</body>
+</html>

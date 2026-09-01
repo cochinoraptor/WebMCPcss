@@ -1,4 +1,4 @@
-# Contribuir a GuardianMCP
+# Contribuir a WebMCPcss
 
 ¡Gracias por tu interés en contribuir! 🎉 Este documento explica cómo hacerlo.
 
@@ -9,8 +9,8 @@ Sé respetuoso y constructivo. No se toleran ataques personales ni acoso.
 ## Cómo empezar
 
 ```bash
-git clone https://github.com/guardian-mcp/GuardianMCP.git
-cd GuardianMCP
+git clone https://github.com/webmcpcss/WebMCPcss.git
+cd WebMCPcss
 npm install
 npm run build && npm test
 ```

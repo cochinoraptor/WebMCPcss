@@ -1,5 +1,5 @@
 {
-  "name": "guardian-mcp",
+  "name": "webmcpcss",
   "version": "0.1.0",
   "description": "Extiende el estándar WebMCP para hacer cualquier sitio web nativo para agentes de IA, con auto-reparación de selectores CSS.",
   "keywords": [
@@ -11,10 +11,10 @@
     "self-healing"
   ],
   "license": "MIT",
-  "author": "GuardianMCP Contributors",
+  "author": "WebMCPcss Contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/guardian-mcp/GuardianMCP.git"
+    "url": "https://github.com/webmcpcss/WebMCPcss.git"
   },
   "engines": {
     "node": ">=18"

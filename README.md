@@ -1,14 +1,14 @@
-# 🛡️ GuardianMCP
+# 🛡️ WebMCPcss
 
 > Haz que **cualquier sitio web** sea nativo para agentes de IA — sin tocar su código fuente — y con **auto-reparación** de selectores cuando el sitio se rediseña.
 
-[![CI](https://github.com/guardian-mcp/GuardianMCP/actions/workflows/ci.yml/badge.svg)](https://github.com/guardian-mcp/GuardianMCP/actions/workflows/ci.yml)
+[![CI](https://github.com/webmcpcss/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/webmcpcss/WebMCPcss/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
-## ¿Qué es GuardianMCP?
+## ¿Qué es WebMCPcss?
 
-GuardianMCP extiende el estándar **WebMCP** con una idea simple: describir las
+WebMCPcss extiende el estándar **WebMCP** con una idea simple: describir las
 herramientas que un agente de IA puede usar en una web mediante un archivo
 **`.webmcp.css`** — CSS estándar con propiedades personalizadas `webmcp-*`:
 
@@ -27,7 +27,7 @@ herramientas que un agente de IA puede usar en una web mediante un archivo
 }
 ```
 
-GuardianMCP lo convierte en un **tool map** JSON que cualquier agente entiende:
+WebMCPcss lo convierte en un **tool map** JSON que cualquier agente entiende:
 
 ```json
 {
@@ -61,17 +61,17 @@ Los sitios se rediseñan y los selectores se rompen. Cuando eso pasa, Guardian:
 
 ```bash
 # Global (CLI)
-npm install -g guardian-mcp
+npm install -g webmcpcss
 
 # O como dependencia de tu proyecto
-npm install guardian-mcp
+npm install webmcpcss
 ```
 
 Desde el repositorio:
 
 ```bash
-git clone https://github.com/guardian-mcp/GuardianMCP.git
-cd GuardianMCP
+git clone https://github.com/webmcpcss/WebMCPcss.git
+cd WebMCPcss
 npm install
 npm run build
 npm link   # opcional: habilita el comando global `guardian`
@@ -101,7 +101,7 @@ Todos los comandos aceptan URLs `http(s)://`, rutas locales a HTML y `--verbose`
 ```ts
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
-import { parseWebMCP, GuardianMCP, PuppeteerAdapter } from 'guardian-mcp';
+import { parseWebMCP, GuardianMCP, PuppeteerAdapter } from 'webmcpcss';
 
 const toolMap = parseWebMCP(fs.readFileSync('webmcp.css', 'utf8'));
 
@@ -190,4 +190,4 @@ comunitarios.
 
 ## Licencia
 
-[MIT](LICENSE) © GuardianMCP Contributors
+[MIT](LICENSE) © WebMCPcss Contributors

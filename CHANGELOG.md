@@ -4,6 +4,47 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.3.0] - 2026-09-01
+
+### Añadido
+
+- **Integración con Tailwind CSS** (`src/tailwind/`), sin dependencias nuevas
+  (clasificador de utilidades basado en patrones propios, apto para navegador
+  y offline). Documentación completa en `docs/TAILWIND.md`.
+  - **Inspector** (`inspector.ts`): `classifyClass`, `isTailwindClass`,
+    `inspectClassList`, `inspectElement`, `scanDocument` — clasifica clases
+    en 13 categorías (layout, flexbox-grid, spacing, sizing, typography,
+    colors, backgrounds, borders, effects, transforms, transitions,
+    interactivity, other), con soporte de variantes (`md:`, `hover:`),
+    negativos y valores arbitrarios, y selectores estables
+    (id → data-* → clase propia → nth-of-type).
+  - **Editor** (`editor.ts` + `history.ts`): `TailwindEditor` con
+    `addClass` / `removeClass` / `replaceClass` / `toggleClass`, aplicación
+    inmediata en el DOM, historial undo/redo (`ChangeHistory`), log de
+    cambios y `exportDiffs()` (before/after por elemento).
+  - **Generador de herramientas** (`tool-generator.ts` + `tool-registry.ts`):
+    `generateTailwindTools()` crea herramientas `edit<Id><Categoria>` con
+    esquema `{ add, remove, replace }`; `registerTailwindTools()` las
+    registra en vivo vía `navigator.modelContext.registerTool()`;
+    `buildTailwindToolsScript()` emite un script standalone defensivo.
+  - **Escaneo de páginas reales** (`browser-scan.ts`): `scanPage(page)` para
+    Puppeteer.
+  - **Frameworks** (`frameworks/`): exportación de HTML Tailwind a React
+    (`class`→`className`), Vue (SFC) y Angular (componente standalone).
+- **CLI `webmcpcss tailwind`** con tres subcomandos y salida coloreada por
+  categoría:
+  - `tailwind inspect <url> <selector>` — clases agrupadas por categoría.
+  - `tailwind generate <url> -o base` — emite `base.js` + `base.webmcp.css`.
+  - `tailwind export <url> -s sel -o out.(html|jsx|tsx|vue|component.ts)`.
+- **Demo** `examples/tailwind-demo/` (header, card, botón CTA y formulario
+  con Tailwind por CDN, 4 herramientas registradas vía
+  `navigator.modelContext` + `webmcp.css` declarativo descubrible).
+
+### Tests
+
+- `tests/tailwind.test.ts`: 25 tests nuevos (inspector, editor, historial,
+  generador, registro en jsdom con el shim, frameworks). Total: 102.
+
 ## [0.2.0] - 2026-09-01
 
 ### Añadido

@@ -100,6 +100,11 @@ webmcpcss discover https://mi-tienda.com
 # 6) Dashboard web con herramientas, historial y estadísticas
 webmcpcss dashboard --port 3000 --css webmcp.css
 
+# 7) Tailwind CSS: inspeccionar, generar herramientas de edición y exportar
+webmcpcss tailwind inspect https://mi-sitio.com "#header"
+webmcpcss tailwind generate https://mi-sitio.com -o my-tools   # → my-tools.js + my-tools.webmcp.css
+webmcpcss tailwind export https://mi-sitio.com -s "#card" -o Card.jsx
+
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -227,6 +232,34 @@ navegar la página:
 
 `webmcpcss discover <url>` lo comprueba al instante, y `webmcpcss inject`
 prueba el descubrimiento **antes** de caer a `community-styles/`.
+
+## Integración con Tailwind CSS (v0.3.0)
+
+Agentes de IA pueden **inspeccionar y editar en tiempo real** los estilos
+Tailwind de una página vía herramientas WebMCP — sin dependencias nuevas
+(clasificador de utilidades basado en patrones propios):
+
+```ts
+import {
+  scanDocument,
+  generateTailwindTools,
+  registerTailwindTools,
+  TailwindEditor,
+} from 'webmcpcss';
+
+// Genera y registra herramientas editCard1Spacing, editHeaderColors...
+registerTailwindTools(window, generateTailwindTools(scanDocument(document)));
+
+// O edita a mano, con undo/redo y diffs exportables:
+const editor = new TailwindEditor();
+editor.replaceClass(document.querySelector('#card'), 'p-4', 'p-8');
+editor.undo();
+editor.exportDiffs(); // [{ selector, before, after }]
+```
+
+CLI: `webmcpcss tailwind inspect | generate | export` (HTML, JSX, Vue,
+Angular). Demo lista en `examples/tailwind-demo/`. Documentación completa en
+[docs/TAILWIND.md](docs/TAILWIND.md).
 
 ## Proxy comunitario
 

@@ -1,5 +1,5 @@
 /**
- * Configuración de ESLint para GuardianMCP.
+ * Configuración de ESLint para WebMCPcss.
  * TypeScript estricto + integración con Prettier.
  */
 module.exports = {

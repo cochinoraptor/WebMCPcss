@@ -1,0 +1,13 @@
+/* community-styles/example.com.webmcp.css
+ * Ejemplo ilustrativo contra el dominio reservado de documentación.
+ * @validate-url: https://example.com
+ */
+
+a[href*="iana.org"] {
+  webmcp-tool: 'moreInfo';
+  webmcp-description: 'Abre la información de IANA sobre los dominios de ejemplo';
+}
+
+h1 {
+  webmcp-context: 'heading';
+}

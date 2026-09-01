@@ -1,0 +1,14 @@
+/* webmcp.css — tienda demo (examples/shopping-cart) */
+
+[data-product] .btn-add {
+  webmcp-tool: 'addToCart';
+  webmcp-param-productid: attr(data-product-id);
+  webmcp-param-quantity: value(#qty-input);
+  webmcp-confirmation: '.cart-badge:not([hidden])';
+  webmcp-description: 'Añade al carrito';
+}
+
+.product-price {
+  webmcp-context: 'price';
+  webmcp-format: 'currency';
+}

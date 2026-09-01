@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="webmcp" content="webmcp.css" />
+  <title>Tienda demo — WebMCPcss</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 720px; }
+    .product { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+    .cart-badge { background: #16a34a; color: #fff; border-radius: 10px; padding: 0 8px; margin-left: 8px; }
+    .cart-badge[hidden] { display: none; }
+    button { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Tienda demo <span class="cart-badge" id="cart-badge" hidden>0</span></h1>
+
+  <div class="product" data-product>
+    <h2>Termo de café</h2>
+    <span class="product-price">$249.900</span>
+    <label>Cantidad <input id="qty-input" type="number" value="1" min="1" /></label>
+    <button class="btn-add" data-product-id="SKU-42">Añadir al carrito</button>
+  </div>
+
+  <div class="product" data-product>
+    <h2>Taza de cerámica</h2>
+    <span class="product-price">$49.900</span>
+    <label>Cantidad <input id="qty-input-2" type="number" value="1" min="1" /></label>
+    <button class="btn-add" data-product-id="SKU-99">Añadir al carrito</button>
+  </div>
+
+  <script>
+    // La tienda confirma cada compra mostrando el badge del carrito.
+    var cart = 0;
+    document.addEventListener('click', function (ev) {
+      if (ev.target.classList && ev.target.classList.contains('btn-add')) {
+        cart++;
+        var badge = document.getElementById('cart-badge');
+        badge.textContent = String(cart);
+        badge.removeAttribute('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

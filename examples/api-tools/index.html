@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <!-- Auto-descubrimiento: cualquier agente puede encontrar el mapa CSS -->
+  <meta name="webmcp" content="webmcp.css" />
+  <title>Wiki demo — WebMCPcss + API imperativa</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 720px; }
+    .doc-list li { margin: 0.4rem 0; }
+    #search-status { color: #16a34a; min-height: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>Wiki demo</h1>
+
+  <!-- Herramienta declarada solo en CSS (webmcp-tools.js la registra vía API) -->
+  <div class="doc-search">
+    <input id="doc-query" placeholder="Buscar en la wiki..." />
+    <button class="btn-clear-search" aria-label="Limpiar búsqueda">Limpiar</button>
+  </div>
+
+  <ul class="doc-list">
+    <li data-doc-id="guias">Guía de inicio</li>
+    <li data-doc-id="api">Referencia de la API</li>
+    <li data-doc-id="faq">Preguntas frecuentes</li>
+  </ul>
+
+  <p id="search-status"></p>
+
+  <!-- Herramienta registrada directamente con la API imperativa -->
+  <script>
+    (function () {
+      var mc = navigator.modelContext;
+      if (!mc || typeof mc.registerTool !== 'function') return;
+      mc.registerTool({
+        name: 'searchDocs',
+        description: 'Busca documentos de la wiki por texto',
+        inputSchema: {
+          type: 'object',
+          properties: { query: { type: 'string' } },
+          required: ['query']
+        },
+        execute: function (args) {
+          var q = String((args && args.query) || '').toLowerCase();
+          var hits = Array.prototype.filter.call(
+            document.querySelectorAll('.doc-list li'),
+            function (li) { return !q || li.textContent.toLowerCase().indexOf(q) !== -1; }
+          );
+          var status = document.getElementById('search-status');
+          status.textContent = hits.length + ' resultado(s) para «' + q + '»';
+          return { results: hits.map(function (li) { return li.textContent; }) };
+        }
+      });
+    })();
+  </script>
+
+  <!-- Herramientas del CSS, registradas vía API (generado con:
+       webmcpcss generate --api webmcp.css -o webmcp-tools.js) -->
+  <script src="webmcp-tools.js"></script>
+</body>
+</html>

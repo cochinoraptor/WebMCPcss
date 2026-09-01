@@ -4,6 +4,51 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [Unreleased]
+
+### Añadido
+
+- **Implementación real de todo lo descrito en 0.1.0/0.2.0** (el
+  repositorio era hasta ahora solo un documento de diseño, sin `src/`):
+  - `src/parser/` — `parseWebMCP`/`parseWebMCPFile`/`stringifyWebMCP`
+    (PostCSS): reglas anidadas con `&`, variables CSS con fallback y
+    encadenadas, `@import` con guardia anti-ciclos, alias `data()`/`aria()`.
+  - `src/core/` — clase `WebMCPcss` (`execute`/`getContext`), `vision.ts`
+    (huella + inferencia de selectores estables), `repair.ts`
+    (auto-reparación), `validate.ts`, `recorder.ts` (grabación para
+    `generate`).
+  - `src/adapters/` — `PageAdapter` (interfaz), `DomAdapter` (jsdom),
+    `PuppeteerAdapter`.
+  - `src/webmcp-api/` — shim de captura de `registerTool()`,
+    `WebMCPApiAdapter`, `generateApiScript()`/`buildInputSchema()`.
+  - `src/proxy/` — auto-descubrimiento (meta/link/.well-known), estilos
+    comunitarios con cadena de subdominios e inyección
+    (`window.__WEBMCP__` + `<style type="text/webmcp">`).
+  - `src/cli.ts` — comandos `parse`, `validate`, `repair`, `generate`
+    (grabación y `--api`), `discover`, `inject` y `dashboard`.
+  - `src/dashboard/` — servidor HTTP sin dependencias con UI de
+    herramientas/historial/estadísticas (`GET /api/state`,
+    `POST /api/events`) e historial persistente en
+    `.webmcpcss/history.json`.
+- **Auto-reparación con familias por cobertura**: el selector inferido es
+  el que más elementos de la herramienta cubre (la clase compartida gana
+  al `aria-label` único por elemento); el empate entre familias distintas
+  se marca ambiguo y exige `webmcp-confirmation` (lecciones del POC
+  original, verificadas contra el DOM renderizado real de una carta de
+  212 productos).
+- **Suite de tests (55, Vitest + jsdom, sin navegador)**, incluyendo el
+  puerto del POC como test de integración con fixture real
+  (`tests/club-integration.test.ts`).
+- Ejemplos `examples/shopping-cart/` y `examples/api-tools/`,
+  `community-styles/` con estilo ilustrativo, script
+  `scripts/validate-community.ts` y workflow de CI (`.github/workflows/ci.yml`,
+  Node 18/20/22).
+
+### Cambiado
+
+- `jsdom` pasa a dependencia de runtime (el CLI la usa para validar
+  HTML local sin navegador).
+
 ## [0.2.0] - 2026-09-01
 
 ### Añadido

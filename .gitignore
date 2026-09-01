@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+.webmcpcss/
 *.log
 .DS_Store
 .env

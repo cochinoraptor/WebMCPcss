@@ -1,0 +1,23 @@
+/* webmcp.css — wiki demo (examples/api-tools)
+ * Demuestra CSS moderno: variables, anidamiento y alias data(). */
+
+:root {
+  --query-field: '#doc-query';
+}
+
+.doc-search {
+  /* el botón de limpiar es una herramienta con estado legible */
+  .btn-clear-search {
+    webmcp-tool: 'clearSearch';
+    webmcp-confirmation: '#search-status:not(:empty)';
+    webmcp-description: 'Limpia la búsqueda actual';
+  }
+}
+
+#doc-query {
+  webmcp-context: 'query';
+}
+
+.doc-list li {
+  webmcp-context: 'docTitle';
+}

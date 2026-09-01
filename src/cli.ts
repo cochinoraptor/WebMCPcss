@@ -362,9 +362,22 @@ program
   .description('dashboard web con herramientas, historial y estadísticas')
   .option('--port <number>', 'puerto HTTP', '3000')
   .option('--css <file>', 'archivo .webmcp.css a visualizar')
-  .action(async (opts: { port: string; css?: string }) => {
+  .option(
+    '--community-dir <directory>',
+    'directorio de estilos comunitarios para la inyección por URL',
+    'community-styles',
+  )
+  .action(async (opts: { port: string; css?: string; communityDir?: string }) => {
     const log = logger();
-    const server = await startDashboard({ port: Number(opts.port), cssPath: opts.css });
+    const communityDir =
+      opts.communityDir && fs.existsSync(opts.communityDir)
+        ? opts.communityDir
+        : undefined;
+    const server = await startDashboard({
+      port: Number(opts.port),
+      cssPath: opts.css,
+      communityDir,
+    });
     const address = server.address();
     const url =
       typeof address === 'object' && address

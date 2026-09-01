@@ -97,7 +97,8 @@ webmcpcss generate --api webmcp.css -o webmcp-tools.js
 # 5) ¿El sitio publica WebMCP? (meta tag o .well-known, sin navegador)
 webmcpcss discover https://mi-tienda.com
 
-# 6) Dashboard web con herramientas, historial y estadísticas
+# 6) Dashboard web con herramientas, historial, estadísticas y
+#    inyección por URL desde la propia UI
 webmcpcss dashboard --port 3000 --css webmcp.css
 
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)

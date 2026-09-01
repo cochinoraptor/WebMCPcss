@@ -129,4 +129,72 @@ describe('dashboard HTTP', () => {
       fs.rmSync(cwd, { recursive: true, force: true });
     }
   });
+
+  it('POST /api/inject valida la URL, delega y registra el evento', async () => {
+    const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'webmcp-dash-'));
+    const calls: { url: string; communityDir?: string }[] = [];
+    const server = await startDashboard({
+      port: 0,
+      cwd,
+      communityDir: path.join(cwd, 'styles'),
+      injectImpl: async (url, opts) => {
+        calls.push({ url, communityDir: opts.communityDir });
+        if (url === 'https://falla.example.com') {
+          throw new Error('navegador no disponible');
+        }
+        return {
+          url,
+          source: 'community',
+          injected: true,
+          toolMap: {
+            tools: {
+              buy: { selector: '.btn', params: {}, trigger: { event: 'click' } },
+            },
+            context: {},
+          },
+        };
+      },
+    });
+    const address = server.address();
+    if (typeof address !== 'object' || !address) throw new Error('sin dirección');
+    const base = `http://127.0.0.1:${address.port}`;
+    const post = (body: string) =>
+      fetch(`${base}/api/inject`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body,
+      });
+    try {
+      // URL inválida → 400 sin llegar a inyectar.
+      const bad = await post(JSON.stringify({ url: 'ftp://no-http.com' }));
+      expect(bad.status).toBe(400);
+      expect(calls).toHaveLength(0);
+
+      // URL válida → delega con el communityDir configurado y responde.
+      const ok = await post(JSON.stringify({ url: 'https://tienda.example.com' }));
+      expect(ok.status).toBe(200);
+      const result = (await ok.json()) as { injected: boolean; source: string };
+      expect(result.injected).toBe(true);
+      expect(result.source).toBe('community');
+      expect(calls).toEqual([
+        { url: 'https://tienda.example.com', communityDir: path.join(cwd, 'styles') },
+      ]);
+
+      // El evento queda en el historial del dashboard.
+      const state = (await (await fetch(`${base}/api/state`)).json()) as {
+        stats: Record<string, number>;
+        history: { type: string; target?: string }[];
+      };
+      expect(state.stats['inject']).toBe(1);
+      expect(state.history.at(-1)?.target).toBe('https://tienda.example.com');
+
+      // Errores del inyector → 500 con mensaje, sin romper el servidor.
+      const failing = await post(JSON.stringify({ url: 'https://falla.example.com' }));
+      expect(failing.status).toBe(500);
+      expect(await failing.text()).toContain('navegador no disponible');
+    } finally {
+      server.close();
+      fs.rmSync(cwd, { recursive: true, force: true });
+    }
+  });
 });

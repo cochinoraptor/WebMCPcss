@@ -30,6 +30,11 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
     herramientas/historial/estadísticas (`GET /api/state`,
     `POST /api/events`) e historial persistente en
     `.webmcpcss/history.json`.
+  - **Inyección por URL desde el dashboard**: la UI incluye un formulario
+    que resuelve el WebMCP del sitio (auto-descubrimiento →
+    `community-styles/`) y lo inyecta en la página viva, mostrando el
+    mapa resultante (`POST /api/inject`; directorio comunitario
+    configurable con `--community-dir`).
 - **Auto-reparación con familias por cobertura**: el selector inferido es
   el que más elementos de la herramienta cubre (la clase compartida gana
   al `aria-label` único por elemento); el empate entre familias distintas

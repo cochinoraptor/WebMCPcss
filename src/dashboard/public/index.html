@@ -34,9 +34,28 @@
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; border: 1px solid var(--border); }
   .pill.ok { color: var(--ok); border-color: var(--ok); }
   .pill.bad { color: var(--bad); border-color: var(--bad); }
+  .pill.info { color: var(--accent); border-color: var(--accent); }
   #history li { color: var(--muted); padding: 3px 0; list-style: none; border-bottom: 1px dashed var(--border); }
   #history { padding: 0; margin: 0; }
   .empty { color: var(--muted); padding: 12px; }
+  .inject-bar { display: flex; gap: 8px; margin-bottom: 10px; }
+  .inject-bar input {
+    flex: 1; background: var(--bg); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; font: inherit;
+  }
+  .inject-bar input:focus { outline: 1px solid var(--accent); }
+  .inject-bar button {
+    background: var(--accent); color: var(--bg); border: none; border-radius: 8px;
+    padding: 10px 18px; font: inherit; font-weight: bold; cursor: pointer;
+  }
+  .inject-bar button:disabled { opacity: .5; cursor: wait; }
+  #inject-result { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; min-height: 20px; }
+  #inject-result .error { color: var(--bad); margin: 0; }
+  #inject-result .warn { color: #d29922; margin: 0; }
+  #inject-result .muted { color: var(--muted); margin: 0; }
+  #inject-result ul { margin: 8px 0 0; padding-left: 18px; }
+  #inject-result li { margin: 2px 0; }
+  #inject-result p { margin: 0; }
 </style>
 </head>
 <body>
@@ -45,6 +64,14 @@
   <span id="target">dashboard</span>
 </header>
 <main>
+  <section>
+    <h2>Inyectar en un sitio</h2>
+    <div class="inject-bar">
+      <input id="inject-url" type="url" placeholder="https://ejemplo.com" spellcheck="false" />
+      <button id="inject-btn">Inyectar</button>
+    </div>
+    <div id="inject-result"><p class="muted">Introduce una URL: se resuelve su WebMCP (auto-descubrimiento → community-styles) y se inyecta en la página viva.</p></div>
+  </section>
   <div class="cards" id="cards"></div>
   <section>
     <h2>Herramientas</h2>
@@ -73,7 +100,8 @@
       '<div class="card"><div class="num">' + tools.length + '</div><div class="label">herramientas</div></div>' +
       '<div class="card"><div class="num">' + contexts.length + '</div><div class="label">contextos</div></div>' +
       '<div class="card"><div class="num">' + (stats.validate || 0) + '</div><div class="label">validaciones</div></div>' +
-      '<div class="card"><div class="num">' + (stats.repair || 0) + '</div><div class="label">reparaciones</div></div>';
+      '<div class="card"><div class="num">' + (stats.repair || 0) + '</div><div class="label">reparaciones</div></div>' +
+      '<div class="card"><div class="num">' + (stats.inject || 0) + '</div><div class="label">inyecciones</div></div>';
     document.querySelector('#tools tbody').innerHTML = tools.length ? tools.map(function (t) {
       var params = Object.keys(t[1].params || {}).join(', ') || '—';
       return '<tr><td><code>' + esc(t[0]) + '</code></td><td><code>' + esc(t[1].selector) +
@@ -95,6 +123,59 @@
   };
   refresh();
   setInterval(refresh, 2000);
+
+  /* Inyección por URL: POST /api/inject */
+  var injectBtn = document.getElementById('inject-btn');
+  var injectInput = document.getElementById('inject-url');
+  var injectResult = document.getElementById('inject-result');
+  var renderInject = function (status, json) {
+    if (json && json.error) {
+      injectResult.innerHTML = '<p class="error">✖ ' + esc(json.error) + '</p>';
+      return;
+    }
+    if (!json || !json.injected) {
+      injectResult.innerHTML = '<p class="warn">✖ sin WebMCP para ' + esc(json ? json.url : '') +
+        ' (ni auto-descubrimiento ni community-styles)</p>';
+      return;
+    }
+    var tools = Object.entries((json.toolMap || {}).tools || {});
+    var contexts = Object.entries((json.toolMap || {}).context || {});
+    var sourceLabel = json.source === 'discovery' ? 'auto-descubrimiento' : 'community-styles';
+    var lines = tools.map(function (t) {
+      return '<li><code>' + esc(t[0]) + '</code> — <code>' + esc(t[1].selector) + '</code>' +
+        (t[1].description ? ' · ' + esc(t[1].description) : '') + '</li>';
+    });
+    var ctxLines = contexts.map(function (c) {
+      return '<li><code>' + esc(c[0]) + '</code> — <code>' + esc(c[1].selector) + '</code> (' + esc(c[1].format) + ')</li>';
+    });
+    injectResult.innerHTML =
+      '<p><span class="pill ok">✔ inyectado</span> <span class="pill info">' + esc(sourceLabel) + '</span>' +
+      (json.path ? ' <code>' + esc(json.path) + '</code>' : '') + '</p>' +
+      (lines.length ? '<ul>' + lines.join('') + '</ul>' : '') +
+      (ctxLines.length ? '<ul>' + ctxLines.join('') + '</ul>' : '');
+  };
+  var doInject = function () {
+    var target = injectInput.value.trim();
+    if (!/^https?:\/\//i.test(target)) {
+      injectResult.innerHTML = '<p class="error">introduce una URL válida empezando por http:// o https://</p>';
+      return;
+    }
+    injectBtn.disabled = true;
+    injectResult.innerHTML = '<p class="muted">resolviendo e inyectando en ' + esc(target) + '… (abre un navegador)</p>';
+    fetch('/api/inject', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ url: target })
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, json: j }; }); })
+      .then(function (res) { renderInject(res.status, res.json); refresh(); })
+      .catch(function () { injectResult.innerHTML = '<p class="error">fallo de red contra el dashboard</p>'; })
+      .finally(function () { injectBtn.disabled = false; });
+  };
+  injectBtn.addEventListener('click', doInject);
+  injectInput.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter') doInject();
+  });
 </script>
 </body>
 </html>

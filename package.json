@@ -1,6 +1,6 @@
 {
   "name": "webmcpcss",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Extiende el estándar WebMCP para hacer cualquier sitio web nativo para agentes de IA, con auto-reparación de selectores CSS.",
   "keywords": [
     "webmcp",
@@ -30,7 +30,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node -e \"require('fs').cpSync('src/dashboard/public','dist/src/dashboard/public',{recursive:true})\"",
     "dev": "tsc -w -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",

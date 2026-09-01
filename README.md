@@ -82,14 +82,25 @@ npm link   # opcional: habilita el comando global `webmcpcss`
 ```bash
 # 1) Grabar interacciones en un navegador y generar un .webmcp.css
 webmcpcss generate https://mi-tienda.com -o webmcp.css
+webmcpcss generate https://mi-tienda.com --ai        # + nombres/descripciones con IA
 
 # 2) Validar que los selectores existan en la página
 webmcpcss validate https://mi-tienda.com webmcp.css
+webmcpcss validate https://mi-tienda.com webmcp.css --api   # + herramientas de navigator.modelContext
 
 # 3) Reparar automáticamente los selectores rotos (reescribe el archivo)
 webmcpcss repair https://mi-tienda.com webmcp.css
 
-# Extra: parsear a JSON sin navegador, e inyectar estilos comunitarios
+# 4) Convertir el CSS en código JS de la API imperativa de WebMCP
+webmcpcss generate --api webmcp.css -o webmcp-tools.js
+
+# 5) ¿El sitio publica WebMCP? (meta tag o .well-known, sin navegador)
+webmcpcss discover https://mi-tienda.com
+
+# 6) Dashboard web con herramientas, historial y estadísticas
+webmcpcss dashboard --port 3000 --css webmcp.css
+
+# Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
 ```
@@ -151,7 +162,71 @@ webmcpcss validate examples/shopping-cart/index.html examples/shopping-cart/webm
 | `webmcp-context`        | Declara un dato de solo lectura                       | `webmcp-context: "price";`                |
 | `webmcp-format`         | Formato del contexto (`currency`, `number`, `text`)   | `webmcp-format: "currency";`              |
 
-Fuentes de parámetros: `attr(nombre-atributo)`, `value(selector?)`, `text(selector?)`, `"literal"`.
+Fuentes de parámetros: `attr(nombre-atributo)`, `data(x)` (alias de `attr(data-x)`), `aria(x)` (alias de `attr(aria-x)`), `value(selector?)`, `text(selector?)`, `"literal"`.
+
+### CSS moderno (v0.2.0)
+
+El parser soporta **reglas anidadas** (con `&`), **variables CSS** y **`@import`**:
+
+```css
+@import 'base.webmcp.css';
+
+:root {
+  --qty-field: #qty-input;
+}
+
+[data-product] {
+  .btn-add {
+    webmcp-tool: 'addToCart';
+    webmcp-param-quantity: value(var(--qty-field));
+  }
+}
+```
+
+## Integración con el estándar WebMCP (navigator.modelContext)
+
+WebMCPcss es un **puente bidireccional** con la API imperativa de WebMCP que
+está llegando a Chrome:
+
+**CSS → API:** genera el código `registerTool()` desde tu `.webmcp.css`:
+
+```bash
+webmcpcss generate --api webmcp.css -o webmcp-tools.js
+# luego en tu sitio: <script src="webmcp-tools.js"></script>
+```
+
+**API → WebMCPcss:** consume herramientas que el sitio ya registró:
+
+```ts
+import { WebMCPApiAdapter, WebMCPcss, parseWebMCP } from 'webmcpcss';
+
+const adapter = await WebMCPApiAdapter.create(page); // ANTES de page.goto()
+await page.goto('https://sitio-con-webmcp.com');
+
+const webmcp = new WebMCPcss(parseWebMCP(css), adapter);
+await webmcp.listApiTools(); // herramientas registradas por el sitio
+await webmcp.execute('searchFlights', {}); // via: 'api' si no está en el CSS
+```
+
+## Auto-descubrimiento
+
+Un sitio puede publicar su WebMCP para que cualquier agente lo encuentre sin
+navegar la página:
+
+```html
+<!-- Opción A: meta tag -->
+<meta name="webmcp" content="/webmcp.css" />
+<!-- Opción B: link -->
+<link rel="webmcp" href="/webmcp.css" />
+```
+
+```json
+// Opción C: GET /.well-known/webmcp.json
+{ "stylesheet": "/webmcp.css" }
+```
+
+`webmcpcss discover <url>` lo comprueba al instante, y `webmcpcss inject`
+prueba el descubrimiento **antes** de caer a `community-styles/`.
 
 ## Proxy comunitario
 

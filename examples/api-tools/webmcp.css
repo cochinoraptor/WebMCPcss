@@ -1,0 +1,15 @@
+/* webmcp.css del ejemplo api-tools: convive con las herramientas
+   registradas imperativamente en la página. Usa CSS anidado y variables
+   (soportados desde v0.2.0). */
+
+:root {
+  --subscribe-btn: #subscribe;
+}
+
+body {
+  button {
+    webmcp-tool: "clickSubscribe";
+    webmcp-description: "Hace clic en el botón de suscripción";
+    webmcp-confirmation: var(--subscribe-btn);
+  }
+}

@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies (sin descargar Chromium)
+        run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Smoke test comando graph (ejemplos reales)
+        run: |
+          node dist/src/cli.js graph examples/ --output /tmp/graph.json --obsidian /tmp/vault
+          node -e "const g=require('/tmp/graph.json'); if(!g.nodes.some(n=>n.id==='tool:addToCart')) process.exit(1);"
+          test -f /tmp/vault/index.md
+
+  community-styles:
+    name: Validate community styles
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies (con Chromium para Puppeteer)
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate community styles
+        run: npm run validate:community

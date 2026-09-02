@@ -1,0 +1,17 @@
+/* WebMCP para la demo Tailwind — declarativo, complementa a las tools API. */
+/* El parser de WebMCPcss ignora propiedades webmcp-* desconocidas, así que
+   webmcp-categories y webmcp-param-* con listas de valores son seguras. */
+
+#cta-button {
+  webmcp-tool: clickCta;
+  webmcp-description: "Pulsa el botón de llamada a la acción";
+  webmcp-categories: colors spacing typography;
+}
+
+#contact-form button[type='submit'] {
+  webmcp-tool: sendContactForm;
+  webmcp-description: "Envía el formulario de contacto";
+  webmcp-param-email: value(#contact-form input[name='email']);
+  webmcp-param-message: value(#contact-form textarea[name='message']);
+  webmcp-categories: colors layout;
+}

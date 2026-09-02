@@ -1,0 +1,20 @@
+/* webmcp.css — Club Estantería: la carta como herramientas de agente.
+ * Este es el CSS del POC original (~/develop/webmcp-poc/club.webmcp.css),
+ * reutilizado sin cambios como fixture de integración. */
+.product-card .card-add {
+  webmcp-tool: "addToCart";
+  webmcp-param-product: attr(aria-label);
+  webmcp-description: "Agrega un producto de la carta al pedido";
+  webmcp-confirmation: ".cart-badge, [class*=badge]";
+}
+
+.product-card .card-price {
+  webmcp-context: "price";
+  webmcp-format: "currency";
+}
+
+.cat-chip {
+  webmcp-tool: "filterMenu";
+  webmcp-param-category: text();
+  webmcp-trigger: "click";
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Auto-descubrimiento WebMCP (v0.2.0): webmcpcss discover <url> -->
+  <meta name="webmcp" content="webmcp.css" />
+  <title>Demo WebMCPcss · Carrito de compras</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #1f2430; }
+    body { margin: 0; background: #f5f6fa; }
+    header { background: #16213e; color: #fff; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; }
+    .cart { position: relative; font-size: 22px; }
+    .cart-badge { position: absolute; top: -8px; right: -12px; background: #e94560; color: #fff; border-radius: 999px; font-size: 12px; padding: 2px 7px; }
+    main { max-width: 760px; margin: 32px auto; padding: 0 16px; }
+    .product { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,.06); display: grid; gap: 10px; }
+    .product-title { margin: 0; font-size: 22px; }
+    .product-price { font-size: 26px; font-weight: 700; color: #0f3460; }
+    .qty-row { display: flex; gap: 10px; align-items: center; }
+    input, button { font: inherit; }
+    input[type="number"], input[type="text"] { padding: 8px 10px; border: 1px solid #cbd2e0; border-radius: 8px; width: 90px; }
+    .btn-add { background: #e94560; color: #fff; border: 0; border-radius: 8px; padding: 12px 22px; cursor: pointer; font-weight: 600; }
+    .btn-add:hover { background: #d63a54; }
+    .coupon-form { margin-top: 24px; background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 10px rgba(0,0,0,.06); display: flex; gap: 10px; align-items: center; }
+    .coupon-form input[type="text"] { width: 180px; }
+    .coupon-form button { background: #0f3460; color: #fff; border: 0; border-radius: 8px; padding: 10px 18px; cursor: pointer; }
+    .msg { min-height: 22px; color: #1a7f37; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Tienda Demo</strong>
+    <span class="cart" id="cart-indicator">🛒<!-- el badge aparece al añadir --></span>
+  </header>
+
+  <main>
+    <section class="product" data-product data-product-id="SKU-42">
+      <h1 class="product-title">Teclado mecánico Aurora 65%</h1>
+      <div class="product-price">$249.900</div>
+      <div class="qty-row">
+        <label for="qty-input">Cantidad</label>
+        <input type="number" id="qty-input" value="1" min="1" />
+        <button class="btn-add" data-action="add-to-cart">Añadir al carrito</button>
+      </div>
+      <div class="msg" id="cart-msg"></div>
+    </section>
+
+    <form class="coupon-form">
+      <label for="coupon-code">Cupón</label>
+      <input type="text" id="coupon-code" name="coupon" placeholder="DESCUENTO10" />
+      <button type="submit">Aplicar cupón</button>
+      <span class="msg" id="coupon-msg"></span>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      var count = 0;
+      var indicator = document.getElementById('cart-indicator');
+      var msg = document.getElementById('cart-msg');
+
+      document.querySelector('.btn-add').addEventListener('click', function () {
+        var qty = parseInt(document.getElementById('qty-input').value, 10) || 1;
+        count += qty;
+        var badge = indicator.querySelector('.cart-badge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'cart-badge';
+          indicator.appendChild(badge);
+        }
+        badge.textContent = String(count);
+        msg.textContent = 'Añadido: ' + qty + ' unidad(es).';
+      });
+
+      document.querySelector('.coupon-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var code = document.getElementById('coupon-code').value.trim();
+        document.getElementById('coupon-msg').textContent = code
+          ? 'Cupón "' + code + '" aplicado ✔'
+          : 'Introduce un código.';
+      });
+    })();
+  </script>
+</body>
+</html>

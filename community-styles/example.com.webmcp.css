@@ -1,0 +1,12 @@
+/* Estilo comunitario de ejemplo para example.com */
+/* Sirve como plantilla: cópialo y adáptalo a tu dominio. */
+
+a[href] {
+  webmcp-tool: "openMoreInfo";
+  webmcp-description: "Abre el enlace de más información";
+}
+
+h1 {
+  webmcp-context: "pageTitle";
+  webmcp-format: "text";
+}

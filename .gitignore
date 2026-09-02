@@ -4,3 +4,11 @@ coverage/
 *.log
 .DS_Store
 .env
+
+# Salidas del demo de grafo
+examples/graph-demo/graph.json
+examples/graph-demo/graph.html
+examples/graph-demo/vault/
+webmcp-graph.json
+webmcp-graph.html
+.webmcp-status.json

@@ -4,6 +4,64 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.4.0] - 2026-09-02
+
+### Añadido
+
+- **Mapas de Contenido** (`src/graph/`): grafo de conocimiento + exportación
+  Obsidian + análisis de fragilidad. Sin dependencias nuevas (fs nativo,
+  plantillas con template literals, Cytoscape.js por CDN). Documentación en
+  `docs/GRAPH.md`.
+  - **Builder** (`builder.ts`): `buildGraph(files, statusResults?)` — nodos
+    `tool`/`selector`/`param`/`page`/`status`, aristas `uses`/`requires`/
+    `belongs-to`/`has-status`/`shares-selector`, metadatos agregados
+    (totales, statusCounts, fragilitySummary).
+  - **Fragilidad** (`fragility.ts`): `analyzeFragility(selector)` con
+    detección por patrones de Vue scoped, Svelte, Angular,
+    styled-components, Emotion, CSS Modules, JSS/MUI v4, React useId,
+    MUI v5, Ant Design, Bootstrap y Tailwind, más heurísticas estructurales
+    (`:nth-child`, cadenas largas, selectores solo de etiqueta, ids
+    autogenerados). Niveles low/medium/high con razones.
+  - **Sugerencias** (`suggestions.ts`): recomendaciones de migración por
+    framework (data-tool/data-testid, fingerprints para repair...).
+  - **Obsidian** (`obsidian.ts`): `generateObsidianVault()` — carpetas
+    `herramientas/`, `selectores/`, `paginas/`, `estados/` + `index.md`,
+    frontmatter YAML, backlinks `[[...]]` desde las aristas y nombres de
+    archivo sanitizados multiplataforma.
+  - **Dashboard** (`dashboard.ts`): HTML autónomo con Cytoscape.js (CDN),
+    colores por tipo/fragilidad, panel de metadatos, filtros, estadísticas y
+    exportación JSON/PNG; `serveGraphDashboard()` lo sirve con
+    `GET /api/graph`.
+- **CLI `webmcpcss graph <paths...>`** con `--obsidian`, `--output`,
+  `--dashboard`, `--port`, `--with-status`, `--status-file`,
+  `--no-fragility` y `--framework`; procesa archivos y carpetas
+  recursivamente. Sin destino explícito genera `webmcp-graph.html` estático.
+- `validate --save-status [file]` guarda el `ValidationReport` en JSON;
+  `validate --graph` y `repair --graph` (re)generan el grafo tras la
+  operación (las herramientas reparadas quedan OK).
+- **Demo** `examples/graph-demo/` (script que genera graph.json, vault
+  Obsidian y HTML desde los ejemplos del repo).
+- CI: smoke test del comando `graph` contra `examples/`.
+
+### Tests
+
+- `tests/graph.test.ts`: 30 tests nuevos (utils, fragilidad por framework,
+  builder, vault Obsidian, HTML del dashboard e integración CLI real).
+- `tests/club-integration.test.ts` + `tests/fixtures/`: 6 tests de
+  integración contra el DOM renderizado real de una SPA Vue con clases
+  scoped `data-v-*` (fixtures y escenarios aportados por **@ctangarife** en
+  el PR #2, adaptados a esta base de código — ¡gracias!).
+  Total: 138.
+
+### Mejorado
+
+- **Reparación con generalización a familia** (lección del PR #2 de
+  @ctangarife): cuando el selector original apuntaba a una familia de
+  elementos (clases, sin id), el selector reparado ahora generaliza
+  (`.product-card .quick-add-button`, 10 botones) en lugar de anclarse a un
+  atributo único por elemento (`aria-label`, 1 botón). Nuevo campo
+  `familySelector` en `ElementSnapshot`.
+
 ## [0.3.0] - 2026-09-01
 
 ### Añadido

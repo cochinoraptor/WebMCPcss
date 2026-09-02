@@ -1,6 +1,6 @@
 {
   "name": "webmcpcss",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Extiende el estándar WebMCP para hacer cualquier sitio web nativo para agentes de IA, con auto-reparación de selectores CSS.",
   "keywords": [
     "webmcp",

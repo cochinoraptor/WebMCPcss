@@ -4,6 +4,37 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.6.0] - 2026-09-02
+
+### Añadido
+
+- **Generación desde código fuente** (`generate <ruta> --from-source`):
+  analiza componentes React (JSX/TSX), Vue (SFC), Svelte y HTML sin
+  navegador ni build (`src/generator/source-scanner.ts`). Extrae elementos
+  interactivos (tags + handlers `onClick`/`@click`/`on:click`), respeta solo
+  atributos literales, agrupa inputs como parámetros por componente y emite
+  avisos accionables para elementos sin ancla estable ("añade id o
+  data-tool"). Guía en `docs/SOURCE-GENERATION.md`.
+- **Publicación comunitaria con PR automático**
+  (`publish <css> --domain <dominio> [--token|GITHUB_TOKEN]`,
+  `src/community/publish.ts`): valida el archivo, hace fork (idempotente),
+  crea rama, sube `community-styles/<dominio>.webmcp.css` y abre el Pull
+  Request al upstream — todo con la API REST de GitHub y fetch nativo. Sin
+  token, imprime los pasos manuales.
+- **Difusión**: badges de npm (versión y descargas) en el README y
+  borradores de anuncio para X/Reddit/Hacker News en `docs/ANNOUNCEMENT.md`.
+- `toCamelName` exportado desde el generador (reutilizado por ambos
+  escáneres).
+- 17 tests nuevos: parser de atributos JSX/Vue/Svelte, selectores estables
+  desde fuente, integración fs con carpeta temporal, y flujo completo de
+  publish contra una API de GitHub simulada (http nativo).
+
+### Decisiones
+
+- Sin parser AST (babel/vue-compiler): heurísticas de markup con límites
+  documentados — cubre atributos literales, ignora dinámicos con aviso.
+  Cero dependencias nuevas también en esta versión.
+
 ## [0.5.0] - 2026-09-02
 
 ### Añadido

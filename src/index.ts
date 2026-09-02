@@ -136,6 +136,23 @@ export {
   type DetectedFramework,
 } from './generator';
 export * as exporters from './exporters';
+
+// --- v0.6.0: generación desde código fuente y publicación comunitaria ---
+export {
+  scanSource,
+  scanSourceCode,
+  buildToolMapFromSource,
+  type SourceScan,
+  type SourceElement,
+  type SourceFramework,
+} from './generator';
+export {
+  publishToCommunity,
+  validateForPublish,
+  communityPathFor,
+  type PublishOptions,
+  type PublishResult,
+} from './community';
 export {
   exportForAgent,
   EXPORT_FORMATS,

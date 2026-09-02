@@ -23,4 +23,19 @@ export {
   type ScannedField,
   type ScannedAction,
 } from './scanner';
-export { buildAutoToolMap, detectFramework, type DetectedFramework } from './analyzer';
+export {
+  buildAutoToolMap,
+  detectFramework,
+  toCamelName,
+  type DetectedFramework,
+} from './analyzer';
+export {
+  scanSource,
+  scanSourceCode,
+  buildToolMapFromSource,
+  parseAttributes,
+  selectorFromAttrs,
+  type SourceScan,
+  type SourceElement,
+  type SourceFramework,
+} from './source-scanner';

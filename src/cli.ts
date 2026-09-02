@@ -37,7 +37,10 @@ import {
   buildAutoToolMap,
   detectFramework,
   scanInteractiveElementsInPage,
+  scanSource,
+  buildToolMapFromSource,
 } from './generator';
+import { publishToCommunity, validateForPublish } from './community';
 import {
   createMcpHttpServer,
   EXPORT_FORMATS,
@@ -237,8 +240,42 @@ function installRecorder(): void {
  *  Con `--ai`, mejora nombres/descripciones con un modelo de lenguaje. */
 async function cmdGenerate(
   url: string,
-  opts: { output: string; timeout: string; api?: boolean; ai?: boolean; auto?: boolean },
+  opts: {
+    output: string;
+    timeout: string;
+    api?: boolean;
+    ai?: boolean;
+    auto?: boolean;
+    fromSource?: boolean;
+  },
 ) {
+  // Modo --from-source: análisis estático de componentes (v0.6.0, sin navegador).
+  if (opts.fromSource) {
+    logger.title('WebMCPcss · generate --from-source');
+    const scan = scanSource(url);
+    logger.info(
+      `${scan.files.length} archivo(s) ${chalk.cyan(scan.framework)} · ` +
+        `${scan.elements.length} elemento(s) interactivo(s)`,
+    );
+    for (const w of scan.warnings) logger.warn(w);
+    const toolMap = buildToolMapFromSource(scan);
+    if (Object.keys(toolMap.tools).length === 0) {
+      logger.warn(
+        'Ningún elemento con ancla estable (id/data-*/name). Añade data-tool a tus componentes.',
+      );
+      return;
+    }
+    if (opts.ai) {
+      logger.info('Pidiendo sugerencias a la IA...');
+      await enhanceToolMapWithAi(toolMap, url);
+    }
+    fs.writeFileSync(opts.output, serializeToolMap(toolMap), 'utf8');
+    logger.success(
+      `Generado ${chalk.bold(opts.output)} con ${Object.keys(toolMap.tools).length} herramienta(s) desde el código fuente.`,
+    );
+    return;
+  }
+
   // Modo --auto: escaneo headless sin grabación (v0.5.0).
   if (opts.auto) {
     logger.title('WebMCPcss · generate --auto');
@@ -615,7 +652,7 @@ async function cmdMcp(opts: {
     cssPath,
     url: opts.url,
     execute,
-    version: '0.5.0',
+    version: '0.6.0',
   };
 
   if (opts.http) {
@@ -663,11 +700,38 @@ async function cmdRun(
   console.log(JSON.stringify(result));
 }
 
+/** Comando `publish`: valida y abre un PR a community-styles/ del upstream. */
+async function cmdPublish(cssPath: string, opts: { domain: string; token?: string }) {
+  logger.title('WebMCPcss · publish');
+  const css = fs.readFileSync(cssPath, 'utf8');
+  const { tools, context } = validateForPublish(css);
+  logger.info(`Validado: ${tools} herramienta(s), ${context} contexto(s).`);
+
+  const token = opts.token ?? process.env.GITHUB_TOKEN;
+  if (!token) {
+    logger.warn('Sin token de GitHub: no puedo abrir el PR automáticamente.');
+    console.log(`
+Pasos manuales:
+  1. Haz fork de https://github.com/cochinoraptor/WebMCPcss
+  2. Copia tu archivo como community-styles/${opts.domain}.webmcp.css
+  3. Abre un Pull Request a main
+
+O vuelve a ejecutar con token: webmcpcss publish ${cssPath} --domain ${opts.domain} --token ghp_xxx
+(también se lee de la variable de entorno GITHUB_TOKEN)`);
+    return;
+  }
+
+  logger.info('Abriendo PR (fork → rama → commit → pull request)...');
+  const result = await publishToCommunity({ domain: opts.domain, css, token });
+  logger.success(`PR creado: ${chalk.bold(result.prUrl)}`);
+  logger.info(`Rama ${result.branch} en ${result.fork} → ${result.path}`);
+}
+
 const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.5.0')
+  .version('0.6.0')
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 
@@ -680,6 +744,10 @@ program
   .option('-o, --output <file>', 'archivo de salida', 'webmcp.css')
   .option('-t, --timeout <seconds>', 'segundos máximos de grabación', '120')
   .option('--auto', 'escaneo automático headless: sin grabación ni interacción manual')
+  .option(
+    '--from-source',
+    'analiza código fuente React/Vue/Svelte (archivo o carpeta) sin navegador',
+  )
   .option('--api', 'genera código JS para navigator.modelContext.registerTool()')
   .option('--ai', 'mejora nombres y descripciones con IA (requiere WEBMCPCSS_AI_API_KEY)')
   .action(cmdGenerate);
@@ -747,6 +815,14 @@ program
   .argument('<tool>', 'nombre de la herramienta (ej. addToCart)')
   .option('--args <json>', 'argumentos en JSON (ej. \'{"quantity":"2"}\')', '{}')
   .action(cmdRun);
+
+program
+  .command('publish')
+  .description('Publica un .webmcp.css validado como PR a community-styles/ del upstream')
+  .argument('<css>', 'ruta al archivo .webmcp.css')
+  .requiredOption('-d, --domain <domain>', 'dominio del sitio (ej. tienda.com)')
+  .option('--token <token>', 'token de GitHub (o variable GITHUB_TOKEN)')
+  .action(cmdPublish);
 
 program
   .command('inject')

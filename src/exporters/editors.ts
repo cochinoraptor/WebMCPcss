@@ -26,7 +26,7 @@ export function exportClaudeCodePlugin(
       name: 'webmcpcss',
       description:
         'Herramientas WebMCP: genera, valida, repara y ejecuta acciones web declaradas en .webmcp.css',
-      version: '0.5.0',
+      version: '0.6.0',
       author: { name: 'WebMCPcss' },
     },
     null,

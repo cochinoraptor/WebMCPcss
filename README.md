@@ -3,6 +3,8 @@
 > Haz que **cualquier sitio web** sea nativo para agentes de IA — sin tocar su código fuente — y con **auto-reparación** de selectores cuando el sitio se rediseña.
 
 [![CI](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/webmcpcss.svg)](https://www.npmjs.com/package/webmcpcss)
+[![npm downloads](https://img.shields.io/npm/dm/webmcpcss.svg)](https://www.npmjs.com/package/webmcpcss)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
@@ -113,6 +115,9 @@ webmcpcss validate https://mi-tienda.com webmcp.css --save-status --graph
 # 9) v0.5.0 — Generación automática SIN grabación (escaneo headless)
 webmcpcss generate https://mi-tienda.com --auto -o webmcp.css
 
+# 9b) v0.6.0 — Generación desde código fuente (React/Vue/Svelte, sin navegador)
+webmcpcss generate ./src/components --from-source -o webmcp.css
+
 # 10) v0.5.0 — Exportar para cualquier agente IA
 webmcpcss export webmcp.css --format claude-code -o ./claude-plugin --url https://mi-tienda.com
 webmcpcss export webmcp.css --format crewai -o ./crew --url https://mi-tienda.com
@@ -125,6 +130,9 @@ webmcpcss mcp --serve --http -p 8090 --css webmcp.css --url https://mi-tienda.co
 
 # 12) v0.5.0 — Ejecutar una herramienta y obtener JSON (para wrappers)
 webmcpcss run https://mi-tienda.com webmcp.css addToCart --args '{"quantity":"2"}'
+
+# 13) v0.6.0 — Publicar al repositorio comunitario (fork + PR automáticos)
+webmcpcss publish webmcp.css --domain mi-tienda.com --token ghp_xxx   # o GITHUB_TOKEN
 
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
@@ -341,6 +349,12 @@ framework (React, Next, Vue, Svelte, Angular, MUI, AntD, Bootstrap,
 Tailwind) y elige selectores estables (`data-*` → `id` → `name`/`aria-label`
 → clases estables). Ejemplos generados por agente en
 [`examples/agents/`](examples/agents/README.md).
+
+Desde v0.6.0 también puedes generar **desde el código fuente** de tus
+componentes React/Vue/Svelte, sin navegador ni deploy
+(`generate --from-source`, [guía](docs/SOURCE-GENERATION.md)), y **publicar
+al repositorio comunitario con un PR automático** (`publish --domain`,
+fork + rama + commit + pull request vía API de GitHub).
 
 ## Proxy comunitario
 

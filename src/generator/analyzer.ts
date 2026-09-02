@@ -41,7 +41,7 @@ export function detectFramework(scan: PageScan): DetectedFramework[] {
 }
 
 /** camelCase seguro a partir de texto libre. */
-function camel(text: string, fallback: string): string {
+export function toCamelName(text: string, fallback: string): string {
   const words = text
     .replace(/[^\p{L}\p{N} ]/gu, ' ')
     .trim()
@@ -55,6 +55,9 @@ function camel(text: string, fallback: string): string {
     )
     .join('');
 }
+
+/** Alias interno. */
+const camel = toCamelName;
 
 /** Nombre de herramienta para un formulario. */
 function formToolName(form: ScannedForm, index: number): string {

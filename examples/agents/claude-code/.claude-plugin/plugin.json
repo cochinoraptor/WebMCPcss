@@ -1,0 +1,8 @@
+{
+  "name": "webmcpcss",
+  "description": "Herramientas WebMCP: genera, valida, repara y ejecuta acciones web declaradas en .webmcp.css",
+  "version": "0.5.0",
+  "author": {
+    "name": "WebMCPcss"
+  }
+}

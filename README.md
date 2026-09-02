@@ -110,6 +110,22 @@ webmcpcss graph examples/ --obsidian ./vault --output graph.json
 webmcpcss graph examples/ --dashboard                          # Cytoscape en :3100
 webmcpcss validate https://mi-tienda.com webmcp.css --save-status --graph
 
+# 9) v0.5.0 — Generación automática SIN grabación (escaneo headless)
+webmcpcss generate https://mi-tienda.com --auto -o webmcp.css
+
+# 10) v0.5.0 — Exportar para cualquier agente IA
+webmcpcss export webmcp.css --format claude-code -o ./claude-plugin --url https://mi-tienda.com
+webmcpcss export webmcp.css --format crewai -o ./crew --url https://mi-tienda.com
+# formatos: mcp-config, claude-code, cursor, crewai, autogen, langgraph,
+#           browser-inject, json-schema
+
+# 11) v0.5.0 — Servidor MCP (stdio) o API REST
+webmcpcss mcp --serve --css webmcp.css --url https://mi-tienda.com
+webmcpcss mcp --serve --http -p 8090 --css webmcp.css --url https://mi-tienda.com
+
+# 12) v0.5.0 — Ejecutar una herramienta y obtener JSON (para wrappers)
+webmcpcss run https://mi-tienda.com webmcp.css addToCart --args '{"quantity":"2"}'
+
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -298,6 +314,33 @@ Tailwind, Bootstrap, MUI y Ant Design**, clasifica cada selector
 
 Documentación completa en [docs/GRAPH.md](docs/GRAPH.md); demo en
 `examples/graph-demo/`.
+
+## Integración universal con agentes (v0.5.0)
+
+WebMCPcss habla los cuatro dialectos que cubren el ecosistema de agentes:
+**MCP (stdio)**, **API REST**, **JSON Schema** y **módulos Python**. Más de
+**40 agentes soportados** — tabla completa y guías en
+[docs/AGENTS.md](docs/AGENTS.md).
+
+| Agente                                                                              | Integración                                                                                          |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Claude Desktop, Windsurf, Goose, Cline, Continue, Copilot, Gemini CLI, Codex CLI... | `export --format mcp-config` + `mcp --serve` ([guía](docs/agents/mcp-clients.md))                    |
+| Claude Code                                                                         | `export --format claude-code` → plugin con `/webmcpcss:*` ([guía](docs/agents/claude-code.md))       |
+| Cursor                                                                              | `export --format cursor` → `~/.cursor/mcp.json` ([guía](docs/agents/cursor.md))                      |
+| CrewAI                                                                              | `export --format crewai` → módulo Python `@tool` ([guía](docs/agents/crewai.md))                     |
+| AutoGen / AG2                                                                       | `export --format autogen` → JSON Schema + registro ([guía](docs/agents/autogen.md))                  |
+| LangGraph / LangChain                                                               | `export --format langgraph` → `TOOLS` listos ([guía](docs/agents/langgraph.md))                      |
+| ChatGPT Atlas, Operator, Mariner, Comet, Skyvern...                                 | `export --format browser-inject` → `window.__WEBMCP_GRAPH__` ([guía](docs/agents/browser-agents.md)) |
+| LlamaIndex, Semantic Kernel, function calling genérico                              | `export --format json-schema` ([guía](docs/agents/json-schema.md))                                   |
+| Manus, Devin, n8n, Dify, agentes propios                                            | `mcp --serve --http` → REST ([guía](docs/agents/rest-api.md))                                        |
+
+Además, `generate --auto` crea el `.webmcp.css` inicial **sin grabar nada**:
+escanea la página headless, detecta formularios/botones/campos, infiere
+nombres de herramienta (`login`, `search`, `addToCart`...), detecta el
+framework (React, Next, Vue, Svelte, Angular, MUI, AntD, Bootstrap,
+Tailwind) y elige selectores estables (`data-*` → `id` → `name`/`aria-label`
+→ clases estables). Ejemplos generados por agente en
+[`examples/agents/`](examples/agents/README.md).
 
 ## Proxy comunitario
 

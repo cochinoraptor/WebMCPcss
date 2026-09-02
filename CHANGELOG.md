@@ -4,6 +4,66 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.5.0] - 2026-09-02
+
+### Añadido
+
+- **Generación automática sin grabación** (`generate --auto`): escaneo
+  headless de la página (`src/generator/scanner.ts`, auto-contenido para
+  `page.evaluate` y jsdom) que detecta formularios, campos, botones y
+  enlaces de acción; el analyzer (`src/generator/analyzer.ts`) infiere
+  nombres de herramienta (`login`, `search`, `subscribe`...), convierte los
+  campos en `webmcp-param-*: value(selector)` y elige selectores estables
+  (`data-*` → `id` → `name`/`aria-label` → clases estables →
+  `:nth-of-type`). Incluye detección de framework: React, Next, Vue,
+  Svelte, Angular, MUI, AntD, Bootstrap y Tailwind.
+- **Servidor MCP** (`webmcpcss mcp --serve`), sin dependencias nuevas:
+  - Modo **stdio** (JSON-RPC 2.0 por líneas): `initialize`, `tools/list`,
+    `tools/call`, `resources/list`, `resources/read` (`webmcp://source` y
+    `webmcp://graph`). Compatible con Claude Desktop/Code, Cursor, Goose,
+    Windsurf y cualquier cliente MCP.
+  - Modo **HTTP REST** (`--http -p 8090`, módulo `http` nativo):
+    `GET /api/tools`, `GET /api/graph`, `POST /api/call`.
+  - Con `--url`, `tools/call` ejecuta de verdad con Puppeteer
+    (`WebMCPcss.execute`); sin `--url`, responde dry-run.
+- **Exportadores multi-agente** (`src/exporters/`, comando
+  `webmcpcss export <css> --format <fmt> -o <dir> [--url]`): `mcp-config`
+  (snippet `mcpServers`), `claude-code` (plugin con comandos slash),
+  `cursor` (mcp.json + guía), `crewai` (módulo Python `@tool`), `autogen`
+  (JSON Schema + `register_with_autogen`), `langgraph` (`@tool` de
+  langchain_core + grafo JSON), `browser-inject` (IIFE con
+  `window.__WEBMCP_GRAPH__` y registro opcional en
+  `navigator.modelContext`) y `json-schema` (function calling genérico).
+- **Comando `run`**: `webmcpcss run <url> <css> <tool> --args '{json}'` —
+  ejecuta una herramienta y escribe solo JSON en stdout (es lo que invocan
+  los módulos Python generados).
+- **Documentación de agentes**: `docs/AGENTS.md` (tabla de 45 agentes →
+  formato) y 10 guías en `docs/agents/` (Claude Code, Cursor, clientes MCP,
+  CrewAI, AutoGen, LangGraph, agentes de navegador, JSON Schema, REST,
+  Obsidian).
+- **Ejemplos generados por agente** en `examples/agents/` (8 formatos desde
+  `examples/shopping-cart/webmcp.css`) + `scripts/regen-agent-examples.sh`.
+- **Tests nuevos** (42): scanner/analyzer con jsdom, todos los formatos de
+  exportación, núcleo MCP, transporte stdio con streams en memoria y API
+  HTTP real en puerto efímero.
+- **CI**: smoke test de los 8 exportadores y del handshake MCP stdio sobre
+  `dist/`.
+
+### Arreglado
+
+- `serializeToolMap` generaba CSS inválido cuando el selector del trigger
+  contenía pseudo-clases (`form:nth-of-type(2)`): ahora se cita
+  (`webmcp-trigger: "submit" on "form:nth-of-type(2)"`) y
+  `parseTriggerValue` des-cita el selector.
+
+### Decisiones
+
+- Cero dependencias nuevas de producción: `http`/`readline` nativos en vez
+  de express, sin fs-extra/handlebars; jsdom sigue siendo solo devDependency
+  (el scanner es auto-contenido).
+- Roadmap (no incluido en 0.5.0): generación desde código fuente
+  React/Vue/Svelte y `publish` con PR automático al repositorio comunitario.
+
 ## [0.4.0] - 2026-09-02
 
 ### Añadido

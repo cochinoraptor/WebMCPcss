@@ -16,3 +16,11 @@ export {
   type AiToolSuggestion,
   type AiConfig,
 } from './ai-suggester';
+export {
+  scanInteractiveElementsInPage,
+  type PageScan,
+  type ScannedForm,
+  type ScannedField,
+  type ScannedAction,
+} from './scanner';
+export { buildAutoToolMap, detectFramework, type DetectedFramework } from './analyzer';

@@ -167,7 +167,7 @@ export function parseParamValue(raw: string, line?: number): ParamSpec {
 export function parseTriggerValue(raw: string): TriggerSpec {
   const onMatch = /^(.*?)\s+on\s+(.+)$/i.exec(raw.trim());
   if (onMatch) {
-    return { event: unquote(onMatch[1]), selector: onMatch[2].trim() };
+    return { event: unquote(onMatch[1]), selector: unquote(onMatch[2].trim()) };
   }
   return { event: unquote(raw) };
 }
@@ -372,9 +372,13 @@ export function serializeToolMap(map: ToolMap): string {
     }
     if (tool.trigger) {
       const t = tool.trigger;
-      lines.push(
-        `  webmcp-trigger: "${t.event}"${t.selector ? ` on ${t.selector}` : ''};`,
-      );
+      // Los selectores con ':' (pseudo-clases) se citan para no romper postcss.
+      const tSel = t.selector
+        ? t.selector.includes(':')
+          ? ` on "${t.selector}"`
+          : ` on ${t.selector}`
+        : '';
+      lines.push(`  webmcp-trigger: "${t.event}"${tSel};`);
     }
     if (tool.confirmation) lines.push(`  webmcp-confirmation: "${tool.confirmation}";`);
     if (tool.fingerprint) {

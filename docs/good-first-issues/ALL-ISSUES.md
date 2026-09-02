@@ -3,13 +3,12 @@
 > Repo: https://github.com/cochinoraptor/WebMCPcss · Generated for v0.1.0
 > Each issue below is delimited. Use the `title:` line as the GitHub issue title and apply the `labels:` listed. Publishing commands with `gh` CLI: see [README.md](README.md).
 
-
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 01
 
 ---
+
 title: '[Easy] 📖 Improve CLI documentation with detailed examples for every command'
 labels: good first issue, help wanted, documentation
 ---
@@ -62,12 +61,12 @@ No deep TypeScript knowledge needed — you mostly need to _run_ the CLI and _wr
 
 WebMCPcss is at v0.1.0 and the CLI is how 90% of people will first touch the project. A newcomer who can't figure out `webmcpcss repair` in 30 seconds will leave. Your doc page directly converts curious visitors into users — and users into contributors. 🌱
 
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 02
 
 ---
+
 title: '[Easy] 🧪 Increase parser test coverage: missing webmcp-* properties and edge cases'
 labels: good first issue, help wanted, testing
 ---
@@ -130,12 +129,12 @@ Our parser ([`src/parser/css-parser.ts`](https://github.com/cochinoraptor/WebMCP
 
 The parser is the **foundation** of WebMCPcss — every CLI command and the whole auto-repair engine consume its output. Locking its behavior down with tests lets us refactor confidently later (e.g. issue about `data()`/`aria()` aliases depends on this safety net!). 🛡️
 
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 03
 
 ---
+
 title: '[Easy] 🌍 Create a real-world example: webmcp.css for Wikipedia'
 labels: good first issue, help wanted, examples
 ---
@@ -205,12 +204,12 @@ Our only example today is a fake shopping cart ([`examples/shopping-cart/`](http
 
 This is probably the **most impactful issue on the list** 🚀: a Wikipedia example is the demo we'll show in the README, in talks, and in social posts. It also stress-tests the parser and validator against a real, living website — exactly what WebMCPcss was built for.
 
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 04
 
 ---
+
 title: '[Easy] ✨ Add data() and aria() as friendly aliases for attr() in param sources'
 labels: good first issue, help wanted, enhancement
 ---
@@ -274,12 +273,12 @@ Both should be **pure aliases**: they normalize to a regular `{ source: 'attr', 
 
 `data-*` and `aria-*` are the **most stable selectors on the modern web** — they survive redesigns far better than classes. Making them first-class citizens in our syntax nudges authors toward robust `.webmcp.css` files, which means fewer auto-repairs needed later. Small syntax, big ecosystem effect. 🌐
 
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 05
 
 ---
+
 title: '[Easy] 🎨 Improve CLI visual output: summary tables, timing and prettier reports'
 labels: good first issue, help wanted, enhancement
 ---
@@ -354,12 +353,12 @@ The CLI already uses [chalk](https://github.com/chalk/chalk) for ✔/✖ icons, 
 
 Along with docs (issue #1), this is our **most urgent** contributor-magnet issue: a beautiful CLI screenshot in the README is free marketing 📸, and this task lets a newcomer ship a visible improvement in an afternoon without touching the core engine. Instant gratification guaranteed. ⚡
 
-
 ═══════════════════════════════════════════════════════════════
 
 # 🎫 ISSUE 06
 
 ---
+
 title: '[Easy] 🧩 Create a JsdomAdapter: use WebMCPcss without launching a browser'
 labels: good first issue, help wanted, enhancement
 ---

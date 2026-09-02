@@ -123,3 +123,31 @@ export {
   type ParsedFile as GraphParsedFile,
   type StatusResult as GraphStatusResult,
 } from './graph';
+
+// --- v0.5.0: generador automático y exportadores multi-agente ---
+export {
+  scanInteractiveElementsInPage,
+  buildAutoToolMap,
+  detectFramework,
+  type PageScan,
+  type ScannedForm,
+  type ScannedField,
+  type ScannedAction,
+  type DetectedFramework,
+} from './generator';
+export * as exporters from './exporters';
+export {
+  exportForAgent,
+  EXPORT_FORMATS,
+  toolMapToJsonSchemas,
+  toolToJsonSchema,
+  startMcpStdioServer,
+  createMcpHttpServer,
+  McpCore,
+  type ExportFormat,
+  type ExportResult,
+  type ExportContext,
+  type ToolJsonSchema,
+  type McpServerOptions,
+  type ToolExecutor,
+} from './exporters';

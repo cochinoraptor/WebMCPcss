@@ -1,0 +1,38 @@
+{
+  "source": "examples/shopping-cart/webmcp.css",
+  "url": "https://tienda.example.com",
+  "tools": [
+    {
+      "name": "addToCart",
+      "description": "Añade el producto actual al carrito",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Atributo data-product-id del elemento"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Valor a escribir en #qty-input"
+          }
+        },
+        "required": []
+      }
+    },
+    {
+      "name": "applyCoupon",
+      "description": "Aplica un cupón de descuento",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Valor a escribir en el elemento"
+          }
+        },
+        "required": []
+      }
+    }
+  ]
+}

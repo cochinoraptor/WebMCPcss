@@ -33,6 +33,18 @@ import {
   type StatusResult,
 } from './graph';
 import { parseWebMCP, parseWebMCPFile, serializeToolMap } from './parser';
+import {
+  buildAutoToolMap,
+  detectFramework,
+  scanInteractiveElementsInPage,
+} from './generator';
+import {
+  createMcpHttpServer,
+  EXPORT_FORMATS,
+  exportForAgent,
+  startMcpStdioServer,
+  type ToolExecutor,
+} from './exporters';
 import { discoverWebMCP, injectWebMCP, resolveWebMCPStyles } from './proxy';
 import {
   buildTailwindToolsScript,
@@ -225,8 +237,44 @@ function installRecorder(): void {
  *  Con `--ai`, mejora nombres/descripciones con un modelo de lenguaje. */
 async function cmdGenerate(
   url: string,
-  opts: { output: string; timeout: string; api?: boolean; ai?: boolean },
+  opts: { output: string; timeout: string; api?: boolean; ai?: boolean; auto?: boolean },
 ) {
+  // Modo --auto: escaneo headless sin grabación (v0.5.0).
+  if (opts.auto) {
+    logger.title('WebMCPcss · generate --auto');
+    logger.info(`Escaneando ${chalk.bold(url)} sin grabación...`);
+    const browser = await launchBrowser(true);
+    try {
+      const page = await browser.newPage();
+      await navigate(page, url);
+      const scan = (await page.evaluate(
+        `(${scanInteractiveElementsInPage.toString()})(document)`,
+      )) as import('./generator').PageScan;
+      const frameworks = detectFramework(scan);
+      logger.info(
+        `Framework detectado: ${chalk.cyan(frameworks.join(', '))} · ` +
+          `${scan.forms.length} formulario(s), ${scan.actions.length} acción(es)`,
+      );
+      const toolMap = buildAutoToolMap(scan);
+      if (Object.keys(toolMap.tools).length === 0) {
+        logger.warn('No se detectaron elementos interactivos; no se generó archivo.');
+        return;
+      }
+      if (opts.ai) {
+        logger.info('Pidiendo sugerencias a la IA...');
+        await enhanceToolMapWithAi(toolMap, url);
+      }
+      fs.writeFileSync(opts.output, serializeToolMap(toolMap), 'utf8');
+      logger.success(
+        `Generado ${chalk.bold(opts.output)} con ${Object.keys(toolMap.tools).length} herramienta(s).`,
+      );
+      logger.info(`Valídalo con: webmcpcss validate ${url} ${opts.output}`);
+    } finally {
+      await browser.close();
+    }
+    return;
+  }
+
   // Modo --api: CSS → código JS de la API imperativa (sin navegador).
   if (opts.api) {
     logger.title('WebMCPcss · generate --api');
@@ -504,11 +552,122 @@ function cmdParse(cssPath: string) {
   console.log(JSON.stringify(parseWebMCPFile(cssPath), null, 2));
 }
 
+/** Comando `export`: exporta el .webmcp.css al formato de un agente. */
+async function cmdExport(
+  cssPath: string,
+  opts: { format: string; output: string; url?: string },
+) {
+  logger.title('WebMCPcss · export');
+  const toolMap = parseWebMCPFile(cssPath);
+  const { files, note } = exportForAgent(opts.format, toolMap, {
+    cssPath,
+    url: opts.url,
+  });
+  for (const [rel, content] of Object.entries(files)) {
+    const dest = path.join(opts.output, rel);
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    fs.writeFileSync(dest, content, 'utf8');
+    console.log(`  ${chalk.green('✔')} ${dest}`);
+  }
+  logger.success(
+    `Exportadas ${Object.keys(toolMap.tools).length} herramienta(s) en formato ${chalk.cyan(opts.format)}.`,
+  );
+  logger.info(note);
+}
+
+/** Construye el ejecutor real de herramientas para el servidor MCP. */
+function buildMcpExecutor(url: string, cssPath: string): ToolExecutor {
+  return async (toolName, args) => {
+    let result: unknown;
+    const params: Record<string, string> = {};
+    for (const [k, v] of Object.entries(args ?? {})) params[k] = String(v);
+    await withWebMCP(url, cssPath, async (webmcp) => {
+      result = await webmcp.execute(toolName, params);
+    });
+    return result;
+  };
+}
+
+/** Comando `mcp --serve`: servidor MCP por stdio (o REST con --http). */
+async function cmdMcp(opts: {
+  serve?: boolean;
+  css?: string;
+  url?: string;
+  http?: boolean;
+  port: string;
+}) {
+  if (!opts.serve) {
+    console.log(
+      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090]',
+    );
+    return;
+  }
+  const cssPath = opts.css ?? 'webmcp.css';
+  if (!fs.existsSync(cssPath)) {
+    throw new Error(`No existe ${cssPath}. Indica el archivo con --css.`);
+  }
+  const cssSource = fs.readFileSync(cssPath, 'utf8');
+  const toolMap = parseWebMCP(cssSource);
+  const execute = opts.url ? buildMcpExecutor(opts.url, cssPath) : undefined;
+  const options = {
+    toolMap,
+    cssSource,
+    cssPath,
+    url: opts.url,
+    execute,
+    version: '0.5.0',
+  };
+
+  if (opts.http) {
+    const port = parseInt(opts.port, 10);
+    const server = createMcpHttpServer(options);
+    await new Promise<void>((resolve) => server.listen(port, '0.0.0.0', resolve));
+    logger.success(`Servidor HTTP en http://localhost:${port}`);
+    logger.info(
+      'Rutas: GET /api/tools · GET /api/graph · POST /api/call {"tool","args"}',
+    );
+    return new Promise<void>(() => undefined); // queda sirviendo
+  }
+
+  // Modo stdio: stdout es SOLO JSON-RPC; los avisos van a stderr.
+  console.error(
+    `[webmcpcss] MCP stdio listo · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
+      (opts.url
+        ? ` · ejecución real en ${opts.url}`
+        : ' · sin --url (tools/call en dry-run)'),
+  );
+  await startMcpStdioServer(options);
+}
+
+/** Comando `run`: ejecuta una herramienta y escribe SOLO JSON en stdout. */
+async function cmdRun(
+  url: string,
+  cssPath: string,
+  toolName: string,
+  opts: { args: string },
+) {
+  let parsed: Record<string, unknown>;
+  try {
+    parsed = JSON.parse(opts.args) as Record<string, unknown>;
+  } catch {
+    throw new Error(`--args debe ser JSON válido; recibido: ${opts.args}`);
+  }
+  const params: Record<string, string> = {};
+  for (const [k, v] of Object.entries(parsed)) params[k] = String(v);
+
+  let result: unknown;
+  await withWebMCP(url, cssPath, async (webmcp) => {
+    result = await webmcp.execute(toolName, params);
+  });
+  // Salida limpia para que wrappers (CrewAI/AutoGen/LangGraph) la parseen.
+  console.log(JSON.stringify(result));
+}
+
 const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.4.0')
+  .version('0.5.0')
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 
@@ -520,6 +679,7 @@ program
   .argument('<url>', 'URL/HTML local (o ruta al .webmcp.css si usas --api)')
   .option('-o, --output <file>', 'archivo de salida', 'webmcp.css')
   .option('-t, --timeout <seconds>', 'segundos máximos de grabación', '120')
+  .option('--auto', 'escaneo automático headless: sin grabación ni interacción manual')
   .option('--api', 'genera código JS para navigator.modelContext.registerTool()')
   .option('--ai', 'mejora nombres y descripciones con IA (requiere WEBMCPCSS_AI_API_KEY)')
   .action(cmdGenerate);
@@ -556,6 +716,37 @@ program
   )
   .argument('<url>', 'URL del sitio')
   .action(cmdDiscover);
+
+program
+  .command('export')
+  .description('Exporta el .webmcp.css al formato nativo de un agente IA')
+  .argument('<css>', 'ruta al archivo .webmcp.css')
+  .requiredOption(
+    '-f, --format <format>',
+    `formato de salida: ${EXPORT_FORMATS.join(', ')}`,
+  )
+  .option('-o, --output <dir>', 'carpeta de salida', 'webmcp-export')
+  .option('--url <url>', 'URL del sitio (se incrusta en los archivos generados)')
+  .action(cmdExport);
+
+program
+  .command('mcp')
+  .description('Servidor MCP: stdio por defecto (Claude/Cursor/Goose) o REST con --http')
+  .option('--serve', 'inicia el servidor')
+  .option('--css <file>', 'archivo .webmcp.css a exponer', 'webmcp.css')
+  .option('--url <url>', 'URL del sitio: habilita ejecución real en tools/call')
+  .option('--http', 'modo HTTP REST en vez de stdio')
+  .option('-p, --port <port>', 'puerto en modo --http', '8090')
+  .action(cmdMcp);
+
+program
+  .command('run')
+  .description('Ejecuta una herramienta WebMCP y devuelve el resultado como JSON')
+  .argument('<url>', 'URL o ruta a un HTML local')
+  .argument('<css>', 'ruta al archivo .webmcp.css')
+  .argument('<tool>', 'nombre de la herramienta (ej. addToCart)')
+  .option('--args <json>', 'argumentos en JSON (ej. \'{"quantity":"2"}\')', '{}')
+  .action(cmdRun);
 
 program
   .command('inject')

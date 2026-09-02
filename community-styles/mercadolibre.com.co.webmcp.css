@@ -1,0 +1,20 @@
+/* Estilo comunitario para mercadolibre.com.co (MercadoLibre Colombia).
+ * Verificado: 2026-09-02 contra la portada. Sin URL de validación en CI
+ * porque el sitio aplica desafíos anti-bot intermitentes que harían flaky
+ * el pipeline; valida localmente con:
+ *   webmcpcss validate https://www.mercadolibre.com.co community-styles/mercadolibre.com.co.webmcp.css
+ */
+
+input[name='as_word'] {
+  webmcp-tool: 'search';
+  webmcp-description: 'Busca productos en MercadoLibre Colombia';
+  webmcp-param-query: value();
+  webmcp-trigger: 'submit' on form.nav-search;
+  webmcp-fingerprint: '{"tag":"input","attrs":{"name":"as_word","id":"cb1-edit"}}';
+}
+
+button.nav-search-btn {
+  webmcp-tool: 'submitSearch';
+  webmcp-description: 'Pulsa el botón de búsqueda de la cabecera';
+  webmcp-fingerprint: '{"tag":"button","attrs":{"class":"nav-search-btn"}}';
+}

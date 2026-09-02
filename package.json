@@ -1,6 +1,6 @@
 {
   "name": "webmcpcss",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Extiende el estándar WebMCP para hacer cualquier sitio web nativo para agentes de IA, con auto-reparación de selectores CSS.",
   "keywords": [
     "webmcp",
@@ -39,7 +39,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"*.md\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
     "validate:community": "node dist/scripts/validate-community.js",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "build:community-index": "npm run build && node dist/scripts/build-community-index.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -58,5 +59,9 @@
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
     "vitest": "^2.1.1"
+  },
+  "homepage": "https://github.com/cochinoraptor/WebMCPcss#readme",
+  "bugs": {
+    "url": "https://github.com/cochinoraptor/WebMCPcss/issues"
   }
 }

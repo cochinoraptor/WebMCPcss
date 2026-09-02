@@ -1,0 +1,32 @@
+/* Estilo comunitario para news.ycombinator.com (Hacker News).
+ * Verificado: 2026-09-02. HTML server-rendered, muy estable desde hace años.
+ * @validate-url: https://news.ycombinator.com
+ */
+
+form[action='//hn.algolia.com/'] input[name='q'] {
+  webmcp-tool: 'search';
+  webmcp-description: 'Busca historias en Hacker News (vía Algolia)';
+  webmcp-param-query: value();
+  webmcp-trigger: 'submit' on 'form[action="//hn.algolia.com/"]';
+  webmcp-fingerprint: '{"tag":"input","attrs":{"name":"q"}}';
+}
+
+a[href='newest'] {
+  webmcp-tool: 'goToNewest';
+  webmcp-description: 'Abre las historias más recientes';
+}
+
+a[href='submit'] {
+  webmcp-tool: 'goToSubmit';
+  webmcp-description: 'Abre el formulario para enviar una historia (requiere sesión)';
+}
+
+a[href='login?goto=news'] {
+  webmcp-tool: 'goToLogin';
+  webmcp-description: 'Abre la página de inicio de sesión';
+}
+
+.titleline > a {
+  webmcp-context: 'topStoryTitle';
+  webmcp-format: 'text';
+}

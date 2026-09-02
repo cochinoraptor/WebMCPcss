@@ -731,7 +731,7 @@ const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.6.0')
+  .version('0.6.1')
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 

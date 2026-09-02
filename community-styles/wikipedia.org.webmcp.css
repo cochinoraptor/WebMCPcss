@@ -1,0 +1,25 @@
+/* Estilo comunitario para wikipedia.org (portal de idiomas).
+ * Verificado: 2026-09-02 contra www.wikipedia.org.
+ * Para páginas de artículo existe en.wikipedia.org.webmcp.css (la cadena
+ * de dominios resuelve el archivo más específico primero).
+ * @validate-url: https://www.wikipedia.org
+ */
+
+#searchInput {
+  webmcp-tool: 'search';
+  webmcp-description: 'Busca un artículo en Wikipedia desde el portal';
+  webmcp-param-query: value();
+  webmcp-trigger: 'submit' on #search-form;
+  webmcp-fingerprint: '{"tag":"input","attrs":{"id":"searchInput"}}';
+}
+
+#searchLanguage {
+  webmcp-tool: 'setSearchLanguage';
+  webmcp-description: 'Cambia el idioma de búsqueda del portal (select)';
+  webmcp-param-language: value();
+}
+
+.central-textlogo {
+  webmcp-context: 'siteTitle';
+  webmcp-format: 'text';
+}

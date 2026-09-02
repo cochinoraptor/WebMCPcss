@@ -363,6 +363,11 @@ Si un sitio no publica su propio WebMCP, la comunidad puede aportarlo en
 dominio (con cadena de subdominios) e inyecta el tool map en la página como
 `window.__WEBMCP__` + `<style type="text/webmcp">`.
 
+Ya incluye definiciones **verificadas en vivo** para Wikipedia, Hacker News
+y MercadoLibre Colombia, y un índice consultable por agentes en una sola
+petición HTTP:
+[`community-styles/index.json`](community-styles/index.json).
+
 ```bash
 webmcpcss inject https://www.example.com --dir ./community-styles
 ```

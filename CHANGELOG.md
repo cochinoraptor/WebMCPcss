@@ -4,6 +4,28 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.6.1] - 2026-09-02
+
+### Añadido
+
+- **Community styles reales, verificados en vivo** (2026-09-02):
+  `wikipedia.org` (portal), `en.wikipedia.org` (artículos),
+  `news.ycombinator.com` y `mercadolibre.com.co` — selectores comprobados
+  contra el HTML real de cada sitio; los dos primeros y HN se validan
+  automáticamente en CI con Puppeteer (`@validate-url`).
+- **Índice comunitario `community-styles/index.json`**: descubrimiento en
+  una sola petición HTTP (dominio → herramientas → archivo raw).
+  Builder en `src/community/index-builder.ts`, script
+  `npm run build:community-index` y check de frescura en CI.
+- README de community-styles renovado: tabla de estilos, consumo por
+  agentes vía raw.githubusercontent y flujo de contribución con
+  `webmcpcss publish`.
+- Gobernanza del repositorio: `CODE_OF_CONDUCT.md` (Contributor
+  Covenant 2.1), `SECURITY.md` (política de reportes y consideraciones de
+  uso) y plantilla de Pull Request con checklist para estilos comunitarios.
+- `package.json`: campos `homepage` y `bugs` (mejora la página en npm).
+- 7 tests nuevos (204 en total).
+
 ## [0.6.0] - 2026-09-02
 
 ### Añadido

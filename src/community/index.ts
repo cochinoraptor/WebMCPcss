@@ -10,3 +10,9 @@ export {
   type PublishOptions,
   type PublishResult,
 } from './publish';
+export {
+  buildCommunityIndex,
+  writeCommunityIndex,
+  type CommunityIndex,
+  type CommunityIndexEntry,
+} from './index-builder';

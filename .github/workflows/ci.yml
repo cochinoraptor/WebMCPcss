@@ -87,3 +87,6 @@ jobs:
 
       - name: Validate community styles
         run: npm run validate:community
+
+      - name: Community index al día
+        run: node dist/scripts/build-community-index.js --check

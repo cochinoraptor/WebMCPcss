@@ -1,0 +1,25 @@
+/* Estilo comunitario para en.wikipedia.org (páginas de artículo).
+ * Verificado: 2026-09-02 contra en.wikipedia.org/wiki/Web.
+ * Los selectores del skin Vector 2022 aplican igual en otros idiomas:
+ * copia este archivo como es.wikipedia.org.webmcp.css, etc. si quieres
+ * validación específica por idioma.
+ * @validate-url: https://en.wikipedia.org/wiki/Web
+ */
+
+#searchInput {
+  webmcp-tool: 'search';
+  webmcp-description: 'Busca otro artículo en Wikipedia';
+  webmcp-param-query: value();
+  webmcp-trigger: 'submit' on #searchform;
+  webmcp-fingerprint: '{"tag":"input","attrs":{"id":"searchInput"}}';
+}
+
+#p-lang-btn {
+  webmcp-tool: 'openLanguageMenu';
+  webmcp-description: 'Abre el menú de idiomas del artículo actual';
+}
+
+#firstHeading {
+  webmcp-context: 'articleTitle';
+  webmcp-format: 'text';
+}

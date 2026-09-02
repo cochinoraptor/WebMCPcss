@@ -1,0 +1,99 @@
+{
+  "generated": "2026-09-02",
+  "count": 5,
+  "rawBase": "https://raw.githubusercontent.com/cochinoraptor/WebMCPcss/main/community-styles/",
+  "styles": [
+    {
+      "domain": "en.wikipedia.org",
+      "file": "community-styles/en.wikipedia.org.webmcp.css",
+      "validateUrl": "https://en.wikipedia.org/wiki/Web",
+      "tools": [
+        {
+          "name": "search",
+          "description": "Busca otro artículo en Wikipedia"
+        },
+        {
+          "name": "openLanguageMenu",
+          "description": "Abre el menú de idiomas del artículo actual"
+        }
+      ],
+      "context": [
+        "articleTitle"
+      ]
+    },
+    {
+      "domain": "example.com",
+      "file": "community-styles/example.com.webmcp.css",
+      "validateUrl": null,
+      "tools": [
+        {
+          "name": "openMoreInfo",
+          "description": "Abre el enlace de más información"
+        }
+      ],
+      "context": [
+        "pageTitle"
+      ]
+    },
+    {
+      "domain": "mercadolibre.com.co",
+      "file": "community-styles/mercadolibre.com.co.webmcp.css",
+      "validateUrl": null,
+      "tools": [
+        {
+          "name": "search",
+          "description": "Busca productos en MercadoLibre Colombia"
+        },
+        {
+          "name": "submitSearch",
+          "description": "Pulsa el botón de búsqueda de la cabecera"
+        }
+      ],
+      "context": []
+    },
+    {
+      "domain": "news.ycombinator.com",
+      "file": "community-styles/news.ycombinator.com.webmcp.css",
+      "validateUrl": "https://news.ycombinator.com",
+      "tools": [
+        {
+          "name": "search",
+          "description": "Busca historias en Hacker News (vía Algolia)"
+        },
+        {
+          "name": "goToNewest",
+          "description": "Abre las historias más recientes"
+        },
+        {
+          "name": "goToSubmit",
+          "description": "Abre el formulario para enviar una historia (requiere sesión)"
+        },
+        {
+          "name": "goToLogin",
+          "description": "Abre la página de inicio de sesión"
+        }
+      ],
+      "context": [
+        "topStoryTitle"
+      ]
+    },
+    {
+      "domain": "wikipedia.org",
+      "file": "community-styles/wikipedia.org.webmcp.css",
+      "validateUrl": "https://www.wikipedia.org",
+      "tools": [
+        {
+          "name": "search",
+          "description": "Busca un artículo en Wikipedia desde el portal"
+        },
+        {
+          "name": "setSearchLanguage",
+          "description": "Cambia el idioma de búsqueda del portal (select)"
+        }
+      ],
+      "context": [
+        "siteTitle"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
+<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. Generación automática, servidor MCP, auto-reparación de selectores y exportadores para 40+ agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph...)." />
+<meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
+<meta property="og:description" content="npm i -g webmcpcss · MCP server · auto-reparación · 45 agentes soportados" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b0e14; --bg2: #0e1220; --card: rgba(22, 27, 40, .72); --line: #222a3d;
+    --text: #e8ebf3; --muted: #98a2b8; --acc: #4fd1c5; --acc2: #7c6cf0;
+    --code: #0c1019; --ok: #34d399;
+    --grad: linear-gradient(100deg, #4fd1c5, #7c6cf0);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.7 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--acc); text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  code, pre, .mono { font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; }
+
+  /* fondo con retícula sutil */
+  .grid-bg {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(124,108,240,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,108,240,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(1200px 800px at 50% 0%, #000 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(1200px 800px at 50% 0%, #000 0%, transparent 75%);
+  }
+  .glow { position: fixed; z-index: -1; pointer-events: none; filter: blur(110px); opacity: .32; border-radius: 50%; }
+  .glow.a { width: 560px; height: 560px; background: #7c6cf0; top: -220px; left: 8%; }
+  .glow.b { width: 480px; height: 480px; background: #4fd1c5; top: -160px; right: 4%; opacity: .2; }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11,14,20,.72); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(34,42,61,.7);
+  }
+  header .wrap { display: flex; align-items: center; gap: 26px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 18px; letter-spacing: -.4px; color: var(--text); }
+  .brand img { width: 34px; height: 34px; border-radius: 8px; }
+  .brand em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+  nav a { color: var(--muted); transition: color .15s; }
+  nav a:hover { color: var(--text); }
+  .gh-btn {
+    display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px;
+    border: 1px solid var(--line); border-radius: 8px; color: var(--text) !important;
+    font-size: 13.5px; background: rgba(22,27,40,.6);
+  }
+  .gh-btn:hover { border-color: var(--acc); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 96px 0 72px; text-align: center; position: relative; }
+  .hero .mark { width: 108px; height: 108px; margin-bottom: 26px; filter: drop-shadow(0 0 34px rgba(79,209,197,.35)); animation: float 7s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600;
+    letter-spacing: 1.6px; text-transform: uppercase; color: var(--acc);
+    border: 1px solid rgba(79,209,197,.3); background: rgba(79,209,197,.07);
+    padding: 6px 16px; border-radius: 999px; margin-bottom: 24px;
+  }
+  .hero h1 { font-size: clamp(34px, 5.6vw, 60px); line-height: 1.08; letter-spacing: -2px; font-weight: 800; max-width: 880px; margin: 0 auto 22px; }
+  .hero h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .lead { color: var(--muted); max-width: 660px; margin: 0 auto 36px; font-size: 18.5px; }
+  .hero .lead code { color: var(--acc); font-size: 16px; }
+  .cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 11px; font-weight: 600; font-size: 15px; transition: transform .15s, box-shadow .15s, filter .15s; }
+  .btn:hover { transform: translateY(-2px); text-decoration: none; }
+  .btn.primary { background: var(--grad); color: #071a17; box-shadow: 0 8px 28px rgba(79,209,197,.28); }
+  .btn.primary:hover { box-shadow: 0 12px 36px rgba(79,209,197,.42); }
+  .btn.ghost { border: 1px solid var(--line); color: var(--text); background: var(--card); }
+  .btn.ghost:hover { border-color: var(--acc2); }
+  .install {
+    display: inline-flex; align-items: center; gap: 14px; background: var(--code);
+    border: 1px solid var(--line); border-radius: 11px; padding: 12px 22px; font-size: 15px;
+  }
+  .install .dollar { color: var(--muted); }
+  .install code { color: var(--ok); font-weight: 500; }
+  .copy { cursor: pointer; color: var(--muted); border: none; background: none; font-size: 15px; }
+  .copy:hover { color: var(--text); }
+
+  /* stats */
+  .stats { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; margin-top: 54px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); }
+  .stat { padding: 20px 40px; text-align: center; border-right: 1px solid var(--line); flex: 1; min-width: 150px; }
+  .stat:last-child { border-right: none; }
+  .stat b { display: block; font-size: 26px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat span { font-size: 13px; color: var(--muted); }
+
+  /* ---------- secciones ---------- */
+  section { padding: 84px 0; }
+  section + section { border-top: 1px solid rgba(34,42,61,.55); }
+  .sec-eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--acc2); margin-bottom: 10px; }
+  h2 { font-size: clamp(26px, 3.4vw, 36px); letter-spacing: -1px; font-weight: 800; margin-bottom: 12px; }
+  .sub { color: var(--muted); margin-bottom: 42px; max-width: 700px; font-size: 16.5px; }
+
+  /* ventanas terminal */
+  .term { background: var(--code); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,.35); }
+  .term-bar { display: flex; align-items: center; gap: 7px; padding: 11px 15px; background: rgba(34,42,61,.35); border-bottom: 1px solid var(--line); }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; }
+  .term-bar i:nth-child(1) { background: #ff5f57; } .term-bar i:nth-child(2) { background: #febc2e; } .term-bar i:nth-child(3) { background: #28c840; }
+  .term-bar span { margin-left: 10px; font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .term pre { border: none; border-radius: 0; box-shadow: none; margin: 0; background: transparent; padding: 18px 20px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; }
+  .k { color: #7ee787; } .p { color: #79c0ff; } .s { color: #ffa657; } .c { color: #6e7a8f; } .g { color: #34d399; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; align-items: stretch; }
+  .step { display: flex; flex-direction: column; gap: 14px; }
+  .step-head { display: flex; align-items: center; gap: 12px; }
+  .step-num {
+    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+    font-weight: 800; font-size: 15px; background: var(--grad); color: #071a17; flex: none;
+  }
+  .step-head h3 { font-size: 17px; font-weight: 700; }
+  .step p.note { color: var(--muted); font-size: 14px; }
+
+  /* tarjetas con borde degradado */
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .card {
+    position: relative; background: var(--card); border: 1px solid var(--line);
+    border-radius: 15px; padding: 26px; transition: transform .18s, border-color .18s, box-shadow .18s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(124,108,240,.55); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .card .ico {
+    width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center;
+    font-size: 21px; margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(79,209,197,.14), rgba(124,108,240,.14));
+    border: 1px solid rgba(124,108,240,.25);
+  }
+  .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 14.5px; }
+  .card code { background: var(--code); padding: 2px 7px; border-radius: 6px; font-size: 12.5px; color: var(--acc); }
+
+  /* tabla agentes */
+  .tablecard { border: 1px solid var(--line); border-radius: 15px; overflow: hidden; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; padding: 15px 20px; border-bottom: 1px solid rgba(34,42,61,.6); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  th { color: var(--muted); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; background: rgba(34,42,61,.28); }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  td code { background: var(--code); padding: 3px 9px; border-radius: 7px; font-size: 12.5px; color: var(--acc); white-space: nowrap; }
+  .chip { display: inline-block; font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 11px; margin: 2px 3px 2px 0; background: rgba(12,16,25,.5); }
+
+  /* grafo */
+  #cy { width: 100%; height: 420px; background: var(--code); border: 1px solid var(--line); border-radius: 15px; }
+  .graph-shell { position: relative; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; }
+
+  /* comunidad */
+  #community-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  #community-list .card h3 { color: var(--acc); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; }
+  #community-list .tools { margin-top: 4px; }
+
+  /* cta final */
+  .final {
+    text-align: center; border: 1px solid var(--line); border-radius: 20px; padding: 64px 30px;
+    background:
+      radial-gradient(500px 240px at 50% 0%, rgba(124,108,240,.16), transparent),
+      var(--card);
+  }
+  .final h2 { margin-bottom: 14px; }
+  .final p { color: var(--muted); margin-bottom: 30px; }
+
+  footer { border-top: 1px solid var(--line); padding: 42px 0; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  footer .brand { font-size: 15px; }
+  footer .brand img { width: 26px; height: 26px; }
+  footer nav { margin: 0; }
+
+  @media (max-width: 720px) {
+    nav.mainnav { display: none; }
+    .hero { padding: 64px 0 48px; }
+    .stat { padding: 16px 20px; }
+    th, td { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow a"></div><div class="glow b"></div>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="logo.png" alt="WebMCPcss" />WebMCP<em>css</em></a>
+    <nav class="mainnav">
+      <a href="#como">Cómo funciona</a>
+      <a href="#features">Funciones</a>
+      <a href="#agentes">Agentes</a>
+      <a href="#grafo">Grafo</a>
+      <a href="#comunidad">Comunidad</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/new/main/community-styles" style="color:var(--acc)">➕ Contribuir estilo</a>
+    </nav>
+    <a class="gh-btn" href="https://github.com/cochinoraptor/WebMCPcss">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+</span></div>
+    <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
+    <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, sin visión por computadora, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">📦 Instalar desde npm</a>
+      <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/AGENTS.md">📖 Guías por agente</a>
+    </div>
+    <div class="install">
+      <span class="dollar mono">$</span>
+      <code id="install-cmd">npm install -g webmcpcss</code>
+      <button class="copy" onclick="navigator.clipboard.writeText('npm install -g webmcpcss');this.textContent='✓';setTimeout(()=>this.textContent='⧉',1500)" title="Copiar">⧉</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>45</b><span>agentes soportados</span></div>
+      <div class="stat"><b>8</b><span>formatos de exportación</span></div>
+      <div class="stat"><b>204</b><span>tests automatizados</span></div>
+      <div class="stat"><b>0</b><span>dependencias de pago</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="como">
+  <div class="wrap">
+    <div class="sec-eyebrow">Flujo de trabajo</div>
+    <h2>De cero a agente operando, en tres comandos</h2>
+    <p class="sub">CSS estándar con propiedades <code>webmcp-*</code>. Los selectores que ya usas para dar estilo ahora también declaran qué puede hacer un agente.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-head"><div class="step-num">1</div><h3>Declara — o deja que se genere</h3></div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>tienda.webmcp.css</span></div>
+<pre><span class="c">/* webmcpcss generate https://tienda.com --auto */</span>
+<span class="p">[data-product] .btn-add</span> {
+  <span class="k">webmcp-tool</span>: <span class="s">"addToCart"</span>;
+  <span class="k">webmcp-param-quantity</span>: <span class="s">value(#qty)</span>;
+  <span class="k">webmcp-confirmation</span>: <span class="s">".cart-badge"</span>;
+}</pre>
+        </div>
+        <p class="note">También desde tu código fuente React/Vue/Svelte con <code>--from-source</code>, sin navegador.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><div class="step-num">2</div><h3>Sirve por MCP o REST</h3></div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh</span></div>
+<pre><span class="c"># stdio para Claude, Cursor, Goose…</span>
+webmcpcss mcp --serve \
+  --css tienda.webmcp.css \
+  --url https://tienda.com
+<span class="g">[webmcpcss] MCP stdio listo · 2 herramientas</span></pre>
+        </div>
+        <p class="note">El agente lista las herramientas y las <strong>ejecuta de verdad</strong> con navegador headless.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><div class="step-num">3</div><h3>El sitio cambió: se auto-repara</h3></div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh</span></div>
+<pre>webmcpcss repair https://tienda.com \
+  tienda.webmcp.css
+<span class="g">✔ .btn-add → [data-cy="add"]</span>
+<span class="g">✔ archivo actualizado (1 reparación)</span></pre>
+        </div>
+        <p class="note">Modo visión: reencuentra el elemento por huella (texto, atributos, tag) y reescribe el selector.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-eyebrow">Capacidades</div>
+    <h2>Todo incluido, cero fricción</h2>
+    <p class="sub">TypeScript estricto, arquitectura modular y una CLI que cubre el ciclo completo: generar → validar → reparar → exportar → servir.</p>
+    <div class="cols">
+      <div class="card"><div class="ico">⚡</div><h3>Generación automática</h3><p><code>generate --auto</code> escanea la página sin grabar nada: formularios, botones, campos. Detecta el framework (React, Vue, Svelte, Angular, Tailwind…) y elige selectores estables.</p></div>
+      <div class="card"><div class="ico">🧩</div><h3>Desde el código fuente</h3><p><code>generate --from-source</code> analiza componentes JSX/Vue/Svelte sin navegador ni deploy, y avisa qué elementos necesitan <code>data-tool</code>. Úsalo como linter en CI.</p></div>
+      <div class="card"><div class="ico">🔌</div><h3>Servidor MCP real</h3><p>stdio JSON-RPC para Claude Desktop/Code, Cursor, Goose, Windsurf… y modo REST (<code>/api/tools</code>, <code>/api/call</code>) con ejecución real vía navegador.</p></div>
+      <div class="card"><div class="ico">📤</div><h3>8 exportadores</h3><p>Plugin Claude Code, Cursor, CrewAI, AutoGen, LangGraph, JSON Schema, browser-inject (<code>window.__WEBMCP_GRAPH__</code>) y config MCP universal.</p></div>
+      <div class="card"><div class="ico">🩹</div><h3>Auto-reparación</h3><p>Selectores rotos tras un rediseño se reencuentran por fingerprint y el archivo se actualiza solo. Con análisis de fragilidad: hashes CSS-Modules, Vue scoped, styled-components…</p></div>
+      <div class="card"><div class="ico">🕸️</div><h3>Grafo + Obsidian</h3><p>Tu tool map como grafo de conocimiento navegable, dashboard Cytoscape interactivo y bóveda Obsidian con backlinks para humanos y agentes de documentación.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="agentes">
+  <div class="wrap">
+    <div class="sec-eyebrow">Ecosistema</div>
+    <h2>45 agentes, 4 dialectos universales</h2>
+    <p class="sub">Si habla MCP, function calling, HTTP o controla un navegador — ya está soportado. <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/AGENTS.md">Tabla completa y guías paso a paso →</a></p>
+    <div class="tablecard">
+      <table>
+        <tr><th>Integración</th><th>Agentes</th><th>Comando</th></tr>
+        <tr>
+          <td>🔌 Servidor MCP</td>
+          <td><span class="chip">Claude Desktop</span><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">Windsurf</span><span class="chip">Goose</span><span class="chip">Cline</span><span class="chip">Continue</span><span class="chip">Copilot</span><span class="chip">Gemini CLI</span><span class="chip">Codex CLI</span><span class="chip">+8</span></td>
+          <td><code>mcp --serve</code></td>
+        </tr>
+        <tr>
+          <td>🐍 Módulos Python</td>
+          <td><span class="chip">CrewAI</span><span class="chip">AutoGen / AG2</span><span class="chip">LangGraph</span><span class="chip">LangChain</span></td>
+          <td><code>export --format crewai</code></td>
+        </tr>
+        <tr>
+          <td>🌐 Navegador</td>
+          <td><span class="chip">ChatGPT Atlas</span><span class="chip">Operator</span><span class="chip">Project Mariner</span><span class="chip">Comet</span><span class="chip">Skyvern</span><span class="chip">Browser Use</span><span class="chip">+2</span></td>
+          <td><code>export --format browser-inject</code></td>
+        </tr>
+        <tr>
+          <td>🧠 JSON Schema / REST</td>
+          <td><span class="chip">LlamaIndex</span><span class="chip">Semantic Kernel</span><span class="chip">OpenAI</span><span class="chip">Gemini</span><span class="chip">Mistral</span><span class="chip">n8n</span><span class="chip">Dify</span><span class="chip">Manus</span><span class="chip">+4</span></td>
+          <td><code>export --format json-schema</code></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="grafo">
+  <div class="wrap">
+    <div class="sec-eyebrow">Demo interactiva</div>
+    <h2>Así ve un agente tu sitio</h2>
+    <p class="sub">El grafo de <code>examples/shopping-cart</code> renderizado con Cytoscape.js — arrastra los nodos. Es el mismo motor de <code>webmcpcss graph --dashboard</code>.</p>
+    <div class="graph-shell"><div id="cy"></div></div>
+    <div class="legend">
+      <span><span class="dot" style="background:#7c6cf0"></span>página</span>
+      <span><span class="dot" style="background:#4fd1c5"></span>herramienta</span>
+      <span><span class="dot" style="background:#fbbf24"></span>parámetro</span>
+      <span><span class="dot" style="background:#f87171"></span>selector</span>
+      <span><span class="dot" style="background:#34d399"></span>contexto</span>
+    </div>
+  </div>
+</section>
+
+<section id="comunidad">
+  <div class="wrap">
+    <div class="sec-eyebrow">Comunidad</div>
+    <h2>Estilos listos para sitios populares</h2>
+    <p class="sub">Definiciones verificadas en vivo, mantenidas por la comunidad. Publica la tuya con <code>webmcpcss publish --domain tusitio.com</code> — el fork y el PR se abren solos.</p>
+    <div class="cta" style="justify-content:flex-start; margin-bottom:34px">
+      <a class="btn primary" href="https://github.com/cochinoraptor/WebMCPcss/new/main/community-styles" target="_blank" rel="noopener">➕ Contribuir mi estilo</a>
+      <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/community-styles/README.md">📋 Guía de contribución</a>
+    </div>
+    <div id="community-list"><div class="card"><p>Cargando índice…</p></div></div>
+    <p style="margin-top:20px; color:var(--muted); font-size:14px">Los agentes descubren todo con una sola petición HTTP: <code>community-styles/index.json</code></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final">
+      <img src="logo.png" alt="" style="width:72px;height:72px;margin-bottom:18px" />
+      <h2>Haz tu web nativa para agentes hoy</h2>
+      <p>Un comando para empezar. MIT, sin dependencias de pago, listo para producción.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">npm install -g webmcpcss</a>
+        <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss">⭐ Dale una estrella</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="logo.png" alt="" />WebMCP<em>css</em> <span style="color:var(--muted);font-weight:400">· MIT</span></a>
+    <nav>
+      <a href="https://github.com/cochinoraptor/WebMCPcss">GitHub</a>
+      <a href="https://www.npmjs.com/package/webmcpcss">npm</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CHANGELOG.md">Changelog</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CONTRIBUTING.md">Contribuir</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/SECURITY.md">Seguridad</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script>
+// ---- Demo del grafo (datos del ejemplo shopping-cart) ----
+(function () {
+  if (typeof cytoscape === 'undefined') return;
+  var C = { page: '#7c6cf0', tool: '#4fd1c5', param: '#fbbf24', selector: '#f87171', context: '#34d399' };
+  cytoscape({
+    container: document.getElementById('cy'),
+    elements: [
+      { data: { id: 'page', label: 'tienda.com', t: 'page' } },
+      { data: { id: 'addToCart', label: 'addToCart', t: 'tool' } },
+      { data: { id: 'applyCoupon', label: 'applyCoupon', t: 'tool' } },
+      { data: { id: 's1', label: '[data-product] .btn-add', t: 'selector' } },
+      { data: { id: 's2', label: '#coupon-apply', t: 'selector' } },
+      { data: { id: 'p1', label: 'quantity', t: 'param' } },
+      { data: { id: 'p2', label: 'productId', t: 'param' } },
+      { data: { id: 'p3', label: 'code', t: 'param' } },
+      { data: { id: 'ctx', label: 'cartTotal', t: 'context' } },
+      { data: { source: 'page', target: 'addToCart' } },
+      { data: { source: 'page', target: 'applyCoupon' } },
+      { data: { source: 'page', target: 'ctx' } },
+      { data: { source: 'addToCart', target: 's1' } },
+      { data: { source: 'applyCoupon', target: 's2' } },
+      { data: { source: 'addToCart', target: 'p1' } },
+      { data: { source: 'addToCart', target: 'p2' } },
+      { data: { source: 'applyCoupon', target: 'p3' } }
+    ],
+    style: [
+      { selector: 'node', style: {
+        'background-color': function (e) { return C[e.data('t')] || '#888'; },
+        label: 'data(label)', color: '#e8ebf3', 'font-size': 11, 'font-family': 'JetBrains Mono, monospace',
+        'text-valign': 'bottom', 'text-margin-y': 7, width: 28, height: 28,
+        'border-width': 2, 'border-color': 'rgba(255,255,255,.12)'
+      } },
+      { selector: 'edge', style: { width: 1.6, 'line-color': '#2b3450', 'curve-style': 'bezier' } }
+    ],
+    layout: { name: 'cose', animate: false, padding: 36 }
+  });
+})();
+
+// ---- Índice comunitario en vivo ----
+fetch('https://raw.githubusercontent.com/cochinoraptor/WebMCPcss/main/community-styles/index.json')
+  .then(function (r) { return r.json(); })
+  .then(function (idx) {
+    var el = document.getElementById('community-list');
+    el.innerHTML = '';
+    idx.styles.filter(function (s) { return s.domain !== 'example.com'; }).forEach(function (s) {
+      var tools = s.tools.map(function (t) { return '<span class="chip">' + t.name + '</span>'; }).join('');
+      var card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = '<h3>' + s.domain + '</h3><div class="tools">' + tools + '</div>' +
+        '<p style="margin-top:12px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/' + s.file + '">ver archivo →</a></p>';
+      el.appendChild(card);
+    });
+  })
+  .catch(function () {
+    document.getElementById('community-list').innerHTML =
+      '<div class="card"><p>Índice en <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/community-styles">community-styles/</a></p></div>';
+  });
+</script>
+</body>
+</html>

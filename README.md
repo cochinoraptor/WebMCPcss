@@ -2,6 +2,8 @@
 
 > Haz que **cualquier sitio web** sea nativo para agentes de IA — sin tocar su código fuente — y con **auto-reparación** de selectores cuando el sitio se rediseña.
 
+🌐 **Sitio web:** [cochinoraptor.github.io/WebMCPcss](https://cochinoraptor.github.io/WebMCPcss/)
+
 [![CI](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/webmcpcss.svg)](https://www.npmjs.com/package/webmcpcss)
 [![npm downloads](https://img.shields.io/npm/dm/webmcpcss.svg)](https://www.npmjs.com/package/webmcpcss)

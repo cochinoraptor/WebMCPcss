@@ -34,6 +34,16 @@ function makeOptions(extra: Partial<McpServerOptions> = {}): McpServerOptions {
   };
 }
 
+/**
+ * Cierra un servidor HTTP también en Node 18, donde `server.close()` no
+ * cierra las conexiones keep-alive ociosas que deja `fetch` y espera al
+ * `keepAliveTimeout` (5 s). Node 19+ ya lo hace automáticamente.
+ */
+async function closeServer(server: http.Server): Promise<void> {
+  server.closeAllConnections?.();
+  await new Promise<void>((resolve) => server.close(() => resolve()));
+}
+
 describe('McpCore', () => {
   const core = new McpCore(makeOptions());
 
@@ -162,7 +172,7 @@ describe('MCP por HTTP nativo', () => {
   });
 
   afterAll(async () => {
-    await new Promise((r) => server.close(r));
+    await closeServer(server);
   });
 
   it('GET /api/tools', async () => {
@@ -293,7 +303,7 @@ describe('Herramienta MCP webmcpcss_prompt (v0.7.0)', () => {
       const notJson = await fetch(`${base}/api/prompt`, { method: 'POST', body: '{{{' });
       expect(notJson.status).toBe(400);
     } finally {
-      await new Promise((r) => server.close(r));
+      await closeServer(server);
     }
   });
 
@@ -308,7 +318,7 @@ describe('Herramienta MCP webmcpcss_prompt (v0.7.0)', () => {
       });
       expect(res.status).toBe(404);
     } finally {
-      await new Promise((r) => server.close(r));
+      await closeServer(server);
     }
   });
 });

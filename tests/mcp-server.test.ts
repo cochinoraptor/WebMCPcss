@@ -197,3 +197,118 @@ describe('MCP por HTTP nativo', () => {
     expect(missing.status).toBe(404);
   });
 });
+
+describe('Herramienta MCP webmcpcss_prompt (v0.7.0)', () => {
+  const calls: Array<Record<string, unknown>> = [];
+  const promptExecutor = async (args: Record<string, unknown>) => {
+    calls.push(args);
+    return {
+      success: args.prompt !== 'falla',
+      action: { action: 'hide', target: String(args.prompt) },
+      dryRun: args.dryRun === true,
+      evidence: args.screenshot ? { screenshotBase64: 'iVBORw0KGgo=' } : undefined,
+    };
+  };
+
+  it('tools/list solo la expone cuando hay ejecutor de prompts', async () => {
+    const without = new McpCore(makeOptions());
+    expect(without.listTools().tools.map((t) => t.name)).toEqual(['buyNow']);
+    const withPrompt = new McpCore(makeOptions({ prompt: promptExecutor }));
+    const names = withPrompt.listTools().tools.map((t) => t.name);
+    expect(names).toEqual(['buyNow', 'webmcpcss_prompt']);
+    const schema = withPrompt.listTools().tools[1] as {
+      inputSchema: { required: string[]; properties: Record<string, unknown> };
+    };
+    expect(schema.inputSchema.required).toEqual(['prompt']);
+    expect(Object.keys(schema.inputSchema.properties)).toEqual(
+      expect.arrayContaining(['prompt', 'url', 'files', 'dryRun', 'screenshot']),
+    );
+  });
+
+  it('tools/call webmcpcss_prompt delega en el ejecutor y devuelve JSON', async () => {
+    const core = new McpCore(makeOptions({ prompt: promptExecutor }));
+    const res = (await core.dispatch({
+      id: 9,
+      method: 'tools/call',
+      params: {
+        name: 'webmcpcss_prompt',
+        arguments: { prompt: 'oculta el popup', files: ['a.png', 7], dryRun: true },
+      },
+    })) as { content: Array<{ type: string; text?: string }>; isError?: boolean };
+    expect(res.isError).toBeUndefined();
+    const payload = JSON.parse(res.content[0].text ?? '{}');
+    expect(payload.action.action).toBe('hide');
+    expect(payload.dryRun).toBe(true);
+    expect(calls.at(-1)).toMatchObject({
+      prompt: 'oculta el popup',
+      files: ['a.png'],
+      dryRun: true,
+    });
+  });
+
+  it('devuelve la captura como bloque image y marca isError si falla', async () => {
+    const core = new McpCore(makeOptions({ prompt: promptExecutor }));
+    const shot = await core.callTool('webmcpcss_prompt', {
+      prompt: 'x',
+      screenshot: true,
+    });
+    expect(shot.content).toHaveLength(2);
+    expect(shot.content[1]).toMatchObject({ type: 'image', mimeType: 'image/png' });
+    expect(JSON.parse(String(shot.content[0].text)).evidence.screenshotBase64).toBe(
+      '<image>',
+    );
+
+    const failed = await core.callTool('webmcpcss_prompt', { prompt: 'falla' });
+    expect(failed.isError).toBe(true);
+
+    const empty = await core.callTool('webmcpcss_prompt', {});
+    expect(empty.isError).toBe(true);
+
+    const disabled = await core.callTool.call(
+      new McpCore(makeOptions()),
+      'webmcpcss_prompt',
+      {
+        prompt: 'x',
+      },
+    );
+    expect(disabled.isError).toBe(true);
+  });
+
+  it('POST /api/prompt por HTTP', async () => {
+    const server = createMcpHttpServer(makeOptions({ prompt: promptExecutor }));
+    await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
+    const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    try {
+      const ok = await fetch(`${base}/api/prompt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: 'oculta el footer' }),
+      });
+      expect(ok.status).toBe(200);
+      const data = await ok.json();
+      expect(JSON.parse(data.content[0].text).success).toBe(true);
+
+      const bad = await fetch(`${base}/api/prompt`, { method: 'POST', body: '{}' });
+      expect(bad.status).toBe(422);
+      const notJson = await fetch(`${base}/api/prompt`, { method: 'POST', body: '{{{' });
+      expect(notJson.status).toBe(400);
+    } finally {
+      await new Promise((r) => server.close(r));
+    }
+  });
+
+  it('POST /api/prompt responde 404 si el servidor no tiene ejecutor', async () => {
+    const server = createMcpHttpServer(makeOptions());
+    await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
+    const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    try {
+      const res = await fetch(`${base}/api/prompt`, {
+        method: 'POST',
+        body: '{"prompt":"x"}',
+      });
+      expect(res.status).toBe(404);
+    } finally {
+      await new Promise((r) => server.close(r));
+    }
+  });
+});

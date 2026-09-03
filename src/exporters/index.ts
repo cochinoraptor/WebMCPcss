@@ -29,8 +29,19 @@ export { exportAutoGen, exportCrewAi, exportLangGraph } from './python-agents';
 export type { ExportContext } from './python-agents';
 export { snakeCase, toolMapToJsonSchemas, toolToJsonSchema } from './schema';
 export type { ToolJsonSchema } from './schema';
-export { createMcpHttpServer, McpCore, startMcpStdioServer } from './mcp-server';
-export type { McpServerOptions, ToolExecutor } from './mcp-server';
+export {
+  createMcpHttpServer,
+  McpCore,
+  startMcpStdioServer,
+  PROMPT_TOOL_NAME,
+  PROMPT_TOOL_SCHEMA,
+} from './mcp-server';
+export type {
+  McpServerOptions,
+  ToolExecutor,
+  PromptExecutor,
+  PromptToolArgs,
+} from './mcp-server';
 
 /** Formatos de exportación soportados. */
 export const EXPORT_FORMATS = [

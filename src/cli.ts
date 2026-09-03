@@ -11,6 +11,7 @@
  * - `webmcpcss inject <url>`           → auto-descubrimiento + estilos comunitarios.
  * - `webmcpcss dashboard`              → interfaz web con herramientas e historial.
  * - `webmcpcss parse <css>`            → CSS → JSON (sin navegador).
+ * - `webmcpcss prompt "<orden>"`       → modifica la página con lenguaje natural (v0.7.0).
  */
 import chalk from 'chalk';
 import { Command } from 'commander';
@@ -46,8 +47,10 @@ import {
   EXPORT_FORMATS,
   exportForAgent,
   startMcpStdioServer,
+  type PromptExecutor,
   type ToolExecutor,
 } from './exporters';
+import { createLlmClient, PromptManager, type PromptResult } from './prompt';
 import { discoverWebMCP, injectWebMCP, resolveWebMCPStyles } from './proxy';
 import {
   buildTailwindToolsScript,
@@ -625,14 +628,173 @@ function buildMcpExecutor(url: string, cssPath: string): ToolExecutor {
   };
 }
 
+/** Opciones comunes de LLM (CLI `prompt` y `mcp --serve`). */
+interface LlmCliOptions {
+  llm?: string;
+  model?: string;
+  llmBaseUrl?: string;
+}
+
+/** Construye el ejecutor de prompts en lenguaje natural para el servidor MCP. */
+function buildPromptExecutor(
+  defaultUrl: string | undefined,
+  cssPath: string | undefined,
+  llmOpts: LlmCliOptions,
+): PromptExecutor {
+  return async (args) => {
+    const url = args.url ?? defaultUrl;
+    if (!url)
+      throw new Error('Falta la URL: arranca el servidor con --url o pásala en "url".');
+    const toolMap =
+      cssPath && fs.existsSync(cssPath) ? parseWebMCPFile(cssPath) : undefined;
+    const llm = createLlmClient({
+      provider: llmOpts.llm,
+      model: llmOpts.model,
+      baseUrl: llmOpts.llmBaseUrl,
+    });
+    const browser = await launchBrowser(true);
+    try {
+      const page = await browser.newPage();
+      await navigate(page, url);
+      const manager = new PromptManager(new PuppeteerAdapter(page), {
+        toolMap,
+        llm,
+        url,
+        title: await page.title(),
+      });
+      return await manager.run(args.prompt, {
+        url,
+        files: args.files,
+        text: args.text,
+        dryRun: args.dryRun,
+        screenshotBase64: args.screenshot,
+      });
+    } finally {
+      await browser.close();
+    }
+  };
+}
+
+/** Imprime un resultado de `prompt` de forma legible. */
+function printPromptResult(result: PromptResult): void {
+  const a = result.action;
+  logger.info(
+    `Acción: ${chalk.cyan(a.action)} → ${chalk.bold(a.target || '(sin objetivo)')} ` +
+      chalk.gray(`[${a.source}, confianza ${(a.confidence ?? 0).toFixed(2)}]`),
+  );
+  const params = Object.entries(a.parameters);
+  if (params.length > 0) {
+    for (const [k, v] of params) {
+      console.log(
+        `    ${chalk.gray(k + ':')} ${typeof v === 'string' ? v : JSON.stringify(v)}`,
+      );
+    }
+  }
+  if (result.match) {
+    logger.info(
+      `Elemento: ${chalk.bold(result.match.selector)} ` +
+        chalk.gray(
+          `(vía ${result.match.strategy}, ${result.match.confidence.toFixed(2)})`,
+        ) +
+        (result.match.tool ? chalk.magenta(` · herramienta ${result.match.tool}`) : '') +
+        (result.match.text ? chalk.gray(` · "${result.match.text.slice(0, 50)}"`) : ''),
+    );
+  }
+  if (result.dryRun) {
+    logger.warn(
+      'Modo dry-run: la página no se modificó. Añade --execute para aplicar la acción.',
+    );
+  } else if (result.outcome) {
+    if (result.outcome.success) logger.success(result.outcome.message);
+    else logger.error(result.outcome.message);
+  }
+  if (result.error && !result.outcome) logger.error(result.error);
+  for (const s of result.suggestions ?? []) console.log(chalk.gray('  ' + s));
+  if (result.evidence?.screenshot)
+    logger.info(`Captura: ${chalk.bold(result.evidence.screenshot)}`);
+  logger.debug(`Duración: ${result.durationMs} ms`);
+}
+
+/** Comando `prompt`: modifica una página con una orden en lenguaje natural. */
+async function cmdPrompt(
+  prompt: string,
+  opts: LlmCliOptions & {
+    url: string;
+    css?: string;
+    image?: string[];
+    file?: string[];
+    text?: string;
+    execute?: boolean;
+    dryRun?: boolean;
+    output?: string;
+    screenshot?: string;
+    json?: boolean;
+    headless?: boolean;
+  },
+) {
+  if (!opts.json) logger.title('WebMCPcss · prompt');
+  const dryRun = opts.dryRun || !opts.execute;
+  const files = [...(opts.image ?? []), ...(opts.file ?? [])];
+  const toolMap = opts.css ? parseWebMCPFile(opts.css) : undefined;
+  const llm = createLlmClient({
+    provider: opts.llm,
+    model: opts.model,
+    baseUrl: opts.llmBaseUrl,
+  });
+  if (!opts.json) {
+    logger.info(
+      llm
+        ? `LLM: ${chalk.bold(`${llm.provider}/${llm.model}`)}`
+        : 'LLM: no configurado → heurísticas locales (define WEBMCP_LLM_PROVIDER para usar un modelo).',
+    );
+  }
+
+  const browser = await launchBrowser(opts.headless ?? true);
+  let result: PromptResult;
+  try {
+    const page = await browser.newPage();
+    await navigate(page, opts.url);
+    const manager = new PromptManager(new PuppeteerAdapter(page), {
+      toolMap,
+      llm,
+      url: opts.url,
+      title: await page.title(),
+    });
+    result = await manager.run(prompt, {
+      url: opts.url,
+      files,
+      text: opts.text,
+      dryRun,
+      screenshot: opts.screenshot,
+    });
+  } finally {
+    await browser.close();
+  }
+
+  if (opts.output) {
+    fs.mkdirSync(path.dirname(path.resolve(opts.output)), { recursive: true });
+    fs.writeFileSync(opts.output, JSON.stringify(result, null, 2), 'utf8');
+  }
+  if (opts.json) {
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    printPromptResult(result);
+    if (opts.output) logger.info(`Resultado guardado en ${chalk.bold(opts.output)}`);
+  }
+  if (!result.success) process.exitCode = 1;
+}
+
 /** Comando `mcp --serve`: servidor MCP por stdio (o REST con --http). */
-async function cmdMcp(opts: {
-  serve?: boolean;
-  css?: string;
-  url?: string;
-  http?: boolean;
-  port: string;
-}) {
+async function cmdMcp(
+  opts: LlmCliOptions & {
+    serve?: boolean;
+    css?: string;
+    url?: string;
+    http?: boolean;
+    port: string;
+    noPrompt?: boolean;
+  },
+) {
   if (!opts.serve) {
     console.log(
       'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090]',
@@ -646,13 +808,15 @@ async function cmdMcp(opts: {
   const cssSource = fs.readFileSync(cssPath, 'utf8');
   const toolMap = parseWebMCP(cssSource);
   const execute = opts.url ? buildMcpExecutor(opts.url, cssPath) : undefined;
+  const prompt = opts.noPrompt ? undefined : buildPromptExecutor(opts.url, cssPath, opts);
   const options = {
     toolMap,
     cssSource,
     cssPath,
     url: opts.url,
     execute,
-    version: '0.6.0',
+    prompt,
+    version: '0.7.0',
   };
 
   if (opts.http) {
@@ -661,7 +825,8 @@ async function cmdMcp(opts: {
     await new Promise<void>((resolve) => server.listen(port, '0.0.0.0', resolve));
     logger.success(`Servidor HTTP en http://localhost:${port}`);
     logger.info(
-      'Rutas: GET /api/tools · GET /api/graph · POST /api/call {"tool","args"}',
+      'Rutas: GET /api/tools · GET /api/graph · POST /api/call {"tool","args"}' +
+        (prompt ? ' · POST /api/prompt {"prompt","files","dryRun"}' : ''),
     );
     return new Promise<void>(() => undefined); // queda sirviendo
   }
@@ -669,6 +834,7 @@ async function cmdMcp(opts: {
   // Modo stdio: stdout es SOLO JSON-RPC; los avisos van a stderr.
   console.error(
     `[webmcpcss] MCP stdio listo · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
+      (prompt ? ' + webmcpcss_prompt' : '') +
       (opts.url
         ? ` · ejecución real en ${opts.url}`
         : ' · sin --url (tools/call en dry-run)'),
@@ -731,7 +897,7 @@ const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.6.1')
+  .version('0.7.0')
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 
@@ -805,7 +971,45 @@ program
   .option('--url <url>', 'URL del sitio: habilita ejecución real en tools/call')
   .option('--http', 'modo HTTP REST en vez de stdio')
   .option('-p, --port <port>', 'puerto en modo --http', '8090')
+  .option('--no-prompt', 'no exponer la herramienta webmcpcss_prompt (lenguaje natural)')
+  .option(
+    '--llm <provider>',
+    'proveedor LLM para webmcpcss_prompt: ollama, openai, anthropic',
+  )
+  .option('--model <model>', 'modelo LLM (ej. llama3, gpt-4o-mini)')
+  .option('--llm-base-url <url>', 'URL base del proveedor LLM')
   .action(cmdMcp);
+
+program
+  .command('prompt')
+  .description(
+    'Modifica una página con lenguaje natural: "sube esta imagen al carrusel", "oculta el popup"…',
+  )
+  .argument('<prompt>', 'orden en lenguaje natural (español o inglés)')
+  .requiredOption('--url <url>', 'URL (o HTML local) del sitio a modificar')
+  .option('--css <file>', 'archivo .webmcp.css: permite delegar en sus herramientas')
+  .option('--image <file...>', 'imagen(es) a subir (ruta, URL o data-URI)')
+  .option('--file <file...>', 'archivo(s) a subir (ruta, URL o data-URI)')
+  .option('--text <text>', 'texto adicional (valor a escribir en un campo)')
+  .option(
+    '--llm <provider>',
+    'proveedor LLM: ollama, openai, anthropic (def.: variables de entorno)',
+  )
+  .option(
+    '--model <model>',
+    'modelo LLM (ej. llama3, gpt-4o-mini, claude-3-5-haiku-latest)',
+  )
+  .option(
+    '--llm-base-url <url>',
+    'URL base del proveedor LLM (ej. http://localhost:11434)',
+  )
+  .option('--execute', 'aplica la acción (sin esta opción solo se interpreta: dry-run)')
+  .option('--dry-run', 'fuerza el modo de solo interpretación')
+  .option('--screenshot <file>', 'guarda una captura PNG tras ejecutar')
+  .option('-o, --output <file>', 'guarda el resultado completo en JSON')
+  .option('--json', 'imprime SOLO el JSON del resultado en stdout')
+  .option('--no-headless', 'muestra el navegador')
+  .action(cmdPrompt);
 
 program
   .command('run')

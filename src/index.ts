@@ -168,3 +168,33 @@ export {
   type McpServerOptions,
   type ToolExecutor,
 } from './exporters';
+
+// --- v0.7.0: modificación de sitios web por prompt (lenguaje natural) ---
+export * as prompt from './prompt';
+export {
+  PromptManager,
+  runPrompt,
+  ElementFinder,
+  ActionExecutor,
+  AssetManager,
+  interpretPrompt,
+  interpretHeuristically,
+  createLlmClient,
+  resolveLlmConfig,
+  canMutate,
+  type PromptAction,
+  type PromptActionType,
+  type PromptResult,
+  type PromptParameters,
+  type ElementMatch,
+  type FindResult,
+  type ActionOutcome,
+  type RunOptions,
+  type LlmClient,
+  type LlmConfig,
+  type LlmProvider,
+  type DomMutator,
+  type PromptManagerOptions,
+} from './prompt';
+export { PROMPT_TOOL_NAME, PROMPT_TOOL_SCHEMA } from './exporters';
+export type { PromptExecutor, PromptToolArgs } from './exporters';

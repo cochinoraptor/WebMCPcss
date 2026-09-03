@@ -13,7 +13,7 @@ export interface HistoryEvent {
   /** Timestamp ISO 8601. */
   ts: string;
   /** Tipo de evento. */
-  type: 'validate' | 'repair' | 'execute';
+  type: 'validate' | 'repair' | 'execute' | 'prompt';
   /** URL o página asociada. */
   url?: string;
   /** Nombre de herramienta (si aplica). */
@@ -77,6 +77,7 @@ export function computeStats(events: HistoryEvent[]): {
   executions: { total: number; ok: number; failed: number };
   repairs: { total: number; ok: number; failed: number };
   validations: { total: number; ok: number; failed: number };
+  prompts: { total: number; ok: number; failed: number };
 } {
   const bucket = (type: HistoryEvent['type']) => {
     const of = events.filter((e) => e.type === type);
@@ -91,5 +92,6 @@ export function computeStats(events: HistoryEvent[]): {
     executions: bucket('execute'),
     repairs: bucket('repair'),
     validations: bucket('validate'),
+    prompts: bucket('prompt'),
   };
 }

@@ -180,7 +180,7 @@ export function collectCandidatesInPage(doc: Document): ElementSnapshot[] {
   }
 
   const INTERACTIVE =
-    'a, button, input, select, textarea, [role="button"], [onclick], [data-action]';
+    'a, button, input, select, textarea, label, form, [role="button"], [onclick], [data-action]';
   const seen = new Set<Element>();
   const results: ElementSnapshot[] = [];
 

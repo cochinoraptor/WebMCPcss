@@ -12,3 +12,6 @@ examples/graph-demo/vault/
 webmcp-graph.json
 webmcp-graph.html
 .webmcp-status.json
+
+# Historial local de acciones (webmcpcss prompt / MCP)
+.webmcpcss/

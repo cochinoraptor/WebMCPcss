@@ -15,3 +15,6 @@ webmcp-graph.html
 
 # Historial local de acciones (webmcpcss prompt / MCP)
 .webmcpcss/
+
+# Salidas del ejemplo de prompt
+examples/prompt/output/

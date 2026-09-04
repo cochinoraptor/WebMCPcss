@@ -1,0 +1,66 @@
+/*
+ * Escenas 2.5D con Three.js — WebMCPcss Animation Standard
+ *
+ * El motor `three` monta un canvas WebGL dentro del elemento (opcionalmente
+ * aislado en Shadow DOM) con planos apilados en Z que reaccionan al ratón
+ * y/o al scroll. Three.js NO es dependencia del paquete: se usa
+ * `window.THREE` si existe o se importa `moduleUrl` (por defecto
+ * three@0.160.0 desde unpkg). Sin WebGL se aplica el `fallback`.
+ *
+ *   webmcpcss animate examples/animation/three-scene.webmcp.css --url https://tu-sitio.test --screenshot escena.png
+ */
+
+/* Fondo de profundidad del hero: tres planos de color con parallax de ratón */
+#hero {
+  webmcp-animation: "heroDepth";
+  webmcp-animation-type: three-scene;
+  webmcp-animation-priority: high;
+  webmcp-animation-sandbox: shadow;
+  webmcp-animation-scene: '{
+    "camera": "orthographic",
+    "viewHeight": 10,
+    "interaction": "mouse",
+    "background": "transparent",
+    "layers": [
+      { "color": "#1d4ed8", "position": { "z": -4 }, "size": { "width": 30, "height": 14 }, "parallax": 0.2 },
+      { "color": "#f59e0b", "position": { "x": -3, "y": 1, "z": -2 }, "size": { "width": 4, "height": 4 }, "parallax": 0.6, "spin": 0.4 },
+      { "color": "#22c55e", "position": { "x": 3, "y": -1, "z": -1 }, "size": { "width": 3, "height": 3 }, "parallax": 1 }
+    ]
+  }';
+  webmcp-animation-fallback: '{"type":"keyframes","keyframes":[{"opacity":0.6},{"opacity":1}],"duration":"1s"}';
+}
+
+/* Escena con texturas (imágenes) que reacciona al scroll y al ratón,
+   cámara en perspectiva y Three.js servido desde el propio sitio */
+.story {
+  webmcp-animation: "storyScene";
+  webmcp-animation-type: three-scene;
+  webmcp-animation-scene: '{
+    "camera": "perspective",
+    "interaction": "both",
+    "moduleUrl": "/vendor/three.module.js",
+    "maxPixelRatio": 1.5,
+    "layers": [
+      { "image": "/img/sky.png", "position": { "z": -6 }, "size": { "width": 24, "height": 12 }, "parallax": 0.1 },
+      { "image": "/img/hills.png", "position": { "z": -3 }, "size": { "width": 20, "height": 8 }, "parallax": 0.5 },
+      { "image": "/img/trees.png", "position": { "z": -1 }, "size": { "width": 18, "height": 6 }, "parallax": 0.9 }
+    ]
+  }';
+  webmcp-animation-fallback: "storyParallax";
+}
+
+/* Fallback declarado como animación independiente (también se puede usar sola) */
+.story {
+  webmcp-animation: "storyParallax";
+  webmcp-animation-type: parallax;
+  webmcp-animation-layers: ".story__sky" 0.1, ".story__hills" 0.5, ".story__trees" 0.9;
+}
+
+/* Escena temporal: se desmonta sola a los 8 segundos */
+.intro {
+  webmcp-animation: "introScene";
+  webmcp-animation-type: three-scene;
+  webmcp-animation-priority: critical;
+  webmcp-animation-duration: 8s;
+  webmcp-animation-scene: '{"layers":[{"color":"#0ea5e9","parallax":0.3,"spin":0.2},{"color":"#a855f7","position":{"z":-2},"parallax":0.8}]}';
+}

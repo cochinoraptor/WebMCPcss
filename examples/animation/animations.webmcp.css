@@ -1,0 +1,74 @@
+/* Demo del estándar de animaciones de WebMCPcss (v0.8.0) */
+:root {
+  --hero: #hero;
+}
+
+/* 1) Parallax por scroll: capas con distinta velocidad (0 = lejana, 1 = pegada al contenido) */
+var(--hero) {
+  webmcp-animation: "heroParallax";
+  webmcp-animation-type: parallax;
+  webmcp-animation-priority: normal;
+  webmcp-animation-trigger: scroll;
+  webmcp-animation-layers: ".sky" 0.1, ".mountains" 0.4, ".ground" 0.7;
+  webmcp-animation-description: "Fondo del hero con profundidad";
+}
+
+/* 2) Keyframes de entrada del título (alta prioridad) */
+.hero .title {
+  webmcp-animation: "titleIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-priority: high;
+  webmcp-animation-duration: 900ms;
+  webmcp-animation-easing: cubic-bezier(.2,.8,.2,1);
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(24px)"},{"opacity":1,"transform":"none"}]';
+}
+
+/* 3) Isométrico */
+#card-1 {
+  webmcp-animation: "isoCard";
+  webmcp-animation-type: isometric;
+  webmcp-animation-rotation-x: 55deg;
+  webmcp-animation-rotation-z: -30deg;
+  webmcp-animation-duration: 1.2s;
+}
+
+/* 4) 3D transform sobre un elemento que GSAP ya anima → conflicto con externa */
+#card-2 {
+  webmcp-animation: "flipCard";
+  webmcp-animation-type: 3d-transform;
+  webmcp-animation-perspective: 900px;
+  webmcp-animation-rotation-y: 25deg;
+  webmcp-animation-duration: 1s;
+  webmcp-animation-conflict: queue;
+}
+
+/* 5) Keyframes con fallback CSS explícito y prioridad baja */
+#card-3 {
+  webmcp-animation: "cardIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-priority: low;
+  webmcp-animation-engine: waapi;
+  webmcp-animation-delay: 200ms;
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateX(-40px)"},{"opacity":1,"transform":"none"}]';
+  webmcp-animation-fallback: '{"type":"keyframes","engine":"css","keyframes":[{"opacity":0},{"opacity":1}]}';
+}
+
+/* 6) Dos animaciones sobre el mismo elemento y propiedad: la crítica sustituye a la pulsación del sitio */
+#badge {
+  webmcp-animation: "badgePop";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-priority: critical;
+  webmcp-animation-iterations: infinite;
+  webmcp-animation-direction: alternate;
+  webmcp-animation-duration: 600ms;
+  webmcp-animation-keyframes: '[{"transform":"scale(1) rotate(0deg)"},{"transform":"scale(1.15) rotate(-6deg)"}]';
+}
+
+/* 7) Escena 2.5D con Three.js (WebGL); si no hay WebGL cae a un parallax CSS */
+#scene {
+  webmcp-animation: "depthScene";
+  webmcp-animation-type: three-scene;
+  webmcp-animation-sandbox: shadow;
+  webmcp-animation-scene: '{"camera":"orthographic","viewHeight":10,"interaction":"mouse","layers":[{"color":"#1d4ed8","position":{"z":-4},"size":{"width":30,"height":14},"parallax":0.2},{"color":"#f59e0b","position":{"x":-3,"y":1,"z":-2},"size":{"width":4,"height":4},"parallax":0.6,"spin":0.4},{"color":"#22c55e","position":{"x":3,"y":-1,"z":-1},"size":{"width":3,"height":3},"parallax":1}]}';
+  webmcp-animation-fallback: '{"type":"keyframes","keyframes":[{"opacity":0.6},{"opacity":1}],"duration":"1s"}';
+}

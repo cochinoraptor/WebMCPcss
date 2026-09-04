@@ -4,6 +4,52 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.8.0] - Sin publicar
+
+### Añadido
+
+- **Estándar de animaciones declarativas** (`webmcpcss animate`): nuevo
+  módulo `src/animation/` que parsea propiedades `webmcp-animation-*`
+  (tipos `parallax`, `isometric`, `3d-transform`, `keyframes` y
+  `three-scene`; prioridades `low`/`normal`/`high`/`critical`; atajos de
+  duración, easing, rotaciones, capas y escena; `fallback` por referencia o
+  JSON inline; anidamiento, `var()` e `@import`).
+- **Motores** con interfaz común (`supports`/`execute`/`cleanup`): CSS
+  (`@keyframes` y clases inyectadas, parallax por scroll), WAAPI
+  (`Element.animate`, `composite: add`, `ScrollTimeline`) y Three.js
+  (escena 2.5D en el contenedor, opcionalmente en Shadow DOM; requiere
+  WebGL; Three.js se toma de `window.THREE` o de `moduleUrl`, sin
+  dependencia nueva).
+- **Orquestador** con colas por prioridad, selección automática de motor
+  según capacidades del navegador, `prefers-reduced-motion`, fallbacks y
+  registro de animaciones activas (`active`/`stop`/`stopAll`).
+- **Resolutor de conflictos** por elemento y propiedad con estrategias
+  `replace`, `queue`, `ignore` y `merge`; detección automática de
+  animaciones externas (`@keyframes` y transiciones del sitio, WAAPI ajenas,
+  GSAP, Anime.js, Framer Motion, Velocity, Lottie, AOS, ScrollMagic…) y
+  `registerExternal()`/`releaseExternal()` para animaciones JS propias.
+- **Validadores**: existencia de selectores y capas, compatibilidad de
+  motor (WebGL, WAAPI), simulación de conflictos con informe (`--dry-run`).
+- **CLI** `webmcpcss animate <archivo> --url … [--type css|waapi|three]
+[--conflict-strategy replace|queue|ignore|merge] [--dry-run] [-o]
+[--screenshot] [--json]`; sin `--url` genera un runtime autocontenido
+  (`webmcpcss-animation.js` + `animations.json` + `index.html`).
+- **Herramienta MCP `webmcpcss_animate`** (`animationFile | css`, `url`,
+  `strategy`, `engine`, `dryRun`, `screenshot`) en `mcp --serve`, ruta
+  `POST /api/animate` en modo HTTP y opción `--no-animate`.
+- Historial: nuevo tipo de evento `animate`.
+- Documentación (`docs/animation.md`, `docs/animation-conflicts.md`,
+  `docs/cli-animate.md`), demo `examples/animation/index.html` y ejemplos
+  `parallax`, `isometric`, `3d-transform` y `three-scene`.
+
+### Decisiones
+
+- Cero dependencias nuevas: el runtime del navegador se genera concatenando
+  los módulos compilados del propio paquete; Three.js se carga solo si una
+  animación `three-scene` lo necesita.
+- Las animaciones externas se registran con prioridad `high`: una animación
+  `normal` nunca las pisa; `critical` (o `high` + `replace`) las sustituye.
+
 ## [0.7.0] - Sin publicar
 
 ### Añadido

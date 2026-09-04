@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>WebMCPcss · demo de animaciones</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; }
+  .hero { position: relative; height: 420px; overflow: hidden; display: grid; place-items: center; }
+  .layer { position: absolute; inset: -10% 0; }
+  .layer.sky { background: radial-gradient(circle at 30% 20%, #1e3a8a, #0f172a 60%); }
+  .layer.mountains { top: 45%; background: linear-gradient(180deg, transparent 0, #1e293b 40%); clip-path: polygon(0 60%, 15% 30%, 30% 55%, 45% 20%, 60% 50%, 75% 25%, 90% 45%, 100% 30%, 100% 100%, 0 100%); }
+  .layer.ground { top: 75%; background: #334155; }
+  .title { position: relative; z-index: 2; font-size: 3rem; margin: 0; text-align: center; }
+  .title small { display: block; font-size: 1rem; opacity: .8; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 48px; perspective: 900px; }
+  .card { background: #1e293b; border-radius: 16px; padding: 24px; min-height: 160px; border: 1px solid #334155; }
+  .card h3 { margin: 0 0 8px; }
+  .scene { position: relative; height: 320px; margin: 0 48px 48px; border-radius: 16px; overflow: hidden; background: #020617; display: grid; place-items: center; }
+  .scene p { position: relative; z-index: 1; margin: 0; }
+  .badge { position: fixed; right: 16px; bottom: 16px; padding: 8px 12px; background: #f59e0b; color: #111; border-radius: 999px; font-weight: 700; }
+  footer { height: 60vh; display: grid; place-items: center; color: #64748b; }
+  /* Animación PROPIA DEL SITIO (externa para WebMCPcss) */
+  @keyframes sitePulse { from { transform: scale(1); } to { transform: scale(1.06); } }
+  .badge { animation: sitePulse 1s ease-in-out infinite alternate; }
+</style>
+</head>
+<body>
+  <section class="hero" id="hero">
+    <div class="layer sky"></div>
+    <div class="layer mountains"></div>
+    <div class="layer ground"></div>
+    <h1 class="title">WebMCPcss Animations<small>parallax · isométrico · 3D · keyframes · Three.js</small></h1>
+  </section>
+
+  <section class="cards">
+    <article class="card" id="card-1"><h3>Isométrico</h3><p>Tarjeta con rotateX/rotateZ y preserve-3d.</p></article>
+    <article class="card" id="card-2"><h3>3D transform</h3><p>Giro en Y con perspectiva.</p></article>
+    <article class="card" id="card-3"><h3>Keyframes</h3><p>Entrada con opacidad y desplazamiento.</p></article>
+  </section>
+
+  <section class="scene" id="scene"><p>Escena 2.5D (Three.js) — mueve el ratón</p></section>
+
+  <div class="badge" id="badge">Oferta</div>
+  <footer>Haz scroll para ver el parallax</footer>
+
+  <script>
+    // Simula una librería de terceros (GSAP) animando #card-2 → transform.
+    window.gsap = { version: '3.12.5' };
+    document.getElementById('card-2')._gsap = { id: 1 };
+  </script>
+</body>
+</html>

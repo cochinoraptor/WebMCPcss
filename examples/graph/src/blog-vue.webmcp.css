@@ -1,0 +1,31 @@
+/* blog-vue.webmcp.css — blog en Vue 3 (scoped CSS) + Element Plus */
+
+.comment-form[data-v-7ba5bd90] .el-button--primary {
+  webmcp-tool: "postComment";
+  webmcp-description: "Publica un comentario en el artículo";
+  webmcp-param-body: value(textarea[data-v-7ba5bd90]);
+  webmcp-confirmation: ".el-message--success";
+}
+
+.el-input__inner[placeholder="Tu email"] {
+  webmcp-tool: "subscribe";
+  webmcp-description: "Suscribe el email al boletín";
+  webmcp-param-email: value();
+  webmcp-trigger: "click" on .el-button.subscribe;
+}
+
+main > article > div:nth-of-type(2) > button {
+  webmcp-tool: "likeArticle";
+  webmcp-description: "Marca el artículo como favorito";
+}
+
+.sc-bdVaJa.sc-htpNat {
+  webmcp-tool: "shareArticle";
+  webmcp-description: "Comparte el artículo (widget styled-components)";
+  webmcp-param-network: attr(data-network);
+}
+
+.article-views {
+  webmcp-context: "views";
+  webmcp-format: "number";
+}

@@ -1,0 +1,28 @@
+# Fragmento para config.yaml de DeerFlow — generado por webmcpcss v0.9.0
+# 1. Copia webmcp_tools.py a backend/ (o a cualquier ruta del PYTHONPATH).
+# 2. Fusiona este bloque en config.yaml.
+# 3. Define WEBMCP_CSS / WEBMCP_URL en el entorno del backend o del sandbox.
+tool_groups:
+  - name: browser          # navegación y acciones WebMCP sobre el sitio
+
+tools:
+  - name: browser_get_webmcp_graph
+    group: browser
+    use: webmcp_tools:browser_get_webmcp_graph
+  - name: browser_validate_selector
+    group: browser
+    use: webmcp_tools:browser_validate_selector
+  - name: browser_repair_selector
+    group: browser
+    use: webmcp_tools:browser_repair_selector
+  - name: browser_prompt
+    group: browser
+    use: webmcp_tools:browser_prompt
+  - name: browser_animate
+    group: browser
+    use: webmcp_tools:browser_animate
+
+# Variables de entorno usadas por webmcp_tools.py
+#   WEBMCP_CSS=examples/shopping-cart/webmcp.css
+#   WEBMCP_URL=https://tienda.example.com
+#   WEBMCPCSS_BIN=webmcpcss   (opcional)

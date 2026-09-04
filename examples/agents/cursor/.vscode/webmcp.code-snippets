@@ -1,0 +1,83 @@
+{
+  "WebMCP: herramienta": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:tool",
+    "body": [
+      "${1|[data-tool=\"${2:accion}\"],#${2:accion},[aria-label=\"${3:Etiqueta}\"]|} {",
+      "  webmcp-tool: \"${4:nombreHerramienta}\";",
+      "  webmcp-description: \"${5:Qué hace esta acción}\";",
+      "  webmcp-param-${6:campo}: value(${7:#input});",
+      "  webmcp-confirmation: \"${8:.mensaje-exito}\";",
+      "}"
+    ],
+    "description": "Declara una herramienta WebMCP con un selector estable"
+  },
+  "WebMCP: contexto": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:context",
+    "body": [
+      "${1|[data-context=\"${2:dato}\"],#${2:dato}|} {",
+      "  webmcp-context: \"${3:nombreDato}\";",
+      "  webmcp-format: \"${4|text,number,currency,json|}\";",
+      "}"
+    ],
+    "description": "Expone un dato de la página como contexto para agentes"
+  },
+  "WebMCP: parámetro": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:param",
+    "body": [
+      "webmcp-param-${1:nombre}: ${2|value(#campo),value(),attr(data-id),data(id),aria(label),text(.etiqueta),\"literal\"|};"
+    ],
+    "description": "Parámetro de una herramienta (value/attr/data/aria/text/literal)"
+  },
+  "WebMCP: huella para auto-reparación": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:fingerprint",
+    "body": [
+      "webmcp-fingerprint: '{\"tag\":\"${1:button}\",\"text\":\"${2:Añadir al carrito}\",\"attrs\":{\"${3:data-product-id}\":\"${4:123}\"}}';"
+    ],
+    "description": "Huella del elemento para que `webmcpcss repair` lo re-localice"
+  },
+  "WebMCP: animación declarativa": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:animation",
+    "body": [
+      "${1:.hero} {",
+      "  webmcp-animation: \"${2:nombre}\";",
+      "  webmcp-animation-type: ${3|parallax,isometric,3d-transform,keyframes,three-scene|};",
+      "  webmcp-animation-priority: ${4|normal,low,high,critical|};",
+      "  webmcp-animation-trigger: ${5|load,scroll,hover,click,visible,manual|};",
+      "  webmcp-animation-conflict: ${6|queue,replace,ignore,merge|};",
+      "  webmcp-animation-duration: ${7:600ms};",
+      "}"
+    ],
+    "description": "Animación webmcp-animation-* con prioridad y estrategia de conflicto"
+  },
+  "WebMCP: addToCart": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:addToCart",
+    "body": [
+      "${1|[data-product] .btn-add,[data-tool=\"add-to-cart\"],[data-testid=\"add-to-cart\"],#add-to-cart|} {",
+      "  webmcp-tool: \"addToCart\";",
+      "  webmcp-description: \"Añade el producto actual al carrito\";",
+      "  webmcp-param-productId: attr(data-product-id);",
+      "  webmcp-param-quantity: value(#qty-input);",
+      "  webmcp-confirmation: \".cart-badge\";",
+      "}"
+    ],
+    "description": "Herramienta addToCart · selector actual [data-product] .btn-add (fragilidad low); elige un selector estable"
+  },
+  "WebMCP: applyCoupon": {
+    "scope": "css,scss,less",
+    "prefix": "webmcp:applyCoupon",
+    "body": [
+      "${1|.coupon-form input[type=\"text\"],[data-tool=\"apply-coupon\"],[data-testid=\"apply-coupon\"],#apply-coupon|} {",
+      "  webmcp-tool: \"applyCoupon\";",
+      "  webmcp-description: \"Aplica un cupón de descuento\";",
+      "  webmcp-param-code: value();",
+      "}"
+    ],
+    "description": "Herramienta applyCoupon · selector actual .coupon-form input[type=\"text\"] (fragilidad low); elige un selector estable"
+  }
+}

@@ -1,0 +1,30 @@
+---
+description: Convenciones WebMCPcss para examples/shopping-cart/webmcp.css — selectores estables, herramientas MCP disponibles y cómo probarlas
+globs: ["**/*.webmcp.css", "**/webmcp.css"]
+alwaysApply: false
+---
+
+# WebMCPcss en este proyecto
+
+- Archivo de herramientas: `examples/shopping-cart/webmcp.css` · sitio: https://tienda.example.com
+- Servidor MCP: `webmcpcss mcp --serve --css examples/shopping-cart/webmcp.css --url https://tienda.example.com`
+  (herramientas del sitio + `webmcpcss_prompt` + `webmcpcss_animate`).
+
+## Reglas para selectores
+
+1. Prefiere, por este orden: `[data-tool="…"]` / `[data-testid="…"]` →
+   `#id` semántico → `[name]` / `[aria-label]` → clase semántica propia.
+2. Nunca uses clases con hash (CSS Modules `_abc12`, Vue `data-v-*`,
+   Svelte `svelte-*`, styled-components `sc-*`, Emotion `css-*`), utilidades
+   de Tailwind ni `:nth-child` como selector de herramienta.
+3. Añade `webmcp-fingerprint` a las herramientas críticas para que
+   `webmcpcss repair` pueda re-localizarlas.
+4. Tras editar `examples/shopping-cart/webmcp.css` ejecuta `webmcpcss validate https://tienda.example.com examples/shopping-cart/webmcp.css`.
+5. Escribe `webmcp:` en un archivo CSS para ver los snippets disponibles.
+
+## Herramientas declaradas
+
+| Herramienta | Selector actual | Fragilidad | Selector recomendado |
+| --- | --- | --- | --- |
+| `addToCart` | `[data-product] .btn-add` | low (Bootstrap) | `[data-product] .btn-add` |
+| `applyCoupon` | `.coupon-form input[type="text"]` | low | `.coupon-form input[type="text"]` |

@@ -1,15 +1,17 @@
 {
   "mcpServers": {
-    "webmcpcss": {
+    "webmcpcss-flomny": {
       "command": "webmcpcss",
       "args": [
         "mcp",
         "--serve",
+        "--flomny",
         "--css",
         "examples/shopping-cart/webmcp.css",
         "--url",
         "https://tienda.example.com"
-      ]
+      ],
+      "description": "Servidor MCP dedicado a Flomny: list_tools, get_tool_info, get_selector_status, suggest_repair, execute_prompt, apply_animation"
     }
   }
 }

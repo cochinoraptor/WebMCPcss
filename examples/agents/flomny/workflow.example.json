@@ -1,0 +1,57 @@
+{
+  "name": "webmcp-addToCart",
+  "description": "Workflow generado por webmcpcss v0.9.0: descubre, valida y ejecuta addToCart en https://tienda.example.com.",
+  "integrations": [
+    "webmcpcss-flomny"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "tool": "list_tools",
+      "args": {},
+      "output": "catalog"
+    },
+    {
+      "id": 2,
+      "tool": "get_tool_info",
+      "args": {
+        "name": "addToCart"
+      },
+      "output": "tool"
+    },
+    {
+      "id": 3,
+      "tool": "get_selector_status",
+      "args": {
+        "tool": "addToCart"
+      },
+      "output": "status",
+      "on_failure": {
+        "tool": "suggest_repair",
+        "args": {
+          "tool": "addToCart"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "tool": "execute_prompt",
+      "args": {
+        "prompt": "ejecuta addToCart",
+        "dryRun": true
+      },
+      "output": "plan",
+      "requires_confirmation": true
+    },
+    {
+      "id": 5,
+      "tool": "execute_prompt",
+      "args": {
+        "prompt": "ejecuta addToCart",
+        "dryRun": false,
+        "screenshot": true
+      },
+      "output": "result"
+    }
+  ]
+}

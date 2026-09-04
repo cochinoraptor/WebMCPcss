@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
-<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. Generación automática, servidor MCP, auto-reparación de selectores y exportadores para 40+ agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph...)." />
+<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 45 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph...)." />
 <meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
-<meta property="og:description" content="npm i -g webmcpcss · MCP server · auto-reparación · 45 agentes soportados" />
+<meta property="og:description" content="npm i -g webmcpcss · MCP server · auto-reparación · lenguaje natural · animaciones declarativas · 45 agentes soportados" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
 <link rel="icon" type="image/png" href="favicon.png" />
@@ -55,7 +55,7 @@
   .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 18px; letter-spacing: -.4px; color: var(--text); }
   .brand img { width: 34px; height: 34px; border-radius: 8px; }
   .brand em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+  nav { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; font-weight: 500; white-space: nowrap; }
   nav a { color: var(--muted); transition: color .15s; }
   nav a:hover { color: var(--text); }
   .gh-btn {
@@ -182,6 +182,38 @@
   footer .brand img { width: 26px; height: 26px; }
   footer nav { margin: 0; }
 
+  /* ---------- v0.7.0 prompt ---------- */
+  .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items: start; }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; }
+  .flow span { font-size: 12.5px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: rgba(12,16,25,.55); color: var(--muted); }
+  .flow span.on { color: var(--acc); border-color: rgba(79,209,197,.45); }
+  .flow i { color: var(--muted); align-self: center; font-style: normal; }
+  ul.ticks { list-style: none; display: grid; gap: 10px; margin-top: 18px; color: var(--muted); font-size: 14.5px; }
+  ul.ticks li { padding-left: 26px; position: relative; }
+  ul.ticks li::before { content: '✔'; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+  .badge-new { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 6px; background: rgba(124,108,240,.18); color: #b4a9ff; border: 1px solid rgba(124,108,240,.4); vertical-align: middle; margin-left: 8px; }
+
+  /* ---------- v0.8.0 animaciones: demo en vivo ---------- */
+  .anim-demo { position: relative; height: 340px; border-radius: 15px; overflow: hidden; border: 1px solid var(--line); background: linear-gradient(180deg, #0a1230 0%, #16204a 55%, #1d2a5e 100%); box-shadow: 0 18px 44px rgba(0,0,0,.35); perspective: 900px; }
+  .anim-demo .layer { position: absolute; inset: -45% 0; will-change: transform; }
+  .anim-demo .sky { background: radial-gradient(520px 320px at 28% 38%, rgba(124,108,240,.55), transparent 70%), radial-gradient(420px 300px at 78% 30%, rgba(79,209,197,.38), transparent 70%); }
+  .anim-demo .moon { position: absolute; left: 72%; top: 34%; width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff7d6, #f5d78a 55%, #d9b45c); box-shadow: 0 0 40px rgba(245,215,138,.55); }
+  .anim-demo .stars { background-image: radial-gradient(2.2px 2.2px at 12% 30%, #fff 55%, transparent), radial-gradient(1.8px 1.8px at 40% 26%, #fff 55%, transparent), radial-gradient(2.4px 2.4px at 62% 36%, #fff 55%, transparent), radial-gradient(1.6px 1.6px at 88% 28%, #fff 55%, transparent), radial-gradient(2px 2px at 25% 46%, #fff 55%, transparent), radial-gradient(1.8px 1.8px at 52% 44%, #fff 55%, transparent), radial-gradient(1.6px 1.6px at 92% 48%, #fff 55%, transparent), radial-gradient(2px 2px at 6% 52%, #fff 55%, transparent), radial-gradient(1.5px 1.5px at 33% 38%, #fff 55%, transparent); opacity: .95; }
+  .anim-demo .far { top: auto; bottom: -140px; height: calc(70% + 140px); background: #23305c; clip-path: polygon(0 100%, 0 52%, 10% 38%, 20% 50%, 32% 30%, 45% 48%, 56% 34%, 70% 50%, 82% 32%, 92% 46%, 100% 38%, 100% 100%); }
+  .anim-demo .mountains { top: auto; bottom: -140px; height: calc(62% + 140px); background: #131c3a; clip-path: polygon(0 100%, 0 48%, 12% 28%, 24% 44%, 38% 18%, 52% 42%, 64% 24%, 78% 40%, 90% 20%, 100% 38%, 100% 100%); }
+  .anim-demo .ground { top: auto; bottom: -120px; height: calc(20% + 120px); background: linear-gradient(to top, #0b1024 0 55%, #0f1730); border-top: 2px solid rgba(79,209,197,.35); }
+  .anim-demo .card3d { position: absolute; left: 50%; top: 50%; width: 200px; height: 120px; margin: -60px 0 0 -100px; border-radius: 14px; background: linear-gradient(135deg, rgba(79,209,197,.85), rgba(124,108,240,.85)); color: #071a17; font-weight: 800; display: grid; place-items: center; text-align: center; font-size: 14px; line-height: 1.3; box-shadow: 0 24px 50px rgba(0,0,0,.45); transform-style: preserve-3d; transition: transform .12s ease-out; padding: 12px; }
+  .anim-demo .card3d small { display: block; font-weight: 500; font-size: 11.5px; opacity: .8; font-family: 'JetBrains Mono', monospace; }
+  .anim-demo .hint { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; background: rgba(11,14,20,.65); padding: 4px 10px; border-radius: 7px; }
+  .anim-demo .status { position: absolute; right: 14px; top: 12px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--ok); background: rgba(11,14,20,.65); padding: 4px 10px; border-radius: 7px; }
+  @media (prefers-reduced-motion: reduce) { .anim-demo .layer, .anim-demo .card3d { transform: none !important; } }
+  .anim-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 26px; }
+  .anim-types .card { padding: 18px; }
+  .anim-types .card h3 { font-size: 14.5px; font-family: 'JetBrains Mono', monospace; color: var(--acc); }
+  .anim-types .card p { font-size: 13.5px; }
+
+  @media (max-width: 1000px) { nav.mainnav { gap: 14px; font-size: 13px; } }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
   @media (max-width: 720px) {
     nav.mainnav { display: none; }
     .hero { padding: 64px 0 48px; }
@@ -198,12 +230,14 @@
   <div class="wrap">
     <a class="brand" href="#"><img src="logo.png" alt="WebMCPcss" />WebMCP<em>css</em></a>
     <nav class="mainnav">
-      <a href="#como">Cómo funciona</a>
+      <a href="#como">Flujo</a>
       <a href="#features">Funciones</a>
+      <a href="#prompt">Prompt</a>
+      <a href="#animaciones">Animaciones</a>
       <a href="#agentes">Agentes</a>
       <a href="#grafo">Grafo</a>
       <a href="#comunidad">Comunidad</a>
-      <a href="https://github.com/cochinoraptor/WebMCPcss/new/main/community-styles" style="color:var(--acc)">➕ Contribuir estilo</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/new/main/community-styles" style="color:var(--acc)">➕ Contribuir</a>
     </nav>
     <a class="gh-btn" href="https://github.com/cochinoraptor/WebMCPcss">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -215,9 +249,9 @@
 <div class="hero">
   <div class="wrap">
     <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
-    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+</span></div>
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v0.8.0</span></div>
     <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
-    <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, sin visión por computadora, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña.</p>
+    <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong> y <strong style="color:var(--text)">animaciones declarativas</strong> que conviven con GSAP o Framer Motion.</p>
     <div class="cta">
       <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">📦 Instalar desde npm</a>
       <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/AGENTS.md">📖 Guías por agente</a>
@@ -231,7 +265,8 @@
     <div class="stats">
       <div class="stat"><b>45</b><span>agentes soportados</span></div>
       <div class="stat"><b>8</b><span>formatos de exportación</span></div>
-      <div class="stat"><b>204</b><span>tests automatizados</span></div>
+      <div class="stat"><b>3</b><span>herramientas MCP integradas</span></div>
+      <div class="stat"><b>332</b><span>tests automatizados</span></div>
       <div class="stat"><b>0</b><span>dependencias de pago</span></div>
     </div>
   </div>
@@ -295,7 +330,116 @@ webmcpcss mcp --serve \
       <div class="card"><div class="ico">📤</div><h3>8 exportadores</h3><p>Plugin Claude Code, Cursor, CrewAI, AutoGen, LangGraph, JSON Schema, browser-inject (<code>window.__WEBMCP_GRAPH__</code>) y config MCP universal.</p></div>
       <div class="card"><div class="ico">🩹</div><h3>Auto-reparación</h3><p>Selectores rotos tras un rediseño se reencuentran por fingerprint y el archivo se actualiza solo. Con análisis de fragilidad: hashes CSS-Modules, Vue scoped, styled-components…</p></div>
       <div class="card"><div class="ico">🕸️</div><h3>Grafo + Obsidian</h3><p>Tu tool map como grafo de conocimiento navegable, dashboard Cytoscape interactivo y bóveda Obsidian con backlinks para humanos y agentes de documentación.</p></div>
+      <div class="card"><div class="ico">💬</div><h3>Lenguaje natural <span class="badge-new">v0.7</span></h3><p><code>webmcpcss prompt "oculta el popup de cookies"</code> interpreta la orden (con o sin LLM), localiza el elemento y la ejecuta con evidencia. También como herramienta MCP <code>webmcpcss_prompt</code>.</p></div>
+      <div class="card"><div class="ico">🎬</div><h3>Animaciones declarativas <span class="badge-new">v0.8</span></h3><p>Parallax, isométrico, 3D, keyframes y escenas Three.js declaradas con <code>webmcp-animation-*</code>. Motor CSS / WAAPI / WebGL elegido por capacidades y <strong>resolución de conflictos</strong> con GSAP, Anime.js o Framer Motion.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Historial + dashboard</h3><p>Cada ejecución, reparación, prompt o animación queda registrada. <code>webmcpcss dashboard</code> abre un panel local con métricas, fragilidad de selectores y el grafo del sitio.</p></div>
     </div>
+  </div>
+</section>
+
+<section id="prompt">
+  <div class="wrap">
+    <div class="sec-eyebrow">Novedad v0.7.0</div>
+    <h2>Dile al sitio qué hacer, en tu idioma</h2>
+    <p class="sub"><code>webmcpcss prompt</code> traduce órdenes en español o inglés a acciones estructuradas, localiza el elemento de forma progresiva y las ejecuta sobre la página con captura de evidencia. Funciona sin LLM; mejora con Ollama, OpenAI o Anthropic.</p>
+    <div class="split">
+      <div class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>zsh</span></div>
+<pre>webmcpcss prompt <span class="s">"pon la cantidad en 3 y aplica el cupón VERANO"</span> \
+  --url https://tienda.com --css tienda.webmcp.css --execute
+<span class="c">ℹ Acción: fill → cantidad [heuristic, confianza 0.92]</span>
+<span class="c">ℹ Elemento: #qty (vía label, 0.95)</span>
+<span class="g">✔ Valor "3" establecido en #qty</span>
+<span class="c">ℹ Acción: click → cupón · herramienta applyCoupon</span>
+<span class="g">✔ applyCoupon ejecutada (confirmación .coupon-ok visible)</span>
+<span class="c">ℹ Captura: despues.png</span></pre>
+      </div>
+      <div>
+        <div class="flow">
+          <span class="on">selector</span><i>→</i><span class="on">herramienta .webmcp.css</span><i>→</i><span>LLM</span><i>→</i><span class="on">texto / label</span><i>→</i><span>visión</span><i>→</i><span>sondas</span>
+        </div>
+        <ul class="ticks">
+          <li>10 acciones: <code>upload</code>, <code>changeColor</code>, <code>delete</code>, <code>move</code>, <code>click</code>, <code>fill</code>, <code>hide</code>, <code>setText</code>, <code>setStyle</code>, <code>other</code>.</li>
+          <li><strong style="color:var(--text)">Dry-run por defecto</strong>: sin <code>--execute</code> solo muestra lo que haría.</li>
+          <li>Si el elemento pertenece a una herramienta declarada, la acción se delega en ella (con auto-reparación incluida).</li>
+          <li>Herramienta MCP <code>webmcpcss_prompt</code> y <code>POST /api/prompt</code> para que cualquier agente la use.</li>
+          <li>Lista blanca de estilos, validación de colores/URLs/archivos e historial de cada acción.</li>
+        </ul>
+        <p style="margin-top:18px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/PROMPT.md">Guía completa de <code>prompt</code> →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="animaciones">
+  <div class="wrap">
+    <div class="sec-eyebrow">Novedad v0.8.0</div>
+    <h2>Animaciones declaradas en CSS, ejecutadas por agentes</h2>
+    <p class="sub">Parallax, isométrico, transformaciones 3D, keyframes y escenas 2.5D con Three.js, descritas con propiedades <code>webmcp-animation-*</code>. El orquestador elige el motor (CSS, WAAPI o WebGL) según el navegador y <strong style="color:var(--text)">nunca pisa</strong> las animaciones que el sitio ya tiene.</p>
+    <div class="split">
+      <div>
+        <div class="anim-demo" id="anim-demo" aria-label="Demo de parallax y tarjeta 3D">
+          <div class="layer sky" data-speed="0.1"><div class="moon"></div></div>
+          <div class="layer stars" data-speed="0.2"></div>
+          <div class="layer far" data-speed="0.4"></div>
+          <div class="layer mountains" data-speed="0.6"></div>
+          <div class="layer ground" data-speed="0.85"></div>
+          <div class="card3d" id="anim-card">3d-transform<small>rotateY · perspective 900px</small></div>
+          <div class="status" id="anim-status">5 executed · css</div>
+          <div class="hint">↕ haz scroll · ↔ mueve el ratón</div>
+        </div>
+        <p class="note" style="color:var(--muted);font-size:13.5px;margin-top:12px">Demo en vivo con la misma lógica del motor CSS: capas a distinta velocidad de scroll y una tarjeta 3D que sigue al puntero. En tu sitio lo declara el archivo de la derecha.</p>
+      </div>
+      <div class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>animations.webmcp.css</span></div>
+<pre><span class="p">#hero</span> {
+  <span class="k">webmcp-animation</span>: <span class="s">"heroParallax"</span>;
+  <span class="k">webmcp-animation-type</span>: <span class="s">parallax</span>;
+  <span class="k">webmcp-animation-layers</span>:
+    <span class="s">".sky" 0.1, ".mountains" 0.5, ".ground" 0.8</span>;
+}
+<span class="p">#card</span> {
+  <span class="k">webmcp-animation</span>: <span class="s">"flipCard"</span>;
+  <span class="k">webmcp-animation-type</span>: <span class="s">3d-transform</span>;
+  <span class="k">webmcp-animation-perspective</span>: <span class="s">900px</span>;
+  <span class="k">webmcp-animation-rotation-y</span>: <span class="s">25deg</span>;
+  <span class="k">webmcp-animation-conflict</span>: <span class="s">queue</span>; <span class="c">/* respeta GSAP */</span>
+}
+<span class="p">#badge</span> {
+  <span class="k">webmcp-animation</span>: <span class="s">"badgePop"</span>;
+  <span class="k">webmcp-animation-priority</span>: <span class="s">critical</span>; <span class="c">/* sustituye */</span>
+  <span class="k">webmcp-animation-keyframes</span>:
+    <span class="s">'[{"transform":"scale(1)"},
+      {"transform":"scale(1.15)"}]'</span>;
+}
+<span class="p">#scene</span> {
+  <span class="k">webmcp-animation</span>: <span class="s">"depth"</span>;
+  <span class="k">webmcp-animation-type</span>: <span class="s">three-scene</span>;
+  <span class="k">webmcp-animation-sandbox</span>: <span class="s">shadow</span>;
+  <span class="k">webmcp-animation-fallback</span>: <span class="s">"heroParallax"</span>;
+}
+
+<span class="c">$ webmcpcss animate animations.webmcp.css --url https://tienda.com</span>
+<span class="g">✔ badgePop     waapi  (sustituyendo css:sitePulse)</span>
+<span class="g">✔ heroParallax css    3 capas</span>
+<span class="c">⊘ flipCard     ignorada · conflicto con gsap@wa7</span>
+<span class="g">✔ depth        three  sandbox shadow · WebGL</span></pre>
+      </div>
+    </div>
+    <div class="anim-types">
+      <div class="card"><h3>parallax</h3><p>Capas con velocidad 0–1 y profundidad. CSS por scroll, <code>ScrollTimeline</code> o escena WebGL.</p></div>
+      <div class="card"><h3>isometric</h3><p><code>rotateX/rotateZ</code> con <code>preserve-3d</code>. Tarjetas, mapas y cuadrículas.</p></div>
+      <div class="card"><h3>3d-transform</h3><p>Perspectiva, rotaciones, <code>translateZ</code> y escala compuestas; fusión con <code>composite: add</code>.</p></div>
+      <div class="card"><h3>keyframes</h3><p>Fotogramas arbitrarios por WAAPI o <code>@keyframes</code> inyectados.</p></div>
+      <div class="card"><h3>three-scene</h3><p>Planos 2.5D que siguen ratón y scroll. Three.js solo si se usa; fallback sin WebGL.</p></div>
+    </div>
+    <ul class="ticks" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 26px">
+      <li>Prioridades <code>low → critical</code> y estrategias <code>replace</code>, <code>queue</code>, <code>ignore</code>, <code>merge</code>.</li>
+      <li>Detecta GSAP, Anime.js, Framer Motion, Velocity, Lottie, AOS y las animaciones CSS/WAAPI del sitio; <code>registerExternal()</code> para las tuyas.</li>
+      <li><code>--dry-run</code> con informe de conflictos previstos, <code>fallback</code> por animación y respeto de <code>prefers-reduced-motion</code>.</li>
+      <li>Herramienta MCP <code>webmcpcss_animate</code>, <code>POST /api/animate</code> y runtime de 85 KB para incluir en tu web.</li>
+    </ul>
+    <p style="margin-top:22px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation.md">Estándar de animaciones →</a> &nbsp;·&nbsp; <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation-conflicts.md">Convivencia con otras librerías →</a> &nbsp;·&nbsp; <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/examples/animation">Ejemplos →</a></p>
   </div>
 </section>
 
@@ -310,7 +454,7 @@ webmcpcss mcp --serve \
         <tr>
           <td>🔌 Servidor MCP</td>
           <td><span class="chip">Claude Desktop</span><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">Windsurf</span><span class="chip">Goose</span><span class="chip">Cline</span><span class="chip">Continue</span><span class="chip">Copilot</span><span class="chip">Gemini CLI</span><span class="chip">Codex CLI</span><span class="chip">+8</span></td>
-          <td><code>mcp --serve</code></td>
+          <td><code>mcp --serve</code><br><span style="font-size:12px;color:var(--muted)">+ <code>webmcpcss_prompt</code> · <code>webmcpcss_animate</code></span></td>
         </tr>
         <tr>
           <td>🐍 Módulos Python</td>
@@ -382,6 +526,8 @@ webmcpcss mcp --serve \
     <nav>
       <a href="https://github.com/cochinoraptor/WebMCPcss">GitHub</a>
       <a href="https://www.npmjs.com/package/webmcpcss">npm</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation.md">Animaciones</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/PROMPT.md">Prompt</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CHANGELOG.md">Changelog</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CONTRIBUTING.md">Contribuir</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/SECURITY.md">Seguridad</a>
@@ -426,6 +572,51 @@ webmcpcss mcp --serve \
       { selector: 'edge', style: { width: 1.6, 'line-color': '#2b3450', 'curve-style': 'bezier' } }
     ],
     layout: { name: 'cose', animate: false, padding: 36 }
+  });
+})();
+
+// ---- Demo de animaciones (misma fórmula del motor CSS: offset = scroll × (1 − speed)) ----
+(function () {
+  var demo = document.getElementById('anim-demo');
+  var card = document.getElementById('anim-card');
+  var status = document.getElementById('anim-status');
+  if (!demo || !card) return;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) { status.textContent = 'reduced-motion · estado final'; return; }
+  var layers = Array.prototype.slice.call(demo.querySelectorAll('.layer[data-speed]'));
+  // La tarjeta 3D también participa en el parallax (speed 0.7) y suma su rotación por ratón.
+  var raf = 0, rx = 0, ry = 0, cardY = 0;
+  function paintCard() {
+    card.style.transform = 'translateY(' + cardY.toFixed(1) + 'px) perspective(900px) rotateX(' + rx.toFixed(1) + 'deg) rotateY(' + ry.toFixed(1) + 'deg) translateZ(' + (rx || ry ? 30 : 0) + 'px)';
+  }
+  function update() {
+    raf = 0;
+    var rect = demo.getBoundingClientRect();
+    // scroll relativo al centro del viewport, acotado a la altura de la demo
+    var half = rect.height / 2;
+    var y = Math.max(-half, Math.min(half, (window.innerHeight / 2) - (rect.top + rect.height / 2)));
+    layers.forEach(function (l) {
+      var speed = parseFloat(l.getAttribute('data-speed'));
+      l.style.transform = 'translate3d(0, ' + Math.round(y * (1 - speed) * 100) / 100 + 'px, 0)';
+    });
+    cardY = y * 0.3;
+    paintCard();
+  }
+  function onScroll() { if (!raf) raf = requestAnimationFrame(update); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+  demo.addEventListener('mousemove', function (e) {
+    var r = demo.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width * 2 - 1;
+    var py = (e.clientY - r.top) / r.height * 2 - 1;
+    ry = px * 25; rx = -py * 12;
+    paintCard();
+    status.textContent = 'flipCard · rotateY ' + ry.toFixed(0) + 'deg';
+  });
+  demo.addEventListener('mouseleave', function () {
+    rx = 0; ry = 0; paintCard();
+    status.textContent = '5 executed · css';
   });
 })();
 

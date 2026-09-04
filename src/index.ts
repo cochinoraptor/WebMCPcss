@@ -198,3 +198,47 @@ export {
 } from './prompt';
 export { PROMPT_TOOL_NAME, PROMPT_TOOL_SCHEMA } from './exporters';
 export type { PromptExecutor, PromptToolArgs } from './exporters';
+
+// --- v0.8.0: estándar de animaciones declarativas (webmcp-animation-*) ---
+export * as animation from './animation';
+export {
+  parseAnimations,
+  parseAnimationsFile,
+  serializeAnimations,
+  validateAnimations,
+  validateStatic,
+  animateWithPage,
+  animateInWindow,
+  buildRuntimeScript,
+  writeRuntimeScript,
+  detectCapabilities,
+  detectLibraries,
+  AnimationOrchestrator,
+  ConflictResolver,
+  CssEngine,
+  WaapiEngine,
+  ThreeEngine,
+  type AnimationConfig,
+  type AnimationMap,
+  type AnimationType,
+  type AnimationPriority,
+  type AnimationParameters,
+  type AnimationOutcome,
+  type AnimationPlan,
+  type AnimationHandle,
+  type AnimationEngine,
+  type AnimationEngineId,
+  type AnimationValidationReport,
+  type ActiveAnimation,
+  type BrowserCapabilities,
+  type ConflictResolution,
+  type ConflictStrategy,
+  type LayerConfig,
+  type ThreeSceneConfig,
+  type OrchestrationResult,
+  type OrchestratorOptions,
+  type ExecuteOptions as AnimateOptions,
+  type ExecuteResult as AnimateResult,
+} from './animation';
+export { ANIMATE_TOOL_NAME, ANIMATE_TOOL_SCHEMA } from './exporters';
+export type { AnimateExecutor, AnimateToolArgs } from './exporters';

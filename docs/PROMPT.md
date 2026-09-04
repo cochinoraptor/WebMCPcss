@@ -222,3 +222,18 @@ En [`examples/prompt/`](../examples/prompt/README.md) hay un script que
 recorre la tienda de demostración (`examples/shopping-cart`) con varias
 órdenes: cambiar colores, rellenar campos por etiqueta, mover elementos,
 ocultar/eliminar y subir un archivo, generando capturas de cada paso.
+
+## Desde agentes (v0.9.0)
+
+`prompt` está disponible en todas las integraciones generadas por
+`webmcpcss export`:
+
+| Integración  | Cómo se invoca                                                                                  |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+| MCP genérico | herramienta `webmcpcss_prompt` (`webmcpcss mcp --serve`) / `POST /api/prompt`                   |
+| Claude Code  | `/webmcpcss:prompt "<orden>"` — interpreta en seco, pide confirmación y ejecuta con `--execute` |
+| Cursor       | herramienta `webmcpcss_prompt` del servidor registrado en `~/.cursor/mcp.json`                  |
+| DeerFlow     | `browser_prompt(prompt, execute=False)` → mensaje estructurado `{"type": "webmcp_prompt"}`      |
+| Flomny       | `execute_prompt` del servidor dedicado (`webmcpcss mcp --serve --flomny`)                       |
+
+Ver [agents.md](./agents.md) para instalar cada una.

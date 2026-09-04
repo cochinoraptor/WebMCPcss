@@ -17,6 +17,7 @@ webmcpcss animate <animation-file> [opciones]
 | `--type <motor>`                   | Fuerza el motor: `css`, `waapi` o `three`.                                                       | `auto`               |
 | `--conflict-strategy <estrategia>` | `replace`, `queue`, `ignore` o `merge` (ver [animation-conflicts.md](./animation-conflicts.md)). | `queue`              |
 | `--dry-run`                        | Planifica y valida sin modificar la página.                                                      | `false`              |
+| `--sandbox`                        | Aísla las animaciones en un shadow root (`webmcp-animation-sandbox: shadow` global). v0.9.0.     | `false`              |
 | `--screenshot <archivo.png>`       | Captura tras aplicar las animaciones.                                                            | —                    |
 | `--settle <ms>`                    | Espera antes de la captura.                                                                      | `600`                |
 | `--json`                           | Salida JSON en stdout (para agentes/CI).                                                         | `false`              |
@@ -173,3 +174,14 @@ servidor se lanzó con `--no-animate`, `400` JSON inválido.
   `moduleUrl`). Sin WebGL se usa el `fallback` declarado.
 - El comando no instala dependencias nuevas: el runtime se construye a partir
   del propio paquete compilado.
+
+## `webmcpcss validate-conflicts` (v0.9.0)
+
+```
+webmcpcss validate-conflicts <animation-file> --url <url> [--conflict-strategy <s>] [--type <motor>] [--sandbox] [--strict] [-o informe.json] [--json]
+```
+
+Valida el archivo contra la página y **simula** los conflictos con las
+animaciones existentes sin ejecutar nada. Código de salida `1` si hay errores
+bloqueantes o, con `--strict`, si se prevé algún conflicto. Detalles e
+informe en [conflict-resolution.md](./conflict-resolution.md).

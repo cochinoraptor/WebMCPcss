@@ -76,6 +76,63 @@ export const PROMPT_TOOL_SCHEMA = {
   },
 } as const;
 
+/** Argumentos de la herramienta MCP `webmcpcss_animate` (v0.8.0). */
+export interface AnimateToolArgs {
+  /** Ruta a un `.webmcp.css` con reglas `webmcp-animation-*`. */
+  animationFile?: string;
+  /** CSS inline con las reglas (alternativa a `animationFile`). */
+  css?: string;
+  /** URL a animar (por defecto la del servidor). */
+  url?: string;
+  /** Estrategia global de conflictos. */
+  strategy?: 'replace' | 'queue' | 'ignore' | 'merge';
+  /** Motor forzado. */
+  engine?: 'css' | 'waapi' | 'three';
+  /** Solo planificar/validar, sin ejecutar. */
+  dryRun?: boolean;
+  /** Incluir captura de pantalla en la respuesta. */
+  screenshot?: boolean;
+}
+
+/** Firma del ejecutor de animaciones (v0.8.0). El CLI lo cablea con Puppeteer. */
+export type AnimateExecutor = (args: AnimateToolArgs) => Promise<unknown>;
+
+/** Nombre de la herramienta MCP de animaciones. */
+export const ANIMATE_TOOL_NAME = 'webmcpcss_animate';
+
+/** Definición MCP de la herramienta `webmcpcss_animate`. */
+export const ANIMATE_TOOL_SCHEMA = {
+  name: ANIMATE_TOOL_NAME,
+  description:
+    'Aplica animaciones declarativas (webmcp-animation-*: parallax, isométrico, 3D, keyframes, escenas Three.js 2.5D) a un sitio web, resolviendo conflictos con otras animaciones y librerías (GSAP, Anime.js, CSS). Usa dryRun para obtener el plan y la validación sin ejecutar.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      animationFile: {
+        type: 'string',
+        description: 'Ruta a un .webmcp.css con reglas webmcp-animation-*',
+      },
+      css: { type: 'string', description: 'CSS inline con las reglas (alternativa)' },
+      url: {
+        type: 'string',
+        description: 'URL de la página (opcional si el servidor tiene --url)',
+      },
+      strategy: {
+        type: 'string',
+        enum: ['replace', 'queue', 'ignore', 'merge'],
+        description: 'Estrategia global de conflictos (por defecto queue)',
+      },
+      engine: {
+        type: 'string',
+        enum: ['css', 'waapi', 'three'],
+        description: 'Forzar un motor concreto',
+      },
+      dryRun: { type: 'boolean', description: 'Solo planificar y validar' },
+      screenshot: { type: 'boolean', description: 'Devolver captura PNG (base64)' },
+    },
+  },
+} as const;
+
 /** Opciones del servidor MCP. */
 export interface McpServerOptions {
   /** Tool map parseado del .webmcp.css. */
@@ -93,6 +150,11 @@ export interface McpServerOptions {
    * servidor expone la herramienta `webmcpcss_prompt` y `POST /api/prompt`.
    */
   prompt?: PromptExecutor;
+  /**
+   * Ejecutor de animaciones declarativas (v0.8.0). Si está definido, el
+   * servidor expone la herramienta `webmcpcss_animate` y `POST /api/animate`.
+   */
+  animate?: AnimateExecutor;
   /** Versión del servidor a anunciar. */
   version?: string;
 }
@@ -124,6 +186,7 @@ export class McpCore {
       inputSchema: s.inputSchema,
     }));
     if (this.options.prompt) tools.push({ ...PROMPT_TOOL_SCHEMA });
+    if (this.options.animate) tools.push({ ...ANIMATE_TOOL_SCHEMA });
     return { tools };
   }
 
@@ -184,12 +247,75 @@ export class McpCore {
     }
   }
 
+  /** Ejecuta la herramienta de animaciones y envuelve el resultado como MCP. */
+  async callAnimate(
+    args: Record<string, unknown>,
+  ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
+    if (!this.options.animate) {
+      return {
+        isError: true,
+        content: [
+          { type: 'text', text: 'La herramienta webmcpcss_animate no está habilitada.' },
+        ],
+      };
+    }
+    const animationFile =
+      typeof args.animationFile === 'string' ? args.animationFile.trim() : '';
+    const css = typeof args.css === 'string' ? args.css : '';
+    if (!animationFile && !css.trim()) {
+      return {
+        isError: true,
+        content: [{ type: 'text', text: 'Falta "animationFile" o "css".' }],
+      };
+    }
+    const strategies = ['replace', 'queue', 'ignore', 'merge'];
+    const engines = ['css', 'waapi', 'three'];
+    try {
+      const result = (await this.options.animate({
+        animationFile: animationFile || undefined,
+        css: css || undefined,
+        url: typeof args.url === 'string' ? args.url : undefined,
+        strategy:
+          typeof args.strategy === 'string' && strategies.includes(args.strategy)
+            ? (args.strategy as AnimateToolArgs['strategy'])
+            : undefined,
+        engine:
+          typeof args.engine === 'string' && engines.includes(args.engine)
+            ? (args.engine as AnimateToolArgs['engine'])
+            : undefined,
+        dryRun: args.dryRun === true,
+        screenshot: args.screenshot === true,
+      })) as { success?: boolean; screenshotBase64?: string } | undefined;
+      const content: Array<Record<string, unknown>> = [];
+      const shot = result?.screenshotBase64;
+      if (shot) {
+        const { screenshotBase64: _omit, ...rest } = result as Record<string, unknown>;
+        content.push({
+          type: 'text',
+          text: JSON.stringify({ ...rest, screenshotBase64: '<image>' }),
+        });
+        content.push({ type: 'image', data: shot, mimeType: 'image/png' });
+      } else {
+        content.push({ type: 'text', text: JSON.stringify(result) });
+      }
+      return { content, isError: result?.success === false ? true : undefined };
+    } catch (err) {
+      return {
+        isError: true,
+        content: [
+          { type: 'text', text: `Error en webmcpcss_animate: ${(err as Error).message}` },
+        ],
+      };
+    }
+  }
+
   /** Ejecuta (o simula) una herramienta y envuelve el resultado como MCP. */
   async callTool(
     name: string,
     args: Record<string, unknown>,
   ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
     if (name === PROMPT_TOOL_NAME) return this.callPrompt(args);
+    if (name === ANIMATE_TOOL_NAME) return this.callAnimate(args);
     const tool = this.options.toolMap.tools[name];
     if (!tool) {
       return {
@@ -380,6 +506,7 @@ export function startMcpStdioServer(
  * - `GET /api/graph` → grafo completo (tools + context).
  * - `POST /api/call` → `{ "tool": "...", "args": {...} }`.
  * - `POST /api/prompt` → `{ "prompt": "...", "files": [...], "dryRun": bool }` (v0.7.0).
+ * - `POST /api/animate` → `{ "animationFile" | "css", "strategy", "dryRun": bool }` (v0.8.0).
  *
  * @param options Configuración del servidor.
  * @returns Servidor `http.Server` sin arrancar (llama a `.listen`).
@@ -448,9 +575,25 @@ export function createMcpHttpServer(options: McpServerOptions): http.Server {
       });
       return;
     }
+    if (req.method === 'POST' && req.url === '/api/animate') {
+      let body = '';
+      req.on('data', (chunk) => (body += chunk));
+      req.on('end', () => {
+        void (async () => {
+          try {
+            const parsed = JSON.parse(body || '{}') as Record<string, unknown>;
+            const result = await core.callAnimate(parsed);
+            respond(result.isError ? (options.animate ? 422 : 404) : 200, result);
+          } catch (err) {
+            respond(400, { error: (err as Error).message });
+          }
+        })();
+      });
+      return;
+    }
     respond(404, {
       error:
-        'Ruta no encontrada. Usa /api/tools, /api/graph, POST /api/call o POST /api/prompt.',
+        'Ruta no encontrada. Usa /api/tools, /api/graph, POST /api/call, POST /api/prompt o POST /api/animate.',
     });
   });
 }

@@ -41,6 +41,8 @@ export interface Graph {
     totalSelectors: number;
     totalPages: number;
     statusCounts?: { ok: number; broken: number };
+    /** Selectores por framework/librería detectado (solo con fragilidad). */
+    frameworkSummary?: Record<string, number>;
     /** Recuento de selectores por nivel de fragilidad. */
     fragilitySummary?: Record<string, number>;
   };
@@ -58,6 +60,11 @@ export interface FragilityScore {
   suggestions: string[];
   /** Frameworks/librerías detectados en el selector. */
   frameworks: string[];
+  /**
+   * Framework principal detectado (el primero y más específico), o
+   * `undefined` si el selector no delata ninguno. Alias de `frameworks[0]`.
+   */
+  framework?: string;
 }
 
 /** Archivo `.webmcp.css` parseado, entrada del builder. */

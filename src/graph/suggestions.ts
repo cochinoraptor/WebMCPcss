@@ -20,6 +20,14 @@ const FRAMEWORK_ADVICE: Record<string, string> = {
     'Las clases css-* son hashes de Emotion: añade `data-tool` en el JSX y selecciona `[data-tool="..."]`',
   'CSS Modules':
     'El hash de CSS Modules cambia al recompilar: selecciona por atributo (`data-tool`) o usa `[class*="nombreBase"]` solo como último recurso',
+  'CSS Modules (Next.js)':
+    'El sufijo __hash de Next.js cambia por build: añade `data-tool` en el JSX o usa `[class^="styles_nombre__"]` como último recurso',
+  'CSS Modules (Vite)':
+    'El hash de CSS Modules de Vite cambia por build: expón `data-tool`/`data-testid` desde el componente',
+  Astro:
+    'No selecciones por astro-*/data-astro-cid-*: añade un atributo propio (`data-tool`) en el componente Astro',
+  'Element Plus':
+    'Las clases el-* son estables dentro de una versión mayor; añade `data-*` propio si planeas actualizar Element Plus',
   'JSS / MUI v4':
     'Los índices jss/makeStyles dependen del orden de montaje: usa `data-testid` (soportado por MUI) o roles ARIA',
   'React (useId)':

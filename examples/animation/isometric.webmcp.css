@@ -1,0 +1,40 @@
+/*
+ * Vistas isométricas — WebMCPcss Animation Standard
+ *
+ * El tipo `isometric` anima el elemento desde `transform: none` hasta
+ * `rotateX(<rotation-x>) rotateZ(<rotation-z>) [scale(<scale>)]` con
+ * `transform-style: preserve-3d`. Valores por defecto: 60deg / -45deg.
+ *
+ *   webmcpcss animate examples/animation/isometric.webmcp.css --url https://tu-sitio.test --dry-run
+ */
+
+/* Tarjeta con inclinación clásica 2:1 */
+.card--iso {
+  webmcp-animation: "isoCard";
+  webmcp-animation-type: isometric;
+  webmcp-animation-rotation-x: 55deg;
+  webmcp-animation-rotation-z: -30deg;
+  webmcp-animation-duration: 1.2s;
+  webmcp-animation-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Cuadrícula de bloques: entra escalonada gracias a delay + alta prioridad
+   (si el sitio ya animaba `transform` en estos bloques, se sustituye) */
+.grid .block {
+  webmcp-animation: "isoGrid";
+  webmcp-animation-type: isometric;
+  webmcp-animation-priority: high;
+  webmcp-animation-scale: 0.9;
+  webmcp-animation-delay: 150ms;
+  webmcp-animation-params: '{"rotationX":"60deg","rotationZ":"-45deg","duration":"800ms"}';
+}
+
+/* Mapa isométrico permanente: el estado final se mantiene (fill: forwards por defecto)
+   y con prefers-reduced-motion se aplica directamente sin animar */
+#map {
+  webmcp-animation: "isoMap";
+  webmcp-animation-type: isometric;
+  webmcp-animation-engine: css;
+  webmcp-animation-duration: 0.6s;
+  webmcp-animation-conflict: replace;
+}

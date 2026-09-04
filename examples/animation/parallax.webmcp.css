@@ -1,0 +1,44 @@
+/*
+ * Parallax por scroll — WebMCPcss Animation Standard
+ *
+ * Cada capa se desplaza a una velocidad distinta respecto al scroll:
+ *   speed 0   → la capa se mueve con el viewport (queda "fija" al fondo)
+ *   speed 1   → la capa se mueve con el contenido (sin efecto)
+ *   depth     → translateZ opcional (solo tiene efecto con perspective en el padre)
+ *
+ * Motores: css (scroll por JS, universal) · waapi (ScrollTimeline, Chrome 115+)
+ *          three (escena WebGL generada a partir de las capas)
+ *
+ *   webmcpcss animate examples/animation/parallax.webmcp.css --url https://tu-sitio.test
+ */
+:root {
+  --hero: #hero;
+}
+
+/* Capas del hero con sintaxis abreviada: "selector" velocidad [profundidad] */
+var(--hero) {
+  webmcp-animation: "heroParallax";
+  webmcp-animation-type: parallax;
+  webmcp-animation-priority: normal;
+  webmcp-animation-trigger: scroll;
+  webmcp-animation-layers: ".sky" 0.1, ".mountains" 0.4 -2px, ".ground" 0.75;
+  webmcp-animation-description: "Fondo del hero con profundidad";
+}
+
+/* Misma configuración en JSON (útil cuando las capas se generan desde código) */
+.gallery {
+  webmcp-animation: "galleryParallax";
+  webmcp-animation-type: parallax;
+  webmcp-animation-priority: low;
+  webmcp-animation-layers: '[{"selector":".gallery__bg","speed":0.2},{"selector":".gallery__cards","speed":0.6}]';
+  webmcp-animation-scroll-container: "main";
+}
+
+/* Parallax que solo se activa con motor three si hay WebGL; si no, css */
+.showcase {
+  webmcp-animation: "showcaseDepth";
+  webmcp-animation-type: parallax;
+  webmcp-animation-engine: three;
+  webmcp-animation-layers: ".showcase__back" 0.2, ".showcase__front" 0.8;
+  webmcp-animation-fallback: '{"type":"parallax","engine":"css","layers":[{"selector":".showcase__back","speed":0.2},{"selector":".showcase__front","speed":0.8}]}';
+}

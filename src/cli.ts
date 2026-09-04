@@ -48,9 +48,18 @@ import {
   exportForAgent,
   startMcpStdioServer,
   type PromptExecutor,
+  type AnimateExecutor,
   type ToolExecutor,
 } from './exporters';
 import { createLlmClient, PromptManager, type PromptResult } from './prompt';
+import {
+  animateWithPage,
+  parseAnimations,
+  parseAnimationsFile,
+  writeRuntimeScript,
+  type AnimationMap,
+  type ExecuteResult as AnimateResult,
+} from './animation';
 import { discoverWebMCP, injectWebMCP, resolveWebMCPStyles } from './proxy';
 import {
   buildTailwindToolsScript,
@@ -675,6 +684,192 @@ function buildPromptExecutor(
   };
 }
 
+/** Construye el ejecutor de animaciones declarativas para el servidor MCP (v0.8.0). */
+function buildAnimateExecutor(defaultUrl: string | undefined): AnimateExecutor {
+  return async (args) => {
+    const url = args.url ?? defaultUrl;
+    if (!url)
+      throw new Error('Falta la URL: arranca el servidor con --url o pásala en "url".');
+    const map = args.animationFile
+      ? parseAnimationsFile(args.animationFile)
+      : parseAnimations(args.css ?? '');
+    const browser = await launchBrowser(true);
+    try {
+      const page = await browser.newPage();
+      await navigate(page, url);
+      return await animateWithPage(page, map, {
+        url,
+        strategy: args.strategy,
+        engine: args.engine,
+        dryRun: args.dryRun,
+        screenshot: args.screenshot,
+      });
+    } finally {
+      await browser.close();
+    }
+  };
+}
+
+/** Imprime el resultado de `animate` de forma legible. */
+function printAnimateResult(map: AnimationMap, result: AnimateResult): void {
+  for (const w of map.warnings) logger.warn(w);
+  logger.info(`Plan (${result.plan.length} animación(es), por prioridad):`);
+  for (const p of result.plan) {
+    const engine = p.engine ? chalk.cyan(p.engine) : chalk.red('sin motor');
+    console.log(
+      `    ${chalk.bold(p.name)} ${chalk.gray(`[${p.type}, ${p.priority}]`)} → ${engine} ` +
+        chalk.gray(`${p.selector} · ${p.properties.join(', ') || '-'} · ${p.strategy}`) +
+        (p.unsupportedReason ? chalk.red(` (${p.unsupportedReason})`) : ''),
+    );
+  }
+  const v = result.validation;
+  if (v) {
+    for (const e of v.entries) {
+      for (const err of e.errors) logger.error(`${e.name}: ${err}`);
+      for (const warn of e.warnings) logger.warn(`${e.name}: ${warn}`);
+    }
+    if (v.conflicts.length) {
+      logger.info(`Conflictos previstos (${v.conflicts.length}):`);
+      for (const c of v.conflicts) {
+        console.log(
+          `    ${chalk.bold(c.animation)} ⇄ ${c.conflictsWith} ${chalk.gray(`[${c.properties.join(', ')}]`)} → ${chalk.yellow(c.action)}` +
+            (c.reason ? chalk.gray(` · ${c.reason}`) : ''),
+        );
+      }
+    }
+    if (v.capabilities) {
+      const caps = v.capabilities;
+      const libs = caps.libraries.map((l) => l.name + (l.version ? ` ${l.version}` : ''));
+      logger.info(
+        `Navegador: waapi=${caps.waapi} webgl=${caps.webgl} scrollTimeline=${caps.scrollTimeline}` +
+          ` reducedMotion=${caps.reducedMotion}` +
+          (libs.length ? ` · librerías: ${libs.join(', ')}` : ''),
+      );
+    }
+  }
+  if (result.result) {
+    for (const o of result.result.outcomes) {
+      const line = `${chalk.bold(o.name)}: ${o.message}`;
+      if (o.status === 'executed' || o.status === 'dry-run') logger.success(line);
+      else if (o.status === 'failed') logger.error(line);
+      else logger.warn(line);
+    }
+    if (result.result.external.length) {
+      logger.info(
+        `Animaciones externas respetadas: ${result.result.external
+          .map((e) => `${e.id} (${e.library})`)
+          .join(', ')}`,
+      );
+    }
+  }
+  if (result.success) logger.success(result.message);
+  else logger.error(result.message);
+}
+
+/** Comando `animate`: aplica animaciones declarativas a una página. */
+async function cmdAnimate(
+  animationFile: string,
+  opts: {
+    url?: string;
+    type?: string;
+    conflictStrategy?: string;
+    dryRun?: boolean;
+    output?: string;
+    screenshot?: string;
+    json?: boolean;
+    headless?: boolean;
+    settle: string;
+  },
+) {
+  if (!opts.json) logger.title('WebMCPcss · animate');
+  if (!fs.existsSync(animationFile)) throw new Error(`No existe ${animationFile}`);
+  const map = parseAnimationsFile(animationFile);
+  const names = Object.keys(map.animations);
+  if (names.length === 0) {
+    throw new Error(
+      `${animationFile} no declara ninguna animación (webmcp-animation: "nombre")`,
+    );
+  }
+  const strategies = ['replace', 'queue', 'ignore', 'merge'] as const;
+  const strategy = opts.conflictStrategy as (typeof strategies)[number] | undefined;
+  if (strategy && !strategies.includes(strategy)) {
+    throw new Error(`--conflict-strategy debe ser ${strategies.join(' | ')}`);
+  }
+  const engines = ['css', 'waapi', 'three'] as const;
+  const engine = opts.type as (typeof engines)[number] | undefined;
+  if (engine && !engines.includes(engine)) {
+    throw new Error(`--type debe ser ${engines.join(' | ')}`);
+  }
+
+  // Sin --url: genera el runtime + el mapa JSON en --output (uso offline).
+  if (!opts.url) {
+    const outDir = opts.output ?? './webmcp-animation';
+    fs.mkdirSync(outDir, { recursive: true });
+    const runtime = writeRuntimeScript(path.join(outDir, 'webmcpcss-animation.js'));
+    const mapFile = path.join(outDir, 'animations.json');
+    fs.writeFileSync(mapFile, JSON.stringify(map, null, 2), 'utf8');
+    const loader = path.join(outDir, 'index.html');
+    fs.writeFileSync(
+      loader,
+      `<!doctype html>\n<!-- Ejemplo de uso del runtime generado por webmcpcss animate -->\n` +
+        `<script src="webmcpcss-animation.js"></script>\n<script>\n` +
+        `fetch('animations.json').then(r => r.json()).then(map => webmcpcss.animation.run(map, ${JSON.stringify(
+          { strategy: strategy ?? 'queue', engine },
+        )}));\n</script>\n`,
+      'utf8',
+    );
+    if (opts.json) {
+      console.log(JSON.stringify({ runtime, map: mapFile, animations: names }, null, 2));
+    } else {
+      for (const w of map.warnings) logger.warn(w);
+      logger.success(`Runtime generado en ${chalk.bold(runtime)}`);
+      logger.info(`Mapa de animaciones: ${mapFile} (${names.join(', ')})`);
+      logger.info(
+        `Incluye el script en tu página y llama a webmcpcss.animation.run(map)`,
+      );
+      logger.info('Añade --url <url> para aplicar las animaciones en un navegador real.');
+    }
+    return;
+  }
+
+  let result: AnimateResult;
+  const browser = await launchBrowser(opts.headless ?? true);
+  try {
+    const page = await browser.newPage();
+    await navigate(page, opts.url);
+    result = await animateWithPage(page, map, {
+      url: opts.url,
+      strategy,
+      engine,
+      dryRun: opts.dryRun,
+      screenshot: !!opts.screenshot,
+      settleMs: parseInt(opts.settle, 10) || 600,
+    });
+    if (opts.screenshot && result.screenshotBase64) {
+      fs.mkdirSync(path.dirname(path.resolve(opts.screenshot)), { recursive: true });
+      fs.writeFileSync(opts.screenshot, Buffer.from(result.screenshotBase64, 'base64'));
+    }
+  } finally {
+    await browser.close();
+  }
+  const { screenshotBase64: _shot, ...serializable } = result;
+  if (opts.output) {
+    const outFile = opts.output.endsWith('.json')
+      ? opts.output
+      : path.join(opts.output, 'animate-result.json');
+    fs.mkdirSync(path.dirname(path.resolve(outFile)), { recursive: true });
+    fs.writeFileSync(outFile, JSON.stringify(serializable, null, 2), 'utf8');
+    if (!opts.json) logger.info(`Resultado guardado en ${chalk.bold(outFile)}`);
+  }
+  if (opts.json) {
+    console.log(JSON.stringify(serializable, null, 2));
+  } else {
+    printAnimateResult(map, result);
+    if (opts.screenshot) logger.info(`Captura: ${opts.screenshot}`);
+  }
+  if (!result.success) process.exitCode = 1;
+}
+
 /** Imprime un resultado de `prompt` de forma legible. */
 function printPromptResult(result: PromptResult): void {
   const a = result.action;
@@ -793,6 +988,7 @@ async function cmdMcp(
     http?: boolean;
     port: string;
     noPrompt?: boolean;
+    noAnimate?: boolean;
   },
 ) {
   if (!opts.serve) {
@@ -809,6 +1005,7 @@ async function cmdMcp(
   const toolMap = parseWebMCP(cssSource);
   const execute = opts.url ? buildMcpExecutor(opts.url, cssPath) : undefined;
   const prompt = opts.noPrompt ? undefined : buildPromptExecutor(opts.url, cssPath, opts);
+  const animate = opts.noAnimate ? undefined : buildAnimateExecutor(opts.url);
   const options = {
     toolMap,
     cssSource,
@@ -816,7 +1013,8 @@ async function cmdMcp(
     url: opts.url,
     execute,
     prompt,
-    version: '0.7.0',
+    animate,
+    version: '0.8.0',
   };
 
   if (opts.http) {
@@ -826,7 +1024,10 @@ async function cmdMcp(
     logger.success(`Servidor HTTP en http://localhost:${port}`);
     logger.info(
       'Rutas: GET /api/tools · GET /api/graph · POST /api/call {"tool","args"}' +
-        (prompt ? ' · POST /api/prompt {"prompt","files","dryRun"}' : ''),
+        (prompt ? ' · POST /api/prompt {"prompt","files","dryRun"}' : '') +
+        (animate
+          ? ' · POST /api/animate {"animationFile"|"css","strategy","dryRun"}'
+          : ''),
     );
     return new Promise<void>(() => undefined); // queda sirviendo
   }
@@ -835,6 +1036,7 @@ async function cmdMcp(
   console.error(
     `[webmcpcss] MCP stdio listo · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
       (prompt ? ' + webmcpcss_prompt' : '') +
+      (animate ? ' + webmcpcss_animate' : '') +
       (opts.url
         ? ` · ejecución real en ${opts.url}`
         : ' · sin --url (tools/call en dry-run)'),
@@ -897,7 +1099,7 @@ const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.7.0')
+  .version('0.8.0')
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 
@@ -972,6 +1174,7 @@ program
   .option('--http', 'modo HTTP REST en vez de stdio')
   .option('-p, --port <port>', 'puerto en modo --http', '8090')
   .option('--no-prompt', 'no exponer la herramienta webmcpcss_prompt (lenguaje natural)')
+  .option('--no-animate', 'no exponer la herramienta webmcpcss_animate (animaciones)')
   .option(
     '--llm <provider>',
     'proveedor LLM para webmcpcss_prompt: ollama, openai, anthropic',
@@ -1010,6 +1213,29 @@ program
   .option('--json', 'imprime SOLO el JSON del resultado en stdout')
   .option('--no-headless', 'muestra el navegador')
   .action(cmdPrompt);
+
+program
+  .command('animate')
+  .description(
+    'Aplica animaciones declarativas (webmcp-animation-*) a una página; sin --url genera el runtime JS',
+  )
+  .argument('<animation-file>', 'archivo .webmcp.css con reglas webmcp-animation-*')
+  .option('--url <url>', 'URL (o HTML local) donde aplicar las animaciones')
+  .option('--type <engine>', 'forzar motor: css | waapi | three')
+  .option(
+    '--conflict-strategy <strategy>',
+    'estrategia global de conflictos: replace | queue | ignore | merge (def.: queue)',
+  )
+  .option('--dry-run', 'muestra plan, validación y conflictos previstos sin ejecutar')
+  .option(
+    '-o, --output <path>',
+    'con --url: JSON del resultado; sin --url: carpeta del runtime generado',
+  )
+  .option('--screenshot <file>', 'guarda una captura PNG tras animar')
+  .option('--settle <ms>', 'espera antes de la captura', '600')
+  .option('--json', 'imprime SOLO el JSON del resultado en stdout')
+  .option('--no-headless', 'muestra el navegador')
+  .action(cmdAnimate);
 
 program
   .command('run')

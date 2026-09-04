@@ -141,6 +141,11 @@ webmcpcss prompt "cambia el color del botón Añadir al carrito a verde" --url h
 webmcpcss prompt "sube esta imagen al carrusel" --url https://mi-sitio.com --image ./foto.png --execute
 webmcpcss prompt "oculta el popup de cookies" --url https://mi-sitio.com --execute --screenshot despues.png
 
+# 15) v0.8.0 — Animaciones declarativas (parallax, isométrico, 3D, keyframes, Three.js)
+webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --dry-run          # plan + conflictos
+webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --screenshot hero.png
+webmcpcss animate animations.webmcp.css -o ./public/webmcp-animation                  # runtime para el sitio
+
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -391,6 +396,59 @@ webmcpcss prompt "move the logo to the top" --url https://mi-sitio.com --llm oll
 
 Guía completa: [docs/PROMPT.md](docs/PROMPT.md) · ejemplo:
 [`examples/prompt/`](examples/prompt/README.md).
+
+## Animaciones declarativas (v0.8.0)
+
+`webmcpcss animate` lee animaciones declaradas en CSS —**parallax,
+isométrico, 3D transform, keyframes y escenas 2.5D con Three.js**— y las
+aplica en un navegador headless (o genera un runtime de ≈85 KB para el
+sitio) eligiendo el motor adecuado (**CSS**, **WAAPI** o **Three.js**) y
+**sin pisar** las animaciones que la página ya tenga (GSAP, Framer Motion,
+Anime.js, `@keyframes` propios…).
+
+```css
+#hero {
+  webmcp-animation: 'heroParallax';
+  webmcp-animation-type: parallax;
+  webmcp-animation-layers:
+    '.sky' 0.1,
+    '.mountains' 0.4,
+    '.ground' 0.75;
+}
+.hero .title {
+  webmcp-animation: 'titleIn';
+  webmcp-animation-priority: high;
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(24px)"},{"opacity":1,"transform":"none"}]';
+}
+#scene {
+  webmcp-animation: 'depth';
+  webmcp-animation-type: three-scene;
+  webmcp-animation-scene: '{"layers":[{"color":"#1d4ed8","position":{"z":-4},"parallax":0.2}]}';
+  webmcp-animation-fallback: '{"type":"keyframes","keyframes":[{"opacity":0.6},{"opacity":1}]}';
+}
+```
+
+```bash
+webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --conflict-strategy queue --screenshot hero.png
+```
+
+- Prioridades `low` → `critical` y estrategias de conflicto `replace`,
+  `queue`, `ignore` y `merge` (fusión solo de propiedades componibles).
+  Las animaciones externas se detectan automáticamente o se registran con
+  `registerExternal()`.
+- Validación previa (selectores, capas, WebGL, conflictos previstos) y
+  `--dry-run`; `fallback` por animación; respeto de `prefers-reduced-motion`;
+  Shadow DOM opcional para las escenas.
+- Disponible como herramienta MCP **`webmcpcss_animate`**
+  (`{ animationFile | css, url?, strategy?, engine?, dryRun?, screenshot? }`),
+  como `POST /api/animate` y como API (`animateWithPage`, `animateInWindow`,
+  `AnimationOrchestrator`). Cero dependencias nuevas (Three.js se carga desde
+  la página o por URL solo si se usa).
+
+Guías: [docs/animation.md](docs/animation.md) ·
+[docs/animation-conflicts.md](docs/animation-conflicts.md) ·
+[docs/cli-animate.md](docs/cli-animate.md) · ejemplos:
+[`examples/animation/`](examples/animation/).
 
 ## Proxy comunitario
 

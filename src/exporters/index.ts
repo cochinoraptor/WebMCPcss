@@ -35,12 +35,16 @@ export {
   startMcpStdioServer,
   PROMPT_TOOL_NAME,
   PROMPT_TOOL_SCHEMA,
+  ANIMATE_TOOL_NAME,
+  ANIMATE_TOOL_SCHEMA,
 } from './mcp-server';
 export type {
   McpServerOptions,
   ToolExecutor,
   PromptExecutor,
   PromptToolArgs,
+  AnimateExecutor,
+  AnimateToolArgs,
 } from './mcp-server';
 
 /** Formatos de exportación soportados. */

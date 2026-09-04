@@ -1,0 +1,50 @@
+/*
+ * Transformaciones 3D — WebMCPcss Animation Standard
+ *
+ * El tipo `3d-transform` compone `perspective() rotateX() rotateY() rotateZ()
+ * translateZ() scale()` a partir de los atajos. Se ejecuta con WAAPI (composite
+ * `add` en fusiones) o con @keyframes CSS inyectados.
+ *
+ *   webmcpcss animate examples/animation/3d-transform.webmcp.css --url https://tu-sitio.test --type waapi
+ */
+
+/* Giro de tarjeta con perspectiva */
+.flip-card {
+  webmcp-animation: "flipCard";
+  webmcp-animation-type: 3d-transform;
+  webmcp-animation-perspective: 900px;
+  webmcp-animation-rotation-y: 180deg;
+  webmcp-animation-duration: 1s;
+  webmcp-animation-easing: ease-in-out;
+}
+
+/* Elevación sutil + acercamiento; se repite en bucle alternando */
+.product__image {
+  webmcp-animation: "float";
+  webmcp-animation-type: 3d-transform;
+  webmcp-animation-translation-z: 40px;
+  webmcp-animation-rotation-x: 6deg;
+  webmcp-animation-iterations: infinite;
+  webmcp-animation-direction: alternate;
+  webmcp-animation-duration: 2.5s;
+}
+
+/* Convive con GSAP/Framer Motion: si detecta que otra librería ya anima
+   `transform` en el elemento, con `merge` intenta componer; si no es
+   posible, se encola hasta que la externa termine */
+.hero__logo {
+  webmcp-animation: "logoSpin";
+  webmcp-animation-type: 3d-transform;
+  webmcp-animation-rotation-y: 360deg;
+  webmcp-animation-duration: 1.5s;
+  webmcp-animation-conflict: merge;
+}
+
+/* Estados intermedios explícitos con keyframes 3D */
+.cube {
+  webmcp-animation: "cubeTurn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-duration: 3s;
+  webmcp-animation-iterations: infinite;
+  webmcp-animation-keyframes: '[{"transform":"perspective(800px) rotateX(0) rotateY(0)"},{"transform":"perspective(800px) rotateX(90deg) rotateY(0)","offset":0.33},{"transform":"perspective(800px) rotateX(90deg) rotateY(90deg)","offset":0.66},{"transform":"perspective(800px) rotateX(0) rotateY(0)"}]';
+}

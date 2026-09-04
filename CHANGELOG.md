@@ -4,6 +4,78 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.9.0] - Sin publicar
+
+Cierra los huecos pendientes de las especificaciones de Mapas de Contenido,
+integración con agentes y conflictos de animación. Sin dependencias nuevas.
+
+### Añadido
+
+- **Fragilidad con framework** (`src/graph/fragility.ts`): cada selector
+  devuelve además `framework` (y `frameworks`) con patrones nuevos para
+  CSS Modules de Next.js (`nombre_local__hash`) y Vite/Astro (`_local_hash`),
+  scoping de Astro, Element Plus (`.el-*`), ids de React `useId` y
+  selectores de solo etiqueta; `summarizeFrameworks()` y
+  `metadata.frameworkSummary` en el grafo. La CLI imprime
+  «Frameworks detectados».
+- **Vault Obsidian** (`src/graph/obsidian.ts`): frontmatter ampliado
+  (`framework`, `suggestions`, tags por framework y estado), tabla de
+  frameworks en `index.md` y rutas relativas al proyecto (vault portable).
+- **Dashboard** (`src/graph/dashboard.ts`): filtros por estado, fragilidad,
+  página y **framework**, panel de estadísticas con frameworks detectados,
+  exportación **PNG/SVG/JSON**, `buildGraphSvg()` y ruta `/api/graph.svg`.
+  Nueva opción `graph --svg <archivo>` (SVG estático sin navegador) y flags
+  explícitos `--fragility` / `--no-fragility`.
+- **Plugin de Claude Code** completo: `.mcp.json`, comandos
+  `/webmcpcss:prompt` y `/webmcpcss:animate`, skill `webmcp-audit`
+  (auditoría de fragilidad) y manifiesto con la versión del paquete.
+- **Cursor**: snippets `webmcp:` (bloques de herramienta con candidatos de
+  selector estable por cada herramienta declarada), regla
+  `.cursor/rules/webmcpcss.mdc`, `stableSelectorCandidates()` y
+  `export --format cursor --register` que fusiona el servidor en
+  `~/.cursor/mcp.json`.
+- **DeerFlow** (`export --format deerflow`): herramientas Python del grupo
+  `browser` (`browser_get_webmcp_graph`, `browser_validate_selector`,
+  `browser_repair_selector`, `browser_prompt`, `browser_animate`) que
+  devuelven mensajes estructurados, fragmento `deerflow-tools.yaml`,
+  `extensions_config.json` con servidor MCP y routing, skill
+  `webmcp-browser` y README.
+- **Flomny** (`export --format flomny` y `mcp --serve --flomny`): servidor
+  MCP dedicado `FlomnyMcpCore` con `list_tools`, `get_tool_info`,
+  `get_selector_status`, `suggest_repair`, `execute_prompt` y
+  `apply_animation` (stdio y HTTP), `flomny-mcp.json` y
+  `workflow.example.json`. `McpCore` es ahora extensible
+  (`serverInfo()`, `extraTools()`, `callExtraTool()`).
+- **`webmcpcss validate-conflicts <archivo> --url <url>`**: simulación en
+  seco de conflictos con las animaciones del sitio (GSAP, Framer Motion,
+  Anime.js, CSS/WAAPI), informe JSON (`-o`, `--json`), `--strict` para CI,
+  `--conflict-strategy`, `--type` y `--sandbox`.
+- **`animate --sandbox`**: aísla todas las animaciones en un shadow root.
+- `src/version.ts` (`VERSION`) compartido por CLI, servidores MCP y
+  exportadores.
+- Documentación: `docs/conflict-resolution.md`, `docs/agents/deerflow.md`,
+  `docs/agents/flomny.md`; actualizados `docs/GRAPH.md`, `docs/AGENTS.md`,
+  `docs/agents/claude-code.md`, `docs/agents/cursor.md`, `docs/PROMPT.md`,
+  `docs/animation.md`, `docs/cli-animate.md` y README.
+- Ejemplos: `examples/graph/` (tres sitios con distintos frameworks,
+  `graph.json`, `graph.svg` y vault Obsidian versionados, `regen.sh`),
+  `examples/agents/deerflow/` y `examples/agents/flomny/`; ejemplos de
+  Claude Code y Cursor regenerados.
+- Tests: `tests/graph-v090.test.ts`, `tests/exporters-editors.test.ts`,
+  `tests/exporters-agents.test.ts` (396 pruebas en total; cobertura de
+  `src/graph` y `src/exporters` > 98 %).
+- CI: exportación de los 10 formatos, smoke del servidor Flomny,
+  `validate-conflicts` con navegador y comprobación de que
+  `examples/graph/` está al día.
+
+### Cambiado
+
+- `EXPORT_FORMATS` pasa de 8 a 10 formatos (`deerflow`, `flomny`).
+- `graph` guarda rutas relativas al directorio de trabajo en los metadatos
+  de página (antes absolutas).
+- `docs/AGENTS.md`: Flomny usa el formato `flomny`; se añade DeerFlow
+  (46 entradas).
+
 ## [0.8.0] - Sin publicar
 
 ### Añadido

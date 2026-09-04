@@ -136,6 +136,11 @@ webmcpcss run https://mi-tienda.com webmcp.css addToCart --args '{"quantity":"2"
 # 13) v0.6.0 — Publicar al repositorio comunitario (fork + PR automáticos)
 webmcpcss publish webmcp.css --domain mi-tienda.com --token ghp_xxx   # o GITHUB_TOKEN
 
+# 14) v0.7.0 — Modificar el sitio con lenguaje natural (dry-run sin --execute)
+webmcpcss prompt "cambia el color del botón Añadir al carrito a verde" --url https://mi-tienda.com --css webmcp.css
+webmcpcss prompt "sube esta imagen al carrusel" --url https://mi-sitio.com --image ./foto.png --execute
+webmcpcss prompt "oculta el popup de cookies" --url https://mi-sitio.com --execute --screenshot despues.png
+
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -357,6 +362,35 @@ componentes React/Vue/Svelte, sin navegador ni deploy
 (`generate --from-source`, [guía](docs/SOURCE-GENERATION.md)), y **publicar
 al repositorio comunitario con un PR automático** (`publish --domain`,
 fork + rama + commit + pull request vía API de GitHub).
+
+## Modificación con lenguaje natural (v0.7.0)
+
+`webmcpcss prompt` traduce órdenes en español o inglés a acciones
+estructuradas (`upload`, `changeColor`, `delete`, `move`, `click`, `fill`,
+`hide`, `setText`, `setStyle`, `other`), **localiza el elemento de forma
+progresiva** (selector → herramienta WebMCPcss → LLM → texto/etiquetas →
+visión → sondas) y lo ejecuta sobre la página con evidencia y captura.
+Sin `--execute` solo muestra lo que haría.
+
+```bash
+webmcpcss prompt "pon la cantidad en 3" --url https://mi-tienda.com --execute
+webmcpcss prompt "move the logo to the top" --url https://mi-sitio.com --llm ollama --execute
+```
+
+- Funciona **sin LLM** (intérprete heurístico) y mejora con **Ollama, OpenAI
+  o Anthropic** configurados solo por variables de entorno
+  (`WEBMCP_LLM_PROVIDER`, `WEBMCP_OLLAMA_MODEL`, `WEBMCP_OPENAI_API_KEY`,
+  `WEBMCP_ANTHROPIC_API_KEY`…). Cero dependencias nuevas.
+- Si el elemento pertenece a una herramienta del `.webmcp.css`, la acción se
+  delega en ella (con auto-reparación incluida).
+- Disponible también como herramienta MCP **`webmcpcss_prompt`** en
+  `mcp --serve` (`{ prompt, url?, files?, dryRun?, screenshot? }`), como
+  `POST /api/prompt` en modo HTTP y como API (`PromptManager`).
+- Seguridad: dry-run por defecto, lista blanca de estilos, validación de
+  colores/URLs/archivos (25 MB) e historial de cada acción.
+
+Guía completa: [docs/PROMPT.md](docs/PROMPT.md) · ejemplo:
+[`examples/prompt/`](examples/prompt/README.md).
 
 ## Proxy comunitario
 

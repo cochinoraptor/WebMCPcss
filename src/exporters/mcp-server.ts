@@ -5,7 +5,7 @@
  * - **stdio** (por defecto): JSON-RPC 2.0 delimitado por saltos de línea,
  *   compatible con Claude Desktop, Claude Code, Cursor, Goose, Windsurf...
  * - **HTTP** (`--http`): API REST mínima con `http` nativo
- *   (`GET /api/tools`, `GET /api/graph`, `POST /api/call`).
+ *   (`GET /api/tools`, `GET /api/graph`, `POST /api/call`, `POST /api/prompt`).
  *
  * La ejecución real de herramientas se delega en un callback `execute`
  * que el CLI cablea con Puppeteer solo cuando se pasa `--url`; así este
@@ -22,6 +22,60 @@ export type ToolExecutor = (
   args: Record<string, unknown>,
 ) => Promise<unknown>;
 
+/** Argumentos de la herramienta MCP `webmcpcss_prompt` (v0.7.0). */
+export interface PromptToolArgs {
+  /** Orden en lenguaje natural. */
+  prompt: string;
+  /** URL a modificar (por defecto la del servidor). */
+  url?: string;
+  /** Archivos a subir (rutas locales, URLs o data-URIs). */
+  files?: string[];
+  /** Texto adicional (valor a rellenar). */
+  text?: string;
+  /** Solo interpretar y localizar, sin modificar la página. */
+  dryRun?: boolean;
+  /** Incluir captura de pantalla en la respuesta. */
+  screenshot?: boolean;
+}
+
+/** Firma del ejecutor de prompts (v0.7.0). El CLI lo cablea con Puppeteer. */
+export type PromptExecutor = (args: PromptToolArgs) => Promise<unknown>;
+
+/** Nombre de la herramienta MCP de lenguaje natural. */
+export const PROMPT_TOOL_NAME = 'webmcpcss_prompt';
+
+/** Definición MCP de la herramienta `webmcpcss_prompt`. */
+export const PROMPT_TOOL_SCHEMA = {
+  name: PROMPT_TOOL_NAME,
+  description:
+    'Modifica un sitio web usando lenguaje natural: clic, rellenar, subir archivos, cambiar colores/estilos/texto, ocultar, eliminar o mover elementos. Usa dryRun para previsualizar la acción interpretada.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      prompt: { type: 'string', description: 'Orden en lenguaje natural (es/en)' },
+      url: {
+        type: 'string',
+        description: 'URL de la página (opcional si el servidor tiene --url)',
+      },
+      files: {
+        type: 'array',
+        items: { type: 'string' },
+        description: 'Archivos a subir: rutas locales, URLs http(s) o data-URIs',
+      },
+      text: { type: 'string', description: 'Texto adicional (valor a escribir)' },
+      dryRun: {
+        type: 'boolean',
+        description: 'Solo interpretar y localizar, sin ejecutar',
+      },
+      screenshot: {
+        type: 'boolean',
+        description: 'Devolver captura PNG (base64) tras ejecutar',
+      },
+    },
+    required: ['prompt'],
+  },
+} as const;
+
 /** Opciones del servidor MCP. */
 export interface McpServerOptions {
   /** Tool map parseado del .webmcp.css. */
@@ -34,6 +88,11 @@ export interface McpServerOptions {
   url?: string;
   /** Ejecutor real (Puppeteer). Si falta, tools/call responde en modo dry-run. */
   execute?: ToolExecutor;
+  /**
+   * Ejecutor de prompts en lenguaje natural (v0.7.0). Si está definido, el
+   * servidor expone la herramienta `webmcpcss_prompt` y `POST /api/prompt`.
+   */
+  prompt?: PromptExecutor;
   /** Versión del servidor a anunciar. */
   version?: string;
 }
@@ -57,22 +116,80 @@ export class McpCore {
     this.schemas = toolMapToJsonSchemas(options.toolMap);
   }
 
-  /** Lista de herramientas en formato MCP. */
+  /** Lista de herramientas en formato MCP (+ `webmcpcss_prompt` si está habilitada). */
   listTools(): { tools: Array<Record<string, unknown>> } {
-    return {
-      tools: this.schemas.map((s) => ({
-        name: s.name,
-        description: s.description,
-        inputSchema: s.inputSchema,
-      })),
-    };
+    const tools: Array<Record<string, unknown>> = this.schemas.map((s) => ({
+      name: s.name,
+      description: s.description,
+      inputSchema: s.inputSchema,
+    }));
+    if (this.options.prompt) tools.push({ ...PROMPT_TOOL_SCHEMA });
+    return { tools };
+  }
+
+  /** Ejecuta la herramienta de lenguaje natural y envuelve el resultado como MCP. */
+  async callPrompt(
+    args: Record<string, unknown>,
+  ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
+    if (!this.options.prompt) {
+      return {
+        isError: true,
+        content: [
+          { type: 'text', text: 'La herramienta webmcpcss_prompt no está habilitada.' },
+        ],
+      };
+    }
+    const prompt = typeof args.prompt === 'string' ? args.prompt.trim() : '';
+    if (!prompt) {
+      return { isError: true, content: [{ type: 'text', text: 'Falta "prompt".' }] };
+    }
+    const files = Array.isArray(args.files)
+      ? args.files.filter((f): f is string => typeof f === 'string')
+      : undefined;
+    try {
+      const result = (await this.options.prompt({
+        prompt,
+        url: typeof args.url === 'string' ? args.url : undefined,
+        files,
+        text: typeof args.text === 'string' ? args.text : undefined,
+        dryRun: args.dryRun === true,
+        screenshot: args.screenshot === true,
+      })) as { success?: boolean; evidence?: { screenshotBase64?: string } } | undefined;
+      const content: Array<Record<string, unknown>> = [];
+      const shot = result?.evidence?.screenshotBase64;
+      if (shot) {
+        // La imagen va como bloque MCP `image`; en el JSON se sustituye por un marcador.
+        const { evidence, ...rest } = result as Record<string, unknown> & {
+          evidence: Record<string, unknown>;
+        };
+        content.push({
+          type: 'text',
+          text: JSON.stringify({
+            ...rest,
+            evidence: { ...evidence, screenshotBase64: '<image>' },
+          }),
+        });
+        content.push({ type: 'image', data: shot, mimeType: 'image/png' });
+      } else {
+        content.push({ type: 'text', text: JSON.stringify(result) });
+      }
+      return { content, isError: result?.success === false ? true : undefined };
+    } catch (err) {
+      return {
+        isError: true,
+        content: [
+          { type: 'text', text: `Error en webmcpcss_prompt: ${(err as Error).message}` },
+        ],
+      };
+    }
   }
 
   /** Ejecuta (o simula) una herramienta y envuelve el resultado como MCP. */
   async callTool(
     name: string,
     args: Record<string, unknown>,
-  ): Promise<{ content: Array<{ type: 'text'; text: string }>; isError?: boolean }> {
+  ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
+    if (name === PROMPT_TOOL_NAME) return this.callPrompt(args);
     const tool = this.options.toolMap.tools[name];
     if (!tool) {
       return {
@@ -262,6 +379,7 @@ export function startMcpStdioServer(
  * - `GET /api/tools` → lista de herramientas con esquemas.
  * - `GET /api/graph` → grafo completo (tools + context).
  * - `POST /api/call` → `{ "tool": "...", "args": {...} }`.
+ * - `POST /api/prompt` → `{ "prompt": "...", "files": [...], "dryRun": bool }` (v0.7.0).
  *
  * @param options Configuración del servidor.
  * @returns Servidor `http.Server` sin arrancar (llama a `.listen`).
@@ -314,8 +432,25 @@ export function createMcpHttpServer(options: McpServerOptions): http.Server {
       });
       return;
     }
+    if (req.method === 'POST' && req.url === '/api/prompt') {
+      let body = '';
+      req.on('data', (chunk) => (body += chunk));
+      req.on('end', () => {
+        void (async () => {
+          try {
+            const parsed = JSON.parse(body || '{}') as Record<string, unknown>;
+            const result = await core.callPrompt(parsed);
+            respond(result.isError ? (options.prompt ? 422 : 404) : 200, result);
+          } catch (err) {
+            respond(400, { error: (err as Error).message });
+          }
+        })();
+      });
+      return;
+    }
     respond(404, {
-      error: 'Ruta no encontrada. Usa /api/tools, /api/graph o POST /api/call.',
+      error:
+        'Ruta no encontrada. Usa /api/tools, /api/graph, POST /api/call o POST /api/prompt.',
     });
   });
 }

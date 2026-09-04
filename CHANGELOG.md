@@ -4,6 +4,40 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [0.7.0] - Sin publicar
+
+### Añadido
+
+- **Modificación de sitios con lenguaje natural** (`webmcpcss prompt`):
+  nuevo módulo `src/prompt/` que interpreta órdenes en español/inglés
+  (`upload`, `changeColor`, `delete`, `move`, `click`, `fill`, `hide`,
+  `setText`, `setStyle`, `other`), localiza el elemento de forma progresiva
+  (selector → herramienta WebMCPcss → LLM → texto/`<label>`/placeholder →
+  visión → sondas → sugerencias) y ejecuta la acción sobre el DOM o
+  delegando en la herramienta del `.webmcp.css` correspondiente.
+  Dry-run por defecto; `--execute` aplica; `--screenshot`, `-o` y `--json`
+  para evidencia. Guía en `docs/PROMPT.md`, ejemplo en `examples/prompt/`.
+- **Cliente LLM opcional** (`ollama`, `openai`, `anthropic`) configurado
+  exclusivamente por variables de entorno (`WEBMCP_LLM_PROVIDER`,
+  `WEBMCP_OLLAMA_MODEL`, `WEBMCP_OPENAI_API_KEY`,
+  `WEBMCP_ANTHROPIC_API_KEY`, `WEBMCP_LLM_TIMEOUT_MS`…), con intérprete
+  heurístico incorporado como respaldo. Sin dependencias nuevas (`fetch`
+  nativo).
+- **Herramienta MCP `webmcpcss_prompt`** en `mcp --serve` (stdio y HTTP,
+  `POST /api/prompt`; desactivable con `--no-prompt`).
+- `AssetManager`: archivos locales, URLs `http(s)` y `data:` URIs con
+  detección MIME propia, límite de 25 MB y limpieza de temporales.
+- Interfaz `DomMutator` (`setStyles`, `setText`, `remove`, `hide`, `move`,
+  `uploadFiles`, `screenshot`) implementada por `PuppeteerAdapter` y
+  `DomAdapter`.
+- Historial: entradas de tipo `prompt` con estadísticas propias.
+- 67 tests nuevos (271 en total).
+
+### Cambiado
+
+- `dom-utils`: los candidatos interactivos incluyen `<label>` y `<form>`
+  (mejora la localización de campos por etiqueta).
+
 ## [0.6.1] - 2026-09-02
 
 ### Añadido

@@ -74,6 +74,30 @@ function sources(idx: GraphIndex, id: string, type: string): GraphNode[] {
     .filter((n): n is GraphNode => Boolean(n));
 }
 
+/** Convierte un nombre de framework en una etiqueta Obsidian válida. */
+function tagFor(framework: string): string {
+  return framework
+    .toLowerCase()
+    .replace(/\(.*?\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Líneas de frontmatter YAML derivadas del análisis de fragilidad:
+ * `fragility`, `framework` y `suggestions` (lista).
+ */
+function fragilityFrontmatter(frag: FragilityScore | undefined): string[] {
+  if (!frag) return [];
+  const lines = [`fragility: ${frag.level}`];
+  if (frag.framework) lines.push(`framework: ${yamlEscape(frag.framework)}`);
+  if (frag.suggestions.length > 0) {
+    lines.push('suggestions:');
+    for (const sug of frag.suggestions) lines.push(`  - ${yamlEscape(sug)}`);
+  }
+  return lines;
+}
+
 /** Sección Markdown con el análisis de fragilidad de un selector. */
 function fragilitySection(frag: FragilityScore | undefined): string {
   if (!frag) return '';
@@ -112,8 +136,8 @@ function toolNote(idx: GraphIndex, node: GraphNode): string {
     `selectors:`,
     ...selectors.map((s) => `  - ${yamlEscape(s.label)}`),
     `params: [${params.map((p) => p.label).join(', ')}]`,
-    ...(frag ? [`fragility: ${frag.level}`] : []),
-    `tags: [webmcp, tool${status ? (status.label === 'OK' ? ', ok' : ', broken') : ''}]`,
+    ...fragilityFrontmatter(frag),
+    `tags: [webmcp, tool${status ? (status.label === 'OK' ? ', ok' : ', broken') : ''}${frag?.framework ? `, ${tagFor(frag.framework)}` : ''}]`,
     '---',
   ].join('\n');
 
@@ -149,8 +173,8 @@ function selectorNote(idx: GraphIndex, node: GraphNode): string {
     '---',
     `type: selector`,
     `selector: ${yamlEscape(node.label)}`,
-    ...(frag ? [`fragility: ${frag.level}`] : []),
-    `tags: [webmcp, selector${frag ? `, fragilidad-${frag.level}` : ''}]`,
+    ...fragilityFrontmatter(frag),
+    `tags: [webmcp, selector${frag ? `, fragilidad-${frag.level}` : ''}${frag?.framework ? `, ${tagFor(frag.framework)}` : ''}]`,
     '---',
   ].join('\n');
   let body = `\n# 🎯 \`${node.label}\`\n\n`;
@@ -228,6 +252,11 @@ function indexNote(idx: GraphIndex, graph: Graph, options: ObsidianOptions): str
   md += `\n## Herramientas\n\n${tools.map((t) => `- ${wikiLink(`herramientas/${idx.fileFor(t)}`, t.label)}`).join('\n') || '_Ninguna._'}\n`;
   const selectors = graph.nodes.filter((n) => n.type === 'selector');
   md += `\n## Selectores\n\n${selectors.map((s) => `- ${wikiLink(`selectores/${idx.fileFor(s)}`, s.label)}`).join('\n') || '_Ninguno._'}\n`;
+  const fws = Object.entries(m?.frameworkSummary ?? {}).sort((a, b) => b[1] - a[1]);
+  if (fws.length > 0) {
+    md += `\n## Frameworks detectados\n\n| Framework | Selectores |\n| --- | --- |\n`;
+    md += fws.map(([fw, n]) => `| ${fw} | ${n} |`).join('\n') + '\n';
+  }
   return md;
 }
 

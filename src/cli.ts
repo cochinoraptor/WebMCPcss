@@ -1715,8 +1715,12 @@ async function cmdGraph(
   const parsed: ParsedFile[] = [];
   for (const file of files) {
     try {
-      parsed.push({ path: file, toolMap: parseWebMCPFile(file) });
-      logger.info(`Parseado: ${chalk.bold(path.relative(process.cwd(), file))}`);
+      // Ruta relativa al cwd cuando es posible: el grafo y el vault quedan
+      // portables (sin rutas absolutas de la máquina que los generó).
+      const rel = path.relative(process.cwd(), file);
+      const shown = rel && !rel.startsWith('..') && !path.isAbsolute(rel) ? rel : file;
+      parsed.push({ path: shown, toolMap: parseWebMCPFile(file) });
+      logger.info(`Parseado: ${chalk.bold(shown)}`);
     } catch (err) {
       logger.warn(
         `Ignorado ${file}: ${err instanceof Error ? err.message : String(err)}`,

@@ -5,12 +5,11 @@
  * `ruta relativa → contenido` listo para escribir en disco.
  */
 import type { ToolMap } from '../types';
-import {
-  exportBrowserInject,
-  exportClaudeCodePlugin,
-  exportCursorIntegration,
-  exportMcpConfig,
-} from './editors';
+import { exportClaudeCodePlugin } from './claude-code';
+import { exportCursorIntegration } from './cursor';
+import { exportDeerFlow } from './deerflow';
+import { exportBrowserInject, exportMcpConfig } from './editors';
+import { exportFlomny } from './flomny';
 import {
   exportAutoGen,
   exportCrewAi,
@@ -19,12 +18,34 @@ import {
 } from './python-agents';
 import { toolMapToJsonSchemas } from './schema';
 
+export { exportBrowserInject, exportMcpConfig } from './editors';
+export { exportClaudeCodePlugin } from './claude-code';
 export {
-  exportBrowserInject,
-  exportClaudeCodePlugin,
   exportCursorIntegration,
-  exportMcpConfig,
-} from './editors';
+  buildCursorSnippets,
+  buildCursorRule,
+  registerCursorMcpServer,
+  stableSelectorCandidates,
+  kebabCase,
+} from './cursor';
+export type { RegisterCursorOptions } from './cursor';
+export {
+  exportDeerFlow,
+  buildDeerFlowTools,
+  buildDeerFlowConfigYaml,
+  buildDeerFlowExtensions,
+  buildDeerFlowSkill,
+  DEERFLOW_TOOL_NAMES,
+} from './deerflow';
+export {
+  exportFlomny,
+  FlomnyMcpCore,
+  FLOMNY_TOOL_NAMES,
+  FLOMNY_TOOL_SCHEMAS,
+  buildFlomnyMcpConfig,
+  buildFlomnyWorkflowExample,
+} from './flomny';
+export type { FlomnyServerOptions, FlomnyToolName } from './flomny';
 export { exportAutoGen, exportCrewAi, exportLangGraph } from './python-agents';
 export type { ExportContext } from './python-agents';
 export { snakeCase, toolMapToJsonSchemas, toolToJsonSchema } from './schema';
@@ -52,6 +73,8 @@ export const EXPORT_FORMATS = [
   'mcp-config',
   'claude-code',
   'cursor',
+  'deerflow',
+  'flomny',
   'crewai',
   'autogen',
   'langgraph',
@@ -92,12 +115,22 @@ export function exportForAgent(
     case 'claude-code':
       return {
         files: exportClaudeCodePlugin(toolMap, ctx),
-        note: 'Plugin de Claude Code generado. Instálalo con: claude plugin install <carpeta>.',
+        note: 'Plugin de Claude Code generado (comandos generate/validate/repair/run/prompt/animate + skill webmcp-audit). Instálalo con: claude plugin install <carpeta>.',
       };
     case 'cursor':
       return {
-        files: exportCursorIntegration(ctx),
-        note: 'Copia mcp.json en ~/.cursor/mcp.json y reinicia Cursor.',
+        files: exportCursorIntegration(ctx, toolMap),
+        note: 'Copia mcp.json en ~/.cursor/mcp.json (o usa --register), .vscode/webmcp.code-snippets para autocompletar "webmcp:" y .cursor/rules/webmcpcss.mdc para el agente.',
+      };
+    case 'deerflow':
+      return {
+        files: exportDeerFlow(toolMap, ctx),
+        note: 'Copia webmcp_tools.py al backend de DeerFlow, fusiona deerflow-tools.yaml en config.yaml (grupo browser) y/o extensions_config.json para el servidor MCP; la skill va en skills/custom/.',
+      };
+    case 'flomny':
+      return {
+        files: exportFlomny(toolMap, ctx),
+        note: 'Registra flomny-mcp.json en Flomny (servidor dedicado: webmcpcss mcp --serve --flomny) e importa workflow.example.json como plantilla.',
       };
     case 'crewai':
       return {

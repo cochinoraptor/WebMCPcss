@@ -242,3 +242,25 @@ export {
 } from './animation';
 export { ANIMATE_TOOL_NAME, ANIMATE_TOOL_SCHEMA } from './exporters';
 export type { AnimateExecutor, AnimateToolArgs } from './exporters';
+
+// --- v0.9.0: finalización — fragilidad ampliada, dashboard con filtros,
+// exportadores Claude Code / Cursor / DeerFlow / Flomny ---
+export { VERSION } from './version';
+export { summarizeFrameworks, buildGraphSvg } from './graph';
+export {
+  exportClaudeCodePlugin,
+  exportCursorIntegration,
+  buildCursorSnippets,
+  buildCursorRule,
+  registerCursorMcpServer,
+  stableSelectorCandidates,
+  exportDeerFlow,
+  DEERFLOW_TOOL_NAMES,
+  exportFlomny,
+  FlomnyMcpCore,
+  FLOMNY_TOOL_NAMES,
+  FLOMNY_TOOL_SCHEMAS,
+  type RegisterCursorOptions,
+  type FlomnyServerOptions,
+  type FlomnyToolName,
+} from './exporters';

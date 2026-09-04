@@ -1,91 +1,17 @@
 /**
- * Exportadores de configuración para editores y clientes MCP:
- * Claude Code (plugin), Claude Desktop / Cursor / Goose (mcp.json) y
- * script de inyección para agentes de navegador (Atlas, Operator, Mariner).
+ * Exportadores de configuración para clientes MCP genéricos (Claude
+ * Desktop / Goose / Windsurf: `mcp.json`) y script de inyección para agentes
+ * de navegador (Atlas, Operator, Mariner).
+ *
+ * Los exportadores de Claude Code y Cursor viven en `./claude-code` y
+ * `./cursor` (v0.9.0); se re-exportan aquí por compatibilidad.
  */
 import type { ToolMap } from '../types';
 import { toolMapToJsonSchemas } from './schema';
 import type { ExportContext } from './python-agents';
 
-/**
- * Genera un plugin de Claude Code: `plugin.json` + comandos slash.
- *
- * @param toolMap Tool map parseado.
- * @param ctx Ruta CSS y URL.
- * @returns Mapa ruta relativa → contenido.
- */
-export function exportClaudeCodePlugin(
-  toolMap: ToolMap,
-  ctx: ExportContext,
-): Record<string, string> {
-  const schemas = toolMapToJsonSchemas(toolMap);
-  const files: Record<string, string> = {};
-
-  files['.claude-plugin/plugin.json'] = JSON.stringify(
-    {
-      name: 'webmcpcss',
-      description:
-        'Herramientas WebMCP: genera, valida, repara y ejecuta acciones web declaradas en .webmcp.css',
-      version: '0.6.0',
-      author: { name: 'WebMCPcss' },
-    },
-    null,
-    2,
-  );
-
-  files['commands/generate.md'] = `---
-description: Genera un .webmcp.css para una URL (escaneo automático del DOM)
----
-
-Ejecuta \`webmcpcss generate $ARGUMENTS --auto -o webmcp.css\` con Bash y
-resume las herramientas detectadas. Después valida con
-\`webmcpcss validate $ARGUMENTS webmcp.css\`.
-`;
-
-  files['commands/validate.md'] = `---
-description: Valida los selectores de un .webmcp.css contra la página
----
-
-Ejecuta \`webmcpcss validate $ARGUMENTS\` (URL y archivo CSS) con Bash y
-reporta los selectores rotos. Si hay fallos, ofrece ejecutar
-\`/webmcpcss:repair\`.
-`;
-
-  files['commands/repair.md'] = `---
-description: Repara selectores rotos usando visión + huellas
----
-
-Ejecuta \`webmcpcss repair $ARGUMENTS\` con Bash, muestra el diff de
-selectores reparados y vuelve a validar.
-`;
-
-  files['commands/run.md'] = `---
-description: Ejecuta una herramienta WebMCP en el sitio (addToCart, login...)
----
-
-Ejecuta \`webmcpcss run <url> ${ctx.cssPath} <herramienta> --args '<json>'\`
-con Bash usando los argumentos del usuario ($ARGUMENTS) y devuelve el
-resultado JSON.
-
-Herramientas disponibles en ${ctx.cssPath}:
-${schemas.map((s) => `- **${s.name}** (${Object.keys(s.inputSchema.properties).join(', ') || 'sin parámetros'}): ${s.description}`).join('\n')}
-`;
-
-  files['README.md'] = `# Plugin Claude Code — webmcpcss
-
-Instalación:
-
-\`\`\`bash
-claude plugin install ./claude-plugin   # o la ruta de esta carpeta
-\`\`\`
-
-Comandos: \`/webmcpcss:generate <url>\`, \`/webmcpcss:validate <url> <css>\`,
-\`/webmcpcss:repair <url> <css>\`, \`/webmcpcss:run <herramienta> ...\`.
-
-Requiere \`webmcpcss\` en el PATH (\`npm i -g webmcpcss\`).
-`;
-  return files;
-}
+export { exportClaudeCodePlugin } from './claude-code';
+export { exportCursorIntegration } from './cursor';
 
 /**
  * Genera el snippet `mcpServers` para Claude Desktop, Cursor, Goose, Windsurf
@@ -112,26 +38,6 @@ export function exportMcpConfig(ctx: ExportContext): string {
     null,
     2,
   );
-}
-
-/**
- * Genera la guía de integración con Cursor (mcp.json + uso).
- * @param ctx Ruta CSS y URL.
- */
-export function exportCursorIntegration(ctx: ExportContext): Record<string, string> {
-  return {
-    'mcp.json': exportMcpConfig(ctx),
-    'README.md': `# Integración con Cursor
-
-1. Copia el contenido de \`mcp.json\` en \`~/.cursor/mcp.json\` (o fusiónalo
-   con tu configuración existente).
-2. Reinicia Cursor. En Settings → MCP verás el servidor \`webmcpcss\`.
-3. En el chat del editor, el agente dispondrá de las herramientas del
-   archivo \`${ctx.cssPath}\` (addToCart, login...) y podrá ejecutarlas.
-
-Requiere \`webmcpcss\` instalado globalmente: \`npm i -g webmcpcss\`.
-`,
-  };
 }
 
 /**

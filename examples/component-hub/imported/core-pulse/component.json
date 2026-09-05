@@ -1,0 +1,37 @@
+{
+  "id": "core-pulse",
+  "name": "Pulse",
+  "category": "animations",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Animación reutilizable de pulsación infinita (scale 1 → 1.06) declarada con webmcp-animation; ideal para llamadas a la acción.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "animation",
+    "pulse",
+    "loop",
+    "cta",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color del elemento",
+      "type": "color",
+      "default": "#2563eb"
+    }
+  ],
+  "promptExamples": [
+    "aplica la animación pulse al botón Comprar"
+  ],
+  "animateExamples": [
+    "haz la pulsación más sutil",
+    "detén la pulsación cuando el usuario pase el ratón"
+  ],
+  "related": [
+    "core-fade-in",
+    "core-slide-up",
+    "core-isometric-2-5d"
+  ],
+  "preview": "preview.css"
+}

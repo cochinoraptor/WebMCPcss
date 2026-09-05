@@ -162,3 +162,48 @@ jobs:
             if (!r.ok || !Array.isArray(r.plan) || r.plan.length === 0) process.exit(1);
             if (!Array.isArray(r.conflicts) || !r.capabilities) process.exit(1);
           "
+
+  component-hub:
+    name: Component Hub (v1.2.0)
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies (sin Chromium)
+        run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+
+      - name: Build
+        run: npm run build
+
+      - name: Catálogo válido y sitio del hub al día (site/components + api/components.json)
+        run: node dist/scripts/build-hub.js --check
+
+      - name: Smoke test CLI components (catálogo empaquetado, sin red)
+        run: |
+          node dist/src/cli.js components list --offline --json > /tmp/hub-list.json
+          node dist/src/cli.js components import tailwind-button-primary core-fade-in --offline --output /tmp/hub-import --json > /tmp/hub-import.json
+          node dist/src/cli.js components demo --offline --output /tmp/hub-demo --library shadcn --json > /tmp/hub-demo.json
+          node -e "
+            const fs = require('fs');
+            const list = JSON.parse(fs.readFileSync('/tmp/hub-list.json','utf8'));
+            if (list.total < 50 || list.source !== 'bundled') process.exit(1);
+            const imp = JSON.parse(fs.readFileSync('/tmp/hub-import.json','utf8'));
+            if (imp.imported.length !== 2) process.exit(1);
+            if (!fs.existsSync('/tmp/hub-import/tailwind-button-primary/button-primary.webmcp.css')) process.exit(1);
+            const demo = JSON.parse(fs.readFileSync('/tmp/hub-demo.json','utf8'));
+            if (demo.components.length !== 10 || !fs.existsSync('/tmp/hub-demo/index.html')) process.exit(1);
+          "
+
+      - name: Ejemplo examples/component-hub al día
+        run: |
+          bash examples/component-hub/regen.sh
+          git diff --exit-code -- examples/component-hub

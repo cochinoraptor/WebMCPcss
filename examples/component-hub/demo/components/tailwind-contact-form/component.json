@@ -1,0 +1,55 @@
+{
+  "id": "tailwind-contact-form",
+  "name": "Contact Form",
+  "category": "forms",
+  "library": "tailwind",
+  "version": "1.0.0",
+  "description": "Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "contact",
+    "declarative",
+    "autosubmit",
+    "tailwind"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.5rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "añade un campo de teléfono al formulario de contacto",
+    "cambia el color del botón Enviar mensaje"
+  ],
+  "animateExamples": [
+    "aplica slide-up al formulario de contacto",
+    "haz que el botón de enviar pulse cuando el formulario sea válido"
+  ],
+  "related": [
+    "core-contact-form",
+    "bootstrap-contact-form",
+    "mui-contact-form",
+    "shadcn-contact-form"
+  ],
+  "preview": "preview.css"
+}

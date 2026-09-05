@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "hub": "https://cochinoraptor.github.io/WebMCPcss",
+  "components": {
+    "shadcn-product-card": {
+      "id": "shadcn-product-card",
+      "version": "1.0.0",
+      "hash": "4806d4e56317aba3",
+      "files": [
+        "imported/shadcn-product-card/product-card.webmcp.css",
+        "imported/shadcn-product-card/product-card.html",
+        "imported/shadcn-product-card/preview.css",
+        "imported/shadcn-product-card/component.json"
+      ],
+      "installedAt": "2026-09-05T00:00:00.000Z",
+      "source": "bundled"
+    },
+    "core-pulse": {
+      "id": "core-pulse",
+      "version": "1.0.0",
+      "hash": "402b7b8bd3093f8e",
+      "files": [
+        "imported/core-pulse/pulse.webmcp.css",
+        "imported/core-pulse/pulse.html",
+        "imported/core-pulse/preview.css",
+        "imported/core-pulse/component.json"
+      ],
+      "installedAt": "2026-09-05T00:00:00.000Z",
+      "source": "bundled"
+    }
+  }
+}

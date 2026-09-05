@@ -1,0 +1,10 @@
+<nav data-component="navbar" aria-label="Principal" class="flex flex-wrap items-center gap-4 rounded-xl border bg-card px-5 py-3 text-card-foreground shadow-sm">
+  <a data-tool="goHome" href="#/" class="mr-auto text-lg font-extrabold">◆ Marca</a>
+  <button data-slot="button" data-variant="ghost" data-tool="openMenu" type="button" aria-expanded="false" aria-controls="sh-nav-menu" aria-label="Abrir menú" class="inline-flex size-9 items-center justify-center rounded-md hover:bg-accent sm:hidden" onclick="const o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!o));document.getElementById('sh-nav-menu').classList.toggle('hidden',o)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  <ul id="sh-nav-menu" data-slot="navigation-menu-list" class="hidden w-full flex-col gap-1 sm:flex sm:w-auto sm:flex-row">
+    <li><a data-slot="navigation-menu-link" href="#inicio" aria-current="page" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent aria-[current=page]:bg-accent">Inicio</a></li>
+    <li><a data-slot="navigation-menu-link" href="#componentes" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent aria-[current=page]:bg-accent">Componentes</a></li>
+    <li><a data-slot="navigation-menu-link" href="#docs" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent aria-[current=page]:bg-accent">Docs</a></li>
+  </ul>
+  <a data-slot="button" data-tool="signUp" href="#registro" class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90">Crear cuenta</a>
+</nav>

@@ -1,0 +1,25 @@
+/* Componente: Profile Card */
+/* Categoría: cards · Librería: shadcn · Versión: 1.0.0 */
+/* Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación). */
+/* Importar: npx webmcpcss components import shadcn-profile-card */
+
+/* shadcn/ui: el HTML es el DOM que renderiza <Card …> (data-slot="card"); pasa data-* como props. */
+/* Contrato WebMCP */
+[data-slot="card"][data-component="profile-card"] [data-tool="viewProfile"] {
+  webmcp-tool: "viewProfile";
+  webmcp-description: "Abre el perfil completo de la persona";
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-slot="card"][data-component="profile-card"] [data-tool="followUser"] {
+  webmcp-tool: "followUser";
+  webmcp-description: "Sigue a la persona (acción social, requiere confirmación)";
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+}
+[data-slot="card"][data-component="profile-card"] [data-context="profile-name"] { webmcp-context: "profileName"; webmcp-format: "text"; }
+[data-slot="card"][data-component="profile-card"] [data-context="profile-role"] { webmcp-context: "profileRole"; webmcp-format: "text"; }

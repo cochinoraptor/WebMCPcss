@@ -1,0 +1,10 @@
+<nav data-component="navbar" aria-label="Principal" class="flex flex-wrap items-center gap-4 rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white px-5 py-3 shadow-sm">
+  <a data-tool="goHome" href="#/" class="mr-auto text-lg font-extrabold text-slate-900">◆ Marca</a>
+  <button data-tool="openMenu" type="button" aria-expanded="false" aria-controls="tw-nav-menu" aria-label="Abrir menú" class="rounded-md p-2 hover:bg-slate-100 sm:hidden" onclick="const o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!o));document.getElementById('tw-nav-menu').classList.toggle('hidden',o)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  <ul id="tw-nav-menu" class="hidden w-full flex-col gap-1 sm:flex sm:w-auto sm:flex-row">
+    <li><a href="#inicio" aria-current="page" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Inicio</a></li>
+    <li><a href="#componentes" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Componentes</a></li>
+    <li><a href="#docs" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Docs</a></li>
+  </ul>
+  <a data-tool="signUp" href="#registro" class="rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-4 py-2 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110">Crear cuenta</a>
+</nav>

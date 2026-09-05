@@ -1,0 +1,54 @@
+/* Componente: Hero Section (parallax) */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Sección hero inteligente IA-First: fondo parallax por capas, entrada animada del título y CTAs declaradas como herramientas; combina el estándar de animaciones con el contrato de agentes. */
+/* Importar: npx webmcpcss components import core-hero-section */
+
+.wm-heroX { position: relative; overflow: hidden; min-height: 360px; display: grid; place-items: center; padding: 56px 28px; border-radius: var(--wm-radius, 18px); background: var(--wm-hero-bg, #0b1020); color: #fff; font-family: system-ui, sans-serif; text-align: center; }
+.wm-heroX__layer { position: absolute; inset: -20%; pointer-events: none; }
+.wm-heroX__layer--far { background: radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--wm-primary, #7c6cf0) 45%, transparent), transparent 40%), radial-gradient(circle at 80% 70%, rgba(79, 209, 197, .35), transparent 45%); }
+.wm-heroX__layer--mid { background-image: radial-gradient(rgba(255, 255, 255, .18) 1px, transparent 1px); background-size: 26px 26px; opacity: .5; }
+.wm-heroX__content { position: relative; max-width: 680px; }
+.wm-heroX__eyebrow { margin: 0 0 12px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, .7); }
+.wm-heroX__title { margin: 0 0 14px; font-size: clamp(30px, 5vw, 50px); line-height: 1.06; letter-spacing: -.6px; }
+.wm-heroX__subtitle { margin: 0 auto 26px; max-width: 54ch; color: rgba(255, 255, 255, .78); font-size: 17px; }
+.wm-heroX__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.wm-btn { display: inline-flex; align-items: center; min-height: 46px; padding: 12px 22px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 18px) - 8px); font: 600 15px/1 system-ui, sans-serif; text-decoration: none; }
+.wm-btn--primary { background: var(--wm-primary, #7c6cf0); color: var(--wm-on-primary, #fff); }
+.wm-btn--ghost { color: #fff; border-color: rgba(255, 255, 255, .35); }
+
+/* Contrato WebMCP */
+[data-component="hero-section"] [data-tool="exploreCatalog"] {
+  webmcp-tool: "exploreCatalog";
+  webmcp-description: "Abre el catálogo de componentes";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero-section"] [data-tool="contactSales"] {
+  webmcp-tool: "contactSales";
+  webmcp-description: "Abre el formulario de contacto con ventas";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero-section"] [data-context="hero-title"] { webmcp-context: "heroTitle"; webmcp-format: "text"; }
+[data-component="hero-section"] [data-context="hero-subtitle"] { webmcp-context: "heroSubtitle"; webmcp-format: "text"; }
+
+/* Animaciones: parallax de capas + entrada del título */
+[data-component="hero-section"] {
+  webmcp-animation: "heroParallax";
+  webmcp-animation-type: parallax;
+  webmcp-animation-trigger: scroll;
+  webmcp-animation-priority: normal;
+  webmcp-animation-layers: ".wm-heroX__layer--far" 0.15, ".wm-heroX__layer--mid" 0.4, ".wm-heroX__content" 0.9;
+  webmcp-animation-description: "Fondo del hero con profundidad";
+}
+[data-component="hero-section"] .wm-heroX__title {
+  webmcp-animation: "heroXTitleIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: load;
+  webmcp-animation-priority: high;
+  webmcp-animation-duration: 900ms;
+  webmcp-animation-easing: cubic-bezier(.2, .8, .2, 1);
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(24px)"},{"opacity":1,"transform":"none"}]';
+}

@@ -1,0 +1,36 @@
+{
+  "id": "core-fade-in",
+  "name": "Fade In",
+  "category": "animations",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Animación reutilizable de aparición gradual (opacity 0 → 1) declarada con webmcp-animation; se ejecuta con el runtime de WebMCPcss cuando el elemento entra en pantalla.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "animation",
+    "fade",
+    "entrance",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color del elemento",
+      "type": "color",
+      "default": "#2563eb"
+    }
+  ],
+  "promptExamples": [
+    "aplica la animación fade-in al botón Comprar"
+  ],
+  "animateExamples": [
+    "haz el fade-in más lento (1.5 s)",
+    "aplica el fade-in a todas las tarjetas del catálogo"
+  ],
+  "related": [
+    "core-slide-up",
+    "core-pulse",
+    "core-isometric-2-5d"
+  ],
+  "preview": "preview.css"
+}

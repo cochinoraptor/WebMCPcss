@@ -1,0 +1,43 @@
+/* Emulación mínima del render de Material UI para la previsualización del hub.
+   En tu app React, MUI ya aporta estos estilos: NO importes este archivo. */
+:root{--wm-primary:#1976d2;--wm-on-primary:#fff;--wm-radius:4px}
+body{font-family:Roboto,Helvetica,Arial,sans-serif;color:rgba(0,0,0,.87);margin:0;padding:24px;background:#fafafa}
+.MuiButton-root{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:64px;padding:6px 16px;border:0;border-radius:var(--wm-radius,4px);font:500 .875rem/1.75 Roboto,Helvetica,Arial,sans-serif;letter-spacing:.02857em;text-transform:uppercase;cursor:pointer;transition:background-color .25s,box-shadow .25s,filter .25s;background:transparent;color:var(--wm-primary,#1976d2)}
+.MuiButton-contained{box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)}
+.MuiButton-containedPrimary{background:var(--wm-primary,#1976d2);color:var(--wm-on-primary,#fff)}
+.MuiButton-containedPrimary:hover{filter:brightness(.92)}
+.MuiButton-containedInherit{background:#e0e0e0;color:rgba(0,0,0,.87)}
+.MuiButton-outlined{border:1px solid color-mix(in srgb,var(--wm-primary,#1976d2) 50%,transparent)}
+.MuiButton-outlined:hover{background:color-mix(in srgb,var(--wm-primary,#1976d2) 6%,transparent);border-color:var(--wm-primary,#1976d2)}
+.MuiButton-text:hover{background:color-mix(in srgb,var(--wm-primary,#1976d2) 6%,transparent)}
+.MuiButton-startIcon{display:inherit;margin-right:8px;margin-left:-4px}
+.MuiSvgIcon-root{width:1em;height:1em;font-size:1.25rem;fill:currentColor}
+.MuiPaper-root{background:#fff;border-radius:var(--wm-radius,4px);box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)}
+.MuiCard-root{overflow:hidden;max-width:345px}
+.MuiCardMedia-root{display:block;height:160px;background:linear-gradient(135deg,#90caf9,#1976d2)}
+.MuiCardContent-root{padding:16px}
+.MuiCardActions-root{display:flex;gap:8px;padding:8px 16px 16px}
+.MuiTypography-h5{font:400 1.5rem/1.334 Roboto,sans-serif;margin:0 0 4px}
+.MuiTypography-h6{font:500 1.25rem/1.6 Roboto,sans-serif;margin:0}
+.MuiTypography-h3{font:400 3rem/1.167 Roboto,sans-serif;margin:0 0 12px}
+.MuiTypography-body1{font:400 1rem/1.5 Roboto,sans-serif;margin:0}
+.MuiTypography-body2{font:400 .875rem/1.43 Roboto,sans-serif;color:rgba(0,0,0,.6);margin:0}
+.MuiTypography-subtitle1{font:400 1rem/1.75 Roboto,sans-serif;margin:0}
+.MuiAvatar-root{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#7c6cf0;color:#fff;font-size:1.25rem}
+.MuiFormControl-root{display:flex;flex-direction:column;margin:8px 0}
+.MuiInputLabel-root{font:400 .75rem/1.4 Roboto,sans-serif;color:rgba(0,0,0,.6);margin-bottom:4px}
+.MuiOutlinedInput-root{display:flex;border:1px solid rgba(0,0,0,.23);border-radius:var(--wm-radius,4px);background:#fff}
+.MuiOutlinedInput-root:focus-within{border-color:var(--wm-primary,#1976d2);box-shadow:inset 0 0 0 1px var(--wm-primary,#1976d2)}
+.MuiOutlinedInput-input{flex:1;border:0;outline:0;padding:16.5px 14px;font:400 1rem/1.4375 Roboto,sans-serif;background:transparent;min-width:0}
+textarea.MuiOutlinedInput-input{resize:vertical;min-height:96px}
+.MuiAppBar-root{display:flex;align-items:center;padding:0 24px;min-height:64px;background:var(--wm-primary,#1976d2);color:#fff;box-shadow:0 2px 4px -1px rgba(0,0,0,.2);border-radius:0}
+.MuiToolbar-root{display:flex;align-items:center;gap:16px;width:100%;min-height:64px}
+.MuiToolbar-root .MuiTypography-h6{flex:1}
+.MuiAppBar-root .MuiButton-root{color:#fff}
+.MuiAppBar-root .MuiButton-containedPrimary{background:#fff;color:var(--wm-primary,#1976d2)}
+.MuiIconButton-root{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
+.MuiIconButton-root:hover{background:rgba(255,255,255,.12)}
+.MuiContainer-root{max-width:900px;margin:0 auto;padding:48px 16px;text-align:center}
+.MuiChip-root{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:12px;background:rgba(0,0,0,.08);font:400 .75rem/1 Roboto,sans-serif}
+.MuiRating-root{color:#faaf00;letter-spacing:2px}
+.MuiLink-root{color:var(--wm-primary,#1976d2);text-decoration:none;font:500 .875rem/1.75 Roboto,sans-serif;text-transform:uppercase;letter-spacing:.02857em}

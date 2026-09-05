@@ -1,0 +1,61 @@
+{
+  "id": "core-profile-card",
+  "name": "Profile Card",
+  "category": "cards",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "profile",
+    "user",
+    "social",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "10px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "cambia el nombre de la tarjeta de perfil a Ana Ruiz",
+    "oculta el botón Seguir"
+  ],
+  "animateExamples": [
+    "aplica fade-in a la tarjeta de perfil",
+    "haz que el avatar pulse suavemente"
+  ],
+  "related": [
+    "tailwind-profile-card",
+    "bootstrap-profile-card",
+    "mui-profile-card",
+    "shadcn-profile-card"
+  ],
+  "preview": "preview.css"
+}

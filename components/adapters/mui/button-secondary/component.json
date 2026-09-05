@@ -1,0 +1,58 @@
+{
+  "id": "mui-button-secondary",
+  "name": "Button Secondary",
+  "category": "buttons",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "button",
+    "secondary",
+    "cancel",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "oculta el botón Cancelar",
+    "cambia el texto del botón secundario a Volver"
+  ],
+  "animateExamples": [
+    "haz que el botón Cancelar aparezca deslizándose",
+    "quita la animación del botón secundario"
+  ],
+  "related": [
+    "core-button-secondary",
+    "tailwind-button-secondary",
+    "bootstrap-button-secondary",
+    "shadcn-button-secondary"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Button variant=\"contained\" color=\"inherit\" data-tool=\"cancelAction\">Cancelar</Button>"
+  },
+  "preview": "preview.css"
+}

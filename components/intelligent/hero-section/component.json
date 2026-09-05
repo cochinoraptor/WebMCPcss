@@ -1,0 +1,49 @@
+{
+  "id": "core-hero-section",
+  "name": "Hero Section (parallax)",
+  "category": "intelligent",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Sección hero inteligente IA-First: fondo parallax por capas, entrada animada del título y CTAs declaradas como herramientas; combina el estándar de animaciones con el contrato de agentes.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "hero",
+    "parallax",
+    "animation",
+    "intelligent",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#7c6cf0"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "18px",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el título del hero a “Componentes que hablan con agentes”",
+    "pon el botón Explorar catálogo en verde"
+  ],
+  "animateExamples": [
+    "aumenta la profundidad del parallax del hero",
+    "haz que el subtítulo aparezca 300 ms después del título"
+  ],
+  "related": [
+    "core-checkout-form",
+    "core-smart-product-card",
+    "core-parallax-scene"
+  ],
+  "preview": "preview.css"
+}

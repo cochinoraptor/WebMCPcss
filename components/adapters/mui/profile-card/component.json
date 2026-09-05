@@ -1,0 +1,59 @@
+{
+  "id": "mui-profile-card",
+  "name": "Profile Card",
+  "category": "cards",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "profile",
+    "user",
+    "social",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el nombre de la tarjeta de perfil a Ana Ruiz",
+    "oculta el botón Seguir"
+  ],
+  "animateExamples": [
+    "aplica fade-in a la tarjeta de perfil",
+    "haz que el avatar pulse suavemente"
+  ],
+  "related": [
+    "core-profile-card",
+    "tailwind-profile-card",
+    "bootstrap-profile-card",
+    "shadcn-profile-card"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Card data-component=\"profile-card\" data-user-id={user.id}>\n  <CardHeader avatar={<Avatar>{user.initials}</Avatar>} title={<span data-context=\"profile-name\">{user.name}</span>} subheader={<span data-context=\"profile-role\">{user.role}</span>} />\n  <CardContent><Typography>{user.bio}</Typography></CardContent>\n  <CardActions>\n    <Button variant=\"contained\" data-tool=\"followUser\">Seguir</Button>\n    <Button variant=\"outlined\" href={user.url} data-tool=\"viewProfile\">Ver perfil</Button>\n  </CardActions>\n</Card>"
+  },
+  "preview": "preview.css"
+}

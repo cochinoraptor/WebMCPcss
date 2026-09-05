@@ -1,0 +1,14 @@
+/* Componente: Button Outline */
+/* Categoría: buttons · Librería: bootstrap · Versión: 1.0.0 */
+/* Botón outline IA-First: navegación secundaria (saber más, ver detalles) con menor peso visual; herramienta learnMore con intención navigate. */
+/* Importar: npx webmcpcss components import bootstrap-button-outline */
+
+/* Bootstrap 5.3: clases .btn en el HTML; este archivo es el contrato para agentes. */
+.btn[data-tool="learnMore"] {
+  webmcp-tool: "learnMore";
+  webmcp-description: "Abre más información o los detalles del elemento (navegación secundaria)";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

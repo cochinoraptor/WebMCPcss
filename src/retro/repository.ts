@@ -5,7 +5,11 @@
  * con los metadatos del escaneo legacy, y ofrece `prepareRetroSubmission`
  * para revisar el resultado sin publicar.
  */
-import { publishToCommunity, validateForPublish, type PublishResult } from '../community/publish';
+import {
+  publishToCommunity,
+  validateForPublish,
+  type PublishResult,
+} from '../community/publish';
 import { serializeToolMap } from '../parser';
 import { VERSION } from '../version';
 import type { RetroScan } from './scanner';
@@ -47,7 +51,9 @@ export function prepareRetroSubmission(scan: RetroScan, domain: string): RetroSu
     ' */',
     '',
   ].join('\n');
-  const css = header + serializeToolMap(scan.toolMap).replace(/^\/\* Generado por WebMCPcss[^\n]*\n\n?/, '');
+  const css =
+    header +
+    serializeToolMap(scan.toolMap).replace(/^\/\* Generado por WebMCPcss[^\n]*\n\n?/, '');
   const counts = validateForPublish(css);
   return { domain, css, tools: counts.tools, context: counts.context, header };
 }
@@ -55,14 +61,27 @@ export function prepareRetroSubmission(scan: RetroScan, domain: string): RetroSu
 /**
  * Publica (o prepara) la definición legacy en el repositorio comunitario.
  */
-export async function publishRetro(opts: RetroPublishOptions): Promise<{ submission: RetroSubmission; result?: PublishResult }> {
+export async function publishRetro(
+  opts: RetroPublishOptions,
+): Promise<{ submission: RetroSubmission; result?: PublishResult }> {
   let submission: RetroSubmission;
   if (opts.scan) submission = prepareRetroSubmission(opts.scan, opts.domain);
   else if (opts.css) {
     const counts = validateForPublish(opts.css);
-    submission = { domain: opts.domain, css: opts.css, tools: counts.tools, context: counts.context, header: '' };
+    submission = {
+      domain: opts.domain,
+      css: opts.css,
+      tools: counts.tools,
+      context: counts.context,
+      header: '',
+    };
   } else throw new Error('publishRetro requiere scan o css');
   if (opts.dryRun) return { submission };
-  const result = await publishToCommunity({ domain: opts.domain, css: submission.css, token: opts.token, apiBase: opts.apiBase });
+  const result = await publishToCommunity({
+    domain: opts.domain,
+    css: submission.css,
+    token: opts.token,
+    apiBase: opts.apiBase,
+  });
   return { submission, result };
 }

@@ -24,7 +24,11 @@ export interface RetroInjectOptions {
  * @param css CSS original (se adjunta como `<style type="text/webmcp">`).
  * @param opts Opciones.
  */
-export function buildRetroInjectScript(toolMap: ToolMap, css: string, opts: RetroInjectOptions = {}): string {
+export function buildRetroInjectScript(
+  toolMap: ToolMap,
+  css: string,
+  opts: RetroInjectOptions = {},
+): string {
   const graph = JSON.stringify({
     version: VERSION,
     generatedBy: 'webmcpcss retro',
@@ -32,12 +36,21 @@ export function buildRetroInjectScript(toolMap: ToolMap, css: string, opts: Retr
       name,
       description: t.description ?? '',
       selector: t.selector,
-      params: Object.fromEntries(Object.entries(t.params).map(([p, s]) => [p, { type: 'string', source: s.source, selector: s.selector, value: s.value }])),
+      params: Object.fromEntries(
+        Object.entries(t.params).map(([p, s]) => [
+          p,
+          { type: 'string', source: s.source, selector: s.selector, value: s.value },
+        ]),
+      ),
       trigger: t.trigger ?? { event: 'click' },
       confirmation: t.confirmation,
       meta: t.meta,
     })),
-    context: Object.entries(toolMap.context).map(([name, c]) => ({ name, selector: c.selector, format: c.format })),
+    context: Object.entries(toolMap.context).map(([name, c]) => ({
+      name,
+      selector: c.selector,
+      format: c.format,
+    })),
   }).replace(/</g, '\\u003c');
   const register = opts.registerModelContext !== false;
   return `(function(){
@@ -78,12 +91,16 @@ function run(tool, args) {
 window.__WEBMCP_RETRO__.run = function (name, args) { var t = GRAPH.tools.filter(function (x) { return x.name === name; })[0]; return t ? run(t, args) : { success: false, error: 'Herramienta desconocida' }; };
 window.__WEBMCP_RETRO__.context = function () { var out = {}; GRAPH.context.forEach(function (c) { var el = q(c.selector); out[c.name] = el ? (el.textContent || '').trim() : null; }); return out; };
 window.__WEBMCP_RETRO__.status = function () { return GRAPH.tools.map(function (t) { return { name: t.name, exists: !!q(t.selector) }; }); };
-${register ? `var mc = navigator.modelContext;
+${
+  register
+    ? `var mc = navigator.modelContext;
 if (mc && typeof mc.registerTool === 'function') {
   GRAPH.tools.forEach(function (t) {
     try { mc.registerTool({ name: t.name, description: t.description, inputSchema: { type: 'object', properties: Object.fromEntries(Object.keys(t.params||{}).map(function(p){return [p,{type:'string'}];})) }, execute: function (args) { var r = run(t, args); return { content: [{ type: 'text', text: JSON.stringify(r) }] }; } }); } catch (e) {}
   });
-}` : ''}
+}`
+    : ''
+}
 ${opts.highlight ? `GRAPH.tools.forEach(function (t) { var el = q(t.selector); if (el) { el.style.outline = '2px dashed #38bdf8'; el.setAttribute('data-webmcp-tool', t.name); } });` : ''}
 })();`;
 }
@@ -102,12 +119,26 @@ export interface RetroInjectResult {
  * @param css CSS.
  * @param opts Opciones.
  */
-export async function injectRetro(page: Page, toolMap: ToolMap, css: string, opts: RetroInjectOptions = {}): Promise<RetroInjectResult> {
+export async function injectRetro(
+  page: Page,
+  toolMap: ToolMap,
+  css: string,
+  opts: RetroInjectOptions = {},
+): Promise<RetroInjectResult> {
   const script = buildRetroInjectScript(toolMap, css, opts);
   await page.evaluateOnNewDocument(script);
   await page.evaluate(script);
   const tools = (await page.evaluate(
-    () => (window as unknown as { __WEBMCP_RETRO__?: { status: () => Array<{ name: string; exists: boolean }> } }).__WEBMCP_RETRO__?.status() ?? [],
+    () =>
+      (
+        window as unknown as {
+          __WEBMCP_RETRO__?: { status: () => Array<{ name: string; exists: boolean }> };
+        }
+      ).__WEBMCP_RETRO__?.status() ?? [],
   )) as Array<{ name: string; exists: boolean }>;
-  return { injected: tools.length > 0 || Object.keys(toolMap.tools).length === 0, tools, missing: tools.filter((t) => !t.exists).map((t) => t.name) };
+  return {
+    injected: tools.length > 0 || Object.keys(toolMap.tools).length === 0,
+    tools,
+    missing: tools.filter((t) => !t.exists).map((t) => t.name),
+  };
 }

@@ -24,5 +24,15 @@ export {
   startRetroProxy,
   type RetroProxyOptions,
 } from './proxy';
-export { buildRetroInjectScript, injectRetro, type RetroInjectOptions, type RetroInjectResult } from './injector';
-export { prepareRetroSubmission, publishRetro, type RetroPublishOptions, type RetroSubmission } from './repository';
+export {
+  buildRetroInjectScript,
+  injectRetro,
+  type RetroInjectOptions,
+  type RetroInjectResult,
+} from './injector';
+export {
+  prepareRetroSubmission,
+  publishRetro,
+  type RetroPublishOptions,
+  type RetroSubmission,
+} from './repository';

@@ -2,6 +2,8 @@ html, body { margin: 0; }
 body { display: flex; align-items: flex-start; justify-content: center; padding: 24px; box-sizing: border-box; }
 [data-preview-root] { width: 100%; display: flex; justify-content: center; }
 [data-preview-root][data-category="layout"], [data-preview-root][data-category="intelligent"][data-kind="layout"] { display: block; }
-[data-preview-root] > * { max-width: 100%; }
+[data-preview-root] > * { max-width: 100%; min-width: 0; box-sizing: border-box; }
+[data-preview-root] img, [data-preview-root] svg, [data-preview-root] video, [data-preview-root] canvas { max-width: 100%; }
+@media (max-width: 480px) { body { padding: 12px; } }
 .wm-hover-glow { transition: box-shadow .25s, transform .25s; }
 .wm-hover-glow:hover { box-shadow: 0 0 0 4px rgba(124, 108, 240, .25), 0 18px 40px -16px rgba(124, 108, 240, .7) !important; transform: translateY(-2px); }

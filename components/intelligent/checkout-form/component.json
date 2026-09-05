@@ -3,7 +3,7 @@
   "name": "Checkout Form",
   "category": "intelligent",
   "library": "core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.",
   "author": "WebMCPcss Team",
   "tags": [

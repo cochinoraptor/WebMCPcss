@@ -19,7 +19,7 @@ body{font-family:Roboto,Helvetica,Arial,sans-serif;color:rgba(0,0,0,.87);margin:
 .MuiCardActions-root{display:flex;gap:8px;padding:8px 16px 16px}
 .MuiTypography-h5{font:400 1.5rem/1.334 Roboto,sans-serif;margin:0 0 4px}
 .MuiTypography-h6{font:500 1.25rem/1.6 Roboto,sans-serif;margin:0}
-.MuiTypography-h3{font:400 3rem/1.167 Roboto,sans-serif;margin:0 0 12px}
+.MuiTypography-h3{font:400 clamp(2rem,6vw,3rem)/1.167 Roboto,sans-serif;margin:0 0 12px;overflow-wrap:anywhere}
 .MuiTypography-body1{font:400 1rem/1.5 Roboto,sans-serif;margin:0}
 .MuiTypography-body2{font:400 .875rem/1.43 Roboto,sans-serif;color:rgba(0,0,0,.6);margin:0}
 .MuiTypography-subtitle1{font:400 1rem/1.75 Roboto,sans-serif;margin:0}
@@ -31,10 +31,11 @@ body{font-family:Roboto,Helvetica,Arial,sans-serif;color:rgba(0,0,0,.87);margin:
 .MuiOutlinedInput-input{flex:1;border:0;outline:0;padding:16.5px 14px;font:400 1rem/1.4375 Roboto,sans-serif;background:transparent;min-width:0}
 textarea.MuiOutlinedInput-input{resize:vertical;min-height:96px}
 .MuiAppBar-root{display:flex;align-items:center;padding:0 24px;min-height:64px;background:var(--wm-primary,#1976d2);color:#fff;box-shadow:0 2px 4px -1px rgba(0,0,0,.2);border-radius:0}
-.MuiToolbar-root{display:flex;align-items:center;gap:16px;width:100%;min-height:64px}
+.MuiToolbar-root{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;flex-wrap:wrap;padding:8px 0}
 .MuiToolbar-root .MuiTypography-h6{flex:1}
 .MuiAppBar-root .MuiButton-root{color:#fff}
 .MuiAppBar-root .MuiButton-containedPrimary{background:#fff;color:var(--wm-primary,#1976d2)}
+@media (max-width:640px){.MuiAppBar-root{padding:0 12px}.MuiToolbar-root .MuiButton-text{display:none}.MuiToolbar-root .MuiButton-containedPrimary{margin-left:auto}}
 .MuiIconButton-root{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
 .MuiIconButton-root:hover{background:rgba(255,255,255,.12)}
 .MuiContainer-root{max-width:900px;margin:0 auto;padding:48px 16px;text-align:center}

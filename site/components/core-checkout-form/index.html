@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/hub.css">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Checkout Form","identifier":"core-checkout-form","description":"Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/core-checkout-form/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/checkout-form","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Core (sin librería)","license":"https://opensource.org/licenses/MIT","keywords":"intelligent, core, form, checkout, payment, security, declarative, intelligent, core","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"placeOrder","description":"Confirma el pedido con la dirección y el método de envío indicados"},{"@type":"Action","name":"applyCoupon","description":"Aplica un cupón de descuento al pedido"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import core-checkout-form","files":{"css":"components/core-checkout-form/checkout-form.webmcp.css","html":"components/core-checkout-form/checkout-form.html","meta":"components/core-checkout-form/component.json","page":"components/core-checkout-form/"},"tools":[{"name":"placeOrder","selector":"form[data-form=\"checkout\"] button[type=\"submit\"]","description":"Confirma el pedido con la dirección y el método de envío indicados","params":["email","address","shipping"],"intent":"submit","confirmation":"needed"},{"name":"applyCoupon","selector":"form[data-form=\"checkout\"] [data-tool=\"applyCoupon\"]","description":"Aplica un cupón de descuento al pedido","params":["code"],"intent":"action","confirmation":"none"}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Checkout Form","identifier":"core-checkout-form","description":"Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.","version":"1.0.1","url":"https://cochinoraptor.github.io/WebMCPcss/components/core-checkout-form/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/checkout-form","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Core (sin librería)","license":"https://opensource.org/licenses/MIT","keywords":"intelligent, core, form, checkout, payment, security, declarative, intelligent, core","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"placeOrder","description":"Confirma el pedido con la dirección y el método de envío indicados"},{"@type":"Action","name":"applyCoupon","description":"Aplica un cupón de descuento al pedido"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import core-checkout-form","files":{"css":"components/core-checkout-form/checkout-form.webmcp.css","html":"components/core-checkout-form/checkout-form.html","meta":"components/core-checkout-form/component.json","page":"components/core-checkout-form/"},"tools":[{"name":"placeOrder","selector":"form[data-form=\"checkout\"] button[type=\"submit\"]","description":"Confirma el pedido con la dirección y el método de envío indicados","params":["email","address","shipping"],"intent":"submit","confirmation":"needed"},{"name":"applyCoupon","selector":"form[data-form=\"checkout\"] [data-tool=\"applyCoupon\"]","description":"Aplica un cupón de descuento al pedido","params":["code"],"intent":"action","confirmation":"none"}]}}</script>
 </head>
 <body data-component="core-checkout-form" data-root-selector=".wm-checkout">
 <a class="skip" href="#main">Saltar al contenido</a>
@@ -48,7 +48,7 @@
 <div class="detail-head">
   <div>
     <h1>Checkout Form</h1>
-    <div class="badges"><span class="badge cat">Inteligentes</span><span class="badge lib">Core (sin librería)</span><span class="badge v">v1.0.0</span><span class="badge">form</span><span class="badge">checkout</span><span class="badge">payment</span><span class="badge">security</span><span class="badge">declarative</span><span class="badge">intelligent</span><span class="badge">core</span></div>
+    <div class="badges"><span class="badge cat">Inteligentes</span><span class="badge lib">Core (sin librería)</span><span class="badge v">v1.0.1</span><span class="badge">form</span><span class="badge">checkout</span><span class="badge">payment</span><span class="badge">security</span><span class="badge">declarative</span><span class="badge">intelligent</span><span class="badge">core</span></div>
     <p class="lead">Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.</p>
   </div>
   <div class="actions">
@@ -93,17 +93,18 @@
     <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
   </div>
   <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Checkout Form */
-/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.1 */
 /* Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto. */
 /* Importar: npx webmcpcss components import core-checkout-form */
 
-.wm-checkout { display: grid; gap: 14px; width: min(100%, 420px); padding: 24px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
+.wm-checkout { display: grid; gap: 14px; width: min(100%, 420px); box-sizing: border-box; padding: 24px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
 .wm-checkout__head h2 { margin: 0 0 4px; font-size: 20px; }
 .wm-checkout__head p { margin: 0; color: #6b7280; font-size: 14px; }
 .wm-field { display: grid; gap: 6px; }
 .wm-field label, .wm-checkout__coupon label { font-size: 13px; font-weight: 600; color: #374151; }
-.wm-field input, .wm-field select, .wm-checkout__coupon input { padding: 10px 12px; border: 1px solid #d1d5db; border-radius: calc(var(--wm-radius, 14px) - 6px); font: 15px system-ui, sans-serif; background: #fff; }
-.wm-checkout__coupon { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; }
+.wm-field input, .wm-field select, .wm-checkout__coupon input { padding: 10px 12px; border: 1px solid #d1d5db; border-radius: calc(var(--wm-radius, 14px) - 6px); font: 15px system-ui, sans-serif; background: #fff; width: 100%; min-width: 0; box-sizing: border-box; }
+.wm-checkout__coupon { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+@media (max-width: 360px) { .wm-checkout__coupon { grid-template-columns: 1fr; } }
 .wm-checkout__note { margin: 0; font-size: 12px; color: #6b7280; text-align: center; }
 .wm-btn { min-height: 44px; padding: 10px 18px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 14px) - 4px); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; }
 .wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
@@ -167,7 +168,7 @@ form[data-form=&quot;checkout&quot;] [data-context=&quot;cart-count&quot;] { web
   &quot;name&quot;: &quot;Checkout Form&quot;,
   &quot;category&quot;: &quot;intelligent&quot;,
   &quot;library&quot;: &quot;core&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;version&quot;: &quot;1.0.1&quot;,
   &quot;description&quot;: &quot;Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.&quot;,
   &quot;author&quot;: &quot;WebMCPcss Team&quot;,
   &quot;tags&quot;: [

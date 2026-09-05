@@ -98,6 +98,36 @@ jobs:
           node dist/src/cli.js parse examples/animation/animations.webmcp.css > /dev/null
           node dist/src/cli.js validate-conflicts --help | grep -q -- '--strict'
 
+      - name: Smoke test comandos v1.0.0 (sin navegador, sin red, sin LLM)
+        run: |
+          CSS=examples/v1/tienda.webmcp.css
+          node dist/src/cli.js init /tmp/v1-init --name "CI" --url https://ci.test --json > /tmp/v1-init.json
+          node -e "const r=require('/tmp/v1-init.json'); if(!r.files.includes('webmcp.css')||!r.tools.length) process.exit(1)"
+          node dist/src/cli.js assist "crea un formulario de contacto con nombre y email" --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(!r.css.includes('webmcp-component: \"form\"')) process.exit(1)})"
+          node dist/src/cli.js design analyze --text "Buscador con botón Buscar y botón Pagar" -o /tmp/v1-design.webmcp.css > /dev/null
+          node dist/src/cli.js parse /tmp/v1-design.webmcp.css | grep -q '"buscar"'
+          node dist/src/cli.js design optimize $CSS --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(typeof r.scoreAfter!=='number') process.exit(1)})"
+          node dist/src/cli.js retro scan tests/fixtures/legacy-site.html --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(r.legacyScore<50||!r.toolMap.tools.buscar) process.exit(1)})"
+          node dist/src/cli.js test generate --file $CSS --framework playwright -o /tmp/v1.spec.ts > /dev/null && grep -q "@playwright/test" /tmp/v1.spec.ts
+          node dist/src/cli.js test generate --file $CSS --framework cypress -o /tmp/v1.cy.js > /dev/null && grep -q "cy.get" /tmp/v1.cy.js
+          node dist/src/cli.js version snapshot --file $CSS --tag 1.0.0 -o /tmp/v1a.json > /dev/null
+          node dist/src/cli.js version snapshot --file examples/v1/tienda.v2.webmcp.css --tag 2.0.0 -o /tmp/v1b.json > /dev/null
+          node dist/src/cli.js version diff /tmp/v1a.json /tmp/v1b.json --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(r.impact!=='major'||r.suggestedVersion!=='2.0.0') process.exit(1)})"
+          node dist/src/cli.js version migrate /tmp/v1a.json /tmp/v1b.json -o /tmp/v1-migrated.css --notes /tmp/v1-MIGRATION.md > /dev/null && grep -q "buscarCatalogo" /tmp/v1-migrated.css
+          node dist/src/cli.js doc generate --file $CSS -o /tmp/v1-docs > /dev/null && test -f /tmp/v1-docs/index.html && test -f /tmp/v1-docs/llms.txt && test -f /tmp/v1-docs/AGENTS.md
+          node dist/src/cli.js security validate --file $CSS --agent "bot:restricted:orders:pay" --strict --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(r.score<80||!r.agent) process.exit(1)})"
+          node dist/src/cli.js security token --agent "bot:restricted" --secret ci-secret | grep -qE '^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$'
+          node dist/src/cli.js recommend "compra 2 zapatillas rojas" --css $CSS --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(!r.steps.some(s=>s.tool==='anadirAlCarrito')) process.exit(1)})"
+          node dist/src/cli.js web3 validate --file $CSS --connector /tmp/v1-wallet.js --json | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const r=JSON.parse(d); if(!r.paid.some(p=>p.tool==='descargarInforme')) process.exit(1)})"
+          node -e "new Function(require('fs').readFileSync('/tmp/v1-wallet.js','utf8'))"
+          node dist/src/cli.js web3 deploy --export-sol /tmp/WebMCPPayments.sol > /dev/null && grep -q "contract WebMCPPayments" /tmp/WebMCPPayments.sol
+          node dist/src/cli.js a11y audit --help | grep -q -- '--fail-on'
+
+      - name: Ejemplo examples/v1 al día (v1.0.0)
+        run: |
+          bash examples/v1/regen.sh
+          git diff --exit-code -- examples/v1
+
   community-styles:
     name: Validate community styles
     runs-on: ubuntu-latest

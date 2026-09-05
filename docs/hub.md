@@ -2,35 +2,35 @@
 
 Catálogo **IA-First** de componentes de interfaz que llevan su propio contrato
 para agentes (`.webmcp.css`), adaptados a **Tailwind CSS**, **Bootstrap 5**,
-**Material UI**, **shadcn/ui** y CSS puro (*core*). Se publica como sitio
+**Material UI**, **shadcn/ui** y CSS puro (_core_). Se publica como sitio
 estático en GitHub Pages y se consume desde la CLI, el servidor MCP o
 directamente como JSON.
 
-| Recurso | URL |
-| --- | --- |
-| Sitio | <https://cochinoraptor.github.io/WebMCPcss/components/> |
-| Índice para agentes | <https://cochinoraptor.github.io/WebMCPcss/api/components.json> |
-| JSON Schema del índice | <https://cochinoraptor.github.io/WebMCPcss/api/schema/components.json> |
-| Fuente de los componentes | [`components/`](../components/) |
-| Guías del sitio | [`docs/hub/`](hub/) (primeros pasos, uso, contribuir) |
+| Recurso                   | URL                                                                    |
+| ------------------------- | ---------------------------------------------------------------------- |
+| Sitio                     | <https://cochinoraptor.github.io/WebMCPcss/components/>                |
+| Índice para agentes       | <https://cochinoraptor.github.io/WebMCPcss/api/components.json>        |
+| JSON Schema del índice    | <https://cochinoraptor.github.io/WebMCPcss/api/schema/components.json> |
+| Fuente de los componentes | [`components/`](../components/)                                        |
+| Guías del sitio           | [`docs/hub/`](hub/) (primeros pasos, uso, contribuir)                  |
 
 > Decisión de diseño: **cero dependencias nuevas**. El sitio se genera con un
 > generador propio (`src/hub/site.ts`) en HTML + CSS + JavaScript vanilla; no hay
 > Astro/React ni un segundo `package.json`. La URL pública es configurable con
-> `WEBMCPCSS_HUB_URL` (o `--hub <url>` en la CLI) para hubs privados o *mirrors*.
+> `WEBMCPCSS_HUB_URL` (o `--hub <url>` en la CLI) para hubs privados o _mirrors_.
 
 ## Contenido del catálogo
 
 58 componentes en la primera versión (`components/`):
 
-| Categoría | Componentes | Librerías |
-| --- | --- | --- |
-| `buttons` | Button Primary, Secondary, Outline, Icon | core, tailwind, bootstrap, mui, shadcn |
-| `cards` | Product Card, Profile Card | core, tailwind, bootstrap, mui, shadcn |
-| `forms` | Login Form, Contact Form (API declarativa WebMCP) | core, tailwind, bootstrap, mui, shadcn |
-| `layout` | Navbar, Hero | core, tailwind, bootstrap, mui, shadcn |
-| `animations` | Fade In, Slide Up, Pulse, 2.5D Isometric | core |
-| `intelligent` | Checkout Form, Smart Product Card, Hero Section (parallax), Parallax Scene (Three.js 2.5D) | core |
+| Categoría     | Componentes                                                                                | Librerías                              |
+| ------------- | ------------------------------------------------------------------------------------------ | -------------------------------------- |
+| `buttons`     | Button Primary, Secondary, Outline, Icon                                                   | core, tailwind, bootstrap, mui, shadcn |
+| `cards`       | Product Card, Profile Card                                                                 | core, tailwind, bootstrap, mui, shadcn |
+| `forms`       | Login Form, Contact Form (API declarativa WebMCP)                                          | core, tailwind, bootstrap, mui, shadcn |
+| `layout`      | Navbar, Hero                                                                               | core, tailwind, bootstrap, mui, shadcn |
+| `animations`  | Fade In, Slide Up, Pulse, 2.5D Isometric                                                   | core                                   |
+| `intelligent` | Checkout Form, Smart Product Card, Hero Section (parallax), Parallax Scene (Three.js 2.5D) | core                                   |
 
 Cada componente es una carpeta con:
 
@@ -94,11 +94,11 @@ webmcpcss mcp --serve --http -p 8090 --hub [--hub-output ./src/components] [--hu
 Con `--hub` el servidor anuncia tres herramientas más (sin `--hub` la lista de
 herramientas es idéntica a 1.1.x):
 
-| Herramienta | Argumentos | Descripción |
-| --- | --- | --- |
-| `list_components` | `category?`, `library?`, `search?`, `limit?` | Lista con filtros (id, nombre, herramientas, comando de import, URL de la página). |
-| `get_component` | `id`, `includeSource?` | Metadatos + herramientas + contexto + animaciones + HTML y CSS completos. |
-| `import_component` | `id`, `output?`, `merge?`, `force?` | Escribe el componente en el proyecto y lo registra en el lock. |
+| Herramienta        | Argumentos                                   | Descripción                                                                        |
+| ------------------ | -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `list_components`  | `category?`, `library?`, `search?`, `limit?` | Lista con filtros (id, nombre, herramientas, comando de import, URL de la página). |
+| `get_component`    | `id`, `includeSource?`                       | Metadatos + herramientas + contexto + animaciones + HTML y CSS completos.          |
+| `import_component` | `id`, `output?`, `merge?`, `force?`          | Escribe el componente en el proyecto y lo registra en el lock.                     |
 
 Rutas REST equivalentes en modo `--http`: `GET /api/components?category&library&search&limit`
 y `GET /api/components/:id[?source=0]`. `--hub` permite arrancar el servidor
@@ -110,19 +110,19 @@ Programáticamente: `new McpCore({ toolMap, hub: { hubUrl, outputDir, readOnly }
 
 `npm run build:hub` (o `webmcpcss components build`) genera:
 
-| Ruta | Contenido |
-| --- | --- |
-| `components/` | inicio: cifras, categorías, librerías, destacados, cómo funciona, "para agentes" |
-| `components/catalog/` | catálogo con filtros por categoría/librería y búsqueda en vivo (estado en la URL: `?q=&category=&library=`) |
-| `components/search/` | búsqueda (autofocus) |
-| `components/favorites/` | favoritos en `localStorage` + comando de import conjunto |
-| `components/docs/…` | guías renderizadas desde `docs/hub/*.md` (conversor Markdown propio) |
-| `components/about/` | acerca de |
-| `components/<id>/` | detalle: preview en iframe (escritorio/tablet/móvil), **editor en vivo** (color, radio, tamaño, animación), pestañas de código con copiar, comando de import, tabla de herramientas/contexto/animaciones, ejemplos `prompt`/`animate`, mismo componente en otras librerías |
-| `components/<id>/preview.html` | página del iframe: carga la librería desde CDN (Tailwind Play CDN, Bootstrap 5.3, tokens shadcn, emulación MUI), el `.webmcp.css` y el runtime de animaciones si el componente declara alguna |
-| `components/assets/` | `hub.css`, `hub.js`, `preview.css`, `preview.js`, `index.js` (índice embebido), `webmcp-animation.js` |
-| `api/components.json` | índice público (ver esquema) |
-| `components/sitemap.xml`, `robots.txt` | SEO |
+| Ruta                                   | Contenido                                                                                                                                                                                                                                                                  |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/`                          | inicio: cifras, categorías, librerías, destacados, cómo funciona, "para agentes"                                                                                                                                                                                           |
+| `components/catalog/`                  | catálogo con filtros por categoría/librería y búsqueda en vivo (estado en la URL: `?q=&category=&library=`)                                                                                                                                                                |
+| `components/search/`                   | búsqueda (autofocus)                                                                                                                                                                                                                                                       |
+| `components/favorites/`                | favoritos en `localStorage` + comando de import conjunto                                                                                                                                                                                                                   |
+| `components/docs/…`                    | guías renderizadas desde `docs/hub/*.md` (conversor Markdown propio)                                                                                                                                                                                                       |
+| `components/about/`                    | acerca de                                                                                                                                                                                                                                                                  |
+| `components/<id>/`                     | detalle: preview en iframe (escritorio/tablet/móvil), **editor en vivo** (color, radio, tamaño, animación), pestañas de código con copiar, comando de import, tabla de herramientas/contexto/animaciones, ejemplos `prompt`/`animate`, mismo componente en otras librerías |
+| `components/<id>/preview.html`         | página del iframe: carga la librería desde CDN (Tailwind Play CDN, Bootstrap 5.3, tokens shadcn, emulación MUI), el `.webmcp.css` y el runtime de animaciones si el componente declara alguna                                                                              |
+| `components/assets/`                   | `hub.css`, `hub.js`, `preview.css`, `preview.js`, `index.js` (índice embebido), `webmcp-animation.js`                                                                                                                                                                      |
+| `api/components.json`                  | índice público (ver esquema)                                                                                                                                                                                                                                               |
+| `components/sitemap.xml`, `robots.txt` | SEO                                                                                                                                                                                                                                                                        |
 
 Para agentes, cada página incluye `<meta name="webmcp-hub" content="true">`,
 `<meta name="webmcp-hub-index" content="…/api/components.json">`,

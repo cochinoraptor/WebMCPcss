@@ -6,8 +6,33 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 
 ## [Unreleased]
 
+### Añadido
+
+- **`docs/CLI.md`**: referencia completa de los 29 comandos de la CLI con todas
+  sus opciones, subcomandos, códigos de salida y variables de entorno; enlazada
+  desde el README (es/en).
+- **`.env.example`** documenta todas las variables que lee la CLI
+  (`GITHUB_TOKEN`, `FIGMA_TOKEN`, `WEBMCP_JWT_SECRET`, `WEBMCP_WALLET_KEY`,
+  `WEBMCPCSS_HUB_URL`/`_DIR`, `PUPPETEER_*`).
+- Tests para `rewriteDocHref` y la cursiva con guiones bajos del conversor
+  Markdown del hub.
+
 ### Cambiado
 
+- **Sitio del Component Hub**: el conversor Markdown (`src/hub/markdown.ts`)
+  reescribe los enlaces entre guías escritos para GitHub (`./uso.md#seccion`) a
+  las rutas del sitio (`../uso/#seccion`) y acepta cursiva `_texto_` (la que
+  produce Prettier) sin tocar identificadores `snake_case`.
+- **Formato**: `npm run format` / `format:check` cubren también `scripts/`,
+  los Markdown (raíz y `docs/`) y los workflows; Prettier no reformatea los
+  bloques de código incrustados en Markdown (`embeddedLanguageFormatting: off`)
+  para conservar los ejemplos `.webmcp.css` tal cual.
+- **`SECURITY.md`**: tabla de versiones soportadas (1.2.x / 1.0.x), nota sobre el
+  Component Hub y aviso conocido de `npm audit` (`extract-zip`, solo afecta a la
+  descarga de Chrome; mitigación con `PUPPETEER_EXECUTABLE_PATH`).
+- **Dependencias**: `puppeteer` 23 → **24.43** (última rama compatible con Node
+  18; 25 exige Node ≥ 22.12). Verificado con Chrome real en `validate`,
+  `standard check`, `a11y audit`, `animate --screenshot` y `validate-conflicts`.
 - **Dependencias** (sin cambios de API): `commander` 12 → **13.1** (última versión
   CommonJS compatible con Node 18; 14 exige Node 20 y 15 es ESM-only), `eslint` 8 → 9
   (flat config `eslint.config.js` con `typescript-eslint` 8 y `@eslint/js`),
@@ -17,6 +42,13 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 - CI/CD: `actions/setup-node` v7, `actions/configure-pages` v6,
   `actions/upload-pages-artifact` v5, `actions/deploy-pages` v5,
   `github/codeql-action` v4 (PRs de Dependabot #8–#12).
+
+### Corregido
+
+- Enlaces rotos en `docs/hub/getting-started.md` (sitio generado), `docs/PROMPT.md`
+  y `docs/good-first-issues/` (ahora apuntan a `docs/CLI.md`).
+- README (es): orden de los ejemplos 17 → 18 → 19; `docs/standard.md` y la
+  landing (`site/index.html`, 571 tests) actualizados.
 
 ## [1.2.0] - 2026-09-05
 
@@ -44,7 +76,7 @@ compatible con todo lo anterior.
   conversor Markdown propio), cliente `fetchHubIndex`/`listComponents`/
   `fetchComponent`/`importComponent`/`updateComponents`/`mergeIntoCss` (lock
   `.webmcpcss/components.lock.json`, marcadores `@webmcpcss-component`,
-  *fallback* al catálogo empaquetado cuando el hub remoto no responde),
+  _fallback_ al catálogo empaquetado cuando el hub remoto no responde),
   `prepareComponent`/`publishComponent` (fork + rama + PR), `buildDemoSite`,
   y las herramientas MCP `callHubTool`/`HUB_TOOL_SCHEMAS`.
 - **Sitio estático** (`site/components/**`, `site/api/**`): inicio, catálogo
@@ -81,7 +113,7 @@ compatible con todo lo anterior.
 - **Tests**: `tests/hub.test.ts` y `tests/cli-components.test.ts` (27 tests:
   catálogo y validación, índice y esquema, Markdown, sitio, cliente contra un
   hub servido en local, lock/merge/update, demo, MCP HTTP, publicación con API
-  de GitHub simulada y CLI end-to-end). Total: 568 tests.
+  de GitHub simulada y CLI end-to-end). Total: 569 tests.
 
 ### Corregido
 

@@ -1,0 +1,25 @@
+/* Generado por WebMCPcss - https://github.com/cochinoraptor/WebMCPcss */
+
+form[toolname="buscarProductos"] {
+  webmcp-tool: "buscarProductos";
+  webmcp-description: "Busca productos en el catálogo";
+  webmcp-param-query: value(#q);
+  webmcp-trigger: "submit" on form[toolname="buscarProductos"];
+  webmcp-source: "declarative";
+  webmcp-intent: "submit";
+  webmcp-autosubmit: "true";
+  webmcp-doc-query: "Buscar";
+}
+
+#contact-form button[type="submit"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Envía una consulta al soporte";
+  webmcp-param-email: value(#c-email);
+  webmcp-param-mensaje: value(#c-msg);
+  webmcp-trigger: "submit" on #contact-form;
+  webmcp-source: "declarative";
+  webmcp-intent: "submit";
+  webmcp-autosubmit: "true";
+  webmcp-doc-email: "Email";
+  webmcp-doc-mensaje: "Mensaje";
+}

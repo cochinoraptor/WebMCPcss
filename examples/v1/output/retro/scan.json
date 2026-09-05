@@ -310,5 +310,6 @@
     "ASP.NET WebForms: los ids ctl00$… cambian; se han preferido name/value y fingerprints. Considera `webmcpcss repair` tras cada despliegue.",
     "Hay frames/iframes: las herramientas dentro de un frame requieren ejecutar con el frame como documento.",
     "Enlaces javascript: se seleccionan por texto/onclick; añade data-tool si puedes tocar el HTML."
-  ]
+  ],
+  "declarative": []
 }

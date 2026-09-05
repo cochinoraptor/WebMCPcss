@@ -1,4 +1,4 @@
-# Ejemplos v1.0.0: los diez módulos sobre una misma tienda
+# Ejemplos v1.x: los diez módulos (y el estándar WebMCP) sobre una misma tienda
 
 Esta carpeta contiene un contrato de ejemplo (`tienda.webmcp.css` +
 `tienda.html`), una segunda versión del contrato (`tienda.v2.webmcp.css`) y la
@@ -24,6 +24,7 @@ bash examples/v1/regen.sh
 | Security-MCP       | `webmcpcss security validate --file tienda.webmcp.css --agent "bot:restricted:orders:pay" --json`               | [`output/security/`](./output/security/) (`report.json`, `policies.webmcp.css`)                            |
 | Recommender-MCP    | `webmcpcss recommend "inicia sesión y compra 2 zapatillas rojas" --css tienda.webmcp.css --json`                | [`output/recommender/plan.json`](./output/recommender/plan.json)                                           |
 | Web3-MCP           | `webmcpcss web3 validate --file tienda.webmcp.css --connector wallet-connector.js` / `web3 deploy --export-sol` | [`output/web3/`](./output/web3/)                                                                           |
+| Estándar (v1.1.0)  | `webmcpcss standard compile tienda.webmcp.css --html tienda.html` / `standard scan` / `generate --api`          | [`output/standard/`](./output/standard/) (HTML con `toolname`, script declarativo, `webmcp-tools.js`)      |
 
 ## Con navegador (no incluido en `regen.sh`)
 

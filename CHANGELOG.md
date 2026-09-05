@@ -4,6 +4,76 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [1.1.0] - 2026-09-05
+
+Alineación con el **estándar WebMCP** (borrador del W3C WebML Community Group,
+origin trial en Chrome): ubicación canónica `document.modelContext`, soporte
+completo de la **API declarativa** y endurecimiento de la cadena de publicación.
+Sin dependencias nuevas; compatible con todos los `.webmcp.css` existentes.
+
+### Añadido
+
+- **Módulo `standard`** (`src/standard/`, `import { standard } from 'webmcpcss'`):
+  - `getModelContext(win)`, `modelContextLocation(win)` (`'document' | 'navigator' | 'none'`),
+    `defineModelContext(win, value)` y las constantes `MODEL_CONTEXT_CANONICAL`,
+    `MODEL_CONTEXT_EXPR` (expresión ES5 `document.modelContext || navigator.modelContext`).
+  - API declarativa: `extractDeclarativeTools(html)` / `extractDeclarativeToolsFromDocument(doc)`
+    leen `toolname`, `tooldescription`, `toolautosubmit`, `toolparamtitle` y
+    `toolparamdescription` (con las mismas reglas que el navegador: ambos
+    atributos obligatorios, `toolparamtitle` → `name` → `id` → `<label>`;
+    `required`; opciones de `<select>` como enum); `declarativeToolsToToolMap()`
+    los convierte en un contrato; `toolMapToDeclarative()`,
+    `applyDeclarativeToHtml()` y `buildDeclarativeRuntimeScript()` hacen el
+    camino inverso (HTML anotado, parche JSON o script en tiempo de ejecución).
+- **Comando `webmcpcss standard`** (`src/cli-standard.ts`):
+  - `standard scan <html|url> [-o css] [--merge css] [--json]` — atributos declarativos → `.webmcp.css`.
+  - `standard compile <css> [--html in] [-o out] [--script out.js] [--force] [--json]` — `.webmcp.css` → atributos declarativos.
+  - `standard check <url> [--json]` — dónde expone la página `modelContext`
+    (`document` / alias `navigator` / ninguna), herramientas imperativas
+    registradas, formularios declarativos, avisos (uso del alias obsoleto) y
+    veredicto `agentReady`.
+- **Propiedad `webmcp-doc-<param>`**: descripción de un parámetro
+  (⇄ `toolparamdescription`). `generate --api` la usa como `description` en el
+  `inputSchema`; el round-trip HTML → CSS → JS no pierde documentación.
+- `generate --auto` y `retro scan` detectan los formularios ya anotados con la
+  API declarativa: conservan nombre, descripción y parámetros
+  (`webmcp-source: "declarative"`) y desplazan a la herramienta que se habría
+  inferido para ese formulario. `RetroScan.declarative` lista sus nombres.
+- `README.en.md` (README principal en inglés) y `docs/standard.md`.
+- `.github/dependabot.yml` (npm + GitHub Actions, semanal, agrupado) y
+  `.github/workflows/codeql.yml` (CodeQL `javascript-typescript`,
+  `security-and-quality`, en push/PR y semanal).
+
+### Cambiado
+
+- **`document.modelContext` en todo el código generado y ejecutado en el
+  navegador** — `generate --api`, `export --format browser-inject`,
+  `retro inject`/`retro proxy`, `tailwind generate` y la clase `WebMCPcss`
+  (`via: 'api'`) — con fallback al alias obsoleto `navigator.modelContext`
+  (deprecado en Chromium 150). El shim de `WebMCPApiAdapter` /
+  `validate --api` / `mcp` detecta la API nativa en cualquiera de las dos
+  ubicaciones, la espeja en ambas y, si no existe, publica el polyfill en las
+  dos, ahora con `registerTool`, `unregisterTool`, `provideContext`,
+  `clearContext`, `getTools` y `executeTool`.
+- `npm-publish.yml`: publicación por **trusted publishing (OIDC)** con
+  `--provenance`, sin `NPM_TOKEN`; job previo que ejecuta lint/build/tests,
+  comprueba que la versión coincide con el tag de la release e **instala el
+  tarball en limpio** para verificar exports y CLI antes de publicar (la
+  lección de la 1.0.0). Se dispara con `release: published` o manualmente.
+- README: sección «Integración con el estándar WebMCP» reescrita, comando
+  nº 18 `standard`, 46 agentes; sitio web actualizado a 1.1.0.
+
+### Notas de migración
+
+- No hace falta cambiar ningún `.webmcp.css`.
+- Regenera los scripts con `webmcpcss generate --api` (o `export --format browser-inject`)
+  para eliminar el aviso de obsolescencia de Chrome; los antiguos siguen
+  funcionando mientras exista el alias.
+- Para que `npm-publish.yml` funcione hay que configurar una vez el _trusted
+  publisher_ en npmjs.com (paquete → Settings → Trusted publisher → GitHub
+  Actions: `cochinoraptor/WebMCPcss`, workflow `npm-publish.yml`) y opcionalmente
+  el _environment_ `npm` en GitHub con revisores.
+
 ## [1.0.1] - 2026-09-05
 
 ### Corregido

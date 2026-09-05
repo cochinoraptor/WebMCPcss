@@ -1,0 +1,41 @@
+/* Componente: Hero */
+/* Categoría: layout · Librería: core · Versión: 1.0.0 */
+/* Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título. */
+/* Importar: npx webmcpcss components import core-hero */
+
+.wm-hero { padding: 56px 28px; text-align: center; background: var(--wm-hero-bg, linear-gradient(160deg, #0f172a, #1e293b)); color: #fff; border-radius: var(--wm-radius, 18px); font-family: system-ui, sans-serif; }
+.wm-hero__eyebrow { display: inline-block; margin: 0 0 14px; padding: 4px 12px; border-radius: 999px; background: rgba(255, 255, 255, .12); font-size: 13px; letter-spacing: .3px; }
+.wm-hero__title { margin: 0 auto 14px; max-width: 16ch; font-size: clamp(30px, 5vw, 48px); line-height: 1.08; letter-spacing: -.5px; }
+.wm-hero__subtitle { margin: 0 auto 28px; max-width: 56ch; color: rgba(255, 255, 255, .78); font-size: 17px; }
+.wm-hero__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.wm-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 12px 22px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 18px) - 8px); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; text-decoration: none; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
+.wm-btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .35); }
+
+/* Contrato WebMCP */
+[data-component="hero"] [data-tool="startNow"] {
+  webmcp-tool: "startNow";
+  webmcp-description: "Llamada a la acción principal del hero: empieza el registro o la prueba";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-tool="watchDemo"] {
+  webmcp-tool: "watchDemo";
+  webmcp-description: "Abre la demostración en vídeo";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-context="hero-title"] { webmcp-context: "heroTitle"; webmcp-format: "text"; }
+[data-component="hero"] [data-context="hero-subtitle"] { webmcp-context: "heroSubtitle"; webmcp-format: "text"; }
+
+/* Animación de entrada del título (estándar de animaciones de WebMCPcss) */
+[data-component="hero"] [data-context="hero-title"] {
+  webmcp-animation: "heroTitleIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: load;
+  webmcp-animation-duration: 900ms;
+  webmcp-animation-easing: cubic-bezier(.2, .8, .2, 1);
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(18px)"},{"opacity":1,"transform":"none"}]';
+}

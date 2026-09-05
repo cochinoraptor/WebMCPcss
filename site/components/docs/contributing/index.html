@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es" data-hub-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contribuir · WebMCPcss Component Hub</title>
+<meta name="description" content="Aceptamos componentes nuevos, adaptadores a otras librerías y mejoras de los existentes. Todo el contenido es MIT.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Contribuir · WebMCPcss Component Hub">
+<meta property="og:description" content="Aceptamos componentes nuevos, adaptadores a otras librerías y mejoras de los existentes. Todo el contenido es MIT.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/docs/contributing/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/docs/contributing/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../../api/components.json">
+<link rel="icon" type="image/png" href="../../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Contribuir","url":"https://cochinoraptor.github.io/WebMCPcss/components/docs/contributing/","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../"><img src="../../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../../">Inicio</a>
+      <a href="../../catalog/">Catálogo</a>
+      <a href="../../search/">Buscar</a>
+      <a href="../../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="docs">
+
+<aside aria-label="Documentación">
+  <h4>Guías</h4>
+  <a href="../getting-started/">Primeros pasos</a>
+  <a href="../component-usage/">Uso de componentes</a>
+  <a href="../contributing/" aria-current="page">Contribuir</a>
+  <h4>En esta página</h4><div class="toc"><a href="#publicar-desde-la-cli-recomendado">Publicar desde la CLI (recomendado)</a><a href="#publicar-a-mano">Publicar a mano</a><a href="#requisitos-de-un-componente">Requisitos de un componente</a><a href="#versionado">Versionado</a><a href="#revision">Revisión</a></div>
+  <h4>Más</h4>
+  <a href="../../../">Documentación general de WebMCPcss</a>
+  <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/hub.md" target="_blank" rel="noopener">docs/hub.md en GitHub</a>
+</aside>
+<article class="prose">
+<div class="crumbs"><a href="../">Docs</a><span>›</span><span>Contribuir</span></div>
+<h1 id="contribuir-al-component-hub">Contribuir al Component Hub</h1>
+<p>Aceptamos componentes nuevos, adaptadores a otras librerías y mejoras de los existentes. Todo el contenido es MIT.</p>
+<h2 id="publicar-desde-la-cli-recomendado">Publicar desde la CLI (recomendado)</h2>
+<pre><code class="language-bash">export GITHUB_TOKEN=ghp_…   # token con permiso repo (nunca lo guardes en el repo)
+npx webmcpcss components publish ./mi-boton.webmcp.css \
+  --name &quot;Botón de reserva&quot; --category buttons --library tailwind \
+  --html ./mi-boton.html --description &quot;Reserva una mesa con confirmación&quot; --tags reserva,cta</code></pre>
+<p>La CLI valida el CSS (<code>parseWebMCP</code> + <code>parseAnimations</code>), genera <code>component.json</code>, hace fork del repositorio, crea la rama <code>hub/&lt;id&gt;-…</code>, sube los archivos a <code>components/community/&lt;id&gt;/</code> y abre un Pull Request. Si no indicas <code>--html</code>, se genera un ejemplo mínimo a partir de los selectores del contrato.</p>
+<h2 id="publicar-a-mano">Publicar a mano</h2>
+<ol><li>Crea <code>components/community/&lt;library&gt;-&lt;slug&gt;/</code> con <code>component.json</code>, <code>&lt;slug&gt;.webmcp.css</code> y <code>&lt;slug&gt;.html</code>.</li><li>Ejecuta <code>npm run build:hub</code> para regenerar <code>site/components/</code> y <code>site/api/components.json</code>.</li><li>Ejecuta <code>npm test</code> y abre el PR.</li></ol>
+<h2 id="requisitos-de-un-componente">Requisitos de un componente</h2>
+<ul><li><strong>Id</strong> en kebab-case con el prefijo de la librería: <code>tailwind-pricing-table</code>, <code>core-toast</code>.</li><li><strong>Descripción</strong> ≥ 15 caracteres que explique la acción para un agente, no solo el aspecto.</li><li>Al menos una <strong>herramienta</strong> (<code>webmcp-tool</code>), <strong>contexto</strong> (<code>webmcp-context</code>) o <strong>animación</strong> (<code>webmcp-animation</code>).</li><li>Cada herramienta con <code>webmcp-description</code>, <code>webmcp-intent</code>, <code>webmcp-confirmation</code> y <code>webmcp-permissions</code>.</li><li>Selectores basados en <code>data-*</code> (no en clases de estilo).</li><li>HTML accesible: etiquetas en los campos, <code>aria-*</code> donde toque, objetivo táctil ≥ 44 px.</li><li>Sin dependencias de pago ni recursos externos obligatorios (los CDN de Tailwind/Bootstrap se usan solo para la previsualización).</li></ul>
+<h3 id="component-json"><code>component.json</code></h3>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;tailwind-pricing-table&quot;,
+  &quot;name&quot;: &quot;Pricing Table&quot;,
+  &quot;category&quot;: &quot;cards&quot;,
+  &quot;library&quot;: &quot;tailwind&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Tabla de precios con tres planes; la herramienta choosePlan selecciona uno.&quot;,
+  &quot;tags&quot;: [&quot;pricing&quot;, &quot;plans&quot;],
+  &quot;controls&quot;: [
+    { &quot;variable&quot;: &quot;--wm-primary&quot;, &quot;label&quot;: &quot;Color primario&quot;, &quot;type&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#2563eb&quot; }
+  ],
+  &quot;promptExamples&quot;: [&quot;resalta el plan Pro&quot;],
+  &quot;animateExamples&quot;: [&quot;haz que los planes aparezcan en cascada&quot;],
+  &quot;related&quot;: [&quot;core-pricing-table&quot;]
+}</code></pre>
+<p>Categorías válidas: <code>buttons</code>, <code>cards</code>, <code>forms</code>, <code>layout</code>, <code>animations</code>, <code>intelligent</code>. Librerías: <code>core</code>, <code>tailwind</code>, <code>bootstrap</code>, <code>mui</code>, <code>shadcn</code>.</p>
+<h2 id="versionado">Versionado</h2>
+<p>Cada componente tiene su propia versión SemVer. Sube <strong>patch</strong> si cambias estilos, <strong>minor</strong> si añades herramientas o parámetros compatibles y <strong>major</strong> si renombras herramientas o cambias selectores. El <code>hash</code> del índice permite a <code>components update</code> detectar cualquier cambio.</p>
+<h2 id="revision">Revisión</h2>
+<p>Un mantenedor comprueba que el contrato es coherente con el HTML (<code>webmcpcss standard scan</code>), que <code>npm run build:hub -- --check</code> pasa en CI y que la previsualización funciona en el sitio. Gracias por contribuir.</p>
+</article>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../../">WebMCPcss</a>
+      <a href="../../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../../assets/index.js" defer></script>
+<script src="../../assets/hub.js" defer></script>
+</body>
+</html>

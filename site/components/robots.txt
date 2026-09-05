@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cochinoraptor.github.io/WebMCPcss/components/sitemap.xml

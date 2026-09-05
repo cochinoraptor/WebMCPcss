@@ -1,0 +1,7 @@
+<section class="wm-scene" data-component="parallax-scene">
+  <div class="wm-scene__canvas" data-scene aria-label="Escena isométrica 2.5D" role="img"></div>
+  <div class="wm-scene__bar">
+    <span class="wm-scene__status" data-context="scene-status">Escena lista</span>
+    <button class="wm-btn" data-tool="replayScene" type="button" onclick="this.previousElementSibling.textContent='Reproduciendo…';const s=document.querySelector('[data-scene]');s.style.animation='none';void s.offsetWidth;s.style.animation='wm-scene-in .9s ease-out'">↻ Reproducir</button>
+  </div>
+</section>

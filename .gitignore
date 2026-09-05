@@ -19,3 +19,6 @@ webmcp-graph.html
 # Salidas del ejemplo de prompt
 examples/prompt/output/
 /scratch/
+
+# El ejemplo del Component Hub versiona su lock a propósito
+!examples/component-hub/.webmcpcss/

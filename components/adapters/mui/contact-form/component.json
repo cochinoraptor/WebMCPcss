@@ -1,0 +1,59 @@
+{
+  "id": "mui-contact-form",
+  "name": "Contact Form",
+  "category": "forms",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "contact",
+    "declarative",
+    "autosubmit",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "añade un campo de teléfono al formulario de contacto",
+    "cambia el color del botón Enviar mensaje"
+  ],
+  "animateExamples": [
+    "aplica slide-up al formulario de contacto",
+    "haz que el botón de enviar pulse cuando el formulario sea válido"
+  ],
+  "related": [
+    "core-contact-form",
+    "tailwind-contact-form",
+    "bootstrap-contact-form",
+    "shadcn-contact-form"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Paper component=\"form\" data-form=\"contact-form\" toolname=\"sendMessage\" tooldescription=\"Envía un mensaje de contacto con nombre, correo y texto\" toolautosubmit=\"\" onSubmit={handleSubmit} sx={{ p: 3, display: \"grid\", gap: 2, maxWidth: 384 }}>\n  <Typography variant=\"h5\">Contacto</Typography>\n  <TextField name=\"name\" label=\"Nombre\" type=\"text\" required inputProps={{ toolparamtitle: \"name\", toolparamdescription: \"Nombre de quien escribe\" }} />\n  <TextField name=\"email\" label=\"Correo electrónico\" type=\"email\" required inputProps={{ toolparamtitle: \"email\", toolparamdescription: \"Correo para responder\" }} />\n  <TextField name=\"message\" label=\"Mensaje\" type=\"text\" required multiline rows={4} inputProps={{ toolparamtitle: \"message\", toolparamdescription: \"Texto del mensaje\" }} />\n  <Button type=\"submit\" variant=\"contained\" fullWidth>Enviar mensaje</Button>\n</Paper>"
+  },
+  "preview": "preview.css"
+}

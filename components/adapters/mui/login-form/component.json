@@ -1,0 +1,59 @@
+{
+  "id": "mui-login-form",
+  "name": "Login Form",
+  "category": "forms",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "login",
+    "auth",
+    "declarative",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace de “¿olvidaste tu contraseña?” bajo el formulario",
+    "cambia el texto del botón Entrar a Acceder"
+  ],
+  "animateExamples": [
+    "haz que el formulario de login aparezca con fade-in",
+    "agita el formulario cuando falle el acceso"
+  ],
+  "related": [
+    "core-login-form",
+    "tailwind-login-form",
+    "bootstrap-login-form",
+    "shadcn-login-form"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Paper component=\"form\" data-form=\"login-form\" toolname=\"login\" tooldescription=\"Inicia sesión con correo y contraseña\" onSubmit={handleSubmit} sx={{ p: 3, display: \"grid\", gap: 2, maxWidth: 384 }}>\n  <Typography variant=\"h5\">Iniciar sesión</Typography>\n  <TextField name=\"email\" label=\"Correo electrónico\" type=\"email\" required inputProps={{ toolparamtitle: \"email\", toolparamdescription: \"Correo con el que te registraste\" }} />\n  <TextField name=\"password\" label=\"Contraseña\" type=\"password\" required inputProps={{ toolparamtitle: \"password\", toolparamdescription: \"Contraseña de la cuenta (mínimo 8 caracteres)\" }} />\n  <Button type=\"submit\" variant=\"contained\" fullWidth>Entrar</Button>\n</Paper>"
+  },
+  "preview": "preview.css"
+}

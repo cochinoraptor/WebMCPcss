@@ -1,0 +1,39 @@
+{
+  "id": "core-isometric-2-5d",
+  "name": "2.5D Isometric",
+  "category": "animations",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Animación reutilizable de proyección isométrica 2.5D (rotación X/Z con perspectiva) declarada con webmcp-animation-type: isometric.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "animation",
+    "isometric",
+    "2.5d",
+    "3d",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color del elemento",
+      "type": "color",
+      "default": "#2563eb"
+    }
+  ],
+  "promptExamples": [
+    "aplica la animación 2.5D al botón Comprar"
+  ],
+  "animateExamples": [
+    "reduce la inclinación isométrica a 40 grados",
+    "convierte la escena isométrica en un flip 3D"
+  ],
+  "related": [
+    "core-fade-in",
+    "core-slide-up",
+    "core-pulse"
+  ],
+  "preview": "preview.css",
+  "css": "isometric-2-5d.webmcp.css",
+  "html": "isometric-2-5d.html"
+}

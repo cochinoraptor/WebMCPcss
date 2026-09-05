@@ -1,0 +1,63 @@
+{
+  "id": "core-hero",
+  "name": "Hero",
+  "category": "layout",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "hero",
+    "landing",
+    "cta",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "10px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "cambia el título del hero a “Componentes nativos para agentes”",
+    "pon el botón Empezar ahora en verde"
+  ],
+  "animateExamples": [
+    "aplica parallax al fondo del hero",
+    "haz que el subtítulo aparezca con retardo"
+  ],
+  "related": [
+    "tailwind-hero",
+    "bootstrap-hero",
+    "mui-hero",
+    "shadcn-hero"
+  ],
+  "preview": "preview.css",
+  "css": "hero.webmcp.css",
+  "html": "hero.html"
+}

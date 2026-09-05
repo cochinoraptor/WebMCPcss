@@ -1,0 +1,62 @@
+{
+  "id": "core-checkout-form",
+  "name": "Checkout Form",
+  "category": "intelligent",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "checkout",
+    "payment",
+    "security",
+    "declarative",
+    "intelligent",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "14px",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "añade un campo de teléfono al formulario de pago",
+    "cambia el texto del botón a Confirmar pedido"
+  ],
+  "animateExamples": [
+    "agita el formulario si el cupón no es válido",
+    "haz que el total pulse al cambiar"
+  ],
+  "related": [
+    "core-smart-product-card",
+    "core-hero-section",
+    "core-parallax-scene"
+  ],
+  "preview": "preview.css"
+}

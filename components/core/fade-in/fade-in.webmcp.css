@@ -1,0 +1,22 @@
+/* Componente: Fade In */
+/* Categoría: animations · Librería: core · Versión: 1.0.0 */
+/* Animación reutilizable de aparición gradual (opacity 0 → 1) declarada con webmcp-animation; se ejecuta con el runtime de WebMCPcss cuando el elemento entra en pantalla. */
+/* Importar: npx webmcpcss components import core-fade-in */
+
+.wm-anim-stage { display: grid; place-items: center; min-height: 220px; padding: 24px; background: #fff; border: 1px dashed #cbd5e1; border-radius: 14px; font-family: system-ui, sans-serif; }
+.wm-anim-target { display: grid; place-items: center; width: 160px; height: 100px; border-radius: 14px; background: var(--wm-primary, #2563eb); color: #fff; font-weight: 700; box-shadow: 0 18px 40px -18px var(--wm-primary, #2563eb); }
+
+/* Animación declarativa (estándar de animaciones de WebMCPcss): ejecútala con
+   `webmcpcss animate fade-in.webmcp.css --url https://tu-sitio` o incluye el runtime
+   (`webmcpcss animate fade-in.webmcp.css -o ./public/webmcp-animation`). */
+[data-animation="fade-in"] {
+  webmcp-animation: "fadeIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: visible;
+  webmcp-animation-priority: normal;
+  webmcp-animation-conflict: queue;
+  webmcp-animation-duration: 800ms;
+  webmcp-animation-easing: ease-out;
+  webmcp-animation-keyframes: '[{"opacity":0},{"opacity":1}]';
+  webmcp-animation-description: "Fade In: Animación reutilizable de aparición gradual";
+}

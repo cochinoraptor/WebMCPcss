@@ -1,0 +1,30 @@
+/* Componente: Contact Form */
+/* Categoría: forms · Librería: core · Versión: 1.0.0 */
+/* Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención. */
+/* Importar: npx webmcpcss components import core-contact-form */
+
+.wm-form { display: grid; gap: 14px; width: min(100%, 380px); padding: 24px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
+.wm-form__title { margin: 0 0 4px; font-size: 20px; }
+.wm-field { display: grid; gap: 6px; }
+.wm-field label { font-size: 13px; font-weight: 600; color: #374151; }
+.wm-field input, .wm-field textarea { padding: 10px 12px; border: 1px solid #d1d5db; border-radius: calc(var(--wm-radius, 14px) - 6px); font: 15px system-ui, sans-serif; }
+.wm-field input:focus-visible, .wm-field textarea:focus-visible { outline: 3px solid color-mix(in srgb, var(--wm-primary, #2563eb) 35%, white); border-color: var(--wm-primary, #2563eb); }
+.wm-btn { min-height: 44px; padding: 10px 22px; border: 0; border-radius: calc(var(--wm-radius, 14px) - 4px); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
+
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form="contact-form"] button[type="submit"] {
+  webmcp-tool: "sendMessage";
+  webmcp-description: "Envía un mensaje de contacto con nombre, correo y texto";
+  webmcp-param-name: value(form[data-form="contact-form"] [name="name"]);
+  webmcp-param-email: value(form[data-form="contact-form"] [name="email"]);
+  webmcp-param-message: value(form[data-form="contact-form"] [name="message"]);
+  webmcp-trigger: "submit" on form[data-form="contact-form"];
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-autosubmit: "true";
+  webmcp-doc-name: "Nombre de quien escribe";
+  webmcp-doc-email: "Correo para responder";
+  webmcp-doc-message: "Texto del mensaje";
+}

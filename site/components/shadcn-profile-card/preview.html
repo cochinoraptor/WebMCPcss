@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Profile Card</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{border:'var(--border)',input:'var(--input)',ring:'var(--ring)',background:'var(--background)',foreground:'var(--foreground)',primary:{DEFAULT:'var(--primary)',foreground:'var(--primary-foreground)'},secondary:{DEFAULT:'var(--secondary)',foreground:'var(--secondary-foreground)'},destructive:{DEFAULT:'var(--destructive)',foreground:'#fff'},muted:{DEFAULT:'var(--muted)',foreground:'var(--muted-foreground)'},accent:{DEFAULT:'var(--accent)',foreground:'var(--accent-foreground)'},popover:{DEFAULT:'var(--popover)',foreground:'var(--popover-foreground)'},card:{DEFAULT:'var(--card)',foreground:'var(--card-foreground)'}},borderRadius:{lg:'var(--radius)',md:'calc(var(--radius) - 2px)',sm:'calc(var(--radius) - 4px)'}}}}</script>
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="profile-card.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="cards" data-kind="cards">
+<div data-slot="card" data-component="profile-card" data-user-id="u-1024" class="flex w-full max-w-sm flex-col gap-4 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
+  <div data-slot="card-header" class="flex items-center gap-4 px-6">
+    <span data-slot="avatar" class="grid size-14 place-items-center rounded-full bg-primary font-semibold text-primary-foreground" aria-hidden="true">AR</span>
+    <div>
+      <h3 data-slot="card-title" class="font-semibold leading-none" data-context="profile-name">Ana Ruiz</h3>
+      <p data-slot="card-description" class="mt-1.5 text-sm text-muted-foreground" data-context="profile-role">Diseñadora de producto · Bogotá</p>
+    </div>
+  </div>
+  <div data-slot="card-content" class="px-6 text-sm">Diseño sistemas de componentes accesibles y nativos para agentes.</div>
+  <div data-slot="card-footer" class="flex gap-2 px-6">
+    <button data-slot="button" data-tool="followUser" type="button" class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90">Seguir</button>
+    <a data-slot="button" data-variant="outline" data-tool="viewProfile" href="#perfil/u-1024" class="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium shadow-sm hover:bg-accent">Ver perfil</a>
+  </div>
+</div>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

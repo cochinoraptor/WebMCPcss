@@ -282,3 +282,36 @@ export * as web3 from './web3';
 // --- v1.1.0: alineación con el estándar WebMCP (document.modelContext y API
 // declarativa toolname/tooldescription) ---
 export * as standard from './standard';
+
+// --- v1.2.0: Component Hub (catálogo IA-First, CLI `components`, MCP hub tools) ---
+export * as hub from './hub';
+export {
+  HUB_CATEGORIES,
+  HUB_LIBRARIES,
+  HUB_TOOL_NAMES,
+  HUB_TOOL_SCHEMAS,
+  DEFAULT_HUB_URL,
+  loadHub,
+  buildHubIndex,
+  buildHubSite,
+  checkHubSite,
+  fetchHubIndex,
+  listComponents,
+  fetchComponent,
+  importComponent,
+  updateComponents,
+  mergeIntoCss,
+  prepareComponent,
+  publishComponent,
+  buildDemoSite,
+  callHubTool,
+} from './hub';
+export type {
+  ComponentMeta,
+  HubComponent,
+  HubIndex,
+  HubIndexEntry,
+  HubCategory,
+  HubLibrary,
+  HubMcpOptions,
+} from './hub';

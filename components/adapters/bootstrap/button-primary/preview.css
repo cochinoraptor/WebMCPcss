@@ -1,0 +1,13 @@
+/* Puente de tema para la previsualización del hub: conecta los controles del editor
+   (--wm-primary, --wm-radius) con las variables de Bootstrap 5.3. Opcional en tu proyecto. */
+:root{--wm-primary:#0d6efd;--wm-radius:.375rem}
+body{padding:24px;background:#f8f9fa}
+.btn-primary,.btn-outline-primary{--bs-btn-bg:var(--wm-primary);--bs-btn-border-color:var(--wm-primary);--bs-btn-hover-bg:color-mix(in srgb,var(--wm-primary) 85%,black);--bs-btn-hover-border-color:color-mix(in srgb,var(--wm-primary) 85%,black);--bs-btn-active-bg:color-mix(in srgb,var(--wm-primary) 80%,black);--bs-btn-border-radius:var(--wm-radius)}
+.btn-outline-primary{--bs-btn-bg:transparent;--bs-btn-color:var(--wm-primary);--bs-btn-hover-bg:var(--wm-primary)}
+.btn-secondary{--bs-btn-border-radius:var(--wm-radius)}
+.card{--bs-card-border-radius:var(--wm-radius);--bs-card-inner-border-radius:calc(var(--wm-radius) - 1px)}
+.form-control,.form-select{--bs-border-radius:var(--wm-radius)}
+.form-control:focus,.form-select:focus{border-color:var(--wm-primary);box-shadow:0 0 0 .25rem color-mix(in srgb,var(--wm-primary) 25%,transparent)}
+.navbar.bg-primary,.bg-primary{--bs-bg-opacity:1;background-color:var(--wm-primary)!important}
+.text-primary{color:var(--wm-primary)!important}
+a{color:var(--wm-primary)}

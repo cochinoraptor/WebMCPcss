@@ -1,0 +1,62 @@
+{
+  "id": "core-smart-product-card",
+  "name": "Smart Product Card",
+  "category": "intelligent",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "product",
+    "context",
+    "security",
+    "a11y",
+    "intelligent",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "14px",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "cambia el descuento de la tarjeta a -30 %",
+    "oculta la valoración de la tarjeta inteligente"
+  ],
+  "animateExamples": [
+    "haz que la tarjeta se eleve más al pasar el ratón",
+    "añade fade-in a la tarjeta inteligente"
+  ],
+  "related": [
+    "core-checkout-form",
+    "core-hero-section",
+    "core-parallax-scene"
+  ],
+  "preview": "preview.css"
+}

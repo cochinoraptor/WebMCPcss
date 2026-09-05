@@ -1,0 +1,32 @@
+/* Componente: Parallax Scene (2.5D) */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Escena 2.5D isométrica IA-First con Three.js (webmcp-animation-type: three-scene): capas de color con parallax al ratón, botón para reproducirla y contexto con el estado; todo declarado en CSS. */
+/* Importar: npx webmcpcss components import core-parallax-scene */
+
+.wm-scene { display: grid; gap: 10px; padding: 14px; background: #0b1020; border-radius: var(--wm-radius, 18px); font-family: system-ui, sans-serif; }
+.wm-scene__canvas { height: 280px; border-radius: calc(var(--wm-radius, 18px) - 6px); background: radial-gradient(circle at 50% 40%, #1e293b, #0b1020); animation: wm-scene-in .9s ease-out; }
+@keyframes wm-scene-in { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: none; } }
+.wm-scene__bar { display: flex; justify-content: space-between; align-items: center; color: rgba(255, 255, 255, .75); font-size: 13px; }
+.wm-btn { min-height: 38px; padding: 8px 14px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 10px; background: var(--wm-primary, #7c6cf0); color: #fff; font: 600 13px/1 system-ui, sans-serif; cursor: pointer; }
+
+/* Contrato WebMCP */
+[data-component="parallax-scene"] [data-tool="replayScene"] {
+  webmcp-tool: "replayScene";
+  webmcp-description: "Vuelve a reproducir la escena 2.5D desde el principio";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="parallax-scene"] [data-context="scene-status"] { webmcp-context: "sceneStatus"; webmcp-format: "text"; }
+
+/* Escena Three.js 2.5D (cámara ortográfica, capas de color, parallax con el ratón).
+   Three.js se carga como módulo ESM desde el CDN indicado en moduleUrl (o el de unpkg por defecto). */
+[data-component="parallax-scene"] [data-scene] {
+  webmcp-animation: "isoScene";
+  webmcp-animation-type: three-scene;
+  webmcp-animation-trigger: visible;
+  webmcp-animation-engine: three;
+  webmcp-animation-scene: '{"camera":"orthographic","viewHeight":6,"interaction":"mouse","background":"transparent","layers":[{"color":"#4fd1c5","position":{"x":-1.6,"y":-0.4,"z":-3},"size":{"width":2.4,"height":2.4},"parallax":0.15,"spin":0.1},{"color":"#7c6cf0","position":{"x":0.4,"y":0.6,"z":-2},"size":{"width":2,"height":2},"parallax":0.35,"spin":-0.15},{"color":"#f59e0b","position":{"x":1.8,"y":-0.9,"z":-1},"size":{"width":1.4,"height":1.4},"parallax":0.6,"spin":0.25}]}';
+  webmcp-animation-fallback: '{"type":"keyframes","engine":"css","keyframes":[{"opacity":0},{"opacity":1}],"duration":"900ms"}';
+  webmcp-animation-description: "Escena isométrica 2.5D con tres capas";
+}

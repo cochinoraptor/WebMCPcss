@@ -1,0 +1,4 @@
+/* Previsualización del hub: valores por defecto de las variables que usa el marcado
+   (bg-[var(--wm-primary,#2563eb)] …). En tu proyecto puedes definirlas en :root o dejar los fallbacks. */
+:root{--wm-primary:#2563eb;--wm-on-primary:#ffffff;--wm-radius:0.5rem;--wm-secondary:#f1f5f9;--wm-on-secondary:#0f172a}
+body{margin:0;padding:24px;background:#f8fafc;font-family:ui-sans-serif,system-ui,sans-serif;color:#0f172a}

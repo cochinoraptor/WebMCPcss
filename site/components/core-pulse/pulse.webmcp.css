@@ -1,0 +1,24 @@
+/* Componente: Pulse */
+/* Categoría: animations · Librería: core · Versión: 1.0.0 */
+/* Animación reutilizable de pulsación infinita (scale 1 → 1.06) declarada con webmcp-animation; ideal para llamadas a la acción. */
+/* Importar: npx webmcpcss components import core-pulse */
+
+.wm-anim-stage { display: grid; place-items: center; min-height: 220px; padding: 24px; background: #fff; border: 1px dashed #cbd5e1; border-radius: 14px; font-family: system-ui, sans-serif; }
+.wm-anim-target { display: grid; place-items: center; width: 160px; height: 100px; border-radius: 14px; background: var(--wm-primary, #2563eb); color: #fff; font-weight: 700; box-shadow: 0 18px 40px -18px var(--wm-primary, #2563eb); }
+
+/* Animación declarativa (estándar de animaciones de WebMCPcss): ejecútala con
+   `webmcpcss animate pulse.webmcp.css --url https://tu-sitio` o incluye el runtime
+   (`webmcpcss animate pulse.webmcp.css -o ./public/webmcp-animation`). */
+[data-animation="pulse"] {
+  webmcp-animation: "pulse";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: load;
+  webmcp-animation-priority: normal;
+  webmcp-animation-conflict: queue;
+  webmcp-animation-duration: 1.6s;
+  webmcp-animation-easing: ease-in-out;
+  webmcp-animation-iterations: infinite;
+  webmcp-animation-direction: alternate;
+  webmcp-animation-keyframes: '[{"transform":"scale(1)"},{"transform":"scale(1.06)"}]';
+  webmcp-animation-description: "Pulse: Animación reutilizable de pulsación infinita";
+}

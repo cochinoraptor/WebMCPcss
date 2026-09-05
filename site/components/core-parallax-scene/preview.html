@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Parallax Scene (2.5D)</title>
+<meta name="robots" content="noindex">
+
+
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="parallax-scene.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="intelligent" data-kind="layout">
+<section class="wm-scene" data-component="parallax-scene">
+  <div class="wm-scene__canvas" data-scene aria-label="Escena isométrica 2.5D" role="img"></div>
+  <div class="wm-scene__bar">
+    <span class="wm-scene__status" data-context="scene-status">Escena lista</span>
+    <button class="wm-btn" data-tool="replayScene" type="button" onclick="this.previousElementSibling.textContent='Reproduciendo…';const s=document.querySelector('[data-scene]');s.style.animation='none';void s.offsetWidth;s.style.animation='wm-scene-in .9s ease-out'">↻ Reproducir</button>
+  </div>
+</section>
+
+</div>
+
+<script src="../assets/webmcp-animation.js"></script>
+<script>window.__WEBMCP_ANIMATIONS__ = {"animations":{"isoScene":{"name":"isoScene","type":"three-scene","priority":"normal","selector":"[data-component=\"parallax-scene\"] [data-scene]","parameters":{"sceneConfig":{"camera":"orthographic","viewHeight":6,"interaction":"mouse","background":"transparent","layers":[{"color":"#4fd1c5","position":{"x":-1.6,"y":-0.4,"z":-3},"size":{"width":2.4,"height":2.4},"parallax":0.15,"spin":0.1},{"color":"#7c6cf0","position":{"x":0.4,"y":0.6,"z":-2},"size":{"width":2,"height":2},"parallax":0.35,"spin":-0.15},{"color":"#f59e0b","position":{"x":1.8,"y":-0.9,"z":-1},"size":{"width":1.4,"height":1.4},"parallax":0.6,"spin":0.25}]}},"line":24,"engine":"three","trigger":"visible","description":"Escena isométrica 2.5D con tres capas","fallback":{"name":"isoScene__fallback","type":"keyframes","priority":"normal","selector":"[data-component=\"parallax-scene\"] [data-scene]","parameters":{"keyframes":[{"opacity":0},{"opacity":1}],"duration":"900ms"},"line":24,"engine":"css"}}},"warnings":[]};</script>
+<script src="../assets/preview.js"></script>
+</body>
+</html>

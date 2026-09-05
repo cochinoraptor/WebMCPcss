@@ -1,0 +1,14 @@
+/* Componente: Button Primary */
+/* Categoría: buttons · Librería: bootstrap · Versión: 1.0.0 */
+/* Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton. */
+/* Importar: npx webmcpcss components import bootstrap-button-primary */
+
+/* Bootstrap 5.3: clases .btn en el HTML; este archivo es el contrato para agentes. */
+.btn[data-tool="clickButton"] {
+  webmcp-tool: "clickButton";
+  webmcp-description: "Ejecuta la acción principal del bloque (enviar, guardar o continuar)";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

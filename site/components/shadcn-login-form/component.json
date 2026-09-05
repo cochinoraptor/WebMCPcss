@@ -1,0 +1,61 @@
+{
+  "id": "shadcn-login-form",
+  "name": "Login Form",
+  "category": "forms",
+  "library": "shadcn",
+  "version": "1.0.0",
+  "description": "Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "login",
+    "auth",
+    "declarative",
+    "shadcn"
+  ],
+  "controls": [
+    {
+      "variable": "--primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#18181b"
+    },
+    {
+      "variable": "--primary-foreground",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#fafafa"
+    },
+    {
+      "variable": "--radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.625rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace de “¿olvidaste tu contraseña?” bajo el formulario",
+    "cambia el texto del botón Entrar a Acceder"
+  ],
+  "animateExamples": [
+    "haz que el formulario de login aparezca con fade-in",
+    "agita el formulario cuando falle el acceso"
+  ],
+  "related": [
+    "core-login-form",
+    "tailwind-login-form",
+    "bootstrap-login-form",
+    "mui-login-form"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Card asChild>\n  <form data-form=\"login-form\" toolname=\"login\" tooldescription=\"Inicia sesión con correo y contraseña\" onSubmit={handleSubmit} className=\"grid gap-4 p-6\">\n    <CardTitle>Iniciar sesión</CardTitle>\n    <div className=\"grid gap-2\">\n      <Label htmlFor=\"email\">Correo electrónico</Label>\n      <Input id=\"email\" name=\"email\" type=\"email\" required toolparamtitle=\"email\" toolparamdescription=\"Correo con el que te registraste\" />\n    </div>\n    <div className=\"grid gap-2\">\n      <Label htmlFor=\"password\">Contraseña</Label>\n      <Input id=\"password\" name=\"password\" type=\"password\" required toolparamtitle=\"password\" toolparamdescription=\"Contraseña de la cuenta (mínimo 8 caracteres)\" />\n    </div>\n    <Button type=\"submit\" className=\"w-full\">Entrar</Button>\n  </form>\n</Card>"
+  },
+  "preview": "preview.css",
+  "css": "login-form.webmcp.css",
+  "html": "login-form.html"
+}

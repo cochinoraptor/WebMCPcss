@@ -3,4 +3,4 @@
  * exportadores (plugins generados). Debe coincidir con `package.json`
  * (hay un test que lo comprueba).
  */
-export const VERSION = '1.1.0';
+export const VERSION = '1.2.0';

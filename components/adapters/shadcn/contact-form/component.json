@@ -1,0 +1,59 @@
+{
+  "id": "shadcn-contact-form",
+  "name": "Contact Form",
+  "category": "forms",
+  "library": "shadcn",
+  "version": "1.0.0",
+  "description": "Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "contact",
+    "declarative",
+    "autosubmit",
+    "shadcn"
+  ],
+  "controls": [
+    {
+      "variable": "--primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#18181b"
+    },
+    {
+      "variable": "--primary-foreground",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#fafafa"
+    },
+    {
+      "variable": "--radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.625rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "añade un campo de teléfono al formulario de contacto",
+    "cambia el color del botón Enviar mensaje"
+  ],
+  "animateExamples": [
+    "aplica slide-up al formulario de contacto",
+    "haz que el botón de enviar pulse cuando el formulario sea válido"
+  ],
+  "related": [
+    "core-contact-form",
+    "tailwind-contact-form",
+    "bootstrap-contact-form",
+    "mui-contact-form"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Card asChild>\n  <form data-form=\"contact-form\" toolname=\"sendMessage\" tooldescription=\"Envía un mensaje de contacto con nombre, correo y texto\" toolautosubmit=\"\" onSubmit={handleSubmit} className=\"grid gap-4 p-6\">\n    <CardTitle>Contacto</CardTitle>\n    <div className=\"grid gap-2\">\n      <Label htmlFor=\"name\">Nombre</Label>\n      <Input id=\"name\" name=\"name\" type=\"text\" required toolparamtitle=\"name\" toolparamdescription=\"Nombre de quien escribe\" />\n    </div>\n    <div className=\"grid gap-2\">\n      <Label htmlFor=\"email\">Correo electrónico</Label>\n      <Input id=\"email\" name=\"email\" type=\"email\" required toolparamtitle=\"email\" toolparamdescription=\"Correo para responder\" />\n    </div>\n    <div className=\"grid gap-2\">\n      <Label htmlFor=\"message\">Mensaje</Label>\n      <Textarea id=\"message\" name=\"message\" required toolparamtitle=\"message\" toolparamdescription=\"Texto del mensaje\" />\n    </div>\n    <Button type=\"submit\" className=\"w-full\">Enviar mensaje</Button>\n  </form>\n</Card>"
+  },
+  "preview": "preview.css"
+}

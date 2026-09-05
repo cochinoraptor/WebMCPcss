@@ -1,0 +1,59 @@
+{
+  "id": "shadcn-navbar",
+  "name": "Navbar",
+  "category": "layout",
+  "library": "shadcn",
+  "version": "1.0.0",
+  "description": "Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "navigation",
+    "navbar",
+    "header",
+    "shadcn"
+  ],
+  "controls": [
+    {
+      "variable": "--primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#18181b"
+    },
+    {
+      "variable": "--primary-foreground",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#fafafa"
+    },
+    {
+      "variable": "--radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.625rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace “Precios” a la barra de navegación",
+    "cambia el color de fondo de la navbar"
+  ],
+  "animateExamples": [
+    "haz que la navbar aparezca deslizándose desde arriba",
+    "añade fade-in a los enlaces del menú"
+  ],
+  "related": [
+    "core-navbar",
+    "tailwind-navbar",
+    "bootstrap-navbar",
+    "mui-navbar"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<nav data-component=\"navbar\" aria-label=\"Principal\" className=\"flex items-center gap-4 rounded-xl border bg-card px-5 py-3\">\n  <a href=\"/\" data-tool=\"goHome\" className=\"mr-auto font-extrabold\">◆ Marca</a>\n  <Button variant=\"ghost\" size=\"icon\" className=\"sm:hidden\" data-tool=\"openMenu\" aria-label=\"Abrir menú\" onClick={toggle}><Menu /></Button>\n  <NavigationMenu>\n    <NavigationMenuList>\n      {links.map((l) => <NavigationMenuItem key={l.href}><NavigationMenuLink href={l.href} aria-current={l.active ? \"page\" : undefined}>{l.label}</NavigationMenuLink></NavigationMenuItem>)}\n    </NavigationMenuList>\n  </NavigationMenu>\n  <Button asChild data-tool=\"signUp\"><a href=\"/registro\">Crear cuenta</a></Button>\n</nav>"
+  },
+  "preview": "preview.css"
+}

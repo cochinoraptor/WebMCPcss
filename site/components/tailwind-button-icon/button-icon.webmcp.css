@@ -1,0 +1,14 @@
+/* Componente: Button Icon */
+/* Categoría: buttons · Librería: tailwind · Versión: 1.0.0 */
+/* Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport. */
+/* Importar: npx webmcpcss components import tailwind-button-icon */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+[data-tool="downloadReport"] {
+  webmcp-tool: "downloadReport";
+  webmcp-description: "Descarga el informe en PDF (requiere confirmación del usuario)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

@@ -1,0 +1,22 @@
+/* Componente: Contact Form */
+/* Categoría: forms · Librería: mui · Versión: 1.0.0 */
+/* Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención. */
+/* Importar: npx webmcpcss components import mui-contact-form */
+
+/* Material UI: el HTML es el DOM que renderizan <TextField> y <Button>; los atributos declarativos van en inputProps. */
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form="contact-form"] button[type="submit"] {
+  webmcp-tool: "sendMessage";
+  webmcp-description: "Envía un mensaje de contacto con nombre, correo y texto";
+  webmcp-param-name: value(form[data-form="contact-form"] [name="name"]);
+  webmcp-param-email: value(form[data-form="contact-form"] [name="email"]);
+  webmcp-param-message: value(form[data-form="contact-form"] [name="message"]);
+  webmcp-trigger: "submit" on form[data-form="contact-form"];
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-autosubmit: "true";
+  webmcp-doc-name: "Nombre de quien escribe";
+  webmcp-doc-email: "Correo para responder";
+  webmcp-doc-message: "Texto del mensaje";
+}

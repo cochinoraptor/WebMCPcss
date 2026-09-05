@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Hero Section (parallax)</title>
+<meta name="robots" content="noindex">
+
+
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="hero-section.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="intelligent" data-kind="layout">
+<section class="wm-heroX" data-component="hero-section">
+  <div class="wm-heroX__layer wm-heroX__layer--far" aria-hidden="true"></div>
+  <div class="wm-heroX__layer wm-heroX__layer--mid" aria-hidden="true"></div>
+  <div class="wm-heroX__content">
+    <p class="wm-heroX__eyebrow">Component Hub</p>
+    <h1 class="wm-heroX__title" data-context="hero-title">Tu web, nativa para agentes en una tarde</h1>
+    <p class="wm-heroX__subtitle" data-context="hero-subtitle">Importa componentes con su contrato .webmcp.css y deja que los agentes descubran qué pueden hacer.</p>
+    <div class="wm-heroX__actions">
+      <a class="wm-btn wm-btn--primary" data-tool="exploreCatalog" href="#catalogo">Explorar catálogo</a>
+      <a class="wm-btn wm-btn--ghost" data-tool="contactSales" href="#contacto">Hablar con ventas</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script src="../assets/webmcp-animation.js"></script>
+<script>window.__WEBMCP_ANIMATIONS__ = {"animations":{"heroParallax":{"name":"heroParallax","type":"parallax","priority":"normal","selector":"[data-component=\"hero-section\"]","parameters":{"layers":[{"selector":".wm-heroX__layer--far","speed":0.15},{"selector":".wm-heroX__layer--mid","speed":0.4},{"selector":".wm-heroX__content","speed":0.9}]},"line":38,"trigger":"scroll","description":"Fondo del hero con profundidad"},"heroXTitleIn":{"name":"heroXTitleIn","type":"keyframes","priority":"high","selector":"[data-component=\"hero-section\"] .wm-heroX__title","parameters":{"keyframes":[{"opacity":0,"transform":"translateY(24px)"},{"opacity":1,"transform":"none"}],"duration":"900ms","easing":"cubic-bezier(.2, .8, .2, 1)"},"line":46,"trigger":"load"}},"warnings":[]};</script>
+<script src="../assets/preview.js"></script>
+</body>
+</html>

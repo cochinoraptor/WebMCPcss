@@ -16,6 +16,12 @@ import * as readline from 'readline';
 import type { ToolMap } from '../types';
 import { toolMapToJsonSchemas, type ToolJsonSchema } from './schema';
 import { VERSION } from '../version';
+import {
+  HUB_TOOL_SCHEMAS,
+  callHubTool,
+  isHubTool,
+  type HubMcpOptions,
+} from '../hub/mcp-tools';
 
 /** Firma del ejecutor de herramientas que provee el CLI. */
 export type ToolExecutor = (
@@ -156,6 +162,12 @@ export interface McpServerOptions {
    * servidor expone la herramienta `webmcpcss_animate` y `POST /api/animate`.
    */
   animate?: AnimateExecutor;
+  /**
+   * Component Hub (v1.2.0). Si está definido, el servidor expone
+   * `list_components`, `get_component` e `import_component` y las rutas
+   * `GET /api/components` y `GET /api/components/:id`.
+   */
+  hub?: HubMcpOptions;
   /** Versión del servidor a anunciar. */
   version?: string;
 }
@@ -189,6 +201,11 @@ export class McpCore {
     return Boolean(this.options.animate);
   }
 
+  /** ¿Están habilitadas las herramientas del Component Hub? */
+  get hubEnabled(): boolean {
+    return Boolean(this.options.hub);
+  }
+
   /** Nombre y versión que anuncia `initialize`. */
   protected serverInfo(): { name: string; version: string } {
     return { name: 'webmcpcss', version: this.options.version ?? VERSION };
@@ -203,7 +220,27 @@ export class McpCore {
     }));
     if (this.options.prompt) tools.push({ ...PROMPT_TOOL_SCHEMA });
     if (this.options.animate) tools.push({ ...ANIMATE_TOOL_SCHEMA });
+    if (this.options.hub) tools.push(...HUB_TOOL_SCHEMAS.map((s) => ({ ...s })));
     return { tools };
+  }
+
+  /** Ejecuta una herramienta del Component Hub (si está habilitado). */
+  async callHub(
+    name: string,
+    args: Record<string, unknown>,
+  ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
+    if (!this.options.hub || !isHubTool(name)) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: 'text',
+            text: 'El Component Hub no está habilitado. Arranca el servidor con --hub.',
+          },
+        ],
+      };
+    }
+    return callHubTool(name, args, this.options.hub);
   }
 
   /** Ejecuta la herramienta de lenguaje natural y envuelve el resultado como MCP. */
@@ -332,6 +369,7 @@ export class McpCore {
   ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
     if (name === PROMPT_TOOL_NAME) return this.callPrompt(args);
     if (name === ANIMATE_TOOL_NAME) return this.callAnimate(args);
+    if (this.options.hub && isHubTool(name)) return this.callHub(name, args);
     const tool = this.options.toolMap.tools[name];
     if (!tool) {
       return {
@@ -547,6 +585,39 @@ export function createMcpHttpServer(options: McpServerOptions | McpCore): http.S
     }
     if (req.method === 'GET' && req.url === '/api/tools') {
       respond(200, core.listTools());
+      return;
+    }
+    if (req.method === 'GET' && req.url?.startsWith('/api/components')) {
+      if (!core.hubEnabled) {
+        respond(404, { error: 'Component Hub no habilitado (usa --hub)' });
+        return;
+      }
+      const u = new URL(req.url, 'http://localhost');
+      const id = u.pathname.replace(/^\/api\/components\/?/, '');
+      void (async () => {
+        const result = id
+          ? await core.callHub('get_component', {
+              id,
+              includeSource: u.searchParams.get('source') !== '0',
+            })
+          : await core.callHub('list_components', {
+              category: u.searchParams.get('category') ?? undefined,
+              library: u.searchParams.get('library') ?? undefined,
+              search:
+                u.searchParams.get('search') ?? u.searchParams.get('q') ?? undefined,
+              limit: u.searchParams.get('limit') ?? undefined,
+            });
+        const textPart = result.content[0] as { text?: string } | undefined;
+        if (result.isError) {
+          respond(id ? 404 : 500, { error: textPart?.text });
+          return;
+        }
+        try {
+          respond(200, JSON.parse(textPart?.text ?? '{}'));
+        } catch {
+          respond(200, result);
+        }
+      })();
       return;
     }
     if (req.method === 'GET' && (req.url === '/api/graph' || req.url === '/')) {

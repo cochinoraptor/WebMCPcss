@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acerca de · WebMCPcss Component Hub</title>
+<meta name="description" content="Qué es el WebMCPcss Component Hub, cómo está hecho y cómo contribuir.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Acerca de · WebMCPcss Component Hub">
+<meta property="og:description" content="Qué es el WebMCPcss Component Hub, cómo está hecho y cómo contribuir.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/about/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/about/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/" aria-current="page">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<article class="prose" style="max-width:820px">
+<span class="eyebrow">Acerca de</span>
+<h1>Un catálogo pensado para personas <em>y</em> agentes</h1>
+<p>El <strong>WebMCPcss Component Hub</strong> reúne componentes de interfaz cuyo comportamiento para agentes de IA está declarado en un archivo <code>.webmcp.css</code>: qué herramientas expone (<code>webmcp-tool</code>), con qué parámetros, qué intención tienen, si requieren confirmación y qué datos de contexto publican. El mismo archivo es CSS válido, así que puede convivir con tu hoja de estilos.</p>
+<h2>Qué encontrarás</h2>
+<ul>
+  <li><strong>Adaptadores</strong> para Tailwind CSS, Bootstrap 5, Material UI y shadcn/ui, más una versión <em>core</em> sin dependencias.</li>
+  <li><strong>Componentes inteligentes</strong> con permisos, límites de uso, confirmación y animaciones declarativas (parallax, 2.5D con Three.js).</li>
+  <li><strong>Metadatos</strong> (<code>component.json</code>) con controles del editor, ejemplos de prompts y componentes relacionados.</li>
+</ul>
+<h2>Cómo está hecho</h2>
+<p>El sitio es 100 % estático y se genera con <code>npm run build:hub</code> a partir de la carpeta <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener"><code>components/</code></a> del repositorio, sin frameworks: HTML, CSS y JavaScript vanilla. Cada página incluye <code>&lt;meta name="webmcp-hub"&gt;</code>, JSON-LD y, si el navegador soporta WebMCP, registra en <code>document.modelContext</code> las herramientas <code>searchComponents</code>, <code>getComponent</code> y <code>toggleFavorite</code> para que un agente pueda navegar el catálogo.</p>
+<h2>Accesibilidad</h2>
+<p>Navegación por teclado (pestañas con flechas, enlace "saltar al contenido"), estados <code>aria-pressed</code>/<code>aria-selected</code>, regiones <code>aria-live</code> para los resultados y respeto de <code>prefers-reduced-motion</code>. Los componentes declaran <code>webmcp-accessibility</code> con sus requisitos mínimos.</p>
+<h2>Licencia y contribuciones</h2>
+<p>Todo el contenido es MIT. Publica tu componente con <code>npx webmcpcss components publish</code> (abre un Pull Request automáticamente) o lee la <a href="../docs/contributing/">guía de contribución</a>.</p>
+<p><a class="btn" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">Repositorio en GitHub ↗</a> <a class="btn" href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">webmcpcss en npm ↗</a></p>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

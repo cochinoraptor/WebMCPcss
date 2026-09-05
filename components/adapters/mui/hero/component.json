@@ -1,0 +1,59 @@
+{
+  "id": "mui-hero",
+  "name": "Hero",
+  "category": "layout",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "hero",
+    "landing",
+    "cta",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el título del hero a “Componentes nativos para agentes”",
+    "pon el botón Empezar ahora en verde"
+  ],
+  "animateExamples": [
+    "aplica parallax al fondo del hero",
+    "haz que el subtítulo aparezca con retardo"
+  ],
+  "related": [
+    "core-hero",
+    "tailwind-hero",
+    "bootstrap-hero",
+    "shadcn-hero"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Container component=\"section\" data-component=\"hero\" sx={{ py: 8, textAlign: \"center\" }}>\n  <Chip label=\"Nuevo · Component Hub\" />\n  <Typography variant=\"h3\" component=\"h1\" data-context=\"hero-title\" sx={{ mt: 2 }}>…</Typography>\n  <Typography color=\"text.secondary\" data-context=\"hero-subtitle\" sx={{ maxWidth: 560, mx: \"auto\", mb: 3 }}>…</Typography>\n  <Stack direction=\"row\" spacing={2} justifyContent=\"center\">\n    <Button variant=\"contained\" size=\"large\" href=\"/empezar\" data-tool=\"startNow\">Empezar ahora</Button>\n    <Button variant=\"outlined\" size=\"large\" data-tool=\"watchDemo\" onClick={openDemo}>▶ Ver demo</Button>\n  </Stack>\n</Container>"
+  },
+  "preview": "preview.css"
+}

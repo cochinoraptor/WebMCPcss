@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Button Outline</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{border:'var(--border)',input:'var(--input)',ring:'var(--ring)',background:'var(--background)',foreground:'var(--foreground)',primary:{DEFAULT:'var(--primary)',foreground:'var(--primary-foreground)'},secondary:{DEFAULT:'var(--secondary)',foreground:'var(--secondary-foreground)'},destructive:{DEFAULT:'var(--destructive)',foreground:'#fff'},muted:{DEFAULT:'var(--muted)',foreground:'var(--muted-foreground)'},accent:{DEFAULT:'var(--accent)',foreground:'var(--accent-foreground)'},popover:{DEFAULT:'var(--popover)',foreground:'var(--popover-foreground)'},card:{DEFAULT:'var(--card)',foreground:'var(--card-foreground)'}},borderRadius:{lg:'var(--radius)',md:'calc(var(--radius) - 2px)',sm:'calc(var(--radius) - 4px)'}}}}</script>
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="button-outline.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="buttons" data-kind="buttons">
+<button data-slot="button" data-variant="outline" data-tool="learnMore" type="button"
+  class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground">
+  Saber más
+</button>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

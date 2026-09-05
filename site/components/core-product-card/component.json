@@ -1,0 +1,63 @@
+{
+  "id": "core-product-card",
+  "name": "Product Card",
+  "category": "cards",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "product",
+    "ecommerce",
+    "cart",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "10px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "cambia el precio de la tarjeta a 39,90 €",
+    "pon el botón Añadir al carrito en verde"
+  ],
+  "animateExamples": [
+    "haz que la tarjeta de producto aparezca con slide-up",
+    "añade una elevación al pasar el ratón por la tarjeta"
+  ],
+  "related": [
+    "tailwind-product-card",
+    "bootstrap-product-card",
+    "mui-product-card",
+    "shadcn-product-card"
+  ],
+  "preview": "preview.css",
+  "css": "product-card.webmcp.css",
+  "html": "product-card.html"
+}

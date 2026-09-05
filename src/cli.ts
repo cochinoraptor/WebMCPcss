@@ -59,6 +59,7 @@ import {
 import { VERSION } from './version';
 import { registerV1Commands } from './cli-v1';
 import { registerStandardCommands } from './cli-standard';
+import { registerComponentCommands } from './cli-components';
 import {
   declarativeToolsToToolMap,
   extractDeclarativeToolsFromDocument,
@@ -1113,26 +1114,47 @@ async function cmdMcp(
     url?: string;
     http?: boolean;
     port: string;
+    /** Commander convierte `--no-prompt` en `prompt: false`. */
+    prompt?: boolean;
+    animate?: boolean;
     noPrompt?: boolean;
     noAnimate?: boolean;
     flomny?: boolean;
+    hub?: boolean;
+    hubUrl?: string;
+    hubOutput?: string;
+    hubOffline?: boolean;
   },
 ) {
   if (!opts.serve) {
     console.log(
-      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090] [--flomny]',
+      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090] [--flomny] [--hub]',
     );
     return;
   }
   const cssPath = opts.css ?? 'webmcp.css';
-  if (!fs.existsSync(cssPath)) {
+  const cssExists = fs.existsSync(cssPath);
+  if (!cssExists && !opts.hub) {
     throw new Error(`No existe ${cssPath}. Indica el archivo con --css.`);
   }
-  const cssSource = fs.readFileSync(cssPath, 'utf8');
-  const toolMap = parseWebMCP(cssSource);
+  // Con --hub se puede arrancar sin CSS (solo descubrimiento/importación de componentes).
+  const cssSource = cssExists ? fs.readFileSync(cssPath, 'utf8') : '';
+  const toolMap = cssExists ? parseWebMCP(cssSource) : { tools: {}, context: {} };
+  if (!cssExists) {
+    console.error(
+      `[webmcpcss] ${cssPath} no existe: servidor solo con herramientas del hub.`,
+    );
+  }
   const execute = opts.url ? buildMcpExecutor(opts.url, cssPath) : undefined;
-  const prompt = opts.noPrompt ? undefined : buildPromptExecutor(opts.url, cssPath, opts);
-  const animate = opts.noAnimate ? undefined : buildAnimateExecutor(opts.url);
+  const prompt =
+    opts.noPrompt || opts.prompt === false
+      ? undefined
+      : buildPromptExecutor(opts.url, cssPath, opts);
+  const animate =
+    opts.noAnimate || opts.animate === false ? undefined : buildAnimateExecutor(opts.url);
+  const hub = opts.hub
+    ? { hubUrl: opts.hubUrl, offline: opts.hubOffline, outputDir: opts.hubOutput }
+    : undefined;
   const options = {
     toolMap,
     cssSource,
@@ -1141,6 +1163,7 @@ async function cmdMcp(
     execute,
     prompt,
     animate,
+    hub,
     version: VERSION,
   };
   // --flomny: servidor dedicado con API de introspección (list_tools, get_tool_info…).
@@ -1180,6 +1203,9 @@ async function cmdMcp(
         (prompt ? ' · POST /api/prompt {"prompt","files","dryRun"}' : '') +
         (animate
           ? ' · POST /api/animate {"animationFile"|"css","strategy","dryRun"}'
+          : '') +
+        (hub
+          ? ' · GET /api/components[?category&library&search] · GET /api/components/:id'
           : ''),
     );
     return new Promise<void>(() => undefined); // queda sirviendo
@@ -1190,6 +1216,7 @@ async function cmdMcp(
     `[webmcpcss] MCP stdio listo${core ? ' (Flomny: list_tools, get_tool_info, get_selector_status, suggest_repair, execute_prompt, apply_animation)' : ''} · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
       (prompt ? ' + webmcpcss_prompt' : '') +
       (animate ? ' + webmcpcss_animate' : '') +
+      (hub ? ' + hub (list_components, get_component, import_component)' : '') +
       (opts.url
         ? ` · ejecución real en ${opts.url}`
         : ' · sin --url (tools/call en dry-run)'),
@@ -1333,6 +1360,17 @@ program
     '--flomny',
     'servidor dedicado para Flomny: list_tools, get_tool_info, get_selector_status, suggest_repair, execute_prompt, apply_animation',
   )
+  .option(
+    '--hub',
+    'exponer el Component Hub: list_components, get_component, import_component (+ GET /api/components)',
+  )
+  .option('--hub-url <url>', 'URL del hub (por defecto WEBMCPCSS_HUB_URL o el público)')
+  .option(
+    '--hub-output <dir>',
+    'carpeta donde import_component escribe',
+    'webmcp-components',
+  )
+  .option('--hub-offline', 'usar solo el catálogo empaquetado')
   .option(
     '--llm <provider>',
     'proveedor LLM para webmcpcss_prompt: ollama, openai, anthropic',
@@ -1877,6 +1915,7 @@ program
 /* ------------------------------------------------------------------ */
 registerV1Commands(program, { launchBrowser, navigate });
 registerStandardCommands(program, { launchBrowser, navigate });
+registerComponentCommands(program);
 
 program.parseAsync(process.argv).catch((err: unknown) => {
   logger.error(err instanceof Error ? err.message : String(err));

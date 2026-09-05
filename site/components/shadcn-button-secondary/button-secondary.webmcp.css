@@ -1,0 +1,14 @@
+/* Componente: Button Secondary */
+/* Categoría: buttons · Librería: shadcn · Versión: 1.0.0 */
+/* Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel. */
+/* Importar: npx webmcpcss components import shadcn-button-secondary */
+
+/* shadcn/ui: el HTML es el DOM que renderiza <Button …> (data-slot="button"); pasa data-tool como prop. */
+[data-slot="button"][data-tool="cancelAction"] {
+  webmcp-tool: "cancelAction";
+  webmcp-description: "Cancela la acción en curso o vuelve al paso anterior sin efectos destructivos";
+  webmcp-intent: "cancel";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

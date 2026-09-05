@@ -1,0 +1,54 @@
+{
+  "id": "tailwind-button-secondary",
+  "name": "Button Secondary",
+  "category": "buttons",
+  "library": "tailwind",
+  "version": "1.0.0",
+  "description": "Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "button",
+    "secondary",
+    "cancel",
+    "tailwind"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.5rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "oculta el botón Cancelar",
+    "cambia el texto del botón secundario a Volver"
+  ],
+  "animateExamples": [
+    "haz que el botón Cancelar aparezca deslizándose",
+    "quita la animación del botón secundario"
+  ],
+  "related": [
+    "core-button-secondary",
+    "bootstrap-button-secondary",
+    "mui-button-secondary",
+    "shadcn-button-secondary"
+  ],
+  "preview": "preview.css"
+}

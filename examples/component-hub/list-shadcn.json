@@ -1,0 +1,536 @@
+{
+  "source": "bundled",
+  "hub": "<carpeta components/ del paquete>",
+  "total": 10,
+  "components": [
+    {
+      "id": "shadcn-button-icon",
+      "name": "Button Icon",
+      "category": "buttons",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport.",
+      "tags": [
+        "button",
+        "icon",
+        "download",
+        "action",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "downloadReport",
+          "selector": "[data-slot=\"button\"][data-tool=\"downloadReport\"]",
+          "description": "Descarga el informe en PDF (requiere confirmación del usuario)",
+          "params": [],
+          "intent": "action",
+          "confirmation": "needed"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "daecacd9bcdbb281",
+      "files": {
+        "css": "components/shadcn-button-icon/button-icon.webmcp.css",
+        "html": "components/shadcn-button-icon/button-icon.html",
+        "meta": "components/shadcn-button-icon/component.json",
+        "page": "components/shadcn-button-icon/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-button-icon",
+      "promptExamples": [
+        "cambia el icono del botón Descargar por una flecha",
+        "pon el botón con icono en gris"
+      ],
+      "animateExamples": [
+        "haz que el botón Descargar pulse suavemente",
+        "aplica slide-up al botón con icono"
+      ]
+    },
+    {
+      "id": "shadcn-button-outline",
+      "name": "Button Outline",
+      "category": "buttons",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Botón outline IA-First: navegación secundaria (saber más, ver detalles) con menor peso visual; herramienta learnMore con intención navigate.",
+      "tags": [
+        "button",
+        "outline",
+        "navigate",
+        "link",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "learnMore",
+          "selector": "[data-slot=\"button\"][data-tool=\"learnMore\"]",
+          "description": "Abre más información o los detalles del elemento (navegación secundaria)",
+          "params": [],
+          "intent": "navigate",
+          "confirmation": "none"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "63dbd4f23f47f56a",
+      "files": {
+        "css": "components/shadcn-button-outline/button-outline.webmcp.css",
+        "html": "components/shadcn-button-outline/button-outline.html",
+        "meta": "components/shadcn-button-outline/component.json",
+        "page": "components/shadcn-button-outline/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-button-outline",
+      "promptExamples": [
+        "cambia el borde del botón Saber más a morado",
+        "convierte el botón outline en relleno"
+      ],
+      "animateExamples": [
+        "añade un brillo al pasar el ratón por el botón outline",
+        "aplica fade-in al botón Saber más"
+      ]
+    },
+    {
+      "id": "shadcn-button-primary",
+      "name": "Button Primary",
+      "category": "buttons",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton.",
+      "tags": [
+        "button",
+        "primary",
+        "submit",
+        "cta",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "clickButton",
+          "selector": "[data-slot=\"button\"][data-tool=\"clickButton\"]",
+          "description": "Ejecuta la acción principal del bloque (enviar, guardar o continuar)",
+          "params": [],
+          "intent": "submit",
+          "confirmation": "none"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "e984848efcae7816",
+      "files": {
+        "css": "components/shadcn-button-primary/button-primary.webmcp.css",
+        "html": "components/shadcn-button-primary/button-primary.html",
+        "meta": "components/shadcn-button-primary/component.json",
+        "page": "components/shadcn-button-primary/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-button-primary",
+      "promptExamples": [
+        "cambia el color del botón primario a verde",
+        "haz el botón Enviar más grande"
+      ],
+      "animateExamples": [
+        "aplica una animación de pulsación al botón primario",
+        "haz que el botón Enviar aparezca con fade-in"
+      ]
+    },
+    {
+      "id": "shadcn-button-secondary",
+      "name": "Button Secondary",
+      "category": "buttons",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel.",
+      "tags": [
+        "button",
+        "secondary",
+        "cancel",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "cancelAction",
+          "selector": "[data-slot=\"button\"][data-tool=\"cancelAction\"]",
+          "description": "Cancela la acción en curso o vuelve al paso anterior sin efectos destructivos",
+          "params": [],
+          "intent": "cancel",
+          "confirmation": "none"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "83226bc61d8923c1",
+      "files": {
+        "css": "components/shadcn-button-secondary/button-secondary.webmcp.css",
+        "html": "components/shadcn-button-secondary/button-secondary.html",
+        "meta": "components/shadcn-button-secondary/component.json",
+        "page": "components/shadcn-button-secondary/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-button-secondary",
+      "promptExamples": [
+        "oculta el botón Cancelar",
+        "cambia el texto del botón secundario a Volver"
+      ],
+      "animateExamples": [
+        "haz que el botón Cancelar aparezca deslizándose",
+        "quita la animación del botón secundario"
+      ]
+    },
+    {
+      "id": "shadcn-product-card",
+      "name": "Product Card",
+      "category": "cards",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes.",
+      "tags": [
+        "card",
+        "product",
+        "ecommerce",
+        "cart",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "addToCart",
+          "selector": "[data-slot=\"card\"][data-component=\"product-card\"] [data-tool=\"addToCart\"]",
+          "description": "Añade el producto de la tarjeta al carrito",
+          "params": [
+            "productId"
+          ],
+          "intent": "action",
+          "confirmation": "none"
+        },
+        {
+          "name": "viewDetails",
+          "selector": "[data-slot=\"card\"][data-component=\"product-card\"] [data-tool=\"viewDetails\"]",
+          "description": "Abre la página de detalle del producto",
+          "params": [
+            "productId"
+          ],
+          "intent": "navigate",
+          "confirmation": "none"
+        }
+      ],
+      "context": [
+        {
+          "name": "productName",
+          "selector": "[data-slot=\"card\"][data-component=\"product-card\"] [data-context=\"product-name\"]",
+          "format": "text"
+        },
+        {
+          "name": "productPrice",
+          "selector": "[data-slot=\"card\"][data-component=\"product-card\"] [data-context=\"product-price\"]",
+          "format": "currency"
+        }
+      ],
+      "animations": [],
+      "hash": "4806d4e56317aba3",
+      "files": {
+        "css": "components/shadcn-product-card/product-card.webmcp.css",
+        "html": "components/shadcn-product-card/product-card.html",
+        "meta": "components/shadcn-product-card/component.json",
+        "page": "components/shadcn-product-card/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-product-card",
+      "promptExamples": [
+        "cambia el precio de la tarjeta a 39,90 €",
+        "pon el botón Añadir al carrito en verde"
+      ],
+      "animateExamples": [
+        "haz que la tarjeta de producto aparezca con slide-up",
+        "añade una elevación al pasar el ratón por la tarjeta"
+      ]
+    },
+    {
+      "id": "shadcn-profile-card",
+      "name": "Profile Card",
+      "category": "cards",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).",
+      "tags": [
+        "card",
+        "profile",
+        "user",
+        "social",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "viewProfile",
+          "selector": "[data-slot=\"card\"][data-component=\"profile-card\"] [data-tool=\"viewProfile\"]",
+          "description": "Abre el perfil completo de la persona",
+          "params": [
+            "userId"
+          ],
+          "intent": "navigate",
+          "confirmation": "none"
+        },
+        {
+          "name": "followUser",
+          "selector": "[data-slot=\"card\"][data-component=\"profile-card\"] [data-tool=\"followUser\"]",
+          "description": "Sigue a la persona (acción social, requiere confirmación)",
+          "params": [
+            "userId"
+          ],
+          "intent": "action",
+          "confirmation": "needed"
+        }
+      ],
+      "context": [
+        {
+          "name": "profileName",
+          "selector": "[data-slot=\"card\"][data-component=\"profile-card\"] [data-context=\"profile-name\"]",
+          "format": "text"
+        },
+        {
+          "name": "profileRole",
+          "selector": "[data-slot=\"card\"][data-component=\"profile-card\"] [data-context=\"profile-role\"]",
+          "format": "text"
+        }
+      ],
+      "animations": [],
+      "hash": "f6d7034bba0cbbfc",
+      "files": {
+        "css": "components/shadcn-profile-card/profile-card.webmcp.css",
+        "html": "components/shadcn-profile-card/profile-card.html",
+        "meta": "components/shadcn-profile-card/component.json",
+        "page": "components/shadcn-profile-card/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-profile-card",
+      "promptExamples": [
+        "cambia el nombre de la tarjeta de perfil a Ana Ruiz",
+        "oculta el botón Seguir"
+      ],
+      "animateExamples": [
+        "aplica fade-in a la tarjeta de perfil",
+        "haz que el avatar pulse suavemente"
+      ]
+    },
+    {
+      "id": "shadcn-contact-form",
+      "name": "Contact Form",
+      "category": "forms",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.",
+      "tags": [
+        "form",
+        "contact",
+        "declarative",
+        "autosubmit",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "sendMessage",
+          "selector": "form[data-form=\"contact-form\"] button[type=\"submit\"]",
+          "description": "Envía un mensaje de contacto con nombre, correo y texto",
+          "params": [
+            "name",
+            "email",
+            "message"
+          ],
+          "intent": "submit",
+          "confirmation": "none"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "5018a1ead30296e6",
+      "files": {
+        "css": "components/shadcn-contact-form/contact-form.webmcp.css",
+        "html": "components/shadcn-contact-form/contact-form.html",
+        "meta": "components/shadcn-contact-form/component.json",
+        "page": "components/shadcn-contact-form/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-contact-form",
+      "promptExamples": [
+        "añade un campo de teléfono al formulario de contacto",
+        "cambia el color del botón Enviar mensaje"
+      ],
+      "animateExamples": [
+        "aplica slide-up al formulario de contacto",
+        "haz que el botón de enviar pulse cuando el formulario sea válido"
+      ]
+    },
+    {
+      "id": "shadcn-login-form",
+      "name": "Login Form",
+      "category": "forms",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos.",
+      "tags": [
+        "form",
+        "login",
+        "auth",
+        "declarative",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "login",
+          "selector": "form[data-form=\"login-form\"] button[type=\"submit\"]",
+          "description": "Inicia sesión con correo y contraseña",
+          "params": [
+            "email",
+            "password"
+          ],
+          "intent": "submit",
+          "confirmation": "needed"
+        }
+      ],
+      "context": [],
+      "animations": [],
+      "hash": "7eb14a31631bfd43",
+      "files": {
+        "css": "components/shadcn-login-form/login-form.webmcp.css",
+        "html": "components/shadcn-login-form/login-form.html",
+        "meta": "components/shadcn-login-form/component.json",
+        "page": "components/shadcn-login-form/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-login-form",
+      "promptExamples": [
+        "añade un enlace de “¿olvidaste tu contraseña?” bajo el formulario",
+        "cambia el texto del botón Entrar a Acceder"
+      ],
+      "animateExamples": [
+        "haz que el formulario de login aparezca con fade-in",
+        "agita el formulario cuando falle el acceso"
+      ]
+    },
+    {
+      "id": "shadcn-hero",
+      "name": "Hero",
+      "category": "layout",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título.",
+      "tags": [
+        "layout",
+        "hero",
+        "landing",
+        "cta",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "startNow",
+          "selector": "[data-component=\"hero\"] [data-tool=\"startNow\"]",
+          "description": "Llamada a la acción principal del hero: empieza el registro o la prueba",
+          "params": [],
+          "intent": "navigate",
+          "confirmation": "none"
+        },
+        {
+          "name": "watchDemo",
+          "selector": "[data-component=\"hero\"] [data-tool=\"watchDemo\"]",
+          "description": "Abre la demostración en vídeo",
+          "params": [],
+          "intent": "action",
+          "confirmation": "none"
+        }
+      ],
+      "context": [
+        {
+          "name": "heroTitle",
+          "selector": "[data-component=\"hero\"] [data-context=\"hero-title\"]",
+          "format": "text"
+        },
+        {
+          "name": "heroSubtitle",
+          "selector": "[data-component=\"hero\"] [data-context=\"hero-subtitle\"]",
+          "format": "text"
+        }
+      ],
+      "animations": [
+        {
+          "name": "heroTitleIn",
+          "type": "keyframes",
+          "selector": "[data-component=\"hero\"] [data-context=\"hero-title\"]"
+        }
+      ],
+      "hash": "e3463665b1895159",
+      "files": {
+        "css": "components/shadcn-hero/hero.webmcp.css",
+        "html": "components/shadcn-hero/hero.html",
+        "meta": "components/shadcn-hero/component.json",
+        "page": "components/shadcn-hero/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-hero",
+      "promptExamples": [
+        "cambia el título del hero a “Componentes nativos para agentes”",
+        "pon el botón Empezar ahora en verde"
+      ],
+      "animateExamples": [
+        "aplica parallax al fondo del hero",
+        "haz que el subtítulo aparezca con retardo"
+      ]
+    },
+    {
+      "id": "shadcn-navbar",
+      "name": "Navbar",
+      "category": "layout",
+      "library": "shadcn",
+      "version": "1.0.0",
+      "description": "Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.",
+      "tags": [
+        "layout",
+        "navigation",
+        "navbar",
+        "header",
+        "shadcn"
+      ],
+      "tools": [
+        {
+          "name": "goHome",
+          "selector": "nav[data-component=\"navbar\"] [data-tool=\"goHome\"]",
+          "description": "Vuelve a la página de inicio",
+          "params": [],
+          "intent": "navigate",
+          "confirmation": "none"
+        },
+        {
+          "name": "openMenu",
+          "selector": "nav[data-component=\"navbar\"] [data-tool=\"openMenu\"]",
+          "description": "Abre o cierra el menú de navegación (móvil)",
+          "params": [],
+          "intent": "action",
+          "confirmation": "none"
+        },
+        {
+          "name": "signUp",
+          "selector": "nav[data-component=\"navbar\"] [data-tool=\"signUp\"]",
+          "description": "Abre el registro de cuenta (llamada a la acción de la barra)",
+          "params": [],
+          "intent": "navigate",
+          "confirmation": "none"
+        }
+      ],
+      "context": [
+        {
+          "name": "activeSection",
+          "selector": "nav[data-component=\"navbar\"] [aria-current=\"page\"]",
+          "format": "text"
+        }
+      ],
+      "animations": [],
+      "hash": "5917ad225d38dc77",
+      "files": {
+        "css": "components/shadcn-navbar/navbar.webmcp.css",
+        "html": "components/shadcn-navbar/navbar.html",
+        "meta": "components/shadcn-navbar/component.json",
+        "page": "components/shadcn-navbar/"
+      },
+      "importCommand": "npx webmcpcss components import shadcn-navbar",
+      "promptExamples": [
+        "añade un enlace “Precios” a la barra de navegación",
+        "cambia el color de fondo de la navbar"
+      ],
+      "animateExamples": [
+        "haz que la navbar aparezca deslizándose desde arriba",
+        "añade fade-in a los enlaces del menú"
+      ]
+    }
+  ]
+}

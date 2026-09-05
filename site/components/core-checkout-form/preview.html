@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Checkout Form</title>
+<meta name="robots" content="noindex">
+
+
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="checkout-form.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="intelligent" data-kind="intelligent">
+<form class="wm-checkout" data-form="checkout" toolname="placeOrder" tooldescription="Confirma el pedido con la dirección y el método de envío indicados" action="#" method="post" novalidate>
+  <header class="wm-checkout__head">
+    <h2>Finalizar compra</h2>
+    <p><span data-context="cart-count">3</span> artículos · Total <strong data-context="order-total">129,70 €</strong></p>
+  </header>
+  <div class="wm-field"><label for="ck-email">Correo</label><input id="ck-email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para el recibo"></div>
+  <div class="wm-field"><label for="ck-address">Dirección de envío</label><input id="ck-address" name="address" type="text" required autocomplete="street-address" toolparamtitle="address" toolparamdescription="Calle, número, ciudad y código postal"></div>
+  <div class="wm-field"><label for="ck-shipping">Envío</label>
+    <select id="ck-shipping" name="shipping" required toolparamtitle="shipping" toolparamdescription="Método de envío">
+      <option value="standard">Estándar (3-5 días) · gratis</option>
+      <option value="express">Exprés (24 h) · 6,90 €</option>
+    </select>
+  </div>
+  <div class="wm-checkout__coupon">
+    <label for="ck-coupon">Cupón</label>
+    <input id="ck-coupon" name="coupon" type="text" placeholder="AGENTE10">
+    <button class="wm-btn wm-btn--outline" data-tool="applyCoupon" type="button">Aplicar</button>
+  </div>
+  <button class="wm-btn wm-btn--primary" type="submit">Pagar 129,70 €</button>
+  <p class="wm-checkout__note">Pago seguro · Se pedirá confirmación antes de cobrar.</p>
+</form>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

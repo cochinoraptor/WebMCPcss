@@ -1,0 +1,63 @@
+{
+  "id": "core-login-form",
+  "name": "Login Form",
+  "category": "forms",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "form",
+    "login",
+    "auth",
+    "declarative",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "10px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace de “¿olvidaste tu contraseña?” bajo el formulario",
+    "cambia el texto del botón Entrar a Acceder"
+  ],
+  "animateExamples": [
+    "haz que el formulario de login aparezca con fade-in",
+    "agita el formulario cuando falle el acceso"
+  ],
+  "related": [
+    "tailwind-login-form",
+    "bootstrap-login-form",
+    "mui-login-form",
+    "shadcn-login-form"
+  ],
+  "preview": "preview.css",
+  "css": "login-form.webmcp.css",
+  "html": "login-form.html"
+}

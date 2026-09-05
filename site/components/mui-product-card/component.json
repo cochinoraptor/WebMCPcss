@@ -1,0 +1,61 @@
+{
+  "id": "mui-product-card",
+  "name": "Product Card",
+  "category": "cards",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "product",
+    "ecommerce",
+    "cart",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el precio de la tarjeta a 39,90 €",
+    "pon el botón Añadir al carrito en verde"
+  ],
+  "animateExamples": [
+    "haz que la tarjeta de producto aparezca con slide-up",
+    "añade una elevación al pasar el ratón por la tarjeta"
+  ],
+  "related": [
+    "core-product-card",
+    "tailwind-product-card",
+    "bootstrap-product-card",
+    "shadcn-product-card"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Card data-component=\"product-card\" data-product-id={product.id}>\n  <CardMedia sx={{ height: 160 }} image={product.image} title={product.name} />\n  <CardContent>\n    <Typography variant=\"h5\" data-context=\"product-name\">{product.name}</Typography>\n    <Typography variant=\"body2\">{product.meta}</Typography>\n    <Typography variant=\"h6\" data-context=\"product-price\">{product.price}</Typography>\n  </CardContent>\n  <CardActions>\n    <Button variant=\"contained\" data-tool=\"addToCart\">Añadir al carrito</Button>\n    <Button variant=\"outlined\" href={product.url} data-tool=\"viewDetails\">Ver detalles</Button>\n  </CardActions>\n</Card>"
+  },
+  "preview": "preview.css",
+  "css": "product-card.webmcp.css",
+  "html": "product-card.html"
+}

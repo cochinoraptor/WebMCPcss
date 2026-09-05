@@ -1,0 +1,43 @@
+/* Componente: Navbar */
+/* Categoría: layout · Librería: core · Versión: 1.0.0 */
+/* Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection. */
+/* Importar: npx webmcpcss components import core-navbar */
+
+.wm-nav { display: flex; align-items: center; gap: 18px; padding: 12px 20px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; flex-wrap: wrap; }
+.wm-nav__brand { font-weight: 800; color: #111827; text-decoration: none; margin-right: auto; }
+.wm-nav__menu { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.wm-nav__menu a { display: inline-block; padding: 8px 12px; border-radius: 8px; color: #374151; text-decoration: none; font-weight: 500; }
+.wm-nav__menu a:hover { background: #f3f4f6; }
+.wm-nav__menu a[aria-current="page"] { color: var(--wm-primary, #2563eb); background: color-mix(in srgb, var(--wm-primary, #2563eb) 10%, transparent); }
+.wm-nav__cta { padding: 10px 16px; border-radius: calc(var(--wm-radius, 14px) - 4px); background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); text-decoration: none; font-weight: 600; }
+.wm-nav__toggle { display: none; border: 0; background: transparent; padding: 8px; border-radius: 8px; cursor: pointer; }
+@media (max-width: 640px) {
+  .wm-nav__toggle { display: inline-flex; }
+  .wm-nav__menu { display: none; flex-basis: 100%; flex-direction: column; }
+  .wm-nav.is-open .wm-nav__menu { display: flex; }
+}
+
+/* Contrato WebMCP */
+nav[data-component="navbar"] [data-tool="goHome"] {
+  webmcp-tool: "goHome";
+  webmcp-description: "Vuelve a la página de inicio";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [data-tool="openMenu"] {
+  webmcp-tool: "openMenu";
+  webmcp-description: "Abre o cierra el menú de navegación (móvil)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "aria-expanded: reflejar estado; aria-controls: menú";
+}
+nav[data-component="navbar"] [data-tool="signUp"] {
+  webmcp-tool: "signUp";
+  webmcp-description: "Abre el registro de cuenta (llamada a la acción de la barra)";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [aria-current="page"] { webmcp-context: "activeSection"; webmcp-format: "text"; }

@@ -1,0 +1,24 @@
+/* Componente: 2.5D Isometric */
+/* Categoría: animations · Librería: core · Versión: 1.0.0 */
+/* Animación reutilizable de proyección isométrica 2.5D (rotación X/Z con perspectiva) declarada con webmcp-animation-type: isometric. */
+/* Importar: npx webmcpcss components import core-isometric-2-5d */
+
+.wm-anim-stage { display: grid; place-items: center; min-height: 220px; padding: 24px; background: #fff; border: 1px dashed #cbd5e1; border-radius: 14px; font-family: system-ui, sans-serif; }
+.wm-anim-target { display: grid; place-items: center; width: 160px; height: 100px; border-radius: 14px; background: var(--wm-primary, #2563eb); color: #fff; font-weight: 700; box-shadow: 0 18px 40px -18px var(--wm-primary, #2563eb); }
+
+/* Animación declarativa (estándar de animaciones de WebMCPcss): ejecútala con
+   `webmcpcss animate isometric-2-5d.webmcp.css --url https://tu-sitio` o incluye el runtime
+   (`webmcpcss animate isometric-2-5d.webmcp.css -o ./public/webmcp-animation`). */
+[data-animation="isometric-2-5d"] {
+  webmcp-animation: "isoTilt";
+  webmcp-animation-type: isometric;
+  webmcp-animation-trigger: load;
+  webmcp-animation-priority: normal;
+  webmcp-animation-conflict: queue;
+  webmcp-animation-rotation-x: 55deg;
+  webmcp-animation-rotation-z: -30deg;
+  webmcp-animation-perspective: 900px;
+  webmcp-animation-duration: 1.2s;
+  webmcp-animation-easing: ease-out;
+  webmcp-animation-description: "2.5D Isometric: Animación reutilizable de proyección isométrica 2.5D";
+}

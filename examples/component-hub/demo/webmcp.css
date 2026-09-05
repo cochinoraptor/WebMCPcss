@@ -1,0 +1,242 @@
+/* WebMCPcss demo · contratos de 10 componente(s) · generado por webmcpcss 1.2.0 */
+
+/* @webmcpcss-component tailwind-button-icon v1.0.0 */
+/* Componente: Button Icon */
+/* Categoría: buttons · Librería: tailwind · Versión: 1.0.0 */
+/* Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport. */
+/* Importar: npx webmcpcss components import tailwind-button-icon */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+[data-tool="downloadReport"] {
+  webmcp-tool: "downloadReport";
+  webmcp-description: "Descarga el informe en PDF (requiere confirmación del usuario)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}
+/* @end webmcpcss-component tailwind-button-icon */
+
+/* @webmcpcss-component tailwind-button-outline v1.0.0 */
+/* Componente: Button Outline */
+/* Categoría: buttons · Librería: tailwind · Versión: 1.0.0 */
+/* Botón outline IA-First: navegación secundaria (saber más, ver detalles) con menor peso visual; herramienta learnMore con intención navigate. */
+/* Importar: npx webmcpcss components import tailwind-button-outline */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+[data-tool="learnMore"] {
+  webmcp-tool: "learnMore";
+  webmcp-description: "Abre más información o los detalles del elemento (navegación secundaria)";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}
+/* @end webmcpcss-component tailwind-button-outline */
+
+/* @webmcpcss-component tailwind-button-primary v1.0.0 */
+/* Componente: Button Primary */
+/* Categoría: buttons · Librería: tailwind · Versión: 1.0.0 */
+/* Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton. */
+/* Importar: npx webmcpcss components import tailwind-button-primary */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+[data-tool="clickButton"] {
+  webmcp-tool: "clickButton";
+  webmcp-description: "Ejecuta la acción principal del bloque (enviar, guardar o continuar)";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}
+/* @end webmcpcss-component tailwind-button-primary */
+
+/* @webmcpcss-component tailwind-button-secondary v1.0.0 */
+/* Componente: Button Secondary */
+/* Categoría: buttons · Librería: tailwind · Versión: 1.0.0 */
+/* Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel. */
+/* Importar: npx webmcpcss components import tailwind-button-secondary */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+[data-tool="cancelAction"] {
+  webmcp-tool: "cancelAction";
+  webmcp-description: "Cancela la acción en curso o vuelve al paso anterior sin efectos destructivos";
+  webmcp-intent: "cancel";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}
+/* @end webmcpcss-component tailwind-button-secondary */
+
+/* @webmcpcss-component tailwind-product-card v1.0.0 */
+/* Componente: Product Card */
+/* Categoría: cards · Librería: tailwind · Versión: 1.0.0 */
+/* Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes. */
+/* Importar: npx webmcpcss components import tailwind-product-card */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP */
+[data-component="product-card"] [data-tool="addToCart"] {
+  webmcp-tool: "addToCart";
+  webmcp-description: "Añade el producto de la tarjeta al carrito";
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-doc-productId: "Identificador del producto (data-product-id de la tarjeta)";
+}
+[data-component="product-card"] [data-tool="viewDetails"] {
+  webmcp-tool: "viewDetails";
+  webmcp-description: "Abre la página de detalle del producto";
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="product-card"] [data-context="product-name"] { webmcp-context: "productName"; webmcp-format: "text"; }
+[data-component="product-card"] [data-context="product-price"] { webmcp-context: "productPrice"; webmcp-format: "currency"; }
+/* @end webmcpcss-component tailwind-product-card */
+
+/* @webmcpcss-component tailwind-profile-card v1.0.0 */
+/* Componente: Profile Card */
+/* Categoría: cards · Librería: tailwind · Versión: 1.0.0 */
+/* Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación). */
+/* Importar: npx webmcpcss components import tailwind-profile-card */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP */
+[data-component="profile-card"] [data-tool="viewProfile"] {
+  webmcp-tool: "viewProfile";
+  webmcp-description: "Abre el perfil completo de la persona";
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="profile-card"] [data-tool="followUser"] {
+  webmcp-tool: "followUser";
+  webmcp-description: "Sigue a la persona (acción social, requiere confirmación)";
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+}
+[data-component="profile-card"] [data-context="profile-name"] { webmcp-context: "profileName"; webmcp-format: "text"; }
+[data-component="profile-card"] [data-context="profile-role"] { webmcp-context: "profileRole"; webmcp-format: "text"; }
+/* @end webmcpcss-component tailwind-profile-card */
+
+/* @webmcpcss-component tailwind-contact-form v1.0.0 */
+/* Componente: Contact Form */
+/* Categoría: forms · Librería: tailwind · Versión: 1.0.0 */
+/* Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención. */
+/* Importar: npx webmcpcss components import tailwind-contact-form */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form="contact-form"] button[type="submit"] {
+  webmcp-tool: "sendMessage";
+  webmcp-description: "Envía un mensaje de contacto con nombre, correo y texto";
+  webmcp-param-name: value(form[data-form="contact-form"] [name="name"]);
+  webmcp-param-email: value(form[data-form="contact-form"] [name="email"]);
+  webmcp-param-message: value(form[data-form="contact-form"] [name="message"]);
+  webmcp-trigger: "submit" on form[data-form="contact-form"];
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-autosubmit: "true";
+  webmcp-doc-name: "Nombre de quien escribe";
+  webmcp-doc-email: "Correo para responder";
+  webmcp-doc-message: "Texto del mensaje";
+}
+/* @end webmcpcss-component tailwind-contact-form */
+
+/* @webmcpcss-component tailwind-login-form v1.0.0 */
+/* Componente: Login Form */
+/* Categoría: forms · Librería: tailwind · Versión: 1.0.0 */
+/* Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos. */
+/* Importar: npx webmcpcss components import tailwind-login-form */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form="login-form"] button[type="submit"] {
+  webmcp-tool: "login";
+  webmcp-description: "Inicia sesión con correo y contraseña";
+  webmcp-param-email: value(form[data-form="login-form"] [name="email"]);
+  webmcp-param-password: value(form[data-form="login-form"] [name="password"]);
+  webmcp-trigger: "submit" on form[data-form="login-form"];
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-doc-email: "Correo con el que te registraste";
+  webmcp-doc-password: "Contraseña de la cuenta (mínimo 8 caracteres)";
+}
+/* @end webmcpcss-component tailwind-login-form */
+
+/* @webmcpcss-component tailwind-hero v1.0.0 */
+/* Componente: Hero */
+/* Categoría: layout · Librería: tailwind · Versión: 1.0.0 */
+/* Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título. */
+/* Importar: npx webmcpcss components import tailwind-hero */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP */
+[data-component="hero"] [data-tool="startNow"] {
+  webmcp-tool: "startNow";
+  webmcp-description: "Llamada a la acción principal del hero: empieza el registro o la prueba";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-tool="watchDemo"] {
+  webmcp-tool: "watchDemo";
+  webmcp-description: "Abre la demostración en vídeo";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-context="hero-title"] { webmcp-context: "heroTitle"; webmcp-format: "text"; }
+[data-component="hero"] [data-context="hero-subtitle"] { webmcp-context: "heroSubtitle"; webmcp-format: "text"; }
+
+/* Animación de entrada del título (estándar de animaciones de WebMCPcss) */
+[data-component="hero"] [data-context="hero-title"] {
+  webmcp-animation: "heroTitleIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: load;
+  webmcp-animation-duration: 900ms;
+  webmcp-animation-easing: cubic-bezier(.2, .8, .2, 1);
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(18px)"},{"opacity":1,"transform":"none"}]';
+}
+/* @end webmcpcss-component tailwind-hero */
+
+/* @webmcpcss-component tailwind-navbar v1.0.0 */
+/* Componente: Navbar */
+/* Categoría: layout · Librería: tailwind · Versión: 1.0.0 */
+/* Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection. */
+/* Importar: npx webmcpcss components import tailwind-navbar */
+
+/* El aspecto lo dan las utilidades de Tailwind en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP */
+nav[data-component="navbar"] [data-tool="goHome"] {
+  webmcp-tool: "goHome";
+  webmcp-description: "Vuelve a la página de inicio";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [data-tool="openMenu"] {
+  webmcp-tool: "openMenu";
+  webmcp-description: "Abre o cierra el menú de navegación (móvil)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "aria-expanded: reflejar estado; aria-controls: menú";
+}
+nav[data-component="navbar"] [data-tool="signUp"] {
+  webmcp-tool: "signUp";
+  webmcp-description: "Abre el registro de cuenta (llamada a la acción de la barra)";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [aria-current="page"] { webmcp-context: "activeSection"; webmcp-format: "text"; }
+/* @end webmcpcss-component tailwind-navbar */

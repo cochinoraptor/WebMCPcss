@@ -1,0 +1,59 @@
+{
+  "id": "mui-button-icon",
+  "name": "Button Icon",
+  "category": "buttons",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "button",
+    "icon",
+    "download",
+    "action",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el icono del botón Descargar por una flecha",
+    "pon el botón con icono en gris"
+  ],
+  "animateExamples": [
+    "haz que el botón Descargar pulse suavemente",
+    "aplica slide-up al botón con icono"
+  ],
+  "related": [
+    "core-button-icon",
+    "tailwind-button-icon",
+    "bootstrap-button-icon",
+    "shadcn-button-icon"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Button variant=\"contained\" startIcon={<DownloadIcon />} data-tool=\"downloadReport\">Descargar</Button>"
+  },
+  "preview": "preview.css"
+}

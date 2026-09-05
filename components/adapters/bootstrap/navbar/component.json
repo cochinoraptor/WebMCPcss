@@ -1,0 +1,49 @@
+{
+  "id": "bootstrap-navbar",
+  "name": "Navbar",
+  "category": "layout",
+  "library": "bootstrap",
+  "version": "1.0.0",
+  "description": "Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "navigation",
+    "navbar",
+    "header",
+    "bootstrap"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#0d6efd"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": ".375rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace “Precios” a la barra de navegación",
+    "cambia el color de fondo de la navbar"
+  ],
+  "animateExamples": [
+    "haz que la navbar aparezca deslizándose desde arriba",
+    "añade fade-in a los enlaces del menú"
+  ],
+  "related": [
+    "core-navbar",
+    "tailwind-navbar",
+    "mui-navbar",
+    "shadcn-navbar"
+  ],
+  "preview": "preview.css"
+}

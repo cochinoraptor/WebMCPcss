@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Form (Bootstrap) · WebMCPcss Component Hub</title>
+<meta name="description" content="Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Contact Form (Bootstrap) · WebMCPcss Component Hub">
+<meta property="og:description" content="Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-contact-form/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-contact-form/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Contact Form","identifier":"bootstrap-contact-form","description":"Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-contact-form/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/bootstrap/contact-form","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Bootstrap","license":"https://opensource.org/licenses/MIT","keywords":"forms, bootstrap, form, contact, declarative, autosubmit, bootstrap","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"sendMessage","description":"Envía un mensaje de contacto con nombre, correo y texto"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import bootstrap-contact-form","files":{"css":"components/bootstrap-contact-form/contact-form.webmcp.css","html":"components/bootstrap-contact-form/contact-form.html","meta":"components/bootstrap-contact-form/component.json","page":"components/bootstrap-contact-form/"},"tools":[{"name":"sendMessage","selector":"form[data-form=\"contact-form\"] button[type=\"submit\"]","description":"Envía un mensaje de contacto con nombre, correo y texto","params":["name","email","message"],"intent":"submit","confirmation":"none"}]}}</script>
+</head>
+<body data-component="bootstrap-contact-form" data-root-selector=":root">
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/" aria-current="page">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="crumbs"><a href="../">Hub</a><span>›</span><a href="../catalog/">Catálogo</a><span>›</span><a href="../catalog/?category=forms">Formularios</a><span>›</span><span>Contact Form</span></div>
+<div class="detail-head">
+  <div>
+    <h1>Contact Form</h1>
+    <div class="badges"><span class="badge cat">Formularios</span><span class="badge lib">Bootstrap</span><span class="badge v">v1.0.0</span><span class="badge">form</span><span class="badge">contact</span><span class="badge">declarative</span><span class="badge">autosubmit</span><span class="badge">bootstrap</span></div>
+    <p class="lead">Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.</p>
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" data-fav="bootstrap-contact-form" data-name="Contact Form" aria-pressed="false"><span class="star" aria-hidden="true">☆</span> <span class="fav-text">Favorito</span></button>
+    <a class="btn" href="preview.html" target="_blank" rel="noopener">Abrir preview ↗</a>
+    <a class="btn" href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/bootstrap/contact-form" target="_blank" rel="noopener">Fuente ↗</a>
+  </div>
+</div>
+<div class="import" aria-label="Comando de importación"><code>npx webmcpcss components import bootstrap-contact-form</code><button type="button" class="btn small" data-copy="npx webmcpcss components import bootstrap-contact-form" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button></div>
+
+<div class="studio">
+  <section class="preview-box" aria-labelledby="h-preview">
+    <div class="preview-bar">
+      <strong id="h-preview">Previsualización</strong>
+      <span class="spacer"></span>
+      <button class="btn small" type="button" data-viewport="desktop" aria-pressed="true">Escritorio</button>
+      <button class="btn small" type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+      <button class="btn small" type="button" data-viewport="mobile" aria-pressed="false">Móvil</button>
+    </div>
+    <div class="preview-frame" id="preview-frame" data-viewport="desktop">
+      <iframe id="preview" src="preview.html" title="Previsualización de Contact Form" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    
+  </section>
+  <aside class="editor" aria-labelledby="h-editor">
+    <h2 id="h-editor">Editor en vivo</h2>
+    <div class="control"><label for="ctl-wm-primary">Color primario <output>#0d6efd</output></label><input id="ctl-wm-primary" type="color" value="#0d6efd" data-var="--wm-primary" data-default="#0d6efd"></div>
+<div class="control"><label for="ctl-wm-radius">Radio <output>.375rem</output></label><input id="ctl-wm-radius" type="range" min="0" max="1.5" step="0.125" value="0.375" data-var="--wm-radius" data-unit="rem" data-default="0.375"></div>
+    <div class="control"><label for="anim-select">Animación</label>
+      <select id="anim-select"><option value="none">Sin animación</option><option value="fade-in">fade-in</option><option value="slide-up">slide-up</option><option value="pulse">pulse</option><option value="hover-glow">hover-glow</option></select></div>
+    <div class="row"><button class="btn small" type="button" id="anim-replay">▶ Reproducir</button><button class="btn small" type="button" id="editor-reset">Restablecer</button></div>
+    <div><label class="results-meta" for="override-css">CSS generado</label><pre><code id="override-css"></code></pre><button type="button" class="btn small" data-copy-target="#override-css" aria-label="Copiar CSS"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar CSS</button></div>
+  </aside>
+</div>
+
+<section class="tabs" aria-label="Código">
+  <div role="tablist" aria-label="Archivos del componente">
+    <button role="tab" id="tab-css" aria-selected="true" aria-controls="panel-css" tabindex="0">contact-form.webmcp.css</button>
+    <button role="tab" id="tab-html" aria-selected="false" aria-controls="panel-html" tabindex="-1">HTML</button>
+    <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
+  </div>
+  <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Contact Form */
+/* Categoría: forms · Librería: bootstrap · Versión: 1.0.0 */
+/* Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención. */
+/* Importar: npx webmcpcss components import bootstrap-contact-form */
+
+/* Bootstrap 5.3: .form-control en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form=&quot;contact-form&quot;] button[type=&quot;submit&quot;] {
+  webmcp-tool: &quot;sendMessage&quot;;
+  webmcp-description: &quot;Envía un mensaje de contacto con nombre, correo y texto&quot;;
+  webmcp-param-name: value(form[data-form=&quot;contact-form&quot;] [name=&quot;name&quot;]);
+  webmcp-param-email: value(form[data-form=&quot;contact-form&quot;] [name=&quot;email&quot;]);
+  webmcp-param-message: value(form[data-form=&quot;contact-form&quot;] [name=&quot;message&quot;]);
+  webmcp-trigger: &quot;submit&quot; on form[data-form=&quot;contact-form&quot;];
+  webmcp-intent: &quot;submit&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;restricted&quot;;
+  webmcp-autosubmit: &quot;true&quot;;
+  webmcp-doc-name: &quot;Nombre de quien escribe&quot;;
+  webmcp-doc-email: &quot;Correo para responder&quot;;
+  webmcp-doc-message: &quot;Texto del mensaje&quot;;
+}
+</code></pre></div>
+  <div role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-html" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-html">&lt;form data-form=&quot;contact-form&quot; toolname=&quot;sendMessage&quot; tooldescription=&quot;Envía un mensaje de contacto con nombre, correo y texto&quot; toolautosubmit action=&quot;#&quot; method=&quot;post&quot; novalidate class=&quot;card card-body shadow-sm&quot; style=&quot;max-width: 24rem&quot;&gt;
+  &lt;h2 class=&quot;h4 mb-3&quot;&gt;Contacto&lt;/h2&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label for=&quot;name&quot; class=&quot;form-label&quot;&gt;Nombre&lt;/label&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;name&quot; name=&quot;name&quot; required autocomplete=&quot;name&quot; toolparamtitle=&quot;name&quot; toolparamdescription=&quot;Nombre de quien escribe&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label for=&quot;email&quot; class=&quot;form-label&quot;&gt;Correo electrónico&lt;/label&gt;
+    &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;email&quot; name=&quot;email&quot; required autocomplete=&quot;email&quot; toolparamtitle=&quot;email&quot; toolparamdescription=&quot;Correo para responder&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label for=&quot;message&quot; class=&quot;form-label&quot;&gt;Mensaje&lt;/label&gt;
+    &lt;textarea class=&quot;form-control&quot; id=&quot;message&quot; name=&quot;message&quot; rows=&quot;4&quot; required toolparamtitle=&quot;message&quot; toolparamdescription=&quot;Texto del mensaje&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary w-100&quot;&gt;Enviar mensaje&lt;/button&gt;
+&lt;/form&gt;
+</code></pre></div>
+  <div role="tabpanel" id="panel-meta" aria-labelledby="tab-meta" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-meta" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-meta">{
+  &quot;id&quot;: &quot;bootstrap-contact-form&quot;,
+  &quot;name&quot;: &quot;Contact Form&quot;,
+  &quot;category&quot;: &quot;forms&quot;,
+  &quot;library&quot;: &quot;bootstrap&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.&quot;,
+  &quot;author&quot;: &quot;WebMCPcss Team&quot;,
+  &quot;tags&quot;: [
+    &quot;form&quot;,
+    &quot;contact&quot;,
+    &quot;declarative&quot;,
+    &quot;autosubmit&quot;,
+    &quot;bootstrap&quot;
+  ],
+  &quot;controls&quot;: [
+    {
+      &quot;variable&quot;: &quot;--wm-primary&quot;,
+      &quot;label&quot;: &quot;Color primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#0d6efd&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-radius&quot;,
+      &quot;label&quot;: &quot;Radio&quot;,
+      &quot;type&quot;: &quot;range&quot;,
+      &quot;default&quot;: &quot;.375rem&quot;,
+      &quot;min&quot;: 0,
+      &quot;max&quot;: 1.5,
+      &quot;step&quot;: 0.125,
+      &quot;unit&quot;: &quot;rem&quot;
+    }
+  ],
+  &quot;promptExamples&quot;: [
+    &quot;añade un campo de teléfono al formulario de contacto&quot;,
+    &quot;cambia el color del botón Enviar mensaje&quot;
+  ],
+  &quot;animateExamples&quot;: [
+    &quot;aplica slide-up al formulario de contacto&quot;,
+    &quot;haz que el botón de enviar pulse cuando el formulario sea válido&quot;
+  ],
+  &quot;related&quot;: [
+    &quot;core-contact-form&quot;,
+    &quot;tailwind-contact-form&quot;,
+    &quot;mui-contact-form&quot;,
+    &quot;shadcn-contact-form&quot;
+  ],
+  &quot;preview&quot;: &quot;preview.css&quot;,
+  &quot;css&quot;: &quot;contact-form.webmcp.css&quot;,
+  &quot;html&quot;: &quot;contact-form.html&quot;
+}</code></pre></div>
+</section>
+
+<section class="section" aria-labelledby="h-use">
+  <h2 id="h-use">Cómo usarlo</h2>
+  <ol class="steps">
+    <li>Importa el componente a tu proyecto (HTML + <code>.webmcp.css</code> + <code>component.json</code>):<pre><code>npx webmcpcss components import bootstrap-contact-form --output ./src/components</code></pre></li>
+    <li>O añade solo el contrato a tu <code>webmcp.css</code> existente (bloque delimitado y actualizable):<pre><code>npx webmcpcss components import bootstrap-contact-form --merge ./webmcp.css</code></pre></li>
+    <li>Publícalo para los agentes: MCP (<code>webmcpcss mcp --serve --css ./webmcp.css</code>), <code>document.modelContext</code> (<code>webmcpcss standard compile ./webmcp.css --html index.html</code>) o exporta a tu agente favorito (<code>webmcpcss export --agent claude-code</code>).</li>
+  </ol>
+</section>
+
+<section class="section">
+<h2 id="tools">Herramientas para agentes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Herramienta</th><th>Descripción</th><th>Parámetros</th><th>Intención</th><th>Confirmación</th><th>Selector</th></tr></thead>
+<tbody><tr><td><code>sendMessage</code></td><td>Envía un mensaje de contacto con nombre, correo y texto</td><td><code>name</code> <code>email</code> <code>message</code></td><td><span class="pill">submit</span></td><td><span class="pill none">none</span></td><td><code>form[data-form=&quot;contact-form&quot;] button[type=&quot;submit&quot;]</code></td></tr></tbody></table></div>
+
+<h2 id="examples">Ejemplos con la CLI</h2>
+<div class="examples">
+  <div class="example"><h3><code>webmcpcss prompt</code> — lenguaje natural sobre el componente</h3><ul><li><code>añade un campo de teléfono al formulario de contacto</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;añade un campo de teléfono al formulario de contacto&quot; --url https://tu-sitio --files ./contact-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>cambia el color del botón Enviar mensaje</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;cambia el color del botón Enviar mensaje&quot; --url https://tu-sitio --files ./contact-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+  <div class="example"><h3><code>webmcpcss animate</code> — animaciones declarativas</h3><ul><li><code>aplica slide-up al formulario de contacto</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;aplica slide-up al formulario de contacto&quot; --url https://tu-sitio --files ./contact-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>haz que el botón de enviar pulse cuando el formulario sea válido</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;haz que el botón de enviar pulse cuando el formulario sea válido&quot; --url https://tu-sitio --files ./contact-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="h-rel"><h2 id="h-rel">Mismo componente en otras librerías</h2><div class="tiles"><a class="tile" href="../core-contact-form/"><strong>Core (sin librería)</strong><span>Contact Form · v1.0.0</span></a><a class="tile" href="../tailwind-contact-form/"><strong>Tailwind CSS</strong><span>Contact Form · v1.0.0</span></a><a class="tile" href="../mui-contact-form/"><strong>Material UI</strong><span>Contact Form · v1.0.0</span></a><a class="tile" href="../shadcn-contact-form/"><strong>shadcn/ui</strong><span>Contact Form · v1.0.0</span></a></div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

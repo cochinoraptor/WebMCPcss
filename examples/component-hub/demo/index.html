@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo WebMCPcss · 10 componentes (Tailwind CSS)</title>
+<meta name="description" content="Sitio de demostración generado con webmcpcss components demo: componentes IA-First con contrato .webmcp.css.">
+<meta name="webmcp-hub" content="demo">
+<link rel="stylesheet" type="text/css" href="webmcp.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f3f4f8; color: #111827; }
+  .demo-header { padding: 28px 24px; background: #0b0e14; color: #e8ebf3; }
+  .demo-header h1 { margin: 0 0 6px; font-size: 24px; }
+  .demo-header p { margin: 0; color: #98a2b8; font-size: 14px; }
+  .demo-header code { color: #4fd1c5; }
+  .demo-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 24px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+  .demo-nav a { font-size: 13px; color: #374151; text-decoration: none; padding: 4px 10px; border: 1px solid #e5e7eb; border-radius: 999px; }
+  .demo-nav a:hover { border-color: #7c6cf0; color: #7c6cf0; }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px; display: grid; gap: 28px; }
+  .demo-block { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; }
+  .demo-block > header { padding: 16px 20px; border-bottom: 1px solid #eef0f4; }
+  .demo-block h2 { margin: 0 0 4px; font-size: 18px; }
+  .demo-block h2 small { font-weight: 500; color: #6b7280; font-size: 12px; margin-left: 8px; }
+  .demo-block header p { margin: 0; color: #6b7280; font-size: 14px; }
+  .demo-block .tools { margin-top: 6px; }
+  .demo-block .tools code { font-size: 12px; background: #eef2ff; color: #4338ca; padding: 1px 6px; border-radius: 6px; }
+  .demo-stage { padding: 24px; display: flex; justify-content: center; }
+  .demo-stage > * { max-width: 100%; }
+  .demo-log { position: fixed; right: 16px; bottom: 16px; max-width: 360px; background: #111827; color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .demo-log.show { opacity: 1; }
+  footer { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; }
+</style>
+</head>
+<body>
+<header class="demo-header">
+  <h1>Demo WebMCPcss · Component Hub</h1>
+  <p>10 componente(s) con contrato IA-First. Sirve el contrato unificado a los agentes: <code>npx webmcpcss mcp --serve --css ./webmcp.css --url http://localhost:PUERTO</code></p>
+</header>
+<nav class="demo-nav" aria-label="Componentes">
+  <a href="#tailwind-button-icon">Button Icon</a>
+  <a href="#tailwind-button-outline">Button Outline</a>
+  <a href="#tailwind-button-primary">Button Primary</a>
+  <a href="#tailwind-button-secondary">Button Secondary</a>
+  <a href="#tailwind-product-card">Product Card</a>
+  <a href="#tailwind-profile-card">Profile Card</a>
+  <a href="#tailwind-contact-form">Contact Form</a>
+  <a href="#tailwind-login-form">Login Form</a>
+  <a href="#tailwind-hero">Hero</a>
+  <a href="#tailwind-navbar">Navbar</a>
+</nav>
+<main>
+<section class="demo-block" id="tailwind-button-icon" aria-labelledby="h-tailwind-button-icon">
+  <header>
+    <h2 id="h-tailwind-button-icon">Button Icon <small>Tailwind CSS · Botones · v1.0.0</small></h2>
+    <p>Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport.</p>
+    <p class="tools"><code>downloadReport</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-button-icon/preview.css">
+    <link rel="stylesheet" href="components/tailwind-button-icon/undefined">
+<button data-tool="downloadReport" type="button"
+  class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--wm-radius,0.5rem)] px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)] disabled:cursor-not-allowed disabled:opacity-50 bg-[var(--wm-primary,#2563eb)] pl-4 text-[var(--wm-on-primary,#fff)] hover:brightness-110">
+  <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Descargar
+</button>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-button-outline" aria-labelledby="h-tailwind-button-outline">
+  <header>
+    <h2 id="h-tailwind-button-outline">Button Outline <small>Tailwind CSS · Botones · v1.0.0</small></h2>
+    <p>Botón outline IA-First: navegación secundaria (saber más, ver detalles) con menor peso visual; herramienta learnMore con intención navigate.</p>
+    <p class="tools"><code>learnMore</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-button-outline/preview.css">
+    <link rel="stylesheet" href="components/tailwind-button-outline/undefined">
+<button data-tool="learnMore" type="button"
+  class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--wm-radius,0.5rem)] px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)] disabled:cursor-not-allowed disabled:opacity-50 border-2 border-[var(--wm-primary,#2563eb)] text-[var(--wm-primary,#2563eb)] hover:bg-blue-50">
+  Saber más
+</button>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-button-primary" aria-labelledby="h-tailwind-button-primary">
+  <header>
+    <h2 id="h-tailwind-button-primary">Button Primary <small>Tailwind CSS · Botones · v1.0.0</small></h2>
+    <p>Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton.</p>
+    <p class="tools"><code>clickButton</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-button-primary/preview.css">
+    <link rel="stylesheet" href="components/tailwind-button-primary/undefined">
+<button data-tool="clickButton" type="submit"
+  class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--wm-radius,0.5rem)] px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)] disabled:cursor-not-allowed disabled:opacity-50 bg-[var(--wm-primary,#2563eb)] text-[var(--wm-on-primary,#fff)] shadow-md shadow-blue-500/20 hover:brightness-110">
+  Enviar
+</button>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-button-secondary" aria-labelledby="h-tailwind-button-secondary">
+  <header>
+    <h2 id="h-tailwind-button-secondary">Button Secondary <small>Tailwind CSS · Botones · v1.0.0</small></h2>
+    <p>Botón secundario IA-First: cancela o vuelve atrás sin efectos destructivos; herramienta cancelAction con intención cancel.</p>
+    <p class="tools"><code>cancelAction</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-button-secondary/preview.css">
+    <link rel="stylesheet" href="components/tailwind-button-secondary/undefined">
+<button data-tool="cancelAction" type="button"
+  class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--wm-radius,0.5rem)] px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)] disabled:cursor-not-allowed disabled:opacity-50 bg-[var(--wm-secondary,#f1f5f9)] text-[var(--wm-on-secondary,#0f172a)] hover:bg-slate-200">
+  Cancelar
+</button>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-product-card" aria-labelledby="h-tailwind-product-card">
+  <header>
+    <h2 id="h-tailwind-product-card">Product Card <small>Tailwind CSS · Tarjetas · v1.0.0</small></h2>
+    <p>Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes.</p>
+    <p class="tools"><code>addToCart</code> <code>viewDetails</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-product-card/preview.css">
+    <link rel="stylesheet" href="components/tailwind-product-card/undefined">
+<article data-component="product-card" data-product-id="SKU-42" class="w-full max-w-sm overflow-hidden rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+  <div class="aspect-[16/10] bg-gradient-to-br from-blue-200 to-[var(--wm-primary,#2563eb)]" role="img" aria-label="Zapatillas Runner Pro"></div>
+  <div class="space-y-1 p-4">
+    <h3 class="text-lg font-semibold text-slate-900" data-context="product-name">Zapatillas Runner Pro</h3>
+    <p class="text-sm text-slate-500">Talla 42 · Rojo · Envío 24 h</p>
+    <p class="pt-2 text-xl font-bold text-slate-900" data-context="product-price">89,90 €</p>
+  </div>
+  <div class="flex flex-wrap gap-2 p-4 pt-0">
+    <button data-tool="addToCart" type="button" class="inline-flex min-h-[40px] items-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-4 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110">Añadir al carrito</button>
+    <a data-tool="viewDetails" href="#producto/SKU-42" class="inline-flex min-h-[40px] items-center rounded-[var(--wm-radius,0.5rem)] border-2 border-[var(--wm-primary,#2563eb)] px-4 text-sm font-semibold text-[var(--wm-primary,#2563eb)] hover:bg-blue-50">Ver detalles</a>
+  </div>
+</article>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-profile-card" aria-labelledby="h-tailwind-profile-card">
+  <header>
+    <h2 id="h-tailwind-profile-card">Profile Card <small>Tailwind CSS · Tarjetas · v1.0.0</small></h2>
+    <p>Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).</p>
+    <p class="tools"><code>viewProfile</code> <code>followUser</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-profile-card/preview.css">
+    <link rel="stylesheet" href="components/tailwind-profile-card/undefined">
+<article data-component="profile-card" data-user-id="u-1024" class="w-full max-w-sm rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-center gap-4">
+    <div class="grid h-16 w-16 place-items-center rounded-full bg-[var(--wm-primary,#2563eb)] font-bold text-[var(--wm-on-primary,#fff)]" aria-hidden="true">AR</div>
+    <div>
+      <h3 class="text-lg font-semibold text-slate-900" data-context="profile-name">Ana Ruiz</h3>
+      <p class="text-sm text-slate-500" data-context="profile-role">Diseñadora de producto · Bogotá</p>
+    </div>
+  </div>
+  <p class="mt-4 text-sm text-slate-600">Diseño sistemas de componentes accesibles y nativos para agentes.</p>
+  <div class="mt-4 flex gap-2">
+    <button data-tool="followUser" type="button" class="inline-flex min-h-[40px] items-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-4 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110">Seguir</button>
+    <a data-tool="viewProfile" href="#perfil/u-1024" class="inline-flex min-h-[40px] items-center rounded-[var(--wm-radius,0.5rem)] border-2 border-[var(--wm-primary,#2563eb)] px-4 text-sm font-semibold text-[var(--wm-primary,#2563eb)] hover:bg-blue-50">Ver perfil</a>
+  </div>
+</article>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-contact-form" aria-labelledby="h-tailwind-contact-form">
+  <header>
+    <h2 id="h-tailwind-contact-form">Contact Form <small>Tailwind CSS · Formularios · v1.0.0</small></h2>
+    <p>Formulario de contacto IA-First (nombre, email, mensaje) con API declarativa WebMCP y toolautosubmit: un agente puede rellenarlo y enviarlo sin intervención.</p>
+    <p class="tools"><code>sendMessage</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-contact-form/preview.css">
+    <link rel="stylesheet" href="components/tailwind-contact-form/undefined">
+<form data-form="contact-form" toolname="sendMessage" tooldescription="Envía un mensaje de contacto con nombre, correo y texto" toolautosubmit action="#" method="post" novalidate class="w-full max-w-sm space-y-4 rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white p-6 shadow-sm">
+  <h2 class="text-xl font-semibold text-slate-900">Contacto</h2>
+  <div>
+    <label for="name" class="mb-1 block text-sm font-medium text-slate-700">Nombre</label>
+    <input id="name" name="name" type="text" required autocomplete="name" toolparamtitle="name" toolparamdescription="Nombre de quien escribe" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <div>
+    <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico</label>
+    <input id="email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para responder" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <div>
+    <label for="message" class="mb-1 block text-sm font-medium text-slate-700">Mensaje</label>
+    <textarea id="message" name="message" rows="4" required toolparamtitle="message" toolparamdescription="Texto del mensaje" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30"></textarea>
+  </div>
+  <button type="submit" class="inline-flex min-h-[44px] w-full items-center justify-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-5 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)]">Enviar mensaje</button>
+</form>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-login-form" aria-labelledby="h-tailwind-login-form">
+  <header>
+    <h2 id="h-tailwind-login-form">Login Form <small>Tailwind CSS · Formularios · v1.0.0</small></h2>
+    <p>Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos.</p>
+    <p class="tools"><code>login</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-login-form/preview.css">
+    <link rel="stylesheet" href="components/tailwind-login-form/undefined">
+<form data-form="login-form" toolname="login" tooldescription="Inicia sesión con correo y contraseña" action="#" method="post" novalidate class="w-full max-w-sm space-y-4 rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white p-6 shadow-sm">
+  <h2 class="text-xl font-semibold text-slate-900">Iniciar sesión</h2>
+  <div>
+    <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico</label>
+    <input id="email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo con el que te registraste" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <div>
+    <label for="password" class="mb-1 block text-sm font-medium text-slate-700">Contraseña</label>
+    <input id="password" name="password" type="password" required minlength="8" autocomplete="current-password" toolparamtitle="password" toolparamdescription="Contraseña de la cuenta (mínimo 8 caracteres)" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <button type="submit" class="inline-flex min-h-[44px] w-full items-center justify-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-5 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)]">Entrar</button>
+</form>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-hero" aria-labelledby="h-tailwind-hero">
+  <header>
+    <h2 id="h-tailwind-hero">Hero <small>Tailwind CSS · Layout · v1.0.0</small></h2>
+    <p>Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título.</p>
+    <p class="tools"><code>startNow</code> <code>watchDemo</code><code>⟳ heroTitleIn</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-hero/preview.css">
+    <link rel="stylesheet" href="components/tailwind-hero/undefined">
+<section data-component="hero" class="rounded-[var(--wm-radius,0.5rem)] bg-gradient-to-br from-slate-900 to-slate-800 px-7 py-14 text-center text-white">
+  <p class="mb-4 inline-block rounded-full bg-white/10 px-3 py-1 text-xs tracking-wide">Nuevo · Component Hub</p>
+  <h1 class="mx-auto mb-4 max-w-[16ch] text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl" data-context="hero-title">Componentes nativos para agentes de IA</h1>
+  <p class="mx-auto mb-7 max-w-[56ch] text-lg text-slate-300" data-context="hero-subtitle">Botones, tarjetas y formularios que declaran qué puede hacer un agente, listos para Tailwind, Bootstrap, MUI y shadcn/ui.</p>
+  <div class="flex flex-wrap justify-center gap-3">
+    <a data-tool="startNow" href="#empezar" class="inline-flex min-h-[46px] items-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-6 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110">Empezar ahora</a>
+    <button data-tool="watchDemo" type="button" class="inline-flex min-h-[46px] items-center rounded-[var(--wm-radius,0.5rem)] border border-white/40 px-6 text-sm font-semibold text-white hover:bg-white/10">▶ Ver demo</button>
+  </div>
+</section>
+
+  </div>
+</section>
+
+<section class="demo-block" id="tailwind-navbar" aria-labelledby="h-tailwind-navbar">
+  <header>
+    <h2 id="h-tailwind-navbar">Navbar <small>Tailwind CSS · Layout · v1.0.0</small></h2>
+    <p>Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.</p>
+    <p class="tools"><code>goHome</code> <code>openMenu</code> <code>signUp</code></p>
+  </header>
+  <div class="demo-stage" data-library="tailwind">
+    <link rel="stylesheet" href="components/tailwind-navbar/preview.css">
+    <link rel="stylesheet" href="components/tailwind-navbar/undefined">
+<nav data-component="navbar" aria-label="Principal" class="flex flex-wrap items-center gap-4 rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white px-5 py-3 shadow-sm">
+  <a data-tool="goHome" href="#/" class="mr-auto text-lg font-extrabold text-slate-900">◆ Marca</a>
+  <button data-tool="openMenu" type="button" aria-expanded="false" aria-controls="tw-nav-menu" aria-label="Abrir menú" class="rounded-md p-2 hover:bg-slate-100 sm:hidden" onclick="const o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!o));document.getElementById('tw-nav-menu').classList.toggle('hidden',o)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  <ul id="tw-nav-menu" class="hidden w-full flex-col gap-1 sm:flex sm:w-auto sm:flex-row">
+    <li><a href="#inicio" aria-current="page" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Inicio</a></li>
+    <li><a href="#componentes" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Componentes</a></li>
+    <li><a href="#docs" class="block rounded-md px-3 py-2 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-[var(--wm-primary,#2563eb)]">Docs</a></li>
+  </ul>
+  <a data-tool="signUp" href="#registro" class="rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-4 py-2 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110">Crear cuenta</a>
+</nav>
+
+  </div>
+</section>
+</main>
+<footer>Generado con <code>webmcpcss components demo</code> · v1.2.0 · MIT</footer>
+<div class="demo-log" id="demo-log" role="status" aria-live="polite"></div>
+
+<script src="webmcp-animation.js"></script>
+<script>window.__WEBMCP_ANIMATIONS__ = {"animations":{"heroTitleIn":{"name":"heroTitleIn","type":"keyframes","priority":"normal","selector":"[data-component=\"hero\"] [data-context=\"hero-title\"]","parameters":{"keyframes":[{"opacity":0,"transform":"translateY(18px)"},{"opacity":1,"transform":"none"}],"duration":"900ms","easing":"cubic-bezier(.2, .8, .2, 1)"},"line":201,"trigger":"load"}},"warnings":[]};</script>
+<script>
+(function () {
+  var log = document.getElementById('demo-log');
+  function show(msg) { log.textContent = msg; log.classList.add('show'); clearTimeout(log._t); log._t = setTimeout(function () { log.classList.remove('show'); }, 2200); }
+  document.addEventListener('click', function (ev) {
+    var el = ev.target.closest('[data-tool]');
+    if (!el) return;
+    if (el.tagName === 'A') ev.preventDefault();
+    show('Herramienta → ' + el.getAttribute('data-tool'));
+  });
+  document.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    show('Formulario → ' + (ev.target.getAttribute('toolname') || 'submit'));
+  });
+  if (window.__WEBMCP_ANIMATIONS__ && window.webmcpcss && window.webmcpcss.animation) {
+    window.addEventListener('load', function () {
+      try { window.webmcpcss.animation.run(window.__WEBMCP_ANIMATIONS__, { strategy: 'queue' }); } catch (e) { /* motor no disponible */ }
+    });
+  }
+})();
+</script>
+</body>
+</html>

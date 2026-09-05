@@ -1,0 +1,19 @@
+/* Componente: Login Form */
+/* Categoría: forms · Librería: shadcn · Versión: 1.0.0 */
+/* Formulario de acceso IA-First (email + contraseña) con API declarativa WebMCP (toolname/tooldescription), confirmación requerida y permisos restringidos. */
+/* Importar: npx webmcpcss components import shadcn-login-form */
+
+/* shadcn/ui: el HTML es el DOM que renderizan <Input>/<Label>/<Button>; los atributos declarativos se pasan tal cual. */
+/* Contrato WebMCP (equivalente al marcado declarativo del HTML: toolname/tooldescription/toolparamtitle) */
+form[data-form="login-form"] button[type="submit"] {
+  webmcp-tool: "login";
+  webmcp-description: "Inicia sesión con correo y contraseña";
+  webmcp-param-email: value(form[data-form="login-form"] [name="email"]);
+  webmcp-param-password: value(form[data-form="login-form"] [name="password"]);
+  webmcp-trigger: "submit" on form[data-form="login-form"];
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-doc-email: "Correo con el que te registraste";
+  webmcp-doc-password: "Contraseña de la cuenta (mínimo 8 caracteres)";
+}

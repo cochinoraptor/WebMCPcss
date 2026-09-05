@@ -161,6 +161,14 @@ webmcpcss standard compile webmcp.css --html index.html -o index.webmcp.html    
 webmcpcss standard compile webmcp.css --script webmcp-declarative.js                   # o los aplica en tiempo de ejecución
 webmcpcss standard check https://mi-tienda.com                                         # ¿document.modelContext? ¿qué tools expone la página?
 
+# 19) v1.2.0 — Component Hub: componentes IA-First listos para Tailwind, Bootstrap, MUI, shadcn y CSS puro
+webmcpcss components list --library tailwind --category forms                          # catálogo (remoto o empaquetado)
+webmcpcss components import tailwind-login-form --output ./src/components --merge webmcp.css
+webmcpcss components update --dry-run                                                  # ¿hay versiones nuevas en el hub?
+webmcpcss components demo --output ./demo --library bootstrap                          # sitio de demostración local
+webmcpcss components publish mi-boton.webmcp.css --name "Mi botón" --category buttons  # fork + PR al hub
+webmcpcss mcp --serve --http --hub                                                     # + list_components / get_component / import_component
+
 # 17) v1.0.0 — Las diez ideas: framework IA-First, diseño, legacy, a11y, tests, versiones, docs, seguridad, recomendador, Web3
 webmcpcss init mi-tienda --framework ia-first                                          # proyecto con componentes WebMCP
 webmcpcss assist "crea un formulario de contacto con nombre, email y mensaje" -o ./contacto
@@ -270,6 +278,31 @@ El parser soporta **reglas anidadas** (con `&`), **variables CSS** y **`@import`
   }
 }
 ```
+
+## Component Hub (v1.2.0)
+
+Catálogo visual e interactivo de **componentes IA-First**: botones, tarjetas,
+formularios, layout, animaciones y componentes inteligentes, cada uno con su
+`.webmcp.css` + `component.json`, adaptados a **Tailwind**, **Bootstrap 5**,
+**Material UI**, **shadcn/ui** y CSS puro (58 componentes, 82 herramientas).
+
+- 🌐 Sitio: [cochinoraptor.github.io/WebMCPcss/components](https://cochinoraptor.github.io/WebMCPcss/components/)
+  — filtros por categoría/librería, búsqueda en vivo, favoritos, preview con
+  **editor en vivo** (color, tamaño, animación), copiar código y comando de import.
+- 🤖 Índice para agentes: [`/api/components.json`](https://cochinoraptor.github.io/WebMCPcss/api/components.json)
+  (+ meta `webmcp-hub` y JSON-LD en cada página).
+- 🧰 CLI: `webmcpcss components list|show|import|update|demo|publish|build`
+  (con lock `.webmcpcss/components.lock.json` y fusión en tu CSS con marcadores).
+- 🔌 MCP: `webmcpcss mcp --serve --hub` añade `list_components`, `get_component`
+  e `import_component` (+ `GET /api/components` en modo HTTP).
+- 📦 Sin conexión: el catálogo viaja dentro del paquete npm (`components/`).
+
+```bash
+npx webmcpcss components import shadcn-product-card --output ./src/components --merge webmcp.css
+```
+
+Guía completa: [docs/hub.md](docs/hub.md) · contribuir componentes:
+[docs/hub/contributing.md](docs/hub/contributing.md).
 
 ## Integración con el estándar WebMCP (`document.modelContext`)
 
@@ -571,6 +604,7 @@ import {
   recommender,
   web3,
   standard, // v1.1.0: document.modelContext + API declarativa
+  hub, // v1.2.0: Component Hub (listComponents, importComponent, buildHubSite…)
 } from 'webmcpcss';
 ```
 
@@ -608,6 +642,7 @@ Estructura relevante:
 - `src/proxy/` — proxy comunitario e inyección de estilos.
 - `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`…; `src/cli-v1.ts` — comandos v1.0.0; `src/cli-standard.ts` — `standard scan|compile|check` (v1.1.0).
 - `src/standard/` — alineación con el estándar WebMCP: `document.modelContext` (con fallback) y API declarativa (`toolname`/`tooldescription`…).
+- `src/hub/` + `src/cli-components.ts` + `components/` — Component Hub (v1.2.0): catálogo, generador del sitio, cliente (import/update/lock), publicación y herramientas MCP. `npm run build:hub` regenera `site/components/` y `site/api/components.json`.
 - `src/framework/`, `src/design-to-webmcp/`, `src/retro/`, `src/a11y/`, `src/testing/`, `src/versioning/`, `src/doc/`, `src/security/`, `src/recommender/`, `src/web3/` — los diez módulos v1.0.0.
 
 ## Contribuir

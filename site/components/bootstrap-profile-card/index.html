@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile Card (Bootstrap) · WebMCPcss Component Hub</title>
+<meta name="description" content="Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Profile Card (Bootstrap) · WebMCPcss Component Hub">
+<meta property="og:description" content="Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-profile-card/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-profile-card/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Profile Card","identifier":"bootstrap-profile-card","description":"Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/bootstrap-profile-card/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/bootstrap/profile-card","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Bootstrap","license":"https://opensource.org/licenses/MIT","keywords":"cards, bootstrap, card, profile, user, social, bootstrap","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"viewProfile","description":"Abre el perfil completo de la persona"},{"@type":"Action","name":"followUser","description":"Sigue a la persona (acción social, requiere confirmación)"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import bootstrap-profile-card","files":{"css":"components/bootstrap-profile-card/profile-card.webmcp.css","html":"components/bootstrap-profile-card/profile-card.html","meta":"components/bootstrap-profile-card/component.json","page":"components/bootstrap-profile-card/"},"tools":[{"name":"viewProfile","selector":".card[data-component=\"profile-card\"] [data-tool=\"viewProfile\"]","description":"Abre el perfil completo de la persona","params":["userId"],"intent":"navigate","confirmation":"none"},{"name":"followUser","selector":".card[data-component=\"profile-card\"] [data-tool=\"followUser\"]","description":"Sigue a la persona (acción social, requiere confirmación)","params":["userId"],"intent":"action","confirmation":"needed"}]}}</script>
+</head>
+<body data-component="bootstrap-profile-card" data-root-selector=":root">
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/" aria-current="page">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="crumbs"><a href="../">Hub</a><span>›</span><a href="../catalog/">Catálogo</a><span>›</span><a href="../catalog/?category=cards">Tarjetas</a><span>›</span><span>Profile Card</span></div>
+<div class="detail-head">
+  <div>
+    <h1>Profile Card</h1>
+    <div class="badges"><span class="badge cat">Tarjetas</span><span class="badge lib">Bootstrap</span><span class="badge v">v1.0.0</span><span class="badge">card</span><span class="badge">profile</span><span class="badge">user</span><span class="badge">social</span><span class="badge">bootstrap</span></div>
+    <p class="lead">Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).</p>
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" data-fav="bootstrap-profile-card" data-name="Profile Card" aria-pressed="false"><span class="star" aria-hidden="true">☆</span> <span class="fav-text">Favorito</span></button>
+    <a class="btn" href="preview.html" target="_blank" rel="noopener">Abrir preview ↗</a>
+    <a class="btn" href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/bootstrap/profile-card" target="_blank" rel="noopener">Fuente ↗</a>
+  </div>
+</div>
+<div class="import" aria-label="Comando de importación"><code>npx webmcpcss components import bootstrap-profile-card</code><button type="button" class="btn small" data-copy="npx webmcpcss components import bootstrap-profile-card" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button></div>
+
+<div class="studio">
+  <section class="preview-box" aria-labelledby="h-preview">
+    <div class="preview-bar">
+      <strong id="h-preview">Previsualización</strong>
+      <span class="spacer"></span>
+      <button class="btn small" type="button" data-viewport="desktop" aria-pressed="true">Escritorio</button>
+      <button class="btn small" type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+      <button class="btn small" type="button" data-viewport="mobile" aria-pressed="false">Móvil</button>
+    </div>
+    <div class="preview-frame" id="preview-frame" data-viewport="desktop">
+      <iframe id="preview" src="preview.html" title="Previsualización de Profile Card" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    
+  </section>
+  <aside class="editor" aria-labelledby="h-editor">
+    <h2 id="h-editor">Editor en vivo</h2>
+    <div class="control"><label for="ctl-wm-primary">Color primario <output>#0d6efd</output></label><input id="ctl-wm-primary" type="color" value="#0d6efd" data-var="--wm-primary" data-default="#0d6efd"></div>
+<div class="control"><label for="ctl-wm-radius">Radio <output>.375rem</output></label><input id="ctl-wm-radius" type="range" min="0" max="1.5" step="0.125" value="0.375" data-var="--wm-radius" data-unit="rem" data-default="0.375"></div>
+    <div class="control"><label for="anim-select">Animación</label>
+      <select id="anim-select"><option value="none">Sin animación</option><option value="fade-in">fade-in</option><option value="slide-up">slide-up</option><option value="pulse">pulse</option><option value="hover-glow">hover-glow</option></select></div>
+    <div class="row"><button class="btn small" type="button" id="anim-replay">▶ Reproducir</button><button class="btn small" type="button" id="editor-reset">Restablecer</button></div>
+    <div><label class="results-meta" for="override-css">CSS generado</label><pre><code id="override-css"></code></pre><button type="button" class="btn small" data-copy-target="#override-css" aria-label="Copiar CSS"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar CSS</button></div>
+  </aside>
+</div>
+
+<section class="tabs" aria-label="Código">
+  <div role="tablist" aria-label="Archivos del componente">
+    <button role="tab" id="tab-css" aria-selected="true" aria-controls="panel-css" tabindex="0">profile-card.webmcp.css</button>
+    <button role="tab" id="tab-html" aria-selected="false" aria-controls="panel-html" tabindex="-1">HTML</button>
+    <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
+  </div>
+  <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Profile Card */
+/* Categoría: cards · Librería: bootstrap · Versión: 1.0.0 */
+/* Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación). */
+/* Importar: npx webmcpcss components import bootstrap-profile-card */
+
+/* Bootstrap 5.3: .card en el HTML; este archivo es el contrato para agentes. */
+/* Contrato WebMCP */
+.card[data-component=&quot;profile-card&quot;] [data-tool=&quot;viewProfile&quot;] {
+  webmcp-tool: &quot;viewProfile&quot;;
+  webmcp-description: &quot;Abre el perfil completo de la persona&quot;;
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: &quot;navigate&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;read-only&quot;;
+}
+.card[data-component=&quot;profile-card&quot;] [data-tool=&quot;followUser&quot;] {
+  webmcp-tool: &quot;followUser&quot;;
+  webmcp-description: &quot;Sigue a la persona (acción social, requiere confirmación)&quot;;
+  webmcp-param-userId: attr(data-user-id);
+  webmcp-intent: &quot;action&quot;;
+  webmcp-confirmation: &quot;needed&quot;;
+  webmcp-permissions: &quot;restricted&quot;;
+}
+.card[data-component=&quot;profile-card&quot;] [data-context=&quot;profile-name&quot;] { webmcp-context: &quot;profileName&quot;; webmcp-format: &quot;text&quot;; }
+.card[data-component=&quot;profile-card&quot;] [data-context=&quot;profile-role&quot;] { webmcp-context: &quot;profileRole&quot;; webmcp-format: &quot;text&quot;; }
+</code></pre></div>
+  <div role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-html" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-html">&lt;div class=&quot;card shadow-sm&quot; style=&quot;max-width: 22rem&quot; data-component=&quot;profile-card&quot; data-user-id=&quot;u-1024&quot;&gt;
+  &lt;div class=&quot;card-body&quot;&gt;
+    &lt;div class=&quot;d-flex align-items-center gap-3 mb-3&quot;&gt;
+      &lt;div class=&quot;rounded-circle bg-primary text-white fw-bold d-flex align-items-center justify-content-center&quot; style=&quot;width: 4rem; height: 4rem&quot; aria-hidden=&quot;true&quot;&gt;AR&lt;/div&gt;
+      &lt;div&gt;
+        &lt;h5 class=&quot;card-title mb-0&quot; data-context=&quot;profile-name&quot;&gt;Ana Ruiz&lt;/h5&gt;
+        &lt;p class=&quot;text-body-secondary small mb-0&quot; data-context=&quot;profile-role&quot;&gt;Diseñadora de producto · Bogotá&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;card-text&quot;&gt;Diseño sistemas de componentes accesibles y nativos para agentes.&lt;/p&gt;
+    &lt;div class=&quot;d-flex gap-2&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-tool=&quot;followUser&quot;&gt;Seguir&lt;/button&gt;
+      &lt;a href=&quot;#perfil/u-1024&quot; class=&quot;btn btn-outline-primary&quot; data-tool=&quot;viewProfile&quot;&gt;Ver perfil&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre></div>
+  <div role="tabpanel" id="panel-meta" aria-labelledby="tab-meta" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-meta" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-meta">{
+  &quot;id&quot;: &quot;bootstrap-profile-card&quot;,
+  &quot;name&quot;: &quot;Profile Card&quot;,
+  &quot;category&quot;: &quot;cards&quot;,
+  &quot;library&quot;: &quot;bootstrap&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Tarjeta de perfil IA-First: avatar, nombre, rol y biografía con acciones viewProfile / followUser (esta última con confirmación).&quot;,
+  &quot;author&quot;: &quot;WebMCPcss Team&quot;,
+  &quot;tags&quot;: [
+    &quot;card&quot;,
+    &quot;profile&quot;,
+    &quot;user&quot;,
+    &quot;social&quot;,
+    &quot;bootstrap&quot;
+  ],
+  &quot;controls&quot;: [
+    {
+      &quot;variable&quot;: &quot;--wm-primary&quot;,
+      &quot;label&quot;: &quot;Color primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#0d6efd&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-radius&quot;,
+      &quot;label&quot;: &quot;Radio&quot;,
+      &quot;type&quot;: &quot;range&quot;,
+      &quot;default&quot;: &quot;.375rem&quot;,
+      &quot;min&quot;: 0,
+      &quot;max&quot;: 1.5,
+      &quot;step&quot;: 0.125,
+      &quot;unit&quot;: &quot;rem&quot;
+    }
+  ],
+  &quot;promptExamples&quot;: [
+    &quot;cambia el nombre de la tarjeta de perfil a Ana Ruiz&quot;,
+    &quot;oculta el botón Seguir&quot;
+  ],
+  &quot;animateExamples&quot;: [
+    &quot;aplica fade-in a la tarjeta de perfil&quot;,
+    &quot;haz que el avatar pulse suavemente&quot;
+  ],
+  &quot;related&quot;: [
+    &quot;core-profile-card&quot;,
+    &quot;tailwind-profile-card&quot;,
+    &quot;mui-profile-card&quot;,
+    &quot;shadcn-profile-card&quot;
+  ],
+  &quot;preview&quot;: &quot;preview.css&quot;,
+  &quot;css&quot;: &quot;profile-card.webmcp.css&quot;,
+  &quot;html&quot;: &quot;profile-card.html&quot;
+}</code></pre></div>
+</section>
+
+<section class="section" aria-labelledby="h-use">
+  <h2 id="h-use">Cómo usarlo</h2>
+  <ol class="steps">
+    <li>Importa el componente a tu proyecto (HTML + <code>.webmcp.css</code> + <code>component.json</code>):<pre><code>npx webmcpcss components import bootstrap-profile-card --output ./src/components</code></pre></li>
+    <li>O añade solo el contrato a tu <code>webmcp.css</code> existente (bloque delimitado y actualizable):<pre><code>npx webmcpcss components import bootstrap-profile-card --merge ./webmcp.css</code></pre></li>
+    <li>Publícalo para los agentes: MCP (<code>webmcpcss mcp --serve --css ./webmcp.css</code>), <code>document.modelContext</code> (<code>webmcpcss standard compile ./webmcp.css --html index.html</code>) o exporta a tu agente favorito (<code>webmcpcss export --agent claude-code</code>).</li>
+  </ol>
+</section>
+
+<section class="section">
+<h2 id="tools">Herramientas para agentes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Herramienta</th><th>Descripción</th><th>Parámetros</th><th>Intención</th><th>Confirmación</th><th>Selector</th></tr></thead>
+<tbody><tr><td><code>viewProfile</code></td><td>Abre el perfil completo de la persona</td><td><code>userId</code></td><td><span class="pill">navigate</span></td><td><span class="pill none">none</span></td><td><code>.card[data-component=&quot;profile-card&quot;] [data-tool=&quot;viewProfile&quot;]</code></td></tr><tr><td><code>followUser</code></td><td>Sigue a la persona (acción social, requiere confirmación)</td><td><code>userId</code></td><td><span class="pill">action</span></td><td><span class="pill needed">needed</span></td><td><code>.card[data-component=&quot;profile-card&quot;] [data-tool=&quot;followUser&quot;]</code></td></tr></tbody></table></div>
+<h2 id="context">Contexto que publica</h2>
+<div class="table-wrap"><table><thead><tr><th>Dato</th><th>Formato</th><th>Selector</th></tr></thead><tbody><tr><td><code>profileName</code></td><td>text</td><td><code>.card[data-component=&quot;profile-card&quot;] [data-context=&quot;profile-name&quot;]</code></td></tr><tr><td><code>profileRole</code></td><td>text</td><td><code>.card[data-component=&quot;profile-card&quot;] [data-context=&quot;profile-role&quot;]</code></td></tr></tbody></table></div>
+<h2 id="examples">Ejemplos con la CLI</h2>
+<div class="examples">
+  <div class="example"><h3><code>webmcpcss prompt</code> — lenguaje natural sobre el componente</h3><ul><li><code>cambia el nombre de la tarjeta de perfil a Ana Ruiz</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;cambia el nombre de la tarjeta de perfil a Ana Ruiz&quot; --url https://tu-sitio --files ./profile-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>oculta el botón Seguir</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;oculta el botón Seguir&quot; --url https://tu-sitio --files ./profile-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+  <div class="example"><h3><code>webmcpcss animate</code> — animaciones declarativas</h3><ul><li><code>aplica fade-in a la tarjeta de perfil</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;aplica fade-in a la tarjeta de perfil&quot; --url https://tu-sitio --files ./profile-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>haz que el avatar pulse suavemente</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;haz que el avatar pulse suavemente&quot; --url https://tu-sitio --files ./profile-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="h-rel"><h2 id="h-rel">Mismo componente en otras librerías</h2><div class="tiles"><a class="tile" href="../core-profile-card/"><strong>Core (sin librería)</strong><span>Profile Card · v1.0.0</span></a><a class="tile" href="../tailwind-profile-card/"><strong>Tailwind CSS</strong><span>Profile Card · v1.0.0</span></a><a class="tile" href="../mui-profile-card/"><strong>Material UI</strong><span>Profile Card · v1.0.0</span></a><a class="tile" href="../shadcn-profile-card/"><strong>shadcn/ui</strong><span>Profile Card · v1.0.0</span></a></div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

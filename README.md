@@ -155,6 +155,33 @@ webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --sandbox    
 # 16) v0.9.0 — Validar conflictos con GSAP/Framer/CSS del sitio sin ejecutar nada (CI)
 webmcpcss validate-conflicts animations.webmcp.css --url https://mi-sitio.com --strict -o informe.json
 
+# 17) v1.0.0 — Las diez ideas: framework IA-First, diseño, legacy, a11y, tests, versiones, docs, seguridad, recomendador, Web3
+webmcpcss init mi-tienda --framework ia-first                                          # proyecto con componentes WebMCP
+webmcpcss assist "crea un formulario de contacto con nombre, email y mensaje" -o ./contacto
+webmcpcss design analyze --image mockup.png --llm openai -o design.webmcp.css --scaffold scaffold.html
+webmcpcss design validate --design design.json --css design.webmcp.css --url https://mi-tienda.com
+webmcpcss design optimize webmcp.css -o webmcp.optimizado.css
+webmcpcss retro scan https://tienda-antigua.example -o legacy.webmcp.css                # sitios legacy sin tocar código
+webmcpcss retro proxy https://tienda-antigua.example --css legacy.webmcp.css --port 8080
+webmcpcss retro inject https://tienda-antigua.example --css legacy.webmcp.css --browser
+webmcpcss retro publish legacy.webmcp.css --domain tienda-antigua.example
+webmcpcss a11y audit --url https://mi-tienda.com --min-score 85 --fail-on critical     # WCAG 2.2 AA para agentes y personas
+webmcpcss a11y fix --url https://mi-tienda.com -o a11y.webmcp.css --script a11y-fix.js
+webmcpcss test generate --file webmcp.css --framework playwright --execute -o webmcp.spec.ts
+webmcpcss test run --url https://mi-tienda.com --file webmcp.css --junit junit.xml
+webmcpcss version snapshot --file webmcp.css --url https://mi-tienda.com --tag 1.0.0 -o v1.json
+webmcpcss version diff v1.json v2.json                                                  # impacto semver + renombres
+webmcpcss version migrate v1.json v2.json -o webmcp.migrado.css --notes MIGRATION.md
+webmcpcss doc generate --file webmcp.css -o webmcp-docs                                 # HTML + MD + JSON + llms.txt + AGENTS.md
+webmcpcss doc serve --file webmcp.css --port 3000
+webmcpcss security validate --file webmcp.css --agent "bot:restricted:orders:pay" --strict
+webmcpcss security token --agent "bot:restricted" --secret "$WEBMCP_JWT_SECRET"
+webmcpcss recommend "compra 2 zapatillas rojas" --url https://mi-tienda.com             # aprende del historial
+webmcpcss web3 validate --file webmcp.css --connector wallet-connector.js               # pagos por tool, x402/USDC
+webmcpcss web3 balance --address 0x… --network base
+webmcpcss web3 pay --to 0x… --amount 0.05 --currency USDC --network base --max-tx 0.1
+webmcpcss web3 deploy --contract build/WebMCPPayments.json --network base --args 0x…
+
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -474,6 +501,41 @@ Guías: [docs/animation.md](docs/animation.md) ·
 [docs/cli-animate.md](docs/cli-animate.md) · ejemplos:
 [`examples/animation/`](examples/animation/).
 
+## Las diez ideas innovadoras (v1.0.0)
+
+La versión 1.0.0 añade diez módulos independientes, sin dependencias nuevas,
+que convierten WebMCPcss en una plataforma completa para sitios nativos de IA.
+Cada uno tiene su guía en `docs/`, su API en `webmcpcss` (namespace propio) y
+salidas reales en [`examples/v1/`](examples/v1/).
+
+| #   | Módulo                 | Qué hace                                                                                                                                                                                  | CLI                                   | Guía                                                |
+| --- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------- |
+| 1   | **IA-First Framework** | Componentes (`IAButton`, `IAForm`, `IACard`, `IANav`, `IAHero`, `IAGrid`) que nacen con `webmcp-component`, `webmcp-intent`, `webmcp-confirmation: needed\|none` y `webmcp-accessibility` | `init`, `assist`                      | [ia-first-framework.md](docs/ia-first-framework.md) |
+| 2   | **Design-to-WebMCP**   | De imagen / Figma / texto a `.webmcp.css` + andamiaje; valida el sitio contra el diseño; optimiza contratos                                                                               | `design analyze\|validate\|optimize`  | [design-to-webmcp.md](docs/design-to-webmcp.md)     |
+| 3   | **Retro-WebMCP**       | Escanea sitios legacy, proxy de compatibilidad que inyecta WebMCP, inyector en navegador, publicación comunitaria                                                                         | `retro scan\|proxy\|inject\|publish`  | [retro-webmcp.md](docs/retro-webmcp.md)             |
+| 4   | **A11y-MCP**           | Auditoría WCAG 2.2 AA, correcciones declarativas (`webmcp-accessibility`) y puerta de calidad en CI                                                                                       | `a11y audit\|fix`                     | [a11y.md](docs/a11y.md)                             |
+| 5   | **Test-MCP**           | Genera suites Playwright/Cypress desde el contrato, las ejecuta con Puppeteer y emite JUnit                                                                                               | `test generate\|run`                  | [testing.md](docs/testing.md)                       |
+| 6   | **Version-MCP**        | Snapshots, diff semántico con detección de renombres e impacto SemVer, migraciones para agentes                                                                                           | `version snapshot\|diff\|migrate`     | [versioning.md](docs/versioning.md)                 |
+| 7   | **Doc-MCP**            | Documentación interactiva: HTML autocontenido, Markdown, JSON, `llms.txt`, `AGENTS.md`; servidor con recarga                                                                              | `doc generate\|serve`                 | [doc-generation.md](docs/doc-generation.md)         |
+| 8   | **Security-MCP**       | `webmcp-permissions: read-only\|restricted\|full`, `webmcp-requires`, scopes, rate-limit, JWT HS256 sin dependencias, auditoría                                                           | `security validate\|token`            | [security.md](docs/security.md)                     |
+| 9   | **Recommender-MCP**    | Recomienda tools para un objetivo en lenguaje natural, con parámetros, aprendiendo del historial; refinado LLM opcional                                                                   | `recommend`                           | [recommender.md](docs/recommender.md)               |
+| 10  | **Web3-MCP**           | `webmcp-payment`/`webmcp-network`/`webmcp-amount`, billetera de agente con límites, micropagos x402/USDC sin gas, MetaMask/WalletConnect, saldo/pago/deploy con `ethers` opcional         | `web3 validate\|balance\|pay\|deploy` | [web3.md](docs/web3.md)                             |
+
+```ts
+import {
+  framework,
+  design,
+  retro,
+  a11y,
+  testing,
+  versioning,
+  doc,
+  security,
+  recommender,
+  web3,
+} from 'webmcpcss';
+```
+
 ## Proxy comunitario
 
 Si un sitio no publica su propio WebMCP, la comunidad puede aportarlo en
@@ -506,7 +568,8 @@ Estructura relevante:
 - `src/core/` — clase `WebMCPcss`, reparación (`repair.ts`) y visión (`vision.ts`).
 - `src/adapters/` — `PageAdapter` (interfaz), `PuppeteerAdapter`, `DomAdapter`.
 - `src/proxy/` — proxy comunitario e inyección de estilos.
-- `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`.
+- `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`…; `src/cli-v1.ts` — comandos v1.0.0.
+- `src/framework/`, `src/design-to-webmcp/`, `src/retro/`, `src/a11y/`, `src/testing/`, `src/versioning/`, `src/doc/`, `src/security/`, `src/recommender/`, `src/web3/` — los diez módulos v1.0.0.
 
 ## Contribuir
 

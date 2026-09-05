@@ -4,6 +4,117 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [1.0.0] - Sin publicar
+
+Las **diez ideas innovadoras**: diez módulos independientes que convierten
+WebMCPcss en una plataforma completa para sitios nativos de IA. Sin
+dependencias nuevas (Node nativo `http`/`zlib`/`crypto`/`fetch`, Puppeteer ya
+presente; `ethers` como peer opcional cargado dinámicamente; Figma y LLM por
+`fetch` + variables de entorno). 116 tests nuevos (515 en total), cobertura
+
+> 80 % en cada módulo. Guías en `docs/` y salidas reales en `examples/v1/`.
+
+### Añadido
+
+- **IA-First Framework** (`src/framework/`): componentes `IAButton`, `IAForm`,
+  `IACard`, `IANav`, `IAHero`, `IAGrid` con `webmcp-component`,
+  `webmcp-intent: submit|cancel|navigate|action|read`,
+  `webmcp-confirmation: needed|none` (la post-condición pasa a
+  `webmcp-confirmation-selector`) y `webmcp-accessibility`; `renderComponent`,
+  `validateIaFirst`, `initProject`, `assist` (heurístico o LLM). CLI
+  `webmcpcss init [--framework ia-first|minimal]` y `webmcpcss assist "<petición>"`.
+- **Design-to-WebMCP** (`src/design-to-webmcp/`): `analyzeImage` (LLM con
+  visión), `analyzeFigma` (REST API), `analyzeDescription` (heurística ES/EN);
+  `generateFromDesign` (contrato + andamiaje + mapping), `validateDesign`
+  (`ok|missing|moved|relabeled`, puntuación), `optimizeToolMap`
+  (nombres, descripciones, selectores, confirmaciones, formatos,
+  `iaFriendlyScore`). CLI `design analyze|validate|optimize`.
+- **Retro-WebMCP** (`src/retro/`): `scanLegacyHtml` (13 señales legacy,
+  `legacyScore`, selectores estables con prioridad id > data > name > title >
+  href, fingerprints, notas), `enhanceRetroWithLlm`; proxy de compatibilidad
+  (`createRetroProxy`: descompresión gzip/deflate/br, inyección de
+  `<link rel="webmcp">`/`<meta>`/script, reescritura de URLs absolutas y
+  protocolo-relativas y de `Location`, rutas `/.webmcp/webmcp.css`,
+  `/.webmcp/graph.json`, `/.well-known/webmcp.json`); inyector
+  (`buildRetroInjectScript` → `window.__WEBMCP_GRAPH__` y
+  `window.__WEBMCP_RETRO__`, `injectRetro` con Puppeteer); publicación
+  comunitaria (`prepareRetroSubmission`, `publishRetro`). CLI
+  `retro scan|proxy|inject|publish`.
+- **A11y-MCP** (`src/a11y/`): 16 reglas WCAG 2.2 AA evaluadas en la página,
+  `summarizeAudit` (puntuación, por impacto y regla), `passesThresholds`,
+  correcciones declarativas (`buildA11yToolMap`/`buildA11yCss` con
+  `webmcp-accessibility`, `webmcp-a11y-rule`, `webmcp-a11y-impact`),
+  `buildA11yFixScript`, `buildA11yWorkflow`. CLI `a11y audit|fix` (`--min-score`,
+  `--fail-on`, `--ci`).
+- **Test-MCP** (`src/testing/`): `buildTestPlan` (existencia, parámetros,
+  confirmación, formato y ejecución segura), `generateTests` (Playwright TS /
+  Cypress JS), `runTestPlan` con `puppeteerProbe`, `toJUnit`,
+  `buildTestWorkflow`. CLI `test generate|run`.
+- **Version-MCP** (`src/versioning/`): `createSnapshot` (hash por tool,
+  presencia y huella con página), `diffSnapshots` (renombres, selectores,
+  parámetros, permisos, contexto; impacto SemVer y `suggestedVersion`),
+  `buildMigration`/`applyMigration` con notas para agentes, `verifySnapshot`.
+  CLI `version snapshot|diff|migrate`.
+- **Doc-MCP** (`src/doc/`): `buildDocModel` (parámetros, pagos, permisos,
+  fragilidad, ejemplos CLI/MCP/REST/prompt), `renderHtml` (autocontenido, con
+  buscador, filtros y pestañas), `renderMarkdown`, `renderLlmsTxt`,
+  `renderAgentsMd`, `generateDocs`; servidor con recarga
+  (`createDocServer`/`startDocServer`). CLI `doc generate|serve`.
+- **Security-MCP** (`src/security/`): `webmcp-permissions:
+read-only|restricted|full`, `webmcp-requires: none|auth|oauth|jwt|session`,
+  `webmcp-scope`, `webmcp-risk`, `webmcp-rate-limit`; `inferPermissionLevel`,
+  `policyFor`, `authorizeTool`, `filterToolMapForAgent`, `validateSecurity`
+  (hallazgos `invalid-permissions`, `underdeclared`, `payment-without-auth`,
+  `full-without-confirmation`, `write-without-auth`,
+  `selector-inline-handler`…), `suggestPolicies` (overlay parseable), JWT HS256
+  sin dependencias (`createAgentToken`/`verifyJwt`), `agentFromHeaders`. CLI
+  `security validate [--agent --suggest --suggest-output --strict]` y
+  `security token`.
+- **Recommender-MCP** (`src/recommender/`): `recommend(goal, map)` con
+  sinónimos ES/EN por raíz compartida, extracción de parámetros, puntuación
+  por nombre/descripción/parámetros, ajuste por historial por host,
+  penalización de acciones sensibles no solicitadas, login primero;
+  `refineWithLlm`, `recordOutcome`. Historial: eventos `recommend` y `payment`
+  y buckets `recommendations`/`payments` en `computeStats`. CLI `recommend`.
+- **Web3-MCP** (`src/web3/`): `webmcp-payment: required|optional|none`,
+  `webmcp-network` (nombre o chainId, sin restricción), `webmcp-amount`,
+  `webmcp-pay-to`, `webmcp-payment-protocol: x402|onchain`; `NETWORKS` (8
+  redes con USDC), `AgentWallet` con límites `perTx`/`perSession`/`perDay`/
+  receptores/redes; micropagos **x402** (`buildX402Requirements`,
+  `signX402Authorization` EIP-3009, `createPaymentGate`,
+  `createLocalFacilitator`, `X402Client`); `buildWalletConnectorScript`
+  (MetaMask/WalletConnect, `eth_signTypedData_v4`, `eth_sendTransaction`);
+  `getBalance`/`sendPayment`/`deployContract` con `ethers` opcional
+  (`setEthersModule` para pruebas); contrato de referencia
+  `WebMCPPayments.sol`; `validatePayments`. CLI `web3 validate|balance|pay|deploy`.
+- **CLI** (`src/cli-v1.ts`): todos los comandos anteriores; con `--json` solo
+  el JSON va a stdout.
+- **API**: `src/index.ts` exporta los namespaces `framework`, `design`,
+  `retro`, `a11y`, `testing`, `versioning`, `doc`, `security`, `recommender`,
+  `web3`.
+- **Parser**: las propiedades `webmcp-*` no reconocidas se conservan en
+  `meta`; `webmcp-confirmation: needed|none` va a `meta.confirmation` y el
+  selector de post-condición a `webmcp-confirmation-selector`.
+- **LLM**: `LlmRequest.images` para modelos con visión.
+- Documentación: `docs/ia-first-framework.md`, `design-to-webmcp.md`,
+  `retro-webmcp.md`, `a11y.md`, `testing.md`, `versioning.md`,
+  `doc-generation.md`, `security.md`, `recommender.md`, `web3.md`. Ejemplos:
+  `examples/v1/` (contrato de tienda, `regen.sh` y la salida de los diez
+  módulos).
+- CI: smoke test de los comandos v1.0.0 sin navegador y comprobación de que
+  `examples/v1/` está al día.
+
+### Cambiado
+
+- `webmcp-confirmation` admite ahora `needed|none` además de un selector
+  (compatibilidad total: los selectores siguen funcionando como antes).
+
+### Notas
+
+- «NanoCrawl» de la especificación se implementa como perfil **x402/USDC**
+  (HTTP 402 + autorización USDC firmada sin gas para el agente); ver
+  `docs/web3.md`.
+
 ## [0.9.0] - Sin publicar
 
 Cierra los huecos pendientes de las especificaciones de Mapas de Contenido,

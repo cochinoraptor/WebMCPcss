@@ -1,6 +1,6 @@
 {
   "source": "bundled",
-  "hub": "/home/user/WebMCPcss/components",
+  "hub": "<carpeta components/ del paquete>",
   "total": 10,
   "components": [
     {

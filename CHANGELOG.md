@@ -45,10 +45,24 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 
 ### Corregido
 
+- **Sitio web responsive** (auditado con Chrome real en 320/375/414/768/1024/1440
+  px: 11 páginas y los 58 previews de componentes, 0 desbordamientos):
+  - Landing: menú hamburguesa accesible (`aria-expanded`, Esc, cierre al
+    navegar) por debajo de 1100 px — antes la navegación desaparecía sin
+    alternativa; rejillas con `minmax(min(320px, 100%), 1fr)` para pantallas de
+    320 px; tabla de agentes con scroll horizontal en vez de recorte; botón de
+    GitHub compacto y CTAs a ancho completo en móviles pequeños.
+  - Component Hub: los bloques de código, comandos y tablas ya no ensanchan la
+    página (`min-width: 0` en las rejillas, scroll interno); editor en vivo
+    apilado bajo la previsualización; botones «Copiar» a ancho completo; los
+    modos Tablet/Móvil de la previsualización no desbordan en pantallas
+    estrechas; tipografías y márgenes ajustados para móvil.
+  - Componentes: `core-checkout-form` 1.0.1 (inputs con `box-sizing`, fila de
+    cupón apilable) y emulación MUI (toolbar apilable, `h3` fluido).
 - Enlaces rotos en `docs/hub/getting-started.md` (sitio generado), `docs/PROMPT.md`
   y `docs/good-first-issues/` (ahora apuntan a `docs/CLI.md`).
 - README (es): orden de los ejemplos 17 → 18 → 19; `docs/standard.md` y la
-  landing (`site/index.html`, 571 tests) actualizados.
+  landing (`site/index.html`: 29 comandos, 571 tests) actualizados.
 
 ## [1.2.0] - 2026-09-05
 

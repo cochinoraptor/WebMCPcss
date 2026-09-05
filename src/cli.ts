@@ -12,6 +12,8 @@
  * - `webmcpcss dashboard`              → interfaz web con herramientas e historial.
  * - `webmcpcss parse <css>`            → CSS → JSON (sin navegador).
  * - `webmcpcss prompt "<orden>"`       → modifica la página con lenguaje natural (v0.7.0).
+ * - v1.0.0: `init`, `assist`, `design`, `retro`, `a11y`, `test`, `version`,
+ *   `doc`, `security`, `recommend`, `web3` (ver `cli-v1.ts`).
  */
 import chalk from 'chalk';
 import { Command } from 'commander';
@@ -55,6 +57,7 @@ import {
   type ToolExecutor,
 } from './exporters';
 import { VERSION } from './version';
+import { registerV1Commands } from './cli-v1';
 import { createLlmClient, PromptManager, type PromptResult } from './prompt';
 import {
   animateWithPage,
@@ -1842,6 +1845,12 @@ program
     'framework principal (react, vue, svelte, angular, tailwind...)',
   )
   .action(cmdGraph);
+
+/* ------------------------------------------------------------------ */
+/* v1.0.0: init, assist, design, retro, a11y, test, version, doc,       */
+/* security, recommend, web3 (definidos en cli-v1.ts)                   */
+/* ------------------------------------------------------------------ */
+registerV1Commands(program, { launchBrowser, navigate });
 
 program.parseAsync(process.argv).catch((err: unknown) => {
   logger.error(err instanceof Error ? err.message : String(err));

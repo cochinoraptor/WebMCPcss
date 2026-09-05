@@ -236,4 +236,4 @@ ocultar/eliminar y subir un archivo, generando capturas de cada paso.
 | DeerFlow     | `browser_prompt(prompt, execute=False)` → mensaje estructurado `{"type": "webmcp_prompt"}`      |
 | Flomny       | `execute_prompt` del servidor dedicado (`webmcpcss mcp --serve --flomny`)                       |
 
-Ver [agents.md](./agents.md) para instalar cada una.
+Ver [docs/agents/](./agents/) para instalar cada una.

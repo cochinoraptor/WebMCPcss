@@ -19,7 +19,12 @@ import {
   validateMeta,
 } from '../src/hub/loader';
 import { buildHubSite, checkHubSite } from '../src/hub/site';
-import { renderInline, renderMarkdownDoc, slugify } from '../src/hub/markdown';
+import {
+  renderInline,
+  renderMarkdownDoc,
+  rewriteDocHref,
+  slugify,
+} from '../src/hub/markdown';
 import {
   fetchComponent,
   fetchHubIndex,
@@ -357,6 +362,29 @@ describe('hub · markdown', () => {
     ]);
     expect(slugify('¡Hola, Mundo! Ñandú')).toBe('hola-mundo-nandu');
     expect(renderInline('a <b> `x<y>`')).toBe('a &lt;b&gt; <code>x&lt;y&gt;</code>');
+  });
+
+  it('acepta cursiva con guiones bajos (Prettier) sin romper snake_case', () => {
+    expect(renderInline('texto _IA-First_ y (_core_).')).toBe(
+      'texto <em>IA-First</em> y (<em>core</em>).',
+    );
+    expect(renderInline('usa snake_case_var y __init__')).toBe(
+      'usa snake_case_var y __init__',
+    );
+    expect(renderInline('`_no_` es código')).toBe('<code>_no_</code> es código');
+  });
+
+  it('reescribe enlaces entre guías (.md) a las rutas del sitio', () => {
+    expect(rewriteDocHref('./component-usage.md')).toBe('../component-usage/');
+    expect(rewriteDocHref('contributing.md#versionado')).toBe(
+      '../contributing/#versionado',
+    );
+    expect(rewriteDocHref('../hub.md')).toBe('../hub.md');
+    expect(rewriteDocHref('https://x.test/a.md')).toBe('https://x.test/a.md');
+    expect(rewriteDocHref('../a/')).toBe('../a/');
+    expect(renderInline('[Uso](./component-usage.md) y [doc](https://x.test/d.md)')).toBe(
+      '<a href="../component-usage/">Uso</a> y <a href="https://x.test/d.md" target="_blank" rel="noopener">doc</a>',
+    );
   });
 });
 

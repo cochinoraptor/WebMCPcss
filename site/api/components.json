@@ -1,8 +1,8 @@
 {
   "$schema": "https://cochinoraptor.github.io/WebMCPcss/api/schema/components.json",
   "name": "WebMCPcss Component Hub",
-  "version": "1.2.0",
-  "generatedAt": "2026-09-05T14:24:50.785Z",
+  "version": "1.2.1",
+  "generatedAt": "2026-09-05T19:03:07.229Z",
   "baseUrl": "https://cochinoraptor.github.io/WebMCPcss",
   "categories": [
     {
@@ -2868,7 +2868,7 @@
       "name": "Checkout Form",
       "category": "intelligent",
       "library": "core",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.",
       "tags": [
         "form",
@@ -2916,7 +2916,7 @@
         }
       ],
       "animations": [],
-      "hash": "ac3185c6747f5a5b",
+      "hash": "17e7b804e2f1aef9",
       "files": {
         "css": "components/core-checkout-form/checkout-form.webmcp.css",
         "html": "components/core-checkout-form/checkout-form.html",

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🔒 Vulnerabilidad de seguridad
+    url: https://github.com/cochinoraptor/WebMCPcss/security/advisories/new
+    about: No abras un issue público; usa un aviso de seguridad privado (ver SECURITY.md).
+  - name: 💬 Preguntas y ayuda
+    url: https://github.com/cochinoraptor/WebMCPcss/issues/new?labels=question&title=%5BQUESTION%5D+
+    about: Dudas de uso o integración con agentes (issue con la etiqueta `question`).
+  - name: 📚 Documentación
+    url: https://cochinoraptor.github.io/WebMCPcss/
+    about: Guía de inicio, referencia de la CLI (docs/CLI.md) y Component Hub.

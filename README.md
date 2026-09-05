@@ -155,20 +155,6 @@ webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --sandbox    
 # 16) v0.9.0 — Validar conflictos con GSAP/Framer/CSS del sitio sin ejecutar nada (CI)
 webmcpcss validate-conflicts animations.webmcp.css --url https://mi-sitio.com --strict -o informe.json
 
-# 18) v1.1.0 — Estándar WebMCP: API declarativa (toolname/tooldescription) ⇄ .webmcp.css y document.modelContext
-webmcpcss standard scan https://mi-tienda.com -o webmcp.css                            # lee <form toolname …> y genera el contrato
-webmcpcss standard compile webmcp.css --html index.html -o index.webmcp.html           # añade toolname/tooldescription/toolparamtitle al HTML
-webmcpcss standard compile webmcp.css --script webmcp-declarative.js                   # o los aplica en tiempo de ejecución
-webmcpcss standard check https://mi-tienda.com                                         # ¿document.modelContext? ¿qué tools expone la página?
-
-# 19) v1.2.0 — Component Hub: componentes IA-First listos para Tailwind, Bootstrap, MUI, shadcn y CSS puro
-webmcpcss components list --library tailwind --category forms                          # catálogo (remoto o empaquetado)
-webmcpcss components import tailwind-login-form --output ./src/components --merge webmcp.css
-webmcpcss components update --dry-run                                                  # ¿hay versiones nuevas en el hub?
-webmcpcss components demo --output ./demo --library bootstrap                          # sitio de demostración local
-webmcpcss components publish mi-boton.webmcp.css --name "Mi botón" --category buttons  # fork + PR al hub
-webmcpcss mcp --serve --http --hub                                                     # + list_components / get_component / import_component
-
 # 17) v1.0.0 — Las diez ideas: framework IA-First, diseño, legacy, a11y, tests, versiones, docs, seguridad, recomendador, Web3
 webmcpcss init mi-tienda --framework ia-first                                          # proyecto con componentes WebMCP
 webmcpcss assist "crea un formulario de contacto con nombre, email y mensaje" -o ./contacto
@@ -199,9 +185,24 @@ webmcpcss web3 deploy --contract build/WebMCPPayments.json --network base --args
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
+
+# 18) v1.1.0 — Estándar WebMCP: API declarativa (toolname/tooldescription) ⇄ .webmcp.css y document.modelContext
+webmcpcss standard scan https://mi-tienda.com -o webmcp.css                            # lee <form toolname …> y genera el contrato
+webmcpcss standard compile webmcp.css --html index.html -o index.webmcp.html           # añade toolname/tooldescription/toolparamtitle al HTML
+webmcpcss standard compile webmcp.css --script webmcp-declarative.js                   # o los aplica en tiempo de ejecución
+webmcpcss standard check https://mi-tienda.com                                         # ¿document.modelContext? ¿qué tools expone la página?
+
+# 19) v1.2.0 — Component Hub: componentes IA-First listos para Tailwind, Bootstrap, MUI, shadcn y CSS puro
+webmcpcss components list --library tailwind --category forms                          # catálogo (remoto o empaquetado)
+webmcpcss components import tailwind-login-form --output ./src/components --merge webmcp.css
+webmcpcss components update --dry-run                                                  # ¿hay versiones nuevas en el hub?
+webmcpcss components demo --output ./demo --library bootstrap                          # sitio de demostración local
+webmcpcss components publish mi-boton.webmcp.css --name "Mi botón" --category buttons  # fork + PR al hub
+webmcpcss mcp --serve --http --hub                                                     # + list_components / get_component / import_component
 ```
 
 Todos los comandos aceptan URLs `http(s)://`, rutas locales a HTML y `--verbose`.
+📚 Referencia completa de los 29 comandos con todas sus opciones: [docs/CLI.md](docs/CLI.md).
 
 ## Uso como librería (API)
 
@@ -631,7 +632,8 @@ npm install        # instala dependencias
 npm run build      # compila TypeScript a dist/
 npm test           # tests unitarios (Vitest, sin navegador)
 npm run lint       # ESLint
-npm run format     # Prettier
+npm run format     # Prettier (código, Markdown y workflows)
+npm run build:hub  # regenera site/components/ y site/api/components.json
 ```
 
 Estructura relevante:

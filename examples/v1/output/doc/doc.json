@@ -2,7 +2,7 @@
   "title": "Tienda de ejemplo",
   "url": "https://tienda.test",
   "cssPath": "examples/v1/tienda.webmcp.css",
-  "generatedBy": "webmcpcss@1.2.0",
+  "generatedBy": "webmcpcss@1.2.1",
   "generatedAt": "2026-01-01T00:00:00.000Z",
   "tools": [
     {

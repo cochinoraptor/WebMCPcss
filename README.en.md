@@ -189,6 +189,7 @@ webmcpcss inject https://example.com --dir ./community-styles
 
 Every command accepts `http(s)://` URLs, local HTML paths and `--verbose`.
 Run `webmcpcss <command> --help` for all options.
+📚 Full CLI reference (29 commands, every flag): [docs/CLI.md](docs/CLI.md).
 
 ## Library usage (API)
 
@@ -379,7 +380,8 @@ npm install        # install dependencies
 npm run build      # compile TypeScript to dist/
 npm test           # unit tests (Vitest, no browser)
 npm run lint       # ESLint
-npm run format     # Prettier
+npm run format     # Prettier (code, Markdown and workflows)
+npm run build:hub  # regenerates site/components/ and site/api/components.json
 ```
 
 Relevant structure:

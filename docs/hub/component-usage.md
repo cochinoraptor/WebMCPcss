@@ -34,12 +34,12 @@ Los selectores del contrato apuntan a atributos `data-tool`, `data-context`, `da
 
 Los parámetros se declaran con `webmcp-param-<nombre>` y una fuente:
 
-| Fuente | Ejemplo | Lee… |
-| --- | --- | --- |
-| `attr(...)` | `webmcp-param-productId: attr(data-product-id);` | un atributo del elemento |
-| `value(sel)` | `webmcp-param-email: value(form [name="email"]);` | el `value` de un campo |
-| `text(sel)` | `webmcp-param-total: text(.total);` | el texto de un elemento |
-| literal | `webmcp-param-currency: "EUR";` | un valor fijo |
+| Fuente       | Ejemplo                                           | Lee…                     |
+| ------------ | ------------------------------------------------- | ------------------------ |
+| `attr(...)`  | `webmcp-param-productId: attr(data-product-id);`  | un atributo del elemento |
+| `value(sel)` | `webmcp-param-email: value(form [name="email"]);` | el `value` de un campo   |
+| `text(sel)`  | `webmcp-param-total: text(.total);`               | el texto de un elemento  |
+| literal      | `webmcp-param-currency: "EUR";`                   | un valor fijo            |
 
 Documenta cada parámetro con `webmcp-doc-<nombre>: "…"`; el servidor MCP lo usa como descripción del JSON Schema.
 
@@ -49,7 +49,7 @@ Los formularios del hub llevan además los atributos del estándar WebMCP (`tool
 
 ## Personalización visual
 
-Los componentes *core* y *Tailwind* exponen variables CSS (`--wm-primary`, `--wm-on-primary`, `--wm-radius`, `--wm-surface`, …). Cambia su valor en tu hoja de estilos:
+Los componentes _core_ y _Tailwind_ exponen variables CSS (`--wm-primary`, `--wm-on-primary`, `--wm-radius`, `--wm-surface`, …). Cambia su valor en tu hoja de estilos:
 
 ```css
 :root { --wm-primary: #16a34a; --wm-radius: 12px; }
@@ -63,7 +63,7 @@ El **editor en vivo** del sitio genera el bloque CSS con los valores que elijas;
 
 ## Animaciones
 
-Los componentes de la categoría *animations* y algunos inteligentes declaran animaciones con el estándar de WebMCPcss:
+Los componentes de la categoría _animations_ y algunos inteligentes declaran animaciones con el estándar de WebMCPcss:
 
 ```css
 [data-animation="fade-in"] {

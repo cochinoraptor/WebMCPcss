@@ -6,7 +6,7 @@
 <title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
 <meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.2.0: Component Hub con componentes IA-First para Tailwind, Bootstrap, MUI y shadcn; alineado con el estándar WebMCP (document.modelContext y API declarativa toolname/tooldescription); framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
 <meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
-<meta property="og:description" content="v1.2.0 · npm i -g webmcpcss · Component Hub · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
+<meta property="og:description" content="v1.2.1 · npm i -g webmcpcss · Component Hub · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
 <link rel="icon" type="image/png" href="favicon.png" />
@@ -51,13 +51,21 @@
     background: rgba(11,14,20,.72); backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(34,42,61,.7);
   }
-  header .wrap { display: flex; align-items: center; gap: 26px; height: 64px; }
+  header .wrap { display: flex; align-items: center; gap: 26px; min-height: 64px; }
+  header .wrap > .brand { flex: none; }
+  .gh-btn { flex: none; }
   .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 18px; letter-spacing: -.4px; color: var(--text); }
   .brand img { width: 34px; height: 34px; border-radius: 8px; }
   .brand em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  nav { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; font-weight: 500; white-space: nowrap; }
-  nav a { color: var(--muted); transition: color .15s; }
-  nav a:hover { color: var(--text); }
+  nav.mainnav { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; font-weight: 500; white-space: nowrap; }
+  nav.mainnav a { color: var(--muted); transition: color .15s; padding: 4px 0; }
+  nav.mainnav a:hover { color: var(--text); }
+  .nav-toggle { display: none; margin-left: auto; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: rgba(22,27,40,.6); color: var(--text); cursor: pointer; }
+  .nav-toggle svg { width: 20px; height: 20px; }
+  .nav-toggle .x { display: none; }
+  .nav-toggle[aria-expanded="true"] .x { display: block; }
+  .nav-toggle[aria-expanded="true"] .bars { display: none; }
+  :focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; border-radius: 6px; }
   .gh-btn {
     display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px;
     border: 1px solid var(--line); border-radius: 8px; color: var(--text) !important;
@@ -88,11 +96,13 @@
   .btn.ghost:hover { border-color: var(--acc2); }
   .install {
     display: inline-flex; align-items: center; gap: 14px; background: var(--code);
-    border: 1px solid var(--line); border-radius: 11px; padding: 12px 22px; font-size: 15px;
+    border: 1px solid var(--line); border-radius: 11px; padding: 12px 22px; font-size: 15px; max-width: 100%;
   }
+  .install code { overflow-wrap: anywhere; }
   .install .dollar { color: var(--muted); }
   .install code { color: var(--ok); font-weight: 500; }
-  .copy { cursor: pointer; color: var(--muted); border: none; background: none; font-size: 15px; }
+  .copy { cursor: pointer; color: var(--muted); border: none; background: none; font-size: 17px; min-width: 32px; min-height: 32px; border-radius: 6px; }
+  .copy:hover { color: var(--text); background: rgba(124,108,240,.14); }
   .copy:hover { color: var(--text); }
 
   /* stats */
@@ -118,8 +128,8 @@
   .term pre { border: none; border-radius: 0; box-shadow: none; margin: 0; background: transparent; padding: 18px 20px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; }
   .k { color: #7ee787; } .p { color: #79c0ff; } .s { color: #ffa657; } .c { color: #6e7a8f; } .g { color: #34d399; }
 
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; align-items: stretch; }
-  .step { display: flex; flex-direction: column; gap: 14px; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 22px; align-items: stretch; }
+  .step { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .step-head { display: flex; align-items: center; gap: 12px; }
   .step-num {
     width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
@@ -129,7 +139,7 @@
   .step p.note { color: var(--muted); font-size: 14px; }
 
   /* tarjetas con borde degradado */
-  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
   .card {
     position: relative; background: var(--card); border: 1px solid var(--line);
     border-radius: 15px; padding: 26px; transition: transform .18s, border-color .18s, box-shadow .18s;
@@ -146,7 +156,7 @@
   .card code { background: var(--code); padding: 2px 7px; border-radius: 6px; font-size: 12.5px; color: var(--acc); }
 
   /* tabla agentes */
-  .tablecard { border: 1px solid var(--line); border-radius: 15px; overflow: hidden; background: var(--card); }
+  .tablecard { border: 1px solid var(--line); border-radius: 15px; overflow-x: auto; background: var(--card); -webkit-overflow-scrolling: touch; }
   table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   th, td { text-align: left; padding: 15px 20px; border-bottom: 1px solid rgba(34,42,61,.6); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
@@ -162,7 +172,7 @@
   .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; }
 
   /* comunidad */
-  #community-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  #community-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px; }
   #community-list .card h3 { color: var(--acc); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; }
   #community-list .tools { margin-top: 4px; }
 
@@ -223,22 +233,41 @@
   .props { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 34px; }
   .props code { font-size: 12.5px; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(124,108,240,.4); background: rgba(12,16,25,.55); color: #b4a9ff; max-width: 100%; overflow-wrap: anywhere; }
   .props code.a { border-color: rgba(79,209,197,.4); color: var(--acc); }
-  .demos { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-top: 38px; }
+  .demos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: 20px; margin-top: 38px; }
   .demos > div { min-width: 0; }
   .demos .term pre { font-size: 12px; line-height: 1.7; padding: 16px 18px; }
   .demos .cap { font-size: 13px; color: var(--muted); margin: 10px 4px 0; }
   .demos .cap code { color: var(--acc); }
   @media (max-width: 1000px) { .demos { grid-template-columns: 1fr; } }
 
-  @media (max-width: 1140px) { nav.mainnav { gap: 13px; font-size: 13px; } header .wrap { gap: 18px; } }
-  @media (max-width: 1000px) { nav.mainnav { gap: 11px; font-size: 12.5px; } }
-  @media (max-width: 960px) { nav.mainnav { display: none; } }
+  @media (max-width: 1240px) { nav.mainnav { gap: 13px; font-size: 13px; } header .wrap { gap: 18px; } }
+  @media (max-width: 1100px) {
+    header .wrap { flex-wrap: wrap; gap: 12px; }
+    .nav-toggle { display: inline-flex; }
+    .gh-btn { margin-left: 0; }
+    nav.mainnav { display: none; order: 10; flex-basis: 100%; flex-direction: column; gap: 0; white-space: normal; font-size: 15px; padding: 6px 0 12px; border-top: 1px solid var(--line); }
+    nav.mainnav.open { display: flex; }
+    nav.mainnav a { padding: 11px 4px; border-bottom: 1px solid rgba(34,42,61,.5); }
+    nav.mainnav a:last-child { border-bottom: none; }
+  }
   @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
   @media (max-width: 720px) {
-    nav.mainnav { display: none; }
-    .hero { padding: 64px 0 48px; }
+    .wrap { padding: 0 18px; }
+    .hero { padding: 56px 0 44px; }
     .stat { padding: 16px 20px; }
     th, td { padding: 12px 14px; }
+    .term pre { font-size: 12.5px; padding: 14px 16px; }
+    h2 { letter-spacing: -.6px; }
+  }
+  @media (max-width: 420px) {
+    .wrap { padding: 0 14px; }
+    header .wrap { gap: 8px; }
+    .brand { font-size: 17px; gap: 8px; }
+    .gh-btn { padding: 7px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .gh-btn .gh-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .cta .btn { width: 100%; justify-content: center; }
+    .stat { min-width: 100%; border-right: none; border-bottom: 1px solid var(--line); }
+    .stat:last-child { border-bottom: none; }
   }
 </style>
 </head>
@@ -249,7 +278,11 @@
 <header>
   <div class="wrap">
     <a class="brand" href="#"><img src="logo.png" alt="WebMCPcss" />WebMCP<em>css</em></a>
-    <nav class="mainnav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Abrir menú">
+      <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <nav class="mainnav" id="mainnav" aria-label="Principal">
       <a href="#como">Flujo</a>
       <a href="#features">Funciones</a>
       <a href="components/" style="color:var(--acc2)">🧩 Componentes</a>
@@ -261,9 +294,9 @@
       <a href="#comunidad">Comunidad</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/new/main/community-styles" style="color:var(--acc)">➕ Contribuir</a>
     </nav>
-    <a class="gh-btn" href="https://github.com/cochinoraptor/WebMCPcss">
+    <a class="gh-btn" href="https://github.com/cochinoraptor/WebMCPcss" aria-label="Repositorio en GitHub">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-      GitHub
+      <span class="gh-label">GitHub</span>
     </a>
   </div>
 </header>
@@ -271,7 +304,7 @@
 <div class="hero">
   <div class="wrap">
     <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
-    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.2.0</span></div>
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.2.1</span></div>
     <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
     <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong>, <strong style="color:var(--text)">animaciones declarativas</strong> y, desde la 1.0, <strong style="color:var(--text)">permisos, accesibilidad, tests, versionado y pagos</strong> declarados en el mismo CSS.</p>
     <div class="cta">
@@ -287,8 +320,8 @@
     <div class="stats">
       <div class="stat"><b>46</b><span>agentes soportados</span></div>
       <div class="stat"><b>10</b><span>formatos de exportación</span></div>
-      <div class="stat"><b>28</b><span>comandos CLI</span></div>
-      <div class="stat"><b>541</b><span>tests automatizados</span></div>
+      <div class="stat"><b>29</b><span>comandos CLI</span></div>
+      <div class="stat"><b>571</b><span>tests automatizados</span></div>
       <div class="stat"><b>0</b><span>dependencias de pago</span></div>
     </div>
   </div>
@@ -579,7 +612,7 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
       <div class="card"><h3>keyframes</h3><p>Fotogramas arbitrarios por WAAPI o <code>@keyframes</code> inyectados.</p></div>
       <div class="card"><h3>three-scene</h3><p>Planos 2.5D que siguen ratón y scroll. Three.js solo si se usa; fallback sin WebGL.</p></div>
     </div>
-    <ul class="ticks" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 26px">
+    <ul class="ticks" style="grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); margin-top: 26px">
       <li>Prioridades <code>low → critical</code> y estrategias <code>replace</code>, <code>queue</code>, <code>ignore</code>, <code>merge</code>.</li>
       <li>Detecta GSAP, Anime.js, Framer Motion, Velocity, Lottie, AOS y las animaciones CSS/WAAPI del sitio; <code>registerExternal()</code> para las tuyas.</li>
       <li><code>--dry-run</code> con informe de conflictos previstos, <code>fallback</code> por animación y respeto de <code>prefers-reduced-motion</code>.</li>
@@ -658,7 +691,7 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
     <div class="final">
       <img src="logo.png" alt="" style="width:72px;height:72px;margin-bottom:18px" />
       <h2>Haz tu web nativa para agentes hoy</h2>
-      <p>Un comando para empezar. v1.2.0 · MIT · sin dependencias de pago · 568 tests · listo para producción.</p>
+      <p>Un comando para empezar. v1.2.1 · MIT · sin dependencias de pago · 571 tests · listo para producción.</p>
       <div class="cta">
         <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">npm install -g webmcpcss</a>
         <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss">⭐ Dale una estrella</a>
@@ -790,6 +823,18 @@ fetch('https://raw.githubusercontent.com/cochinoraptor/WebMCPcss/main/community-
     document.getElementById('community-list').innerHTML =
       '<div class="card"><p>Índice en <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/community-styles">community-styles/</a></p></div>';
   });
+</script>
+<script>
+// ---- Menú móvil ----
+(function () {
+  var t = document.querySelector('.nav-toggle'), n = document.getElementById('mainnav');
+  if (!t || !n) return;
+  function set(open) { n.classList.toggle('open', open); t.setAttribute('aria-expanded', String(open)); t.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú'); }
+  t.addEventListener('click', function () { set(!n.classList.contains('open')); });
+  n.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && n.classList.contains('open')) { set(false); t.focus(); } });
+  window.matchMedia('(min-width: 1101px)').addEventListener('change', function (e) { if (e.matches) set(false); });
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+{
+  "source": {
+    "type": "text",
+    "ref": "Página de tienda con buscador (campo texto y botón Buscar), tarjeta de producto "
+  },
+  "title": "Diseño",
+  "elements": [
+    {
+      "id": "form-search",
+      "kind": "form",
+      "label": "Buscar",
+      "confidence": 0.55
+    },
+    {
+      "id": "input-query",
+      "kind": "input",
+      "label": "Buscar",
+      "fieldName": "query",
+      "parent": "form-search",
+      "confidence": 0.55
+    },
+    {
+      "id": "form-main",
+      "kind": "form",
+      "label": "Formulario",
+      "confidence": 0.5
+    },
+    {
+      "id": "input-email",
+      "kind": "input",
+      "label": "Email",
+      "fieldName": "email",
+      "parent": "form-main",
+      "confidence": 0.55
+    },
+    {
+      "id": "textarea-message",
+      "kind": "textarea",
+      "label": "Mensaje",
+      "fieldName": "message",
+      "parent": "form-main",
+      "confidence": 0.55
+    },
+    {
+      "id": "button-anadir-al-carrito",
+      "kind": "button",
+      "label": "Añadir al carrito",
+      "intent": "action",
+      "confidence": 0.55
+    },
+    {
+      "id": "button-pagar",
+      "kind": "button",
+      "label": "Pagar",
+      "intent": "submit",
+      "parent": "form-main",
+      "confidence": 0.55
+    },
+    {
+      "id": "price-precio",
+      "kind": "price",
+      "label": "Precio",
+      "confidence": 0.55
+    },
+    {
+      "id": "card-tarjeta",
+      "kind": "card",
+      "label": "Tarjeta",
+      "confidence": 0.55
+    },
+    {
+      "id": "button-search",
+      "kind": "button",
+      "label": "Buscar",
+      "intent": "submit",
+      "parent": "form-search",
+      "confidence": 0.55
+    }
+  ],
+  "method": "heuristic",
+  "notes": []
+}

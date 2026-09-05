@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tienda de ejemplo</title>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--fg:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+header{padding:1.2rem 1.5rem;border-bottom:1px solid #334155;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+header h1{margin:0;font-size:1.2rem}header .stats{color:var(--muted);font-size:.85rem}
+main{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 70px)}
+nav{border-right:1px solid #334155;padding:1rem;overflow:auto}
+nav input,nav select{width:100%;padding:.5rem;margin-bottom:.6rem;background:var(--panel);color:var(--fg);border:1px solid #334155;border-radius:6px}
+nav a{display:block;padding:.35rem .5rem;color:var(--fg);text-decoration:none;border-radius:6px;font-size:.9rem}
+nav a:hover,nav a.active{background:var(--panel)}
+section{padding:1.5rem;max-width:960px}
+article{background:var(--panel);border-radius:10px;padding:1.2rem;margin-bottom:1.2rem}
+article h2{margin:0 0 .3rem;font-size:1.1rem}code,pre{font-family:ui-monospace,monospace;font-size:.85rem}
+pre{background:#0b1220;padding:.8rem;border-radius:8px;overflow:auto;position:relative}
+.badge{display:inline-block;padding:.1rem .5rem;border-radius:999px;font-size:.75rem;margin-right:.3rem;background:#334155}
+.badge.low{background:#14532d}.badge.medium{background:#713f12}.badge.high{background:#7f1d1d}.badge.confirm{background:#4c1d95}.badge.pay{background:#1e3a8a}
+table{width:100%;border-collapse:collapse;margin:.6rem 0}td,th{text-align:left;padding:.35rem;border-bottom:1px solid #334155;font-size:.85rem}
+.tabs button{background:transparent;color:var(--muted);border:0;padding:.4rem .7rem;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.active{color:var(--accent);border-color:var(--accent)}
+.copy{position:absolute;top:.4rem;right:.4rem;background:#334155;color:var(--fg);border:0;border-radius:4px;padding:.2rem .5rem;cursor:pointer;font-size:.7rem}
+.muted{color:var(--muted)}.hidden{display:none}
+@media (max-width:760px){main{grid-template-columns:1fr}nav{border-right:0;border-bottom:1px solid #334155}}
+</style>
+</head>
+<body>
+<header><h1>Tienda de ejemplo</h1><span class="stats">5 herramientas · 2 contexto · 4 parámetros · 3 con confirmación · <a href="https://tienda.test" style="color:var(--accent)">https://tienda.test</a></span></header>
+<main>
+<nav>
+<input id="q" type="search" placeholder="Buscar herramienta, parámetro, selector…" aria-label="Buscar">
+<select id="filter" aria-label="Filtro"><option value="">Todas</option><option value="confirm">Con confirmación</option><option value="params">Con parámetros</option><option value="pay">Con pago</option><option value="fragile">Frágiles</option></select>
+<div id="list"></div>
+</nav>
+<section id="content"></section>
+</main>
+<script>
+const MODEL={"title":"Tienda de ejemplo","url":"https://tienda.test","cssPath":"examples/v1/tienda.webmcp.css","generatedBy":"webmcpcss@1.0.0","generatedAt":"2026-01-01T00:00:00.000Z","tools":[{"name":"buscarProductos","description":"Busca productos en el catálogo","selector":"#search-btn","params":[{"name":"query","source":"value","selector":"#q","description":"Valor del campo `#q`"}],"trigger":"click","confirmation":"none","intent":"action","permissions":"read-only","fragility":{"level":"low"},"examples":{"cli":"webmcpcss run https://tienda.test examples/v1/tienda.webmcp.css buscarProductos --args '{\"query\":\"\u003cquery>\"}'","mcp":{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"buscarProductos","arguments":{"query":"\u003cquery>"}}},"rest":"curl -X POST http://localhost:8090/api/tools/buscarProductos -H 'content-type: application/json' -d '{\"query\":\"\u003cquery>\"}'","prompt":"webmcpcss prompt \"Busca productos en el catálogo\" --url https://tienda.test --css examples/v1/tienda.webmcp.css"}},{"name":"anadirAlCarrito","description":"Añade el producto actual al carrito","selector":"#add-to-cart","params":[{"name":"cantidad","source":"value","selector":"#qty","description":"Valor del campo `#qty`"}],"trigger":"click","confirmation":".cart-count","intent":"action","permissions":"restricted","fragility":{"level":"low"},"examples":{"cli":"webmcpcss run https://tienda.test examples/v1/tienda.webmcp.css anadirAlCarrito --args '{\"cantidad\":\"\u003ccantidad>\"}'","mcp":{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"anadirAlCarrito","arguments":{"cantidad":"\u003ccantidad>"}}},"rest":"curl -X POST http://localhost:8090/api/tools/anadirAlCarrito -H 'content-type: application/json' -d '{\"cantidad\":\"\u003ccantidad>\"}'","prompt":"webmcpcss prompt \"Añade el producto actual al carrito\" --url https://tienda.test --css examples/v1/tienda.webmcp.css"}},{"name":"pagarPedido","description":"Paga el pedido del carrito","selector":"#checkout","params":[],"trigger":"click","confirmation":"#order-ok","intent":"submit","permissions":"full","fragility":{"level":"low"},"examples":{"cli":"webmcpcss run https://tienda.test examples/v1/tienda.webmcp.css pagarPedido","mcp":{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"pagarPedido","arguments":{}}},"rest":"curl -X POST http://localhost:8090/api/tools/pagarPedido -H 'content-type: application/json' -d '{}'","prompt":"webmcpcss prompt \"Paga el pedido del carrito\" --url https://tienda.test --css examples/v1/tienda.webmcp.css"}},{"name":"descargarInforme","description":"Descarga el informe premium de ventas (de pago)","selector":"#report","params":[],"trigger":"click","confirmation":"needed","permissions":"full","payment":{"required":true,"network":"base","amount":"0.05 USDC"},"fragility":{"level":"low"},"examples":{"cli":"webmcpcss run https://tienda.test examples/v1/tienda.webmcp.css descargarInforme","mcp":{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"descargarInforme","arguments":{}}},"rest":"curl -X POST http://localhost:8090/api/tools/descargarInforme -H 'content-type: application/json' -d '{}'","prompt":"webmcpcss prompt \"Descarga el informe premium de ventas (de pago)\" --url https://tienda.test --css examples/v1/tienda.webmcp.css"}},{"name":"enviarConsulta","description":"Envía una consulta al soporte","selector":"#contact-form button[type=\"submit\"]","params":[{"name":"email","source":"value","selector":"#c-email","description":"Valor del campo `#c-email`"},{"name":"mensaje","source":"value","selector":"#c-msg","description":"Valor del campo `#c-msg`"}],"trigger":"click","confirmation":"none","intent":"submit","permissions":"restricted","fragility":{"level":"low"},"examples":{"cli":"webmcpcss run https://tienda.test examples/v1/tienda.webmcp.css enviarConsulta --args '{\"email\":\"\u003cemail>\",\"mensaje\":\"\u003cmensaje>\"}'","mcp":{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"enviarConsulta","arguments":{"email":"\u003cemail>","mensaje":"\u003cmensaje>"}}},"rest":"curl -X POST http://localhost:8090/api/tools/enviarConsulta -H 'content-type: application/json' -d '{\"email\":\"\u003cemail>\",\"mensaje\":\"\u003cmensaje>\"}'","prompt":"webmcpcss prompt \"Envía una consulta al soporte\" --url https://tienda.test --css examples/v1/tienda.webmcp.css"}}],"context":[{"name":"precio","selector":".price","format":"currency","description":"Lee `.price` como currency"},{"name":"articulosCarrito","selector":".cart-count","format":"number","description":"Lee `.cart-count` como number"}],"stats":{"tools":5,"context":2,"params":4,"withConfirmation":3,"fragile":0}};
+const list=document.getElementById('list'),content=document.getElementById('content'),q=document.getElementById('q'),filter=document.getElementById('filter');
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function matches(t,term,f){
+  const hay=(t.name+' '+t.description+' '+t.selector+' '+t.params.map(p=>p.name).join(' ')).toLowerCase();
+  if(term&&!hay.includes(term))return false;
+  if(f==='confirm')return t.confirmation&&t.confirmation!=='none';
+  if(f==='params')return t.params.length>0;
+  if(f==='pay')return !!t.payment;
+  if(f==='fragile')return t.fragility&&t.fragility.level==='high';
+  return true;
+}
+function render(){
+  const term=q.value.trim().toLowerCase(),f=filter.value;
+  const tools=MODEL.tools.filter(t=>matches(t,term,f));
+  list.innerHTML=tools.map(t=>'<a href="#'+t.name+'">'+esc(t.name)+'</a>').join('')+(MODEL.context.length?'<hr><a href="#contexto">Contexto ('+MODEL.context.length+')</a>':'');
+  content.innerHTML=tools.map(t=>`<article id="${esc(t.name)}">
+    <h2><code>${esc(t.name)}</code></h2>
+    <div>${t.intent?'<span class="badge">'+esc(t.intent)+'</span>':''}${t.confirmation&&t.confirmation!=='none'?'<span class="badge confirm">confirmación: '+esc(t.confirmation)+'</span>':''}${t.payment?'<span class="badge pay">pago '+esc(t.payment.amount||'')+' '+esc(t.payment.network||'')+'</span>':''}${t.fragility?'<span class="badge '+t.fragility.level+'">fragilidad '+t.fragility.level+(t.fragility.framework?' · '+esc(t.fragility.framework):'')+'</span>':''}${t.permissions?'<span class="badge">permisos: '+esc(t.permissions)+'</span>':''}</div>
+    <p>${esc(t.description)}</p>
+    <p class="muted">Selector <code>${esc(t.selector)}</code> · disparador <code>${esc(t.trigger)}</code></p>
+    ${t.params.length?'<table><tr><th>Parámetro</th><th>Origen</th><th>Descripción</th></tr>'+t.params.map(p=>'<tr><td><code>'+esc(p.name)+'</code></td><td>'+esc(p.source)+'</td><td>'+esc(p.description)+'</td></tr>').join('')+'</table>':''}
+    <div class="tabs" data-tool="${esc(t.name)}"><button class="active" data-tab="cli">CLI</button><button data-tab="mcp">MCP</button><button data-tab="rest">REST</button><button data-tab="prompt">Prompt</button></div>
+    <pre data-tab-content="cli"><button class="copy">copiar</button>${esc(t.examples.cli)}</pre>
+    <pre data-tab-content="mcp" class="hidden"><button class="copy">copiar</button>${esc(JSON.stringify(t.examples.mcp,null,2))}</pre>
+    <pre data-tab-content="rest" class="hidden"><button class="copy">copiar</button>${esc(t.examples.rest)}</pre>
+    <pre data-tab-content="prompt" class="hidden"><button class="copy">copiar</button>${esc(t.examples.prompt)}</pre>
+  </article>`).join('')+(MODEL.context.length?'<article id="contexto"><h2>Contexto (solo lectura)</h2><table><tr><th>Dato</th><th>Selector</th><th>Formato</th></tr>'+MODEL.context.map(c=>'<tr><td><code>'+esc(c.name)+'</code></td><td><code>'+esc(c.selector)+'</code></td><td>'+esc(c.format)+'</td></tr>').join('')+'</table></article>':'')||'<p class="muted">Sin resultados.</p>';
+}
+content.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.classList.contains('copy')){navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent.replace(/^copiar/,'').trim());b.textContent='copiado';setTimeout(()=>b.textContent='copiar',1200);return;}
+  if(b.dataset.tab){const art=b.closest('article');art.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x===b));art.querySelectorAll('[data-tab-content]').forEach(p=>p.classList.toggle('hidden',p.dataset.tabContent!==b.dataset.tab));}
+});
+q.addEventListener('input',render);filter.addEventListener('change',render);render();
+</script>
+</body>
+</html>

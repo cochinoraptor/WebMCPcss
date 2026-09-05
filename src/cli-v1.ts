@@ -267,7 +267,15 @@ function registerDesign(program: Command, deps: V1Deps): void {
       } else if (o.text) structure = await analyzeDescription(o.text, llmFrom(o));
       else throw new Error('Indica --image, --figma o --text.');
       const gen = generateFromDesign(structure);
-      if (o.json) return json({ structure, generation: gen });
+      const writeOutputs = () => {
+        writeOut(o.output, gen.css);
+        if (o.scaffold) writeOut(o.scaffold, gen.scaffoldHtml);
+        if (o.designJson) writeOut(o.designJson, JSON.stringify(structure, null, 2));
+      };
+      if (o.json) {
+        writeOutputs();
+        return json({ structure, generation: gen });
+      }
       logger.info(
         `Diseño: ${structure.title} · ${structure.elements.length} elementos · método ${structure.method}`,
       );
@@ -276,9 +284,7 @@ function registerDesign(program: Command, deps: V1Deps): void {
           `  ${chalk.green('✔')} ${m.tool} ← ${m.elementId} (${(m.confidence * 100).toFixed(0)} %)`,
         );
       for (const w of gen.warnings) logger.warn(w);
-      writeOut(o.output, gen.css);
-      if (o.scaffold) writeOut(o.scaffold, gen.scaffoldHtml);
-      if (o.designJson) writeOut(o.designJson, JSON.stringify(structure, null, 2));
+      writeOutputs();
     },
   );
 
@@ -351,7 +357,10 @@ function registerDesign(program: Command, deps: V1Deps): void {
     .action((css: string, o: { output?: string; json?: boolean }) => {
       if (!o.json) logger.title('WebMCPcss · design optimize');
       const result = optimizeToolMap(readMap(css), { apply: Boolean(o.output) });
-      if (o.json) return json(result);
+      if (o.json) {
+        if (o.output) writeOut(o.output, serializeToolMap(result.toolMap));
+        return json(result);
+      }
       logger.info(
         `Puntuación IA-friendly: ${result.scoreBefore} → ${chalk.bold(String(result.scoreAfter))}`,
       );
@@ -385,7 +394,10 @@ function registerRetro(program: Command, deps: V1Deps): void {
     const llm = llmFrom(o);
     let improved = 0;
     if (llm) improved = await enhanceRetroWithLlm(scan, llm);
-    if (o.json) return json(scan);
+    if (o.json) {
+      if (o.output) writeOut(o.output, serializeToolMap(scan.toolMap));
+      return json(scan);
+    }
     logger.info(
       `${scan.title || url} · legacy ${chalk.bold(String(scan.legacyScore))}/100 · ${Object.keys(scan.toolMap.tools).length} tools, ${Object.keys(scan.toolMap.context).length} contextos${improved ? ` · ${improved} descripciones mejoradas por LLM` : ''}`,
     );
@@ -601,12 +613,15 @@ function registerA11y(program: Command, deps: V1Deps): void {
         );
         const css = buildA11yCss(summary);
         const map = parseWebMCP(css);
-        if (o.json)
+        if (o.json) {
+          writeOut(o.output, css);
+          if (o.script) writeOut(o.script, buildA11yFixScript(map));
           return json({
             score: summary.score,
             fixes: Object.keys(map.context).length,
             css,
           });
+        }
         logger.info(
           `${summary.total} problemas · ${Object.keys(map.context).length} correcciones declarativas`,
         );
@@ -657,14 +672,14 @@ function registerTest(program: Command, deps: V1Deps): void {
           source: o.file,
           execute: o.execute,
         });
-        if (o.json) return json(plan);
-        logger.info(`${plan.cases.length} casos (${o.framework})`);
-        writeOut(o.output ?? filename, code);
+        if (!o.json) logger.info(`${plan.cases.length} casos (${o.framework})`);
+        if (o.output || !o.json) writeOut(o.output ?? filename, code);
         if (o.ci)
           writeOut(
             '.github/workflows/webmcp-tests.yml',
             buildTestWorkflow({ url: o.url, css: o.file }),
           );
+        if (o.json) return json(plan);
       },
     );
 
@@ -831,14 +846,14 @@ function registerVersion(program: Command, deps: V1Deps): void {
               page,
             ),
           );
+        if (o.output) writeOut(o.output, serializeToolMap(migrated));
+        if (o.notes) writeOut(o.notes, plan.agentNotes);
         if (o.json) return json({ diff, plan, migrated, verification });
         console.log(plan.agentNotes);
         if (verification)
           logger.info(
             `Verificación en ${o.url}: ${verification.present.length} presentes, ${verification.missing.length} ausentes${verification.missing.length ? ` (${verification.missing.join(', ')})` : ''}`,
           );
-        if (o.output) writeOut(o.output, serializeToolMap(migrated));
-        if (o.notes) writeOut(o.notes, plan.agentNotes);
       },
     );
 }
@@ -940,6 +955,7 @@ function registerSecurity(program: Command): void {
     )
     .option('--secret <secret>', 'secreto JWT (o WEBMCP_JWT_SECRET)')
     .option('--suggest', 'imprime las políticas sugeridas en formato .webmcp.css')
+    .option('--suggest-output <file>', 'escribe las políticas sugeridas en un archivo')
     .option('--strict', 'sale con 1 si hay errores')
     .option('--json', 'salida JSON')
     .action(
@@ -948,6 +964,7 @@ function registerSecurity(program: Command): void {
         agent?: string;
         secret?: string;
         suggest?: boolean;
+        suggestOutput?: string;
         strict?: boolean;
         json?: boolean;
       }) => {
@@ -957,6 +974,7 @@ function registerSecurity(program: Command): void {
           ? parseAgentSpec(o.agent, o.secret ?? process.env.WEBMCP_JWT_SECRET)
           : undefined;
         const report = validateSecurity(map, agent);
+        if (o.suggestOutput) writeOut(o.suggestOutput, `${suggestPolicies(map)}\n`);
         if (o.json)
           return json({
             ...report,
@@ -1133,7 +1151,8 @@ function registerWeb3(program: Command): void {
       const map = readMap(o.file);
       const paid = listPaidTools(map);
       const findings = validatePayments(map);
-      if (o.json) return json({ paid, findings });
+      if (o.connector) writeOut(o.connector, buildWalletConnectorScript(map));
+      if (o.json) return json({ paid, findings, connector: o.connector });
       for (const r of paid)
         console.log(
           `  ${chalk.dim('•')} ${r.tool}: ${r.policy} ${r.amount} ${r.currency} en ${r.network.name} → ${r.payTo ?? chalk.red('sin pay-to')} (${r.protocol})`,
@@ -1143,7 +1162,6 @@ function registerWeb3(program: Command): void {
           `  ${f.severity === 'error' ? chalk.red('✖') : chalk.yellow('⚠')} ${f.tool}: ${f.message}`,
         );
       if (!paid.length) logger.info('Ninguna tool declara pagos.');
-      if (o.connector) writeOut(o.connector, buildWalletConnectorScript(map));
       if (findings.some((f) => f.severity === 'error')) process.exitCode = 1;
     });
 

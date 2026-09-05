@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "tienda-ia-first": {
+      "command": "webmcpcss",
+      "args": [
+        "mcp",
+        "--serve",
+        "--css",
+        "webmcp.css",
+        "--url",
+        "https://tienda.test"
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+/* Generado por webmcpcss design analyze — fuente: text Página de tienda con buscador (campo texto y botón Buscar), tarjeta de producto  (heuristic) */
+/* Los selectores [data-tool] son la propuesta: añade esos atributos al implementar el diseño. */
+
+[data-tool="buscar-submit"] {
+  webmcp-tool: "buscar";
+  webmcp-description: "Buscar";
+  webmcp-param-query: value(#buscar-query);
+  webmcp-trigger: "submit" on #buscar-form;
+  webmcp-confirmation-selector: '[data-confirmation="buscar"]';
+  webmcp-component: "form";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-accessibility: "aria-label: Buscar";
+  webmcp-design-id: "form-search";
+}
+
+[data-tool="pagar-submit"] {
+  webmcp-tool: "pagar";
+  webmcp-description: "Pagar (Formulario)";
+  webmcp-param-email: value(#pagar-email);
+  webmcp-param-message: value(#pagar-message);
+  webmcp-trigger: "submit" on #pagar-form;
+  webmcp-confirmation-selector: '[data-confirmation="pagar"]';
+  webmcp-component: "form";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-accessibility: "aria-label: Pagar";
+  webmcp-design-id: "form-main";
+}
+
+[data-tool="anadir-al-carrito"] {
+  webmcp-tool: "anadirAlCarrito";
+  webmcp-description: "Pulsa 'Añadir al carrito'";
+  webmcp-component: "button";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-accessibility: "aria-label: Añadir al carrito";
+  webmcp-design-id: "button-anadir-al-carrito";
+}
+
+[data-context="precio"] {
+  webmcp-context: "precio";
+  webmcp-format: "currency";
+  webmcp-design-id: "price-precio";
+}

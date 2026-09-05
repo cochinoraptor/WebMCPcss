@@ -1,0 +1,15 @@
+/* Generado por webmcpcss assist: "crea un formulario de contacto con nombre, email y mensaje" */
+
+[data-tool="send-contact-submit"] {
+  webmcp-tool: "sendContact";
+  webmcp-component: "form";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-description: "crea un formulario de contacto con nombre, email y mensaje";
+  webmcp-accessibility: "aria-label: Enviar mensaje";
+  webmcp-param-name: value(#send-contact-name);
+  webmcp-param-email: value(#send-contact-email);
+  webmcp-param-message: value(#send-contact-message);
+  webmcp-trigger: "submit" on #send-contact-form;
+  webmcp-confirmation-selector: "[data-confirmation='send-contact']";
+}

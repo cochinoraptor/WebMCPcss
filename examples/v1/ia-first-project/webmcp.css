@@ -1,0 +1,81 @@
+/* Tienda IA-First — .webmcp.css generado por webmcpcss init --framework ia-first (v1.0.0) */
+/* Cada regla declara intención, confirmación y accesibilidad para agentes IA. */
+
+[data-tool="go-home"] {
+  webmcp-tool: "goHome";
+  webmcp-component: "nav";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-description: "Navega a Inicio";
+  webmcp-accessibility: "aria-label: Inicio";
+}
+
+[data-tool="go-products"] {
+  webmcp-tool: "goProducts";
+  webmcp-component: "nav";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-description: "Navega a Productos";
+  webmcp-accessibility: "aria-label: Productos";
+}
+
+[data-tool="go-contact"] {
+  webmcp-tool: "goContact";
+  webmcp-component: "nav";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-description: "Navega a Contacto";
+  webmcp-accessibility: "aria-label: Contacto";
+}
+[data-tool="start-shopping"] {
+  webmcp-tool: "startShopping";
+  webmcp-component: "hero";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-description: "Empieza a explorar el catálogo";
+  webmcp-accessibility: "aria-label: Ver productos";
+}
+[data-context="products-name"] {
+  webmcp-context: "productsNames";
+  webmcp-component: "grid";
+  webmcp-accessibility: "aria-label: Productos destacados";
+  webmcp-format: "text";
+}
+
+[data-tool="add-to-cart"] {
+  webmcp-tool: "addToCart";
+  webmcp-component: "button";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-description: "Acción 'addToCart' sobre un elemento de Productos destacados";
+  webmcp-accessibility: "aria-label: Acción 'addToCart' sobre un elemento de Productos destacados";
+  webmcp-param-index: attr(data-item-index);
+}
+[data-context="featured-title"] {
+  webmcp-context: "featuredTitle";
+  webmcp-component: "card";
+  webmcp-accessibility: "aria-label: Oferta de la semana";
+  webmcp-format: "text";
+}
+
+[data-tool="apply-offer"] {
+  webmcp-tool: "applyOffer";
+  webmcp-component: "button";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-description: "Aplicar oferta";
+  webmcp-accessibility: "aria-label: Aplicar oferta";
+}
+[data-tool="contact-submit"] {
+  webmcp-tool: "contact";
+  webmcp-component: "form";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-description: "Envía un mensaje al equipo de soporte";
+  webmcp-accessibility: "aria-label: Enviar mensaje";
+  webmcp-param-name: value(#contact-name);
+  webmcp-param-email: value(#contact-email);
+  webmcp-param-message: value(#contact-message);
+  webmcp-trigger: "submit" on #contact-form;
+  webmcp-confirmation-selector: "[data-confirmation='contact']";
+}

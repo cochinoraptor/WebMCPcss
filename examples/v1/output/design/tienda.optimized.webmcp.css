@@ -1,0 +1,68 @@
+/* Generado por WebMCPcss - https://github.com/cochinoraptor/WebMCPcss */
+
+#search-btn {
+  webmcp-tool: "buscarProductos";
+  webmcp-description: "Busca productos en el catálogo";
+  webmcp-param-query: value(#q);
+  webmcp-permissions: "read-only";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-accessibility: "aria-label: Busca productos en el catálogo";
+}
+
+#add-to-cart {
+  webmcp-tool: "anadirAlCarrito";
+  webmcp-description: "Añade el producto actual al carrito";
+  webmcp-param-cantidad: value(#qty);
+  webmcp-confirmation: ".cart-count";
+  webmcp-permissions: "restricted";
+  webmcp-requires: "session";
+  webmcp-intent: "action";
+  webmcp-accessibility: "aria-label: Añade el producto actual al carrito";
+}
+
+#checkout {
+  webmcp-tool: "pagarPedido";
+  webmcp-description: "Paga el pedido del carrito";
+  webmcp-confirmation-selector: "#order-ok";
+  webmcp-permissions: "full";
+  webmcp-requires: "oauth";
+  webmcp-scope: "orders:pay";
+  webmcp-rate-limit: "5/min";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-accessibility: "aria-label: Paga el pedido del carrito";
+}
+
+#report {
+  webmcp-tool: "descargarInforme";
+  webmcp-description: "Descarga el informe premium de ventas (de pago)";
+  webmcp-permissions: "full";
+  webmcp-confirmation: "needed";
+  webmcp-payment: "required";
+  webmcp-network: "base";
+  webmcp-amount: "0.05 USDC";
+  webmcp-pay-to: "0x1111111111111111111111111111111111111111";
+  webmcp-accessibility: "aria-label: Descarga el informe premium de ventas (de pago)";
+}
+
+#contact-form button[type="submit"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Envía una consulta al soporte";
+  webmcp-param-email: value(#c-email);
+  webmcp-param-mensaje: value(#c-msg);
+  webmcp-permissions: "restricted";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-accessibility: "aria-label: Envía una consulta al soporte";
+}
+
+.price {
+  webmcp-context: "precio";
+  webmcp-format: "currency";
+}
+
+.cart-count {
+  webmcp-context: "articulosCarrito";
+  webmcp-format: "number";
+}

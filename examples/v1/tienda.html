@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tienda de ejemplo — WebMCPcss v1.0.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="webmcp" href="tienda.webmcp.css">
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    button { min-width: 44px; min-height: 44px; padding: .5rem 1rem; }
+    input, textarea { padding: .5rem; }
+    section { margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Principal"><a href="#catalogo">Catálogo</a> · <a href="#contacto">Contacto</a></nav>
+  </header>
+  <main>
+    <h1>Tienda de ejemplo</h1>
+    <section id="catalogo" aria-labelledby="h-cat">
+      <h2 id="h-cat">Catálogo</h2>
+      <form onsubmit="return false">
+        <label for="q">Buscar</label>
+        <input id="q" name="q" placeholder="zapatillas rojas">
+        <button id="search-btn" type="button">Buscar</button>
+      </form>
+      <article>
+        <h3>Zapatillas rojas</h3>
+        <p class="price">49,90 €</p>
+        <label for="qty">Cantidad</label>
+        <input id="qty" name="qty" type="number" value="1" min="1">
+        <button id="add-to-cart" type="button">Añadir al carrito</button>
+      </article>
+      <p>Artículos en el carrito: <span class="cart-count">0</span></p>
+      <button id="checkout" type="button">Pagar pedido</button>
+      <p id="order-ok" hidden>Pedido confirmado</p>
+      <button id="report" type="button">Descargar informe premium (0.05 USDC)</button>
+    </section>
+    <section id="contacto" aria-labelledby="h-con">
+      <h2 id="h-con">Contacto</h2>
+      <form id="contact-form" onsubmit="return false">
+        <label for="c-email">Email</label>
+        <input id="c-email" name="email" type="email">
+        <label for="c-msg">Mensaje</label>
+        <textarea id="c-msg" name="mensaje"></textarea>
+        <button type="submit">Enviar consulta</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

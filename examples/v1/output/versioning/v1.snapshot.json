@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "generatedBy": "webmcpcss@1.0.0",
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "hash": "9b7d2b2408384aef",
+  "tools": {
+    "buscarProductos": {
+      "selector": "#search-btn",
+      "description": "Busca productos en el catálogo",
+      "params": {
+        "query": {
+          "source": "value",
+          "selector": "#q"
+        }
+      },
+      "meta": {
+        "permissions": "read-only",
+        "intent": "action",
+        "confirmation": "none"
+      },
+      "hash": "c20ab083be38b51a"
+    },
+    "anadirAlCarrito": {
+      "selector": "#add-to-cart",
+      "description": "Añade el producto actual al carrito",
+      "params": {
+        "cantidad": {
+          "source": "value",
+          "selector": "#qty"
+        }
+      },
+      "confirmation": ".cart-count",
+      "meta": {
+        "permissions": "restricted",
+        "requires": "session",
+        "intent": "action"
+      },
+      "hash": "674fbf91031d123f"
+    },
+    "pagarPedido": {
+      "selector": "#checkout",
+      "description": "Paga el pedido del carrito",
+      "params": {},
+      "confirmation": "#order-ok",
+      "meta": {
+        "permissions": "full",
+        "requires": "oauth",
+        "scope": "orders:pay",
+        "rate-limit": "5/min",
+        "intent": "submit",
+        "confirmation": "needed"
+      },
+      "hash": "e81de5a4b23fbf60"
+    },
+    "descargarInforme": {
+      "selector": "#report",
+      "description": "Descarga el informe premium de ventas (de pago)",
+      "params": {},
+      "meta": {
+        "permissions": "full",
+        "confirmation": "needed",
+        "payment": "required",
+        "network": "base",
+        "amount": "0.05 USDC",
+        "pay-to": "0x1111111111111111111111111111111111111111"
+      },
+      "hash": "4498bbf4ea3d8702"
+    },
+    "enviarConsulta": {
+      "selector": "#contact-form button[type=\"submit\"]",
+      "description": "Envía una consulta al soporte",
+      "params": {
+        "email": {
+          "source": "value",
+          "selector": "#c-email"
+        },
+        "mensaje": {
+          "source": "value",
+          "selector": "#c-msg"
+        }
+      },
+      "meta": {
+        "permissions": "restricted",
+        "intent": "submit",
+        "confirmation": "none"
+      },
+      "hash": "e60bb07c5ce0bd0d"
+    }
+  },
+  "context": {
+    "precio": {
+      "selector": ".price",
+      "format": "currency",
+      "hash": "90fff57bc8ef7dd5"
+    },
+    "articulosCarrito": {
+      "selector": ".cart-count",
+      "format": "number",
+      "hash": "208ddc5b99b12c99"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "goal": "inicia sesión y compra 2 zapatillas rojas",
+  "url": "https://tienda.test",
+  "steps": [
+    {
+      "tool": "anadirAlCarrito",
+      "score": 0.95,
+      "reasons": [
+        "el nombre coincide con: anadir, carrito, comprar",
+        "la descripción menciona: carrito, comprar, buy"
+      ],
+      "params": {
+        "cantidad": "2"
+      },
+      "missingParams": [],
+      "requiresConfirmation": true
+    },
+    {
+      "tool": "pagarPedido",
+      "score": 0.95,
+      "reasons": [
+        "el nombre coincide con: pagar, comprar, buy",
+        "la descripción menciona: carrito, comprar, buy"
+      ],
+      "params": {},
+      "missingParams": [],
+      "requiresConfirmation": true
+    }
+  ],
+  "alternatives": [],
+  "context": [
+    {
+      "name": "articulosCarrito",
+      "selector": ".cart-count",
+      "format": "number",
+      "score": 0.5
+    }
+  ],
+  "source": "heuristic",
+  "confidence": 0.95,
+  "generatedBy": "webmcpcss@1.0.0",
+  "explanation": "Para \"inicia sesión y compra 2 zapatillas rojas\" recomiendo estos 2 pasos (confianza 95 %):\n1. anadirAlCarrito con cantidad=\"2\" ⚠️ requiere confirmación (el nombre coincide con: anadir, carrito, comprar)\n2. pagarPedido ⚠️ requiere confirmación (el nombre coincide con: pagar, comprar, buy)\nVerifica el resultado leyendo: articulosCarrito."
+}

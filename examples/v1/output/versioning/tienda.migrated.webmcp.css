@@ -1,0 +1,53 @@
+/* Generado por WebMCPcss - https://github.com/cochinoraptor/WebMCPcss */
+
+#add-to-cart {
+  webmcp-tool: "anadirAlCarrito";
+  webmcp-description: "Añade el producto actual al carrito";
+  webmcp-param-cantidad: value(#qty);
+  webmcp-confirmation: ".cart-count";
+  webmcp-permissions: "restricted";
+  webmcp-requires: "session";
+  webmcp-intent: "action";
+}
+
+#checkout-now {
+  webmcp-tool: "pagarPedido";
+  webmcp-description: "Paga el pedido del carrito";
+  webmcp-confirmation-selector: "#order-ok";
+  webmcp-permissions: "full";
+  webmcp-requires: "oauth";
+  webmcp-scope: "orders:pay";
+  webmcp-rate-limit: "5/min";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+}
+
+#contact-form button[type="submit"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Envía una consulta al soporte";
+  webmcp-param-email: value(#c-email);
+  webmcp-param-mensaje: value(#c-msg);
+  webmcp-permissions: "restricted";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+}
+
+#search-btn {
+  webmcp-tool: "buscarCatalogo";
+  webmcp-description: "Busca productos en el catálogo";
+  webmcp-param-query: value(#q);
+  webmcp-param-categoria: value(#cat);
+  webmcp-permissions: "read-only";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+}
+
+.price {
+  webmcp-context: "precio";
+  webmcp-format: "currency";
+}
+
+.total {
+  webmcp-context: "totalCarrito";
+  webmcp-format: "currency";
+}

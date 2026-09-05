@@ -929,7 +929,6 @@ export async function loadEthers(): Promise<any> {
   if (ethersOverride) return ethersOverride;
   try {
     const mod = 'ethers';
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(mod);
   } catch {
     throw new Error(

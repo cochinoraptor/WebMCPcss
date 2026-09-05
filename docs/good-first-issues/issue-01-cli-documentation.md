@@ -21,7 +21,7 @@ No deep TypeScript knowledge needed — you mostly need to _run_ the CLI and _wr
   ```
 - [ ] **Task 2 — Create `docs/CLI.md`.** For each of the 5 commands document: purpose, arguments, every option (check them in [`src/cli.ts`](https://github.com/cochinoraptor/WebMCPcss/blob/main/src/cli.ts) — e.g. `generate` has `-o/--output` and `-t/--timeout`, `repair` has `--dry-run`, and there is a global `--verbose`), 2–3 realistic examples, sample output (copy it from your terminal!), and exit codes (`validate`/`repair` exit with code 1 on failure).
 - [ ] **Task 3 — Document URL handling.** Explain that commands accept `https://` URLs, plain domains, and **local HTML file paths** (see the `navigate()` helper in `src/cli.ts`).
-- [ ] **Task 4 — Link it from the README.** Add a short "📚 Full CLI reference → [docs/CLI.md](docs/CLI.md)" link in the README's CLI section.
+- [ ] **Task 4 — Link it from the README.** Add a short "📚 Full CLI reference → [docs/CLI.md](../CLI.md)" link in the README's CLI section.
 
 ## 📁 Files to modify
 

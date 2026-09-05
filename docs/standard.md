@@ -1,8 +1,9 @@
-# Alineación con el estándar WebMCP (v1.1.0)
+# Alineación con el estándar WebMCP (desde v1.1.0)
 
-WebMCPcss **extiende** WebMCP, no lo sustituye. Esta guía explica cómo la
-versión 1.1.0 sigue el borrador actual del estándar (W3C WebML Community
-Group, impulsado por Google y Microsoft) en sus dos puntos más visibles:
+WebMCPcss **extiende** WebMCP, no lo sustituye. Esta guía explica cómo, desde
+la versión 1.1.0, WebMCPcss sigue el borrador actual del estándar (W3C WebML
+Community Group, impulsado por Google y Microsoft) en sus dos puntos más
+visibles:
 
 1. La API imperativa vive en **`document.modelContext`** (antes
    `navigator.modelContext`).

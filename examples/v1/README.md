@@ -10,20 +10,20 @@ npm run build
 bash examples/v1/regen.sh
 ```
 
-| Módulo | Comando | Salida |
-| --- | --- | --- |
-| IA-First Framework | `webmcpcss init examples/v1/ia-first-project --name "Tienda IA-First"` | [`ia-first-project/`](./ia-first-project/) (HTML + `.webmcp.css` + `mcp.json` + `.well-known/webmcp.json`) |
-| | `webmcpcss assist "crea un formulario de contacto…" -o output/assist-contacto` | [`output/assist-contacto/`](./output/assist-contacto/) |
-| Design-to-WebMCP | `webmcpcss design analyze --text "…" -o design.webmcp.css --scaffold scaffold.html --design-json design.json` | [`output/design/`](./output/design/) |
-| | `webmcpcss design optimize tienda.webmcp.css -o tienda.optimized.webmcp.css` | [`output/design/tienda.optimized.webmcp.css`](./output/design/tienda.optimized.webmcp.css) |
-| Retro-WebMCP | `webmcpcss retro scan tests/fixtures/legacy-site.html -o legacy.webmcp.css` | [`output/retro/`](./output/retro/) |
-| A11y-MCP | `webmcpcss a11y audit --url https://tienda.test --ci` (workflow) | [`output/a11y/webmcp-a11y.yml`](./output/a11y/webmcp-a11y.yml) |
-| Test-MCP | `webmcpcss test generate --file tienda.webmcp.css --framework playwright\|cypress --execute` | [`output/testing/`](./output/testing/) |
-| Version-MCP | `webmcpcss version snapshot` / `diff` / `migrate` | [`output/versioning/`](./output/versioning/) (`diff.json`, `MIGRATION.md`, contrato migrado) |
-| Doc-MCP | `webmcpcss doc generate --file tienda.webmcp.css -o output/doc` | [`output/doc/`](./output/doc/) (`index.html`, `README.md`, `doc.json`, `llms.txt`, `AGENTS.md`) |
-| Security-MCP | `webmcpcss security validate --file tienda.webmcp.css --agent "bot:restricted:orders:pay" --json` | [`output/security/`](./output/security/) (`report.json`, `policies.webmcp.css`) |
-| Recommender-MCP | `webmcpcss recommend "inicia sesión y compra 2 zapatillas rojas" --css tienda.webmcp.css --json` | [`output/recommender/plan.json`](./output/recommender/plan.json) |
-| Web3-MCP | `webmcpcss web3 validate --file tienda.webmcp.css --connector wallet-connector.js` / `web3 deploy --export-sol` | [`output/web3/`](./output/web3/) |
+| Módulo             | Comando                                                                                                         | Salida                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| IA-First Framework | `webmcpcss init examples/v1/ia-first-project --name "Tienda IA-First"`                                          | [`ia-first-project/`](./ia-first-project/) (HTML + `.webmcp.css` + `mcp.json` + `.well-known/webmcp.json`) |
+|                    | `webmcpcss assist "crea un formulario de contacto…" -o output/assist-contacto`                                  | [`output/assist-contacto/`](./output/assist-contacto/)                                                     |
+| Design-to-WebMCP   | `webmcpcss design analyze --text "…" -o design.webmcp.css --scaffold scaffold.html --design-json design.json`   | [`output/design/`](./output/design/)                                                                       |
+|                    | `webmcpcss design optimize tienda.webmcp.css -o tienda.optimized.webmcp.css`                                    | [`output/design/tienda.optimized.webmcp.css`](./output/design/tienda.optimized.webmcp.css)                 |
+| Retro-WebMCP       | `webmcpcss retro scan tests/fixtures/legacy-site.html -o legacy.webmcp.css`                                     | [`output/retro/`](./output/retro/)                                                                         |
+| A11y-MCP           | `webmcpcss a11y audit --url https://tienda.test --ci` (workflow)                                                | [`output/a11y/webmcp-a11y.yml`](./output/a11y/webmcp-a11y.yml)                                             |
+| Test-MCP           | `webmcpcss test generate --file tienda.webmcp.css --framework playwright\|cypress --execute`                    | [`output/testing/`](./output/testing/)                                                                     |
+| Version-MCP        | `webmcpcss version snapshot` / `diff` / `migrate`                                                               | [`output/versioning/`](./output/versioning/) (`diff.json`, `MIGRATION.md`, contrato migrado)               |
+| Doc-MCP            | `webmcpcss doc generate --file tienda.webmcp.css -o output/doc`                                                 | [`output/doc/`](./output/doc/) (`index.html`, `README.md`, `doc.json`, `llms.txt`, `AGENTS.md`)            |
+| Security-MCP       | `webmcpcss security validate --file tienda.webmcp.css --agent "bot:restricted:orders:pay" --json`               | [`output/security/`](./output/security/) (`report.json`, `policies.webmcp.css`)                            |
+| Recommender-MCP    | `webmcpcss recommend "inicia sesión y compra 2 zapatillas rojas" --css tienda.webmcp.css --json`                | [`output/recommender/plan.json`](./output/recommender/plan.json)                                           |
+| Web3-MCP           | `webmcpcss web3 validate --file tienda.webmcp.css --connector wallet-connector.js` / `web3 deploy --export-sol` | [`output/web3/`](./output/web3/)                                                                           |
 
 ## Con navegador (no incluido en `regen.sh`)
 

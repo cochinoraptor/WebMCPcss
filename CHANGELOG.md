@@ -4,6 +4,76 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [1.2.0] - 2026-09-05
+
+**WebMCPcss Component Hub**: catálogo visual e interactivo de componentes
+IA-First (`.webmcp.css` + `component.json`) para Tailwind CSS, Bootstrap 5,
+Material UI, shadcn/ui y CSS puro, publicado en GitHub Pages
+(`/components/`, índice `/api/components.json`) y consumible desde la CLI, el
+servidor MCP y la API. Sin dependencias nuevas (generador estático propio);
+compatible con todo lo anterior.
+
+### Añadido
+
+- **Catálogo `components/`** — 58 componentes con metadatos completos
+  (82 herramientas): botones (primario, secundario, outline, con icono),
+  tarjetas (ProductCard, ProfileCard), formularios (LoginForm, ContactForm con
+  la API declarativa `toolname`/`tooldescription`/`toolparamtitle`), layout
+  (Navbar, Hero) en las cinco librerías; animaciones core (fade-in, slide-up,
+  pulse, 2.5D isométrico) e inteligentes (checkout-form con
+  `webmcp-permissions`, smart-product-card, hero-section con parallax,
+  parallax-scene con Three.js). Cada `component.json` declara `controls`
+  (editor en vivo), `promptExamples`, `animateExamples`, `related` y `usage`.
+- **Módulo `hub`** (`src/hub/`, `import { hub } from 'webmcpcss'`):
+  `loadHub`/`validateMeta`/`buildHubIndex`/`filterEntries`/`hubIndexSchema`,
+  `buildHubSite`/`checkHubSite` (generador estático sin dependencias, con
+  conversor Markdown propio), cliente `fetchHubIndex`/`listComponents`/
+  `fetchComponent`/`importComponent`/`updateComponents`/`mergeIntoCss` (lock
+  `.webmcpcss/components.lock.json`, marcadores `@webmcpcss-component`,
+  *fallback* al catálogo empaquetado cuando el hub remoto no responde),
+  `prepareComponent`/`publishComponent` (fork + rama + PR), `buildDemoSite`,
+  y las herramientas MCP `callHubTool`/`HUB_TOOL_SCHEMAS`.
+- **Sitio estático** (`site/components/**`, `site/api/**`): inicio, catálogo
+  con filtros por categoría/librería y búsqueda en vivo (estado en la URL),
+  búsqueda, favoritos (`localStorage`), docs (primeros pasos, uso, contribuir),
+  acerca de y una página por componente con preview en iframe
+  (escritorio/tablet/móvil), **editor en vivo** (color, radio, tamaño,
+  animación), código con botón copiar, comando de import, tabla de
+  herramientas/contexto/animaciones, ejemplos `prompt`/`animate` y enlaces al
+  mismo componente en otras librerías. Meta `webmcp-hub`, `link rel=alternate`
+  JSON, JSON-LD (`WebSite`+`SearchAction`, `ItemList`, `SoftwareSourceCode`,
+  `TechArticle`), sitemap y robots. Si el navegador soporta WebMCP, el propio
+  sitio registra `searchComponents`/`getComponent`/`toggleFavorite` en
+  `document.modelContext`. Accesible (skip link, teclado, `aria-live`,
+  `prefers-reduced-motion`) y responsive.
+- **Comando `webmcpcss components`** (`src/cli-components.ts`):
+  `list [--category] [--library] [--search]`, `show <id>`,
+  `import <id...> [--output] [--merge] [--force]`, `update [id...] [--dry-run]`,
+  `demo [--output] [--library] [--ids]`,
+  `publish <css> --name --category [--library] [--html] [--dry-run]` y
+  `build [--check]`; todos con `--json`, `--hub <url>` / `WEBMCPCSS_HUB_URL`
+  y `--offline`.
+- **Servidor MCP**: opción `hub` en `McpCore` y flags
+  `webmcpcss mcp --serve --hub [--hub-url] [--hub-output] [--hub-offline]`
+  que añaden las herramientas `list_components`, `get_component` e
+  `import_component` y las rutas `GET /api/components[/:id]` en modo HTTP; con
+  `--hub` el servidor arranca aunque no exista el `.webmcp.css`.
+- **Build y CI**: `npm run build:hub` (`scripts/build-hub.ts`) regenera el
+  sitio; el job `component-hub` de CI comprueba (`--check`) que
+  `site/components/` y `site/api/components.json` estén al día. La carpeta
+  `components/` se incluye en el paquete npm para el modo sin conexión.
+- **Docs**: `docs/hub.md`, `docs/hub/{getting-started,component-usage,contributing}.md`,
+  README (es/en) y `examples/component-hub/`.
+- **Tests**: `tests/hub.test.ts` y `tests/cli-components.test.ts` (27 tests:
+  catálogo y validación, índice y esquema, Markdown, sitio, cliente contra un
+  hub servido en local, lock/merge/update, demo, MCP HTTP, publicación con API
+  de GitHub simulada y CLI end-to-end). Total: 568 tests.
+
+### Corregido
+
+- `webmcpcss mcp --no-prompt` / `--no-animate` no desactivaban los ejecutores
+  (Commander expone las negaciones como `prompt: false` / `animate: false`).
+
 ## [1.1.0] - 2026-09-05
 
 Alineación con el **estándar WebMCP** (borrador del W3C WebML Community Group,

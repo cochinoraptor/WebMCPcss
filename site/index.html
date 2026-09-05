@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
-<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.1.0: alineado con el estándar WebMCP (document.modelContext y API declarativa toolname/tooldescription); framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
+<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.2.0: Component Hub con componentes IA-First para Tailwind, Bootstrap, MUI y shadcn; alineado con el estándar WebMCP (document.modelContext y API declarativa toolname/tooldescription); framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
 <meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
-<meta property="og:description" content="v1.1.0 · npm i -g webmcpcss · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
+<meta property="og:description" content="v1.2.0 · npm i -g webmcpcss · Component Hub · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
 <link rel="icon" type="image/png" href="favicon.png" />
@@ -252,7 +252,8 @@
     <nav class="mainnav">
       <a href="#como">Flujo</a>
       <a href="#features">Funciones</a>
-      <a href="#v1" style="color:var(--acc2)">Novedades 1.0</a>
+      <a href="components/" style="color:var(--acc2)">🧩 Componentes</a>
+      <a href="#v1">Novedades 1.0</a>
       <a href="#prompt">Prompt</a>
       <a href="#animaciones">Animaciones</a>
       <a href="#agentes">Agentes</a>
@@ -270,7 +271,7 @@
 <div class="hero">
   <div class="wrap">
     <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
-    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.1.0</span></div>
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.2.0</span></div>
     <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
     <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong>, <strong style="color:var(--text)">animaciones declarativas</strong> y, desde la 1.0, <strong style="color:var(--text)">permisos, accesibilidad, tests, versionado y pagos</strong> declarados en el mismo CSS.</p>
     <div class="cta">
@@ -345,6 +346,7 @@ webmcpcss mcp --serve \
     <h2>Todo incluido, cero fricción</h2>
     <p class="sub">TypeScript estricto, arquitectura modular y una CLI que cubre el ciclo completo: generar → validar → reparar → exportar → servir.</p>
     <div class="cols">
+      <div class="card"><div class="ico">🧩</div><h3><a href="components/">Component Hub</a> <span class="badge-new">v1.2</span></h3><p>Catálogo visual de <strong>58 componentes IA-First</strong> (botones, tarjetas, formularios, layout, animaciones e inteligentes) para <strong>Tailwind, Bootstrap, MUI, shadcn y CSS puro</strong>, cada uno con su <code>.webmcp.css</code>. Preview con editor en vivo, copiar código, favoritos e índice <a href="api/components.json"><code>/api/components.json</code></a>. <code>webmcpcss components import tailwind-login-form</code> o <code>mcp --serve --hub</code> para que lo descubran los agentes.</p></div>
       <div class="card"><div class="ico">📜</div><h3>Estándar WebMCP <span class="badge-new">v1.1</span></h3><p>Alineado con el borrador del W3C: todo el código generado usa <code>document.modelContext</code> (con fallback al alias obsoleto) y la <strong>API declarativa</strong> se compila en ambos sentidos: <code>standard scan</code> lee <code>&lt;form toolname tooldescription&gt;</code> y genera el contrato; <code>standard compile</code> añade <code>toolname</code>/<code>toolparamtitle</code> a tu HTML; <code>standard check</code> dice qué expone una página.</p></div>
       <div class="card"><div class="ico">⚡</div><h3>Generación automática</h3><p><code>generate --auto</code> escanea la página sin grabar nada: formularios, botones, campos. Detecta el framework (React, Vue, Svelte, Angular, Tailwind…) y elige selectores estables.</p></div>
       <div class="card"><div class="ico">🧩</div><h3>Desde el código fuente</h3><p><code>generate --from-source</code> analiza componentes JSX/Vue/Svelte sin navegador ni deploy, y avisa qué elementos necesitan <code>data-tool</code>. Úsalo como linter en CI.</p></div>
@@ -656,7 +658,7 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
     <div class="final">
       <img src="logo.png" alt="" style="width:72px;height:72px;margin-bottom:18px" />
       <h2>Haz tu web nativa para agentes hoy</h2>
-      <p>Un comando para empezar. v1.1.0 · MIT · sin dependencias de pago · 541 tests · listo para producción.</p>
+      <p>Un comando para empezar. v1.2.0 · MIT · sin dependencias de pago · 568 tests · listo para producción.</p>
       <div class="cta">
         <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">npm install -g webmcpcss</a>
         <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss">⭐ Dale una estrella</a>
@@ -671,6 +673,7 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
     <nav>
       <a href="https://github.com/cochinoraptor/WebMCPcss">GitHub</a>
       <a href="https://www.npmjs.com/package/webmcpcss">npm</a>
+      <a href="components/">Componentes</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation.md">Animaciones</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/PROMPT.md">Prompt</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/security.md">Security-MCP</a>

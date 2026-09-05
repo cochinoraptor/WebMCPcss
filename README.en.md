@@ -174,6 +174,14 @@ webmcpcss standard compile webmcp.css --html index.html -o index.webmcp.html  # 
 webmcpcss standard compile webmcp.css --script webmcp-declarative.js          # …or apply them at runtime
 webmcpcss standard check https://my-shop.com                                  # where is modelContext? which tools does the page expose?
 
+# 19) v1.2.0 — Component Hub: AI-first components for Tailwind, Bootstrap, MUI, shadcn and plain CSS
+webmcpcss components list --library tailwind --category forms                 # catalog (remote or bundled)
+webmcpcss components import tailwind-login-form --output ./src/components --merge webmcp.css
+webmcpcss components update --dry-run                                         # new versions in the hub?
+webmcpcss components demo --output ./demo --library bootstrap                 # local demo site
+webmcpcss components publish my-button.webmcp.css --name "My button" --category buttons  # fork + PR to the hub
+webmcpcss mcp --serve --http --hub                                            # + list_components / get_component / import_component
+
 # Extra: parse to JSON without a browser, and inject (discovery → community)
 webmcpcss parse webmcp.css
 webmcpcss inject https://example.com --dir ./community-styles
@@ -211,7 +219,7 @@ No browser? `DomAdapter` works on any `Document` (jsdom, a real DOM inside an
 extension, etc.).
 
 Namespaces: `framework`, `design`, `retro`, `a11y`, `testing`, `versioning`,
-`doc`, `security`, `recommender`, `web3`, `standard`.
+`doc`, `security`, `recommender`, `web3`, `standard`, `hub` (v1.2.0).
 
 ## `.webmcp.css` syntax
 
@@ -232,6 +240,31 @@ Parameter sources: `attr(attribute-name)`, `data(x)` (alias of `attr(data-x)`),
 and **`@import`**. Extra `webmcp-*` properties (`webmcp-permissions`,
 `webmcp-payment`, `webmcp-accessibility`, `webmcp-intent`…) are documented in
 each module guide under [`docs/`](docs/).
+
+## Component Hub (v1.2.0)
+
+A visual, interactive catalog of **AI-first components** — buttons, cards, forms,
+layout, animations and intelligent components — each shipping its own
+`.webmcp.css` + `component.json`, adapted to **Tailwind**, **Bootstrap 5**,
+**Material UI**, **shadcn/ui** and plain CSS (58 components, 82 tools).
+
+- 🌐 Site: [cochinoraptor.github.io/WebMCPcss/components](https://cochinoraptor.github.io/WebMCPcss/components/)
+  — category/library filters, live search, favorites, preview with a **live
+  editor** (color, size, animation), copy code and import command.
+- 🤖 Agent index: [`/api/components.json`](https://cochinoraptor.github.io/WebMCPcss/api/components.json)
+  (+ `webmcp-hub` meta and JSON-LD on every page).
+- 🧰 CLI: `webmcpcss components list|show|import|update|demo|publish|build`
+  (lock file `.webmcpcss/components.lock.json`, marker-based merge into your CSS).
+- 🔌 MCP: `webmcpcss mcp --serve --hub` adds `list_components`, `get_component`
+  and `import_component` (+ `GET /api/components` in HTTP mode).
+- 📦 Offline: the catalog ships inside the npm package (`components/`).
+
+```bash
+npx webmcpcss components import shadcn-product-card --output ./src/components --merge webmcp.css
+```
+
+Full guide: [docs/hub.md](docs/hub.md) · contribute components:
+[docs/hub/contributing.md](docs/hub/contributing.md).
 
 ## WebMCP standard integration (`document.modelContext`)
 

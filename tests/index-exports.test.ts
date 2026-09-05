@@ -30,4 +30,40 @@ describe('exports públicos v1.0.x', () => {
     expect(typeof api.standard.toolMapToDeclarative).toBe('function');
     expect(typeof api.standard.applyDeclarativeToHtml).toBe('function');
   });
+
+  it('v1.2.0 expone el namespace hub (Component Hub) y sus exports planos', () => {
+    expect(typeof api.hub).toBe('object');
+    expect(api.hub.HUB_CATEGORIES).toContain('intelligent');
+    expect(api.hub.HUB_LIBRARIES).toEqual([
+      'core',
+      'tailwind',
+      'bootstrap',
+      'mui',
+      'shadcn',
+    ]);
+    expect(api.hub.HUB_TOOL_NAMES).toEqual([
+      'list_components',
+      'get_component',
+      'import_component',
+    ]);
+    for (const fn of [
+      'loadHub',
+      'buildHubIndex',
+      'buildHubSite',
+      'checkHubSite',
+      'fetchHubIndex',
+      'listComponents',
+      'importComponent',
+      'updateComponents',
+      'prepareComponent',
+      'publishComponent',
+      'buildDemoSite',
+      'callHubTool',
+    ] as const) {
+      expect(typeof api.hub[fn], fn).toBe('function');
+      expect(api[fn], `${fn} (plano)`).toBe(api.hub[fn]);
+    }
+    expect(api.DEFAULT_HUB_URL).toBe(api.hub.DEFAULT_HUB_URL);
+    expect(api.HUB_TOOL_SCHEMAS.map((t) => t.name)).toEqual(api.hub.HUB_TOOL_NAMES);
+  });
 });

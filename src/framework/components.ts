@@ -172,9 +172,10 @@ export function escapeHtml(text: string): string {
 
 /** Convierte un texto a camelCase seguro para nombres de herramienta. */
 export function toToolName(text: string, fallback = 'action'): string {
-  const words = text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const clean = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // Ya es un identificador camelCase válido: respétalo (p. ej. planes de LLM).
+  if (/^[a-z][a-zA-Z0-9]*$/.test(clean)) return clean;
+  const words = clean
     .replace(/[^a-zA-Z0-9]+/g, ' ')
     .trim()
     .split(/\s+/)
@@ -182,15 +183,20 @@ export function toToolName(text: string, fallback = 'action'): string {
     .slice(0, 4);
   if (words.length === 0) return fallback;
   return words
-    .map((w, i) => (i === 0 ? w.toLowerCase() : w[0].toUpperCase() + w.slice(1).toLowerCase()))
+    .map((w, i) =>
+      i === 0 ? w.toLowerCase() : w[0].toUpperCase() + w.slice(1).toLowerCase(),
+    )
     .join('');
 }
 
 /** Convierte camelCase a kebab-case (para `data-tool`). */
 export function toKebab(name: string): string {
   return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
     .replace(/[^a-zA-Z0-9-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
 
@@ -231,7 +237,10 @@ function webmcpBlock(
  * @param opts Opciones (al menos `tool`).
  * @returns HTML, CSS y herramientas declaradas.
  */
-export function renderComponent(name: IaComponentName, opts: IaComponentOptions): RenderedComponent {
+export function renderComponent(
+  name: IaComponentName,
+  opts: IaComponentOptions,
+): RenderedComponent {
   const spec = COMPONENT_CATALOG[name];
   if (!spec) throw new Error(`Componente IA-First desconocido: ${name}`);
   const prefix = opts.prefix ?? 'ia';
@@ -298,7 +307,9 @@ export function renderComponent(name: IaComponentName, opts: IaComponentOptions)
       html = [
         `<article class="${cls}" data-tool="${toolAttr}" aria-label="${aria}">`,
         `  <h3 class="${cls}__title" data-context="${toolAttr}-title">${escapeHtml(label)}</h3>`,
-        opts.body ? `  <p class="${cls}__body" data-context="${toolAttr}-body">${escapeHtml(opts.body)}</p>` : '',
+        opts.body
+          ? `  <p class="${cls}__body" data-context="${toolAttr}-body">${escapeHtml(opts.body)}</p>`
+          : '',
         action
           ? `  <button type="button" class="${prefix}-button" data-tool="${actionAttr}" aria-label="${escapeHtml(action.label)}">${escapeHtml(action.label)}</button>`
           : '',
@@ -307,9 +318,14 @@ export function renderComponent(name: IaComponentName, opts: IaComponentOptions)
         .filter(Boolean)
         .join('\n');
       cssBlocks.push(
-        webmcpBlock(`[data-context="${toolAttr}-title"]`, spec, { ...opts, description: undefined }, [
-          '  webmcp-format: "text";',
-        ], 'context', `${opts.tool}Title`),
+        webmcpBlock(
+          `[data-context="${toolAttr}-title"]`,
+          spec,
+          { ...opts, description: undefined },
+          ['  webmcp-format: "text";'],
+          'context',
+          `${opts.tool}Title`,
+        ),
       );
       if (action) {
         cssBlocks.push(
@@ -395,17 +411,29 @@ export function renderComponent(name: IaComponentName, opts: IaComponentOptions)
         `</section>`,
       ].join('\n');
       cssBlocks.push(
-        webmcpBlock(`[data-context="${toolAttr}-name"]`, spec, opts, ['  webmcp-format: "text";'], 'context', `${opts.tool}Names`),
+        webmcpBlock(
+          `[data-context="${toolAttr}-name"]`,
+          spec,
+          opts,
+          ['  webmcp-format: "text";'],
+          'context',
+          `${opts.tool}Names`,
+        ),
       );
       const itemTools = new Set(items.map((it) => it.tool).filter(Boolean) as string[]);
       for (const t of itemTools) {
         const sel = `[data-tool="${toKebab(t)}"]`;
         cssBlocks.push(
-          webmcpBlock(sel, COMPONENT_CATALOG.button, {
-            tool: t,
-            description: `Acción '${t}' sobre un elemento de ${label}`,
-            intent: 'action',
-          }, ['  webmcp-param-index: attr(data-item-index);']),
+          webmcpBlock(
+            sel,
+            COMPONENT_CATALOG.button,
+            {
+              tool: t,
+              description: `Acción '${t}' sobre un elemento de ${label}`,
+              intent: 'action',
+            },
+            ['  webmcp-param-index: attr(data-item-index);'],
+          ),
         );
         tools[t] = sel;
       }
@@ -413,7 +441,13 @@ export function renderComponent(name: IaComponentName, opts: IaComponentOptions)
     }
   }
 
-  return { component: name, tool: opts.tool, html, css: cssBlocks.join('\n\n') + '\n', tools };
+  return {
+    component: name,
+    tool: opts.tool,
+    html,
+    css: cssBlocks.join('\n\n') + '\n',
+    tools,
+  };
 }
 
 /** CSS visual base del framework (tema neutro, accesible, sin dependencias). */
@@ -449,28 +483,62 @@ export interface IaValidationIssue {
  */
 export function validateIaFirst(map: ToolMap): IaValidationIssue[] {
   const issues: IaValidationIssue[] = [];
-  const check = (name: string, spec: ToolSpec | { meta?: Record<string, string> }, isTool: boolean) => {
+  const check = (
+    name: string,
+    spec: ToolSpec | { meta?: Record<string, string> },
+    isTool: boolean,
+  ) => {
     const meta = spec.meta ?? {};
-    if (meta.component && !(IA_COMPONENTS as readonly string[]).includes(meta.component)) {
-      issues.push({ tool: name, level: 'error', message: `webmcp-component desconocido: ${meta.component}` });
+    if (
+      meta.component &&
+      !(IA_COMPONENTS as readonly string[]).includes(meta.component)
+    ) {
+      issues.push({
+        tool: name,
+        level: 'error',
+        message: `webmcp-component desconocido: ${meta.component}`,
+      });
     }
     if (isTool) {
       if (!meta.intent) {
         issues.push({ tool: name, level: 'warning', message: 'Falta webmcp-intent' });
       } else if (!(IA_INTENTS as readonly string[]).includes(meta.intent)) {
-        issues.push({ tool: name, level: 'error', message: `webmcp-intent inválido: ${meta.intent}` });
+        issues.push({
+          tool: name,
+          level: 'error',
+          message: `webmcp-intent inválido: ${meta.intent}`,
+        });
       }
-      if (meta.confirmation && !(IA_CONFIRMATIONS as readonly string[]).includes(meta.confirmation)) {
-        issues.push({ tool: name, level: 'error', message: `webmcp-confirmation inválida: ${meta.confirmation}` });
+      if (
+        meta.confirmation &&
+        !(IA_CONFIRMATIONS as readonly string[]).includes(meta.confirmation)
+      ) {
+        issues.push({
+          tool: name,
+          level: 'error',
+          message: `webmcp-confirmation inválida: ${meta.confirmation}`,
+        });
       }
       if (['submit', 'action'].includes(meta.intent ?? '') && !meta.confirmation) {
-        issues.push({ tool: name, level: 'warning', message: 'Acción sin política de confirmación (needed|none)' });
+        issues.push({
+          tool: name,
+          level: 'warning',
+          message: 'Acción sin política de confirmación (needed|none)',
+        });
       }
     }
     if (!meta.accessibility) {
-      issues.push({ tool: name, level: 'warning', message: 'Falta webmcp-accessibility (aria-label)' });
+      issues.push({
+        tool: name,
+        level: 'warning',
+        message: 'Falta webmcp-accessibility (aria-label)',
+      });
     } else if (!/^[a-z-]+\s*:\s*.+/i.test(meta.accessibility)) {
-      issues.push({ tool: name, level: 'error', message: `webmcp-accessibility debe ser "atributo: valor" (recibido: ${meta.accessibility})` });
+      issues.push({
+        tool: name,
+        level: 'error',
+        message: `webmcp-accessibility debe ser "atributo: valor" (recibido: ${meta.accessibility})`,
+      });
     }
   };
   for (const [name, tool] of Object.entries(map.tools)) check(name, tool, true);

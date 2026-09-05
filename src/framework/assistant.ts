@@ -40,17 +40,38 @@ export interface AssistResult {
 /** Vocabulario de campos por palabra clave (heurísticas locales). */
 const FIELD_VOCAB: Array<{ re: RegExp; field: IaField }> = [
   { re: /nombre|name/i, field: { name: 'name', label: 'Nombre', required: true } },
-  { re: /email|correo/i, field: { name: 'email', label: 'Email', type: 'email', required: true } },
-  { re: /tel[eé]fono|phone|m[oó]vil/i, field: { name: 'phone', label: 'Teléfono', type: 'tel' } },
-  { re: /mensaje|message|comentario/i, field: { name: 'message', label: 'Mensaje', type: 'textarea', required: true } },
-  { re: /contrase[ñn]a|password/i, field: { name: 'password', label: 'Contraseña', type: 'password', required: true } },
-  { re: /usuario|username/i, field: { name: 'username', label: 'Usuario', required: true } },
+  {
+    re: /email|correo/i,
+    field: { name: 'email', label: 'Email', type: 'email', required: true },
+  },
+  {
+    re: /tel[eé]fono|phone|m[oó]vil/i,
+    field: { name: 'phone', label: 'Teléfono', type: 'tel' },
+  },
+  {
+    re: /mensaje|message|comentario/i,
+    field: { name: 'message', label: 'Mensaje', type: 'textarea', required: true },
+  },
+  {
+    re: /contrase[ñn]a|password/i,
+    field: { name: 'password', label: 'Contraseña', type: 'password', required: true },
+  },
+  {
+    re: /usuario|username/i,
+    field: { name: 'username', label: 'Usuario', required: true },
+  },
   { re: /asunto|subject/i, field: { name: 'subject', label: 'Asunto' } },
   { re: /empresa|company/i, field: { name: 'company', label: 'Empresa' } },
   { re: /direcci[oó]n|address/i, field: { name: 'address', label: 'Dirección' } },
-  { re: /cantidad|quantity|qty/i, field: { name: 'quantity', label: 'Cantidad', type: 'number' } },
+  {
+    re: /cantidad|quantity|qty/i,
+    field: { name: 'quantity', label: 'Cantidad', type: 'number' },
+  },
   { re: /fecha|date/i, field: { name: 'date', label: 'Fecha' } },
-  { re: /b[uú]squeda|buscar|search|query/i, field: { name: 'query', label: 'Buscar', placeholder: 'Buscar…', required: true } },
+  {
+    re: /b[uú]squeda|buscar|search|query/i,
+    field: { name: 'query', label: 'Buscar', placeholder: 'Buscar…', required: true },
+  },
 ];
 
 /**
@@ -62,18 +83,24 @@ export function planHeuristically(request: string): AssistPlan {
   const components: AssistPlan['components'] = [];
   const fieldsFromText = (): IaField[] => {
     const fields: IaField[] = [];
-    for (const { re, field } of FIELD_VOCAB) if (re.test(text) && !fields.some((f) => f.name === field.name)) fields.push(field);
+    for (const { re, field } of FIELD_VOCAB)
+      if (re.test(text) && !fields.some((f) => f.name === field.name)) fields.push(field);
     return fields;
   };
 
-  if (/formulario|form\b|registro|login|inicio de sesi[oó]n|contacto|suscri|newsletter/.test(text)) {
+  if (
+    /formulario|form\b|registro|login|inicio de sesi[oó]n|contacto|suscri|newsletter/.test(
+      text,
+    )
+  ) {
     let tool = 'submitForm';
     let label = 'Enviar';
     let fields = fieldsFromText();
     if (/contacto|contact/.test(text)) {
       tool = 'sendContact';
       label = 'Enviar mensaje';
-      if (fields.length === 0) fields = [FIELD_VOCAB[0].field, FIELD_VOCAB[1].field, FIELD_VOCAB[3].field];
+      if (fields.length === 0)
+        fields = [FIELD_VOCAB[0].field, FIELD_VOCAB[1].field, FIELD_VOCAB[3].field];
     } else if (/login|inicio de sesi[oó]n|acceder/.test(text)) {
       tool = 'login';
       label = 'Iniciar sesión';
@@ -81,7 +108,8 @@ export function planHeuristically(request: string): AssistPlan {
     } else if (/registro|regist|crear cuenta|sign ?up/.test(text)) {
       tool = 'register';
       label = 'Crear cuenta';
-      if (fields.length === 0) fields = [FIELD_VOCAB[0].field, FIELD_VOCAB[1].field, FIELD_VOCAB[4].field];
+      if (fields.length === 0)
+        fields = [FIELD_VOCAB[0].field, FIELD_VOCAB[1].field, FIELD_VOCAB[4].field];
     } else if (/suscri|newsletter|bolet[ií]n/.test(text)) {
       tool = 'subscribe';
       label = 'Suscribirme';
@@ -91,10 +119,19 @@ export function planHeuristically(request: string): AssistPlan {
     }
     components.push({
       component: 'form',
-      options: { tool, label, description: request.trim(), confirmation: 'needed', fields },
+      options: {
+        tool,
+        label,
+        description: request.trim(),
+        confirmation: 'needed',
+        fields,
+      },
     });
   }
-  if (/buscador|b[uú]squeda|search/.test(text) && !components.some((c) => c.options.tool === 'search')) {
+  if (
+    /buscador|b[uú]squeda|search/.test(text) &&
+    !components.some((c) => c.options.tool === 'search')
+  ) {
     components.push({
       component: 'form',
       options: {
@@ -155,7 +192,10 @@ export function planHeuristically(request: string): AssistPlan {
       },
     });
   }
-  if (/bot[oó]n|button|cta|comprar|pagar|checkout|eliminar|borrar|cancelar/.test(text) && components.length === 0) {
+  if (
+    /bot[oó]n|button|cta|comprar|pagar|checkout|eliminar|borrar|cancelar/.test(text) &&
+    components.length === 0
+  ) {
     const destructive = /eliminar|borrar|cancelar|pagar|comprar|checkout/.test(text);
     components.push({
       component: 'button',
@@ -163,7 +203,11 @@ export function planHeuristically(request: string): AssistPlan {
         tool: toToolName(request, 'doAction'),
         label: request.trim().slice(0, 40),
         description: request.trim(),
-        intent: /cancelar/.test(text) ? 'cancel' : /comprar|pagar|checkout/.test(text) ? 'submit' : 'action',
+        intent: /cancelar/.test(text)
+          ? 'cancel'
+          : /comprar|pagar|checkout/.test(text)
+            ? 'submit'
+            : 'action',
         confirmation: destructive ? 'needed' : 'none',
       },
     });
@@ -171,10 +215,20 @@ export function planHeuristically(request: string): AssistPlan {
   if (components.length === 0) {
     components.push({
       component: 'button',
-      options: { tool: toToolName(request, 'doAction'), label: request.trim().slice(0, 40), description: request.trim(), intent: 'action', confirmation: 'none' },
+      options: {
+        tool: toToolName(request, 'doAction'),
+        label: request.trim().slice(0, 40),
+        description: request.trim(),
+        intent: 'action',
+        confirmation: 'none',
+      },
     });
   }
-  return { components, source: 'heuristic', rationale: 'Componentes deducidos por vocabulario (sin LLM).' };
+  return {
+    components,
+    source: 'heuristic',
+    rationale: 'Componentes deducidos por vocabulario (sin LLM).',
+  };
 }
 
 const SYSTEM_PROMPT = `Eres el asistente del framework IA-First de WebMCPcss. Convierte la petición del usuario en un plan JSON de componentes web declarativos.
@@ -187,9 +241,17 @@ Reglas: nombres de herramienta en camelCase en inglés; los formularios llevan "
  * @param client Cliente LLM.
  * @param request Petición.
  */
-export async function planWithLlm(client: LlmClient, request: string): Promise<AssistPlan | null> {
+export async function planWithLlm(
+  client: LlmClient,
+  request: string,
+): Promise<AssistPlan | null> {
   try {
-    const raw = await client.complete({ system: SYSTEM_PROMPT, user: request, json: true, temperature: 0.2 });
+    const raw = await client.complete({
+      system: SYSTEM_PROMPT,
+      user: request,
+      json: true,
+      temperature: 0.2,
+    });
     const obj = extractJsonObject(raw);
     if (!obj || !Array.isArray(obj.components)) return null;
     const components: AssistPlan['components'] = [];
@@ -197,12 +259,17 @@ export async function planWithLlm(client: LlmClient, request: string): Promise<A
       const component = String(c.component ?? '') as IaComponentName;
       if (!(IA_COMPONENTS as readonly string[]).includes(component)) continue;
       const options = (c.options ?? {}) as IaComponentOptions;
-      if (!options.tool) options.tool = toToolName(String(options.label ?? component), component);
+      if (!options.tool)
+        options.tool = toToolName(String(options.label ?? component), component);
       options.tool = toToolName(options.tool, component);
       components.push({ component, options });
     }
     if (components.length === 0) return null;
-    return { components, source: 'llm', rationale: String(obj.rationale ?? 'Plan generado por LLM') };
+    return {
+      components,
+      source: 'llm',
+      rationale: String(obj.rationale ?? 'Plan generado por LLM'),
+    };
   } catch {
     return null;
   }
@@ -213,13 +280,20 @@ export async function planWithLlm(client: LlmClient, request: string): Promise<A
  * @param request Petición en lenguaje natural.
  * @param client Cliente LLM opcional (`createLlmClient()`); `null` = heurísticas.
  */
-export async function assist(request: string, client: LlmClient | null = null): Promise<AssistResult> {
-  const plan = (client && (await planWithLlm(client, request))) || planHeuristically(request);
+export async function assist(
+  request: string,
+  client: LlmClient | null = null,
+): Promise<AssistResult> {
+  const plan =
+    (client && (await planWithLlm(client, request))) || planHeuristically(request);
   const rendered = plan.components.map((c) => renderComponent(c.component, c.options));
   return {
     plan,
     rendered,
     html: rendered.map((r) => r.html).join('\n\n') + '\n',
-    css: `/* Generado por webmcpcss assist: "${request.replace(/\*\//g, '')}" */\n\n` + rendered.map((r) => r.css.trimEnd()).join('\n\n') + '\n',
+    css:
+      `/* Generado por webmcpcss assist: "${request.replace(/\*\//g, '')}" */\n\n` +
+      rendered.map((r) => r.css.trimEnd()).join('\n\n') +
+      '\n',
   };
 }

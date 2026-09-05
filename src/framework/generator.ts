@@ -146,7 +146,10 @@ export function initProject(options: InitOptions): InitResult {
     files.push(rel);
   };
 
-  const components = framework === 'minimal' ? defaultTemplateComponents(name).slice(-1) : defaultTemplateComponents(name);
+  const components =
+    framework === 'minimal'
+      ? defaultTemplateComponents(name).slice(-1)
+      : defaultTemplateComponents(name);
   const css = [
     `/* ${name} — .webmcp.css generado por webmcpcss init --framework ${framework} (v${VERSION}) */`,
     `/* Cada regla declara intención, confirmación y accesibilidad para agentes IA. */`,
@@ -157,7 +160,11 @@ export function initProject(options: InitOptions): InitResult {
 
   write('index.html', buildIndexHtml(name, components));
   write('webmcp.css', css);
-  write('styles/base.css', IA_FIRST_BASE_CSS + '.skip-link{position:absolute;left:-999px}.skip-link:focus{left:8px;top:8px}\n');
+  write(
+    'styles/base.css',
+    IA_FIRST_BASE_CSS +
+      '.skip-link{position:absolute;left:-999px}.skip-link:focus{left:8px;top:8px}\n',
+  );
   write('webmcp-runtime.js', RUNTIME_JS);
   write(
     'components/README.md',
@@ -171,7 +178,16 @@ export function initProject(options: InitOptions): InitResult {
         css: '/webmcp.css',
         framework: 'ia-first',
         generator: `webmcpcss@${VERSION}`,
-        mcp: { command: 'webmcpcss', args: ['mcp', '--serve', '--css', 'webmcp.css', ...(options.url ? ['--url', options.url] : [])] },
+        mcp: {
+          command: 'webmcpcss',
+          args: [
+            'mcp',
+            '--serve',
+            '--css',
+            'webmcp.css',
+            ...(options.url ? ['--url', options.url] : []),
+          ],
+        },
       },
       null,
       2,
@@ -184,7 +200,13 @@ export function initProject(options: InitOptions): InitResult {
         mcpServers: {
           [name.replace(/[^a-z0-9-]/gi, '-').toLowerCase()]: {
             command: 'webmcpcss',
-            args: ['mcp', '--serve', '--css', 'webmcp.css', ...(options.url ? ['--url', options.url] : [])],
+            args: [
+              'mcp',
+              '--serve',
+              '--css',
+              'webmcp.css',
+              ...(options.url ? ['--url', options.url] : []),
+            ],
           },
         },
       },

@@ -4,7 +4,11 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
-## [Unreleased]
+## [1.2.1] - 2026-09-05
+
+Versión de mantenimiento: sitio web responsive, referencia completa de la CLI,
+enlaces del hub corregidos, `puppeteer` 24 y documentación de seguridad.
+Sin cambios de API.
 
 ### Añadido
 

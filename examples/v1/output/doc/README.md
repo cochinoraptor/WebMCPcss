@@ -1,6 +1,6 @@
 # Tienda de ejemplo
 
-> Generado por webmcpcss@1.2.0 · 5 herramientas · 2 datos de contexto · https://tienda.test
+> Generado por webmcpcss@1.2.1 · 5 herramientas · 2 datos de contexto · https://tienda.test
 
 ## Herramientas
 

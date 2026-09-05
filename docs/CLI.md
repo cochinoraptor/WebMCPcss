@@ -1,6 +1,6 @@
 # Referencia de la CLI `webmcpcss`
 
-Referencia completa de los **29 comandos** (v1.2.0). Todos aceptan `--help`;
+Referencia completa de los **29 comandos** (v1.2.1). Todos aceptan `--help`;
 los que reciben una URL aceptan también rutas locales a HTML. La opción global
 `--verbose` muestra depuración. Los comandos con `--json` escriben **solo** JSON
 en `stdout` (pensados para agentes y CI). Códigos de salida: `0` OK, `1` error
@@ -8,7 +8,7 @@ o validación fallida.
 
 ```bash
 npm i -g webmcpcss        # o: npx webmcpcss <comando>
-webmcpcss --version       # 1.2.0
+webmcpcss --version       # 1.2.1
 ```
 
 Guías temáticas: [estándar WebMCP](standard.md) · [animaciones](animation.md) ·

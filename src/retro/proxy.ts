@@ -6,7 +6,7 @@
  * - `<link rel="webmcp" href="/.webmcp/webmcp.css">` + `<meta name="webmcp">`
  *   (descubrimiento estándar),
  * - un `<script>` con `window.__WEBMCP_GRAPH__` (agentes de navegador),
- * - opcionalmente registro en `navigator.modelContext`.
+ * - opcionalmente registro en `document.modelContext`.
  *
  * Además sirve `/.webmcp/webmcp.css`, `/.webmcp/graph.json` y
  * `/.well-known/webmcp.json`. Implementado con `http`/`https`/`zlib` nativos
@@ -30,7 +30,7 @@ export interface RetroProxyOptions {
   port?: number;
   /** Host local (def. 0.0.0.0). */
   host?: string;
-  /** Registrar también en navigator.modelContext (def. true). */
+  /** Registrar también en document.modelContext (def. true). */
   registerModelContext?: boolean;
   /** Cabeceras extra hacia el origen (cookies, auth…). */
   headers?: Record<string, string>;
@@ -45,7 +45,7 @@ export const PROXY_PREFIX = '/.webmcp';
  * @param html HTML original.
  * @param toolMap Tool map parseado.
  * @param css CSS original.
- * @param registerModelContext Registrar en navigator.modelContext.
+ * @param registerModelContext Registrar en document.modelContext.
  */
 export function injectWebMcpIntoHtml(
   html: string,

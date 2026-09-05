@@ -1,6 +1,6 @@
 /**
  * `WebMCPApiAdapter`: adaptador de Puppeteer con soporte para la API
- * imperativa de WebMCP (`navigator.modelContext`).
+ * imperativa de WebMCP (`document.modelContext`).
  *
  * Implementa {@link PageAdapter} (hereda todas las operaciones DOM de
  * `PuppeteerAdapter`) y además {@link ApiToolSource}: puede listar e invocar
@@ -27,7 +27,7 @@ export class WebMCPApiAdapter extends PuppeteerAdapter implements ApiToolSource 
   }
 
   /**
-   * Crea el adaptador e instala el shim de `navigator.modelContext` tanto
+   * Crea el adaptador e instala el shim de `document.modelContext` tanto
    * para futuras navegaciones (`evaluateOnNewDocument`) como en el documento
    * actual (por si la página ya está cargada).
    *

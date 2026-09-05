@@ -65,7 +65,7 @@ export interface PageAdapter {
 
 /**
  * Capacidad opcional de un adaptador: acceso a las herramientas registradas
- * mediante la API imperativa de WebMCP (`navigator.modelContext`).
+ * mediante la API imperativa de WebMCP (`document.modelContext`).
  *
  * Un adaptador que además implemente esta interfaz (p. ej.
  * `WebMCPApiAdapter`) permite a la clase `WebMCPcss` ejecutar herramientas

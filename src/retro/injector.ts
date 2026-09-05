@@ -2,7 +2,7 @@
  * Retro-WebMCP: inyector en tiempo real.
  *
  * Genera el script que expone `window.__WEBMCP_GRAPH__` (y opcionalmente
- * registra las herramientas en `navigator.modelContext`) y lo inyecta en una
+ * registra las herramientas en `document.modelContext`) y lo inyecta en una
  * página abierta con Puppeteer, con un observador de mutaciones para
  * sobrevivir a navegaciones SPA parciales.
  */
@@ -12,7 +12,7 @@ import { VERSION } from '../version';
 
 /** Opciones del script de inyección. */
 export interface RetroInjectOptions {
-  /** Registrar en navigator.modelContext (def. true). */
+  /** Registrar en document.modelContext (def. true). */
   registerModelContext?: boolean;
   /** Marcar visualmente los elementos con herramientas (depuración). */
   highlight?: boolean;
@@ -93,7 +93,7 @@ window.__WEBMCP_RETRO__.context = function () { var out = {}; GRAPH.context.forE
 window.__WEBMCP_RETRO__.status = function () { return GRAPH.tools.map(function (t) { return { name: t.name, exists: !!q(t.selector) }; }); };
 ${
   register
-    ? `var mc = navigator.modelContext;
+    ? `var mc = (typeof document !== 'undefined' && document.modelContext) || (typeof navigator !== 'undefined' && navigator.modelContext) || undefined;
 if (mc && typeof mc.registerTool === 'function') {
   GRAPH.tools.forEach(function (t) {
     try { mc.registerTool({ name: t.name, description: t.description, inputSchema: { type: 'object', properties: Object.fromEntries(Object.keys(t.params||{}).map(function(p){return [p,{type:'string'}];})) }, execute: function (args) { var r = run(t, args); return { content: [{ type: 'text', text: JSON.stringify(r) }] }; } }); } catch (e) {}

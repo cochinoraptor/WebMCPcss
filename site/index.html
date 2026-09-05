@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
-<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 45 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph...)." />
+<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.0.0: framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
 <meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
-<meta property="og:description" content="npm i -g webmcpcss · MCP server · auto-reparación · lenguaje natural · animaciones declarativas · 45 agentes soportados" />
+<meta property="og:description" content="v1.0.0 · npm i -g webmcpcss · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
 <link rel="icon" type="image/png" href="favicon.png" />
@@ -180,7 +180,7 @@
   footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
   footer .brand { font-size: 15px; }
   footer .brand img { width: 26px; height: 26px; }
-  footer nav { margin: 0; }
+  footer nav { margin: 0; flex-wrap: wrap; white-space: normal; row-gap: 8px; }
 
   /* ---------- v0.7.0 prompt ---------- */
   .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 28px; align-items: start; }
@@ -212,7 +212,27 @@
   .anim-types .card h3 { font-size: 14.5px; font-family: 'JetBrains Mono', monospace; color: var(--acc); }
   .anim-types .card p { font-size: 13.5px; }
 
-  @media (max-width: 1000px) { nav.mainnav { gap: 14px; font-size: 13px; } }
+  /* ---------- v1.0.0 diez módulos ---------- */
+  .mods { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  @media (max-width: 720px) { .mods { grid-template-columns: 1fr; } }
+  .mods .card { padding: 24px 24px 22px; }
+  .mods .card .num { position: absolute; top: 20px; right: 22px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+  .mods .card .cli { display: block; margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; color: var(--ok); background: var(--code); border: 1px solid var(--line); padding: 8px 12px; border-radius: 8px; white-space: normal; overflow-wrap: anywhere; }
+  .mods .card .cli b { color: var(--muted); font-weight: 500; }
+  .mods .card .more { display: inline-block; margin-top: 12px; font-size: 13.5px; }
+  .props { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 34px; }
+  .props code { font-size: 12.5px; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(124,108,240,.4); background: rgba(12,16,25,.55); color: #b4a9ff; max-width: 100%; overflow-wrap: anywhere; }
+  .props code.a { border-color: rgba(79,209,197,.4); color: var(--acc); }
+  .demos { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-top: 38px; }
+  .demos > div { min-width: 0; }
+  .demos .term pre { font-size: 12px; line-height: 1.7; padding: 16px 18px; }
+  .demos .cap { font-size: 13px; color: var(--muted); margin: 10px 4px 0; }
+  .demos .cap code { color: var(--acc); }
+  @media (max-width: 1000px) { .demos { grid-template-columns: 1fr; } }
+
+  @media (max-width: 1140px) { nav.mainnav { gap: 13px; font-size: 13px; } header .wrap { gap: 18px; } }
+  @media (max-width: 1000px) { nav.mainnav { gap: 11px; font-size: 12.5px; } }
+  @media (max-width: 960px) { nav.mainnav { display: none; } }
   @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
   @media (max-width: 720px) {
     nav.mainnav { display: none; }
@@ -232,6 +252,7 @@
     <nav class="mainnav">
       <a href="#como">Flujo</a>
       <a href="#features">Funciones</a>
+      <a href="#v1" style="color:var(--acc2)">Novedades 1.0</a>
       <a href="#prompt">Prompt</a>
       <a href="#animaciones">Animaciones</a>
       <a href="#agentes">Agentes</a>
@@ -249,9 +270,9 @@
 <div class="hero">
   <div class="wrap">
     <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
-    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v0.8.0</span></div>
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.0.0</span></div>
     <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
-    <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong> y <strong style="color:var(--text)">animaciones declarativas</strong> que conviven con GSAP o Framer Motion.</p>
+    <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong>, <strong style="color:var(--text)">animaciones declarativas</strong> y, desde la 1.0, <strong style="color:var(--text)">permisos, accesibilidad, tests, versionado y pagos</strong> declarados en el mismo CSS.</p>
     <div class="cta">
       <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">📦 Instalar desde npm</a>
       <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/AGENTS.md">📖 Guías por agente</a>
@@ -263,10 +284,10 @@
     </div>
 
     <div class="stats">
-      <div class="stat"><b>45</b><span>agentes soportados</span></div>
-      <div class="stat"><b>8</b><span>formatos de exportación</span></div>
-      <div class="stat"><b>3</b><span>herramientas MCP integradas</span></div>
-      <div class="stat"><b>332</b><span>tests automatizados</span></div>
+      <div class="stat"><b>46</b><span>agentes soportados</span></div>
+      <div class="stat"><b>10</b><span>formatos de exportación</span></div>
+      <div class="stat"><b>27</b><span>comandos CLI</span></div>
+      <div class="stat"><b>515</b><span>tests automatizados</span></div>
       <div class="stat"><b>0</b><span>dependencias de pago</span></div>
     </div>
   </div>
@@ -289,7 +310,7 @@
   <span class="k">webmcp-confirmation</span>: <span class="s">".cart-badge"</span>;
 }</pre>
         </div>
-        <p class="note">También desde tu código fuente React/Vue/Svelte con <code>--from-source</code>, sin navegador.</p>
+        <p class="note">También desde tu código fuente React/Vue/Svelte con <code>--from-source</code>, desde un diseño con <code>design analyze</code>, o desde cero con <code>init --framework ia-first</code>.</p>
       </div>
       <div class="step">
         <div class="step-head"><div class="step-num">2</div><h3>Sirve por MCP o REST</h3></div>
@@ -327,19 +348,141 @@ webmcpcss mcp --serve \
       <div class="card"><div class="ico">⚡</div><h3>Generación automática</h3><p><code>generate --auto</code> escanea la página sin grabar nada: formularios, botones, campos. Detecta el framework (React, Vue, Svelte, Angular, Tailwind…) y elige selectores estables.</p></div>
       <div class="card"><div class="ico">🧩</div><h3>Desde el código fuente</h3><p><code>generate --from-source</code> analiza componentes JSX/Vue/Svelte sin navegador ni deploy, y avisa qué elementos necesitan <code>data-tool</code>. Úsalo como linter en CI.</p></div>
       <div class="card"><div class="ico">🔌</div><h3>Servidor MCP real</h3><p>stdio JSON-RPC para Claude Desktop/Code, Cursor, Goose, Windsurf… y modo REST (<code>/api/tools</code>, <code>/api/call</code>) con ejecución real vía navegador.</p></div>
-      <div class="card"><div class="ico">📤</div><h3>8 exportadores</h3><p>Plugin Claude Code, Cursor, CrewAI, AutoGen, LangGraph, JSON Schema, browser-inject (<code>window.__WEBMCP_GRAPH__</code>) y config MCP universal.</p></div>
+      <div class="card"><div class="ico">📤</div><h3>10 exportadores <span class="badge-new">v0.9</span></h3><p>Plugin Claude Code (comandos + skill), Cursor (snippets y regla), CrewAI, AutoGen, LangGraph, DeerFlow, Flomny, JSON Schema, browser-inject (<code>window.__WEBMCP_GRAPH__</code>) y config MCP universal.</p></div>
       <div class="card"><div class="ico">🩹</div><h3>Auto-reparación</h3><p>Selectores rotos tras un rediseño se reencuentran por fingerprint y el archivo se actualiza solo. Con análisis de fragilidad: hashes CSS-Modules, Vue scoped, styled-components…</p></div>
-      <div class="card"><div class="ico">🕸️</div><h3>Grafo + Obsidian</h3><p>Tu tool map como grafo de conocimiento navegable, dashboard Cytoscape interactivo y bóveda Obsidian con backlinks para humanos y agentes de documentación.</p></div>
+      <div class="card"><div class="ico">🕸️</div><h3>Grafo + Obsidian <span class="badge-new">v0.9</span></h3><p>Tu tool map como grafo de conocimiento navegable, dashboard Cytoscape con filtros por framework y exportación PNG/SVG/JSON, y bóveda Obsidian portable. Detecta el framework de cada selector frágil (CSS Modules, Vue scoped, styled-components…).</p></div>
       <div class="card"><div class="ico">💬</div><h3>Lenguaje natural <span class="badge-new">v0.7</span></h3><p><code>webmcpcss prompt "oculta el popup de cookies"</code> interpreta la orden (con o sin LLM), localiza el elemento y la ejecuta con evidencia. También como herramienta MCP <code>webmcpcss_prompt</code>.</p></div>
-      <div class="card"><div class="ico">🎬</div><h3>Animaciones declarativas <span class="badge-new">v0.8</span></h3><p>Parallax, isométrico, 3D, keyframes y escenas Three.js declaradas con <code>webmcp-animation-*</code>. Motor CSS / WAAPI / WebGL elegido por capacidades y <strong>resolución de conflictos</strong> con GSAP, Anime.js o Framer Motion.</p></div>
+      <div class="card"><div class="ico">🎬</div><h3>Animaciones declarativas <span class="badge-new">v0.8</span></h3><p>Parallax, isométrico, 3D, keyframes y escenas Three.js declaradas con <code>webmcp-animation-*</code>. Motor CSS / WAAPI / WebGL elegido por capacidades, <strong>resolución de conflictos</strong> con GSAP, Anime.js o Framer Motion y <code>validate-conflicts</code> para CI.</p></div>
       <div class="card"><div class="ico">📊</div><h3>Historial + dashboard</h3><p>Cada ejecución, reparación, prompt o animación queda registrada. <code>webmcpcss dashboard</code> abre un panel local con métricas, fragilidad de selectores y el grafo del sitio.</p></div>
     </div>
   </div>
 </section>
 
+<section id="v1">
+  <div class="wrap">
+    <div class="sec-eyebrow">Novedad v1.0.0</div>
+    <h2>Diez módulos para sitios nativos de IA</h2>
+    <p class="sub">La 1.0 convierte WebMCPcss en una plataforma completa: del diseño al contrato, del sitio legacy al agente con billetera. Diez módulos independientes, <strong style="color:var(--text)">sin dependencias nuevas</strong>, cada uno con su comando, su API (<code>import { security, web3, … } from 'webmcpcss'</code>), su guía y salidas reales en <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/examples/v1">examples/v1/</a>.</p>
+    <div class="props" aria-label="Propiedades CSS nuevas">
+      <code>webmcp-component</code><code>webmcp-intent: submit|cancel|navigate|action</code><code>webmcp-confirmation: needed|none</code><code>webmcp-accessibility</code>
+      <code class="a">webmcp-permissions: read-only|restricted|full</code><code class="a">webmcp-requires: auth|oauth|jwt|session</code><code class="a">webmcp-scope</code><code class="a">webmcp-rate-limit</code>
+      <code>webmcp-payment: required</code><code>webmcp-network</code><code>webmcp-amount</code><code>webmcp-pay-to</code>
+    </div>
+    <div class="mods">
+      <div class="card"><span class="num">01</span><div class="ico">🧱</div><h3>IA-First Framework</h3><p>Componentes <code>IAButton</code>, <code>IAForm</code>, <code>IACard</code>, <code>IANav</code>, <code>IAHero</code> e <code>IAGrid</code> que nacen con <code>webmcp-component</code>, <code>webmcp-intent</code>, <code>webmcp-confirmation</code> y <code>webmcp-accessibility</code>. Un asistente genera el componente y su contrato desde una frase, con o sin LLM.</p><span class="cli">webmcpcss init --framework ia-first <b>·</b> assist "crea un formulario de contacto"</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/ia-first-framework.md">Guía →</a></div>
+      <div class="card"><span class="num">02</span><div class="ico">🎨</div><h3>Design-to-WebMCP</h3><p>De un mockup (PNG/JPEG, con LLM de visión), un archivo Figma o una descripción de texto a <code>.webmcp.css</code> + HTML de andamiaje. <code>validate</code> compara el diseño con el sitio implementado y <code>optimize</code> mejora nombres, selectores y confirmaciones con una puntuación IA-friendly.</p><span class="cli">webmcpcss design analyze --image home.png <b>·</b> validate --design d.json --url … <b>·</b> optimize</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/design-to-webmcp.md">Guía →</a></div>
+      <div class="card"><span class="num">03</span><div class="ico">🏚️</div><h3>Retro-WebMCP</h3><p>Escanea sitios legacy (13 señales: tablas de maquetación, jQuery 1.x, WebForms, frames…) y propone tools con selectores estables. Un <strong>proxy de compatibilidad</strong> inyecta el WebMCP sin tocar el servidor, el inyector expone <code>window.__WEBMCP_GRAPH__</code> y <code>publish</code> lo aporta a la comunidad.</p><span class="cli">webmcpcss retro scan <b>·</b> proxy --port 8080 <b>·</b> inject --browser <b>·</b> publish --domain …</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/retro-webmcp.md">Guía →</a></div>
+      <div class="card"><span class="num">04</span><div class="ico">♿</div><h3>A11y-MCP</h3><p>16 reglas WCAG 2.2 AA evaluadas en la página real (alt, nombres accesibles, contraste, encabezados, landmarks, foco…), puntuación, umbrales para CI y correcciones declarativas con <code>webmcp-accessibility</code> que benefician a personas y agentes.</p><span class="cli">webmcpcss a11y audit --url … --min-score 85 --fail-on critical <b>·</b> a11y fix</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/a11y.md">Guía →</a></div>
+      <div class="card"><span class="num">05</span><div class="ico">🧪</div><h3>Test-MCP</h3><p>Suites Playwright o Cypress generadas desde el contrato: existencia de cada tool, parámetros, confirmaciones, formatos y ejecución segura. <code>test run</code> las ejecuta con Puppeteer sin instalar nada más, emite JUnit y crea el workflow de GitHub Actions.</p><span class="cli">webmcpcss test generate --file tienda.webmcp.css --framework playwright <b>·</b> test run --url …</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/testing.md">Guía →</a></div>
+      <div class="card"><span class="num">06</span><div class="ico">🔀</div><h3>Version-MCP</h3><p>Snapshots con hash por tool y huella de la página, <strong>diff semántico</strong> que detecta renombres, cambios de selector, parámetros y permisos con impacto SemVer, y migraciones con notas para que los agentes se actualicen solos.</p><span class="cli">webmcpcss version snapshot <b>·</b> diff v1.json v2.json <b>·</b> migrate v1.json v2.json --url …</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/versioning.md">Guía →</a></div>
+      <div class="card"><span class="num">07</span><div class="ico">📚</div><h3>Doc-MCP</h3><p>Documentación interactiva generada del <code>.webmcp.css</code>: HTML autocontenido con buscador y pestañas, Markdown, JSON, <code>llms.txt</code> y <code>AGENTS.md</code>, con ejemplos CLI/MCP/REST/prompt por tool. Servidor local con recarga en vivo.</p><span class="cli">webmcpcss doc generate --file tienda.webmcp.css -o docs/ <b>·</b> doc serve --port 3000</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/doc-generation.md">Guía →</a></div>
+      <div class="card"><span class="num">08</span><div class="ico">🔐</div><h3>Security-MCP</h3><p><code>webmcp-permissions: read-only|restricted|full</code>, <code>webmcp-requires</code> (auth, OAuth, JWT, sesión), scopes y rate-limit por tool. Auditoría con puntuación, políticas sugeridas, JWT HS256 sin dependencias y simulación de qué puede hacer cada agente.</p><span class="cli">webmcpcss security validate --file … --agent bot:restricted:orders:pay <b>·</b> security token</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/security.md">Guía →</a></div>
+      <div class="card"><span class="num">09</span><div class="ico">🧭</div><h3>Recommender-MCP</h3><p>Traduce un objetivo en lenguaje natural (ES/EN) a una secuencia de tools con sus parámetros, aprende del historial local por sitio, penaliza acciones sensibles no pedidas y pone el login primero. Refinado opcional con LLM.</p><span class="cli">webmcpcss recommend "compra 2 zapatillas rojas" --url https://tienda.com</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/recommender.md">Guía →</a></div>
+      <div class="card"><span class="num">10</span><div class="ico">⛓️</div><h3>Web3-MCP</h3><p>Tools de pago con <code>webmcp-payment</code>, <code>webmcp-network</code> y <code>webmcp-amount</code>. Billetera de agente con límites por operación, sesión y día; <strong>micropagos x402/USDC sin gas</strong>, conector MetaMask/WalletConnect, 8 redes EVM, contrato <code>WebMCPPayments.sol</code> y <code>ethers</code> opcional.</p><span class="cli">webmcpcss web3 validate <b>·</b> balance --address 0x… <b>·</b> pay --to 0x… --amount 0.05 <b>·</b> deploy</span><a class="more" href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/web3.md">Guía →</a></div>
+    </div>
+
+    <div class="demos">
+      <div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh — IA-First</span></div>
+<pre>webmcpcss assist <span class="s">"crea un formulario de contacto"</span> -o contacto/
+<span class="c">ℹ Plan (heuristic): deducido por vocabulario (sin LLM)</span>
+<span class="g">  ✔ form → tools: sendContact</span>
+<span class="g">✔ Escrito contacto/component.html</span>
+<span class="g">✔ Escrito contacto/component.webmcp.css</span>
+
+<span class="c">/* contacto/component.webmcp.css */</span>
+<span class="p">[data-tool="send-contact-submit"]</span> {
+  <span class="k">webmcp-tool</span>: <span class="s">"sendContact"</span>;
+  <span class="k">webmcp-component</span>: <span class="s">"form"</span>;
+  <span class="k">webmcp-intent</span>: <span class="s">"submit"</span>;
+  <span class="k">webmcp-confirmation</span>: <span class="s">"needed"</span>;
+  <span class="k">webmcp-accessibility</span>: <span class="s">"aria-label: Enviar mensaje"</span>;
+  <span class="k">webmcp-param-email</span>: <span class="s">value(#send-contact-email)</span>;
+  <span class="k">webmcp-param-message</span>: <span class="s">value(#send-contact-message)</span>;
+  <span class="c">/* … webmcp-trigger, webmcp-confirmation-selector */</span>
+}</pre>
+        </div>
+        <p class="cap">El componente nace con intención, confirmación y accesibilidad declaradas. Con <code>--llm ollama|openai|anthropic</code> el plan lo hace un modelo.</p>
+      </div>
+      <div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh — Retro-WebMCP</span></div>
+<pre>webmcpcss retro scan ferreteria-legacy.html -o legacy.webmcp.css
+<span class="c">ℹ Ferretería El Tornillo · legacy 76/100 · 5 tools</span>
+<span class="c">  • table-layout (2)   2/2 tablas parecen de maquetación</span>
+<span class="c">  • inline-handlers (2) manejadores inline on*=</span>
+<span class="c">  • old-jquery (1)     jQuery 1.x</span>
+<span class="c">  • asp-webforms (1)   ids dinámicos, postbacks   … 13 señales</span>
+<span class="g">  ✔ buscar         form[name="frmBuscar"] input[name="btnBuscar"]</span>
+<span class="g">  ✔ enviarConsulta form[action="/contacto.asp"] input[type=submit]</span>
+<span class="g">  ✔ iniciarSesion  a[title="Acceso clientes"]</span>
+<span class="g">  ✔ comprar        input[onclick*="addCart"]</span>
+<span class="g">  ✔ verCarrito     a[href="/carrito.asp"]</span>
+<span class="s">⚠ ASP.NET WebForms: se han preferido name/value y fingerprints</span>
+<span class="g">✔ Escrito legacy.webmcp.css</span>
+
+webmcpcss retro proxy https://ferreteria-legacy.com \
+  --css legacy.webmcp.css --port 8080
+<span class="g">✔ proxy en http://localhost:8080 · inyecta &lt;link rel="webmcp"&gt;,</span>
+<span class="g">  /.webmcp/webmcp.css y /.well-known/webmcp.json</span></pre>
+        </div>
+        <p class="cap">Un sitio de 2004 con ASP.NET WebForms y jQuery 1.x queda operable por agentes sin tocar su servidor.</p>
+      </div>
+      <div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh — Security + Web3</span></div>
+<pre>webmcpcss security validate --file tienda.webmcp.css \
+  --agent bot:restricted:orders:pay
+<span class="c">ℹ Puntuación 99/100 · 1 read-only, 2 restricted, 2 full</span>
+<span class="c">  • buscarProductos: read-only · none · riesgo low</span>
+<span class="c">  • anadirAlCarrito: restricted · session · riesgo medium</span>
+<span class="c">  • pagarPedido: full · oauth · scopes orders:pay · riesgo high</span>
+<span class="c">  ℹ descargarInforme (full) sin webmcp-rate-limit</span>
+<span class="c">    → webmcp-rate-limit: "5/min";</span>
+
+Agente bot
+<span class="g">  ✔ buscarProductos</span>
+<span class="s">  ✖ anadirAlCarrito — requiere session; el agente trae auth</span>
+<span class="s">  ✖ pagarPedido — requiere nivel full; el agente es restricted</span>
+<span class="g">  ✔ enviarConsulta</span>
+
+webmcpcss web3 validate --file tienda.webmcp.css
+<span class="c">  • descargarInforme: required · 0.05 USDC · base · x402</span>
+<span class="c">    → 0x1111111111111111111111111111111111111111</span></pre>
+        </div>
+        <p class="cap">El mismo contrato dice quién puede hacer qué y cuánto cuesta. Los agentes pagan por <code>402 Payment Required</code> con USDC sin gas.</p>
+      </div>
+      <div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh — Version + Recommender</span></div>
+<pre>webmcpcss version diff v1.snapshot.json v2.snapshot.json
+<span class="c">ℹ Impacto major · versión sugerida 2.0.0 · +2 −2 ~6 ↔1</span>
+<span class="s">  ✖ tool-renamed buscarProductos → buscarCatalogo</span>
+<span class="s">    (los agentes deben actualizar sus llamadas)</span>
+<span class="s">  ✖ tool-removed descargarInforme #report</span>
+<span class="c">  • selector-changed pagarPedido #checkout → #checkout-now</span>
+<span class="c">  • param-added buscarCatalogo → categoria</span>
+<span class="c">  • context-added totalCarrito → .total</span>
+
+webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"</span> \
+  --css tienda.webmcp.css
+<span class="c">Para "inicia sesión y compra 2 zapatillas rojas"</span>
+<span class="c">recomiendo estos 2 pasos (confianza 95 %):</span>
+<span class="g">1. anadirAlCarrito con cantidad="2"  ⚠ requiere confirmación</span>
+<span class="g">2. pagarPedido  ⚠ requiere confirmación</span>
+<span class="c">Verifica el resultado leyendo: articulosCarrito.</span></pre>
+        </div>
+        <p class="cap">Salidas reales de <code>examples/v1/</code>, regenerables con <code>bash examples/v1/regen.sh</code> y comprobadas en CI.</p>
+      </div>
+    </div>
+    <p style="margin-top:26px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CHANGELOG.md">Todo lo nuevo en el CHANGELOG 1.0.0 →</a> &nbsp;·&nbsp; <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/docs">Las diez guías →</a></p>
+  </div>
+</section>
+
 <section id="prompt">
   <div class="wrap">
-    <div class="sec-eyebrow">Novedad v0.7.0</div>
+    <div class="sec-eyebrow">Lenguaje natural · v0.7</div>
     <h2>Dile al sitio qué hacer, en tu idioma</h2>
     <p class="sub"><code>webmcpcss prompt</code> traduce órdenes en español o inglés a acciones estructuradas, localiza el elemento de forma progresiva y las ejecuta sobre la página con captura de evidencia. Funciona sin LLM; mejora con Ollama, OpenAI o Anthropic.</p>
     <div class="split">
@@ -373,7 +516,7 @@ webmcpcss mcp --serve \
 
 <section id="animaciones">
   <div class="wrap">
-    <div class="sec-eyebrow">Novedad v0.8.0</div>
+    <div class="sec-eyebrow">Animaciones · v0.8 – v0.9</div>
     <h2>Animaciones declaradas en CSS, ejecutadas por agentes</h2>
     <p class="sub">Parallax, isométrico, transformaciones 3D, keyframes y escenas 2.5D con Three.js, descritas con propiedades <code>webmcp-animation-*</code>. El orquestador elige el motor (CSS, WAAPI o WebGL) según el navegador y <strong style="color:var(--text)">nunca pisa</strong> las animaciones que el sitio ya tiene.</p>
     <div class="split">
@@ -438,6 +581,7 @@ webmcpcss mcp --serve \
       <li>Detecta GSAP, Anime.js, Framer Motion, Velocity, Lottie, AOS y las animaciones CSS/WAAPI del sitio; <code>registerExternal()</code> para las tuyas.</li>
       <li><code>--dry-run</code> con informe de conflictos previstos, <code>fallback</code> por animación y respeto de <code>prefers-reduced-motion</code>.</li>
       <li>Herramienta MCP <code>webmcpcss_animate</code>, <code>POST /api/animate</code> y runtime de 85 KB para incluir en tu web.</li>
+      <li><span class="badge-new" style="margin:0 6px 0 0">v0.9</span><code>validate-conflicts anim.webmcp.css --url … --strict</code> simula en seco los conflictos con las animaciones del sitio; <code>animate --sandbox</code> las aísla en un shadow root.</li>
     </ul>
     <p style="margin-top:22px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation.md">Estándar de animaciones →</a> &nbsp;·&nbsp; <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation-conflicts.md">Convivencia con otras librerías →</a> &nbsp;·&nbsp; <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/examples/animation">Ejemplos →</a></p>
   </div>
@@ -446,20 +590,20 @@ webmcpcss mcp --serve \
 <section id="agentes">
   <div class="wrap">
     <div class="sec-eyebrow">Ecosistema</div>
-    <h2>45 agentes, 4 dialectos universales</h2>
+    <h2>46 agentes, 4 dialectos universales</h2>
     <p class="sub">Si habla MCP, function calling, HTTP o controla un navegador — ya está soportado. <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/AGENTS.md">Tabla completa y guías paso a paso →</a></p>
     <div class="tablecard">
       <table>
         <tr><th>Integración</th><th>Agentes</th><th>Comando</th></tr>
         <tr>
           <td>🔌 Servidor MCP</td>
-          <td><span class="chip">Claude Desktop</span><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">Windsurf</span><span class="chip">Goose</span><span class="chip">Cline</span><span class="chip">Continue</span><span class="chip">Copilot</span><span class="chip">Gemini CLI</span><span class="chip">Codex CLI</span><span class="chip">+8</span></td>
-          <td><code>mcp --serve</code><br><span style="font-size:12px;color:var(--muted)">+ <code>webmcpcss_prompt</code> · <code>webmcpcss_animate</code></span></td>
+          <td><span class="chip">Claude Desktop</span><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">Windsurf</span><span class="chip">Goose</span><span class="chip">Cline</span><span class="chip">Continue</span><span class="chip">Copilot</span><span class="chip">Gemini CLI</span><span class="chip">Codex CLI</span><span class="chip">Flomny</span><span class="chip">+7</span></td>
+          <td><code>mcp --serve</code><br><span style="font-size:12px;color:var(--muted)">+ <code>webmcpcss_prompt</code> · <code>webmcpcss_animate</code> · <code>--flomny</code></span></td>
         </tr>
         <tr>
           <td>🐍 Módulos Python</td>
-          <td><span class="chip">CrewAI</span><span class="chip">AutoGen / AG2</span><span class="chip">LangGraph</span><span class="chip">LangChain</span></td>
-          <td><code>export --format crewai</code></td>
+          <td><span class="chip">CrewAI</span><span class="chip">AutoGen / AG2</span><span class="chip">LangGraph</span><span class="chip">LangChain</span><span class="chip">DeerFlow</span></td>
+          <td><code>export --format crewai</code><br><span style="font-size:12px;color:var(--muted)"><code>--format deerflow</code> · <code>--format autogen</code> · <code>--format langgraph</code></span></td>
         </tr>
         <tr>
           <td>🌐 Navegador</td>
@@ -511,7 +655,7 @@ webmcpcss mcp --serve \
     <div class="final">
       <img src="logo.png" alt="" style="width:72px;height:72px;margin-bottom:18px" />
       <h2>Haz tu web nativa para agentes hoy</h2>
-      <p>Un comando para empezar. MIT, sin dependencias de pago, listo para producción.</p>
+      <p>Un comando para empezar. v1.0.0 · MIT · sin dependencias de pago · 515 tests · listo para producción.</p>
       <div class="cta">
         <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">npm install -g webmcpcss</a>
         <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss">⭐ Dale una estrella</a>
@@ -528,6 +672,9 @@ webmcpcss mcp --serve \
       <a href="https://www.npmjs.com/package/webmcpcss">npm</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/animation.md">Animaciones</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/PROMPT.md">Prompt</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/security.md">Security-MCP</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/web3.md">Web3</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/examples/v1/">Ejemplos 1.0</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CHANGELOG.md">Changelog</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/CONTRIBUTING.md">Contribuir</a>
       <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/SECURITY.md">Seguridad</a>

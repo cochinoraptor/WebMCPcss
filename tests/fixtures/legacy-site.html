@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Ferreter&iacute;a El Tornillo - Tienda Online</title>
+<script src="/js/jquery-1.4.2.min.js"></script>
+</head>
+<body bgcolor="#FFFFFF" onload="init()">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td><font face="Arial" size="4"><b>Ferreter&iacute;a El Tornillo</b></font></td>
+<td align="right"><a href="javascript:openLogin()" title="Acceso clientes">Iniciar sesi&oacute;n</a></td></tr>
+</table>
+<form name="frmBuscar" method="get" action="/buscar.asp">
+  <input type="hidden" name="__VIEWSTATE" value="dDw4">
+  <input type="text" name="txtBusqueda" size="30">
+  <input type="submit" name="btnBuscar" value="Buscar">
+</form>
+<table border="0" cellpadding="4">
+<tr><td><img src="/img/tornillo.gif"><br>Tornillo 4x40 (100 uds)</td>
+<td><font color="red">3,50 &euro;</font></td>
+<td><input type="image" src="/img/comprar.gif" alt="Comprar" onclick="addCart(1234)"></td></tr>
+</table>
+<form action="/contacto.asp" method="post">
+  <input type="text" name="nombre">
+  <input type="text" name="email">
+  <textarea name="comentarios"></textarea>
+  <input type="submit" value="Enviar consulta">
+  <input type="reset" value="Borrar">
+</form>
+<center><a href="/carrito.asp"><img src="/img/cesta.gif" border="0" alt="Ver carrito"></a></center>
+<iframe src="/banner.htm" width="468" height="60"></iframe>
+<marquee>Env&iacute;o gratis a partir de 60 euros</marquee>
+</body>
+</html>

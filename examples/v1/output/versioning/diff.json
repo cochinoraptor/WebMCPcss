@@ -1,0 +1,97 @@
+{
+  "from": {
+    "version": "1.0.0",
+    "hash": "9b7d2b2408384aef",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  "to": {
+    "version": "2.0.0",
+    "hash": "ae92dbeccdfc858e",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  "impact": "major",
+  "suggestedVersion": "2.0.0",
+  "changes": [
+    {
+      "kind": "tool-renamed",
+      "target": "buscarProductos",
+      "impact": "major",
+      "from": "buscarProductos",
+      "to": "buscarCatalogo",
+      "detail": "misma acción con otro nombre: los agentes deben actualizar sus llamadas"
+    },
+    {
+      "kind": "tool-removed",
+      "target": "descargarInforme",
+      "impact": "major",
+      "from": "#report"
+    },
+    {
+      "kind": "meta-changed",
+      "target": "anadirAlCarrito",
+      "impact": "patch",
+      "from": "{\"permissions\":\"restricted\",\"requires\":\"session\",\"intent\":\"action\"}",
+      "to": "{\"permissions\":\"restricted\",\"requires\":\"session\"}"
+    },
+    {
+      "kind": "selector-changed",
+      "target": "pagarPedido",
+      "impact": "minor",
+      "from": "#checkout",
+      "to": "#checkout-now",
+      "detail": "el selector cambió; los agentes que cacheen selectores deben refrescar"
+    },
+    {
+      "kind": "description-changed",
+      "target": "pagarPedido",
+      "impact": "patch",
+      "from": "Paga el pedido del carrito",
+      "to": "Paga el pedido del carrito con un clic"
+    },
+    {
+      "kind": "meta-changed",
+      "target": "pagarPedido",
+      "impact": "patch",
+      "from": "{\"permissions\":\"full\",\"requires\":\"oauth\",\"scope\":\"orders:pay\",\"rate-limit\":\"5/min\",\"intent\":\"submit\",\"confirmation\":\"needed\"}",
+      "to": "{\"permissions\":\"full\",\"requires\":\"oauth\",\"scope\":\"orders:pay\",\"confirmation\":\"needed\"}"
+    },
+    {
+      "kind": "meta-changed",
+      "target": "enviarConsulta",
+      "impact": "patch",
+      "from": "{\"permissions\":\"restricted\",\"intent\":\"submit\",\"confirmation\":\"none\"}",
+      "to": "{\"permissions\":\"restricted\"}"
+    },
+    {
+      "kind": "param-added",
+      "target": "buscarProductos→buscarCatalogo",
+      "impact": "minor",
+      "to": "categoria"
+    },
+    {
+      "kind": "meta-changed",
+      "target": "buscarProductos→buscarCatalogo",
+      "impact": "patch",
+      "from": "{\"permissions\":\"read-only\",\"intent\":\"action\",\"confirmation\":\"none\"}",
+      "to": "{\"permissions\":\"read-only\"}"
+    },
+    {
+      "kind": "context-removed",
+      "target": "articulosCarrito",
+      "impact": "minor",
+      "from": ".cart-count"
+    },
+    {
+      "kind": "context-added",
+      "target": "totalCarrito",
+      "impact": "minor",
+      "to": ".total"
+    }
+  ],
+  "summary": {
+    "added": 2,
+    "removed": 2,
+    "renamed": 1,
+    "changed": 6
+  }
+}

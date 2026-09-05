@@ -1,0 +1,314 @@
+{
+  "title": "Ferretería El Tornillo - Tienda Online",
+  "signals": [
+    {
+      "kind": "table-layout",
+      "count": 2,
+      "detail": "2/2 tablas parecen de maquetación"
+    },
+    {
+      "kind": "inline-handlers",
+      "count": 2,
+      "detail": "manejadores inline on*="
+    },
+    {
+      "kind": "framesets",
+      "count": 1,
+      "detail": "frames/iframes"
+    },
+    {
+      "kind": "font-tags",
+      "count": 4,
+      "detail": "etiquetas presentacionales obsoletas"
+    },
+    {
+      "kind": "no-doctype",
+      "count": 1,
+      "detail": "sin <!DOCTYPE html> (modo quirks o DTD antiguo)"
+    },
+    {
+      "kind": "quirks-charset",
+      "count": 1,
+      "detail": "charset no UTF-8"
+    },
+    {
+      "kind": "form-without-id",
+      "count": 2,
+      "detail": "formularios sin id"
+    },
+    {
+      "kind": "name-only-inputs",
+      "count": 5,
+      "detail": "inputs con name pero sin id"
+    },
+    {
+      "kind": "image-buttons",
+      "count": 1,
+      "detail": "botones de imagen"
+    },
+    {
+      "kind": "javascript-links",
+      "count": 1,
+      "detail": "enlaces javascript:"
+    },
+    {
+      "kind": "old-jquery",
+      "count": 1,
+      "detail": "jQuery 1.x"
+    },
+    {
+      "kind": "asp-webforms",
+      "count": 1,
+      "detail": "ASP.NET WebForms (ids dinámicos, postbacks)"
+    },
+    {
+      "kind": "no-viewport",
+      "count": 1,
+      "detail": "sin meta viewport (no responsive)"
+    }
+  ],
+  "legacyScore": 76,
+  "forms": [
+    {
+      "index": 0,
+      "attrs": {
+        "name": "frmBuscar",
+        "method": "get",
+        "action": "/buscar.asp"
+      },
+      "selector": "form[name=\"frmBuscar\"]",
+      "fields": [
+        {
+          "tag": "input",
+          "attrs": {
+            "type": "text",
+            "name": "txtBusqueda",
+            "size": "30"
+          },
+          "text": "",
+          "selector": "form[name=\"frmBuscar\"] input[name=\"txtBusqueda\"]",
+          "confidence": 0.85,
+          "formIndex": 0
+        }
+      ],
+      "submit": {
+        "tag": "input",
+        "attrs": {
+          "type": "submit",
+          "name": "btnBuscar",
+          "value": "Buscar"
+        },
+        "text": "Buscar",
+        "selector": "form[name=\"frmBuscar\"] input[name=\"btnBuscar\"]",
+        "confidence": 0.85,
+        "formIndex": 0
+      }
+    },
+    {
+      "index": 1,
+      "attrs": {
+        "action": "/contacto.asp",
+        "method": "post"
+      },
+      "selector": "form[action=\"/contacto.asp\"]",
+      "fields": [
+        {
+          "tag": "input",
+          "attrs": {
+            "type": "text",
+            "name": "nombre"
+          },
+          "text": "",
+          "selector": "form[action=\"/contacto.asp\"] input[name=\"nombre\"]",
+          "confidence": 0.85,
+          "formIndex": 1
+        },
+        {
+          "tag": "input",
+          "attrs": {
+            "type": "text",
+            "name": "email"
+          },
+          "text": "",
+          "selector": "form[action=\"/contacto.asp\"] input[name=\"email\"]",
+          "confidence": 0.85,
+          "formIndex": 1
+        },
+        {
+          "tag": "textarea",
+          "attrs": {
+            "name": "comentarios"
+          },
+          "text": "",
+          "selector": "form[action=\"/contacto.asp\"] textarea[name=\"comentarios\"]",
+          "confidence": 0.85,
+          "formIndex": 1
+        }
+      ],
+      "submit": {
+        "tag": "input",
+        "attrs": {
+          "type": "submit",
+          "value": "Enviar consulta"
+        },
+        "text": "Enviar consulta",
+        "selector": "form[action=\"/contacto.asp\"] input[type=\"submit\"][value=\"Enviar consulta\"]",
+        "confidence": 0.7,
+        "formIndex": 1
+      }
+    }
+  ],
+  "actions": [
+    {
+      "tag": "a",
+      "attrs": {
+        "href": "javascript:openLogin()",
+        "title": "Acceso clientes"
+      },
+      "text": "Iniciar sesión",
+      "selector": "a[title=\"Acceso clientes\"]",
+      "confidence": 0.6
+    },
+    {
+      "tag": "input",
+      "attrs": {
+        "type": "image",
+        "src": "/img/comprar.gif",
+        "alt": "Comprar",
+        "onclick": "addCart(1234)"
+      },
+      "text": "Comprar",
+      "selector": "input[onclick*=\"addCart\"]",
+      "confidence": 0.5
+    },
+    {
+      "tag": "a",
+      "attrs": {
+        "href": "/carrito.asp"
+      },
+      "text": "Ver carrito",
+      "selector": "a[href=\"/carrito.asp\"]",
+      "confidence": 0.65
+    }
+  ],
+  "toolMap": {
+    "tools": {
+      "buscar": {
+        "selector": "form[name=\"frmBuscar\"] input[name=\"btnBuscar\"]",
+        "description": "Formulario legacy: Buscar",
+        "params": {
+          "busqueda": {
+            "source": "value",
+            "selector": "form[name=\"frmBuscar\"] input[name=\"txtBusqueda\"]"
+          }
+        },
+        "trigger": {
+          "event": "submit",
+          "selector": "form[name=\"frmBuscar\"]"
+        },
+        "fingerprint": {
+          "tag": "input",
+          "text": "Buscar",
+          "attrs": {
+            "name": "btnBuscar",
+            "value": "Buscar",
+            "type": "submit"
+          }
+        },
+        "meta": {
+          "legacy": "true",
+          "confidence": "0.85"
+        }
+      },
+      "enviarConsulta": {
+        "selector": "form[action=\"/contacto.asp\"] input[type=\"submit\"][value=\"Enviar consulta\"]",
+        "description": "Formulario legacy: Enviar consulta",
+        "params": {
+          "nombre": {
+            "source": "value",
+            "selector": "form[action=\"/contacto.asp\"] input[name=\"nombre\"]"
+          },
+          "email": {
+            "source": "value",
+            "selector": "form[action=\"/contacto.asp\"] input[name=\"email\"]"
+          },
+          "comentarios": {
+            "source": "value",
+            "selector": "form[action=\"/contacto.asp\"] textarea[name=\"comentarios\"]"
+          }
+        },
+        "trigger": {
+          "event": "submit",
+          "selector": "form[action=\"/contacto.asp\"]"
+        },
+        "fingerprint": {
+          "tag": "input",
+          "text": "Enviar consulta",
+          "attrs": {
+            "value": "Enviar consulta",
+            "type": "submit"
+          }
+        },
+        "meta": {
+          "legacy": "true",
+          "confidence": "0.7"
+        }
+      },
+      "iniciarSesion": {
+        "selector": "a[title=\"Acceso clientes\"]",
+        "description": "Acceso clientes",
+        "params": {},
+        "fingerprint": {
+          "tag": "a",
+          "text": "Iniciar sesión",
+          "attrs": {
+            "href": "javascript:openLogin()",
+            "title": "Acceso clientes"
+          }
+        },
+        "meta": {
+          "legacy": "true",
+          "confidence": "0.6"
+        }
+      },
+      "comprar": {
+        "selector": "input[onclick*=\"addCart\"]",
+        "description": "Pulsa 'Comprar'",
+        "params": {},
+        "fingerprint": {
+          "tag": "input",
+          "text": "Comprar",
+          "attrs": {
+            "alt": "Comprar"
+          }
+        },
+        "meta": {
+          "legacy": "true",
+          "confidence": "0.5"
+        }
+      },
+      "verCarrito": {
+        "selector": "a[href=\"/carrito.asp\"]",
+        "description": "Pulsa 'Ver carrito'",
+        "params": {},
+        "fingerprint": {
+          "tag": "a",
+          "text": "Ver carrito",
+          "attrs": {
+            "href": "/carrito.asp"
+          }
+        },
+        "meta": {
+          "legacy": "true",
+          "confidence": "0.65"
+        }
+      }
+    },
+    "context": {}
+  },
+  "notes": [
+    "ASP.NET WebForms: los ids ctl00$… cambian; se han preferido name/value y fingerprints. Considera `webmcpcss repair` tras cada despliegue.",
+    "Hay frames/iframes: las herramientas dentro de un frame requieren ejecutar con el frame como documento.",
+    "Enlaces javascript: se seleccionan por texto/onclick; añade data-tool si puedes tocar el HTML."
+  ]
+}

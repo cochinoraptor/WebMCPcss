@@ -1,0 +1,64 @@
+/* tienda.webmcp.css — contrato de ejemplo usado por los diez módulos v1.0.0 */
+/* Sitio: examples/v1/tienda.html */
+
+#search-btn {
+  webmcp-tool: "buscarProductos";
+  webmcp-description: "Busca productos en el catálogo";
+  webmcp-param-query: value(#q);
+  webmcp-permissions: "read-only";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+}
+
+#add-to-cart {
+  webmcp-tool: "anadirAlCarrito";
+  webmcp-description: "Añade el producto actual al carrito";
+  webmcp-param-cantidad: value(#qty);
+  webmcp-permissions: "restricted";
+  webmcp-requires: "session";
+  webmcp-intent: "action";
+  webmcp-confirmation: ".cart-count";
+}
+
+#checkout {
+  webmcp-tool: "pagarPedido";
+  webmcp-description: "Paga el pedido del carrito";
+  webmcp-permissions: "full";
+  webmcp-requires: "oauth";
+  webmcp-scope: "orders:pay";
+  webmcp-rate-limit: "5/min";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "needed";
+  webmcp-confirmation-selector: "#order-ok";
+}
+
+#report {
+  webmcp-tool: "descargarInforme";
+  webmcp-description: "Descarga el informe premium de ventas (de pago)";
+  webmcp-permissions: "full";
+  webmcp-confirmation: "needed";
+  webmcp-payment: "required";
+  webmcp-network: "base";
+  webmcp-amount: "0.05 USDC";
+  webmcp-pay-to: "0x1111111111111111111111111111111111111111";
+}
+
+#contact-form button[type="submit"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Envía una consulta al soporte";
+  webmcp-param-email: value(#c-email);
+  webmcp-param-mensaje: value(#c-msg);
+  webmcp-permissions: "restricted";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+}
+
+.price {
+  webmcp-context: "precio";
+  webmcp-format: "currency";
+}
+
+.cart-count {
+  webmcp-context: "articulosCarrito";
+  webmcp-format: "number";
+}

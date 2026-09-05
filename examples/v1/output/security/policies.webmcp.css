@@ -1,0 +1,50 @@
+/* Políticas de seguridad sugeridas por webmcpcss security (v1.0.0) */
+
+#search-btn {
+  webmcp-tool: "buscarProductos";
+  webmcp-description: "Busca productos en el catálogo";
+  webmcp-permissions: "read-only";
+  webmcp-requires: "none";
+  webmcp-risk: "low";
+}
+
+#add-to-cart {
+  webmcp-tool: "anadirAlCarrito";
+  webmcp-description: "Añade el producto actual al carrito";
+  webmcp-permissions: "restricted";
+  webmcp-requires: "session";
+  webmcp-scope: "anadiralcarrito:write";
+  webmcp-risk: "medium";
+}
+
+#checkout {
+  webmcp-tool: "pagarPedido";
+  webmcp-description: "Paga el pedido del carrito";
+  webmcp-permissions: "full";
+  webmcp-requires: "oauth";
+  webmcp-scope: "orders:pay";
+  webmcp-confirmation: "needed";
+  webmcp-rate-limit: "5/min";
+  webmcp-risk: "high";
+}
+
+#report {
+  webmcp-tool: "descargarInforme";
+  webmcp-description: "Descarga el informe premium de ventas (de pago)";
+  webmcp-permissions: "full";
+  webmcp-requires: "auth";
+  webmcp-scope: "descargarinforme:execute";
+  webmcp-confirmation: "needed";
+  webmcp-rate-limit: "5/min";
+  webmcp-risk: "high";
+}
+
+#contact-form button[type="submit"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Envía una consulta al soporte";
+  webmcp-permissions: "restricted";
+  webmcp-requires: "auth";
+  webmcp-scope: "enviarconsulta:write";
+  webmcp-risk: "medium";
+}
+

@@ -1,0 +1,47 @@
+/* Generado por WebMCPcss - https://github.com/cochinoraptor/WebMCPcss */
+
+form[name="frmBuscar"] input[name="btnBuscar"] {
+  webmcp-tool: "buscar";
+  webmcp-description: "Formulario legacy: Buscar";
+  webmcp-param-busqueda: value(form[name="frmBuscar"] input[name="txtBusqueda"]);
+  webmcp-trigger: "submit" on form[name="frmBuscar"];
+  webmcp-fingerprint: '{"tag":"input","text":"Buscar","attrs":{"name":"btnBuscar","value":"Buscar","type":"submit"}}';
+  webmcp-legacy: "true";
+  webmcp-confidence: "0.85";
+}
+
+form[action="/contacto.asp"] input[type="submit"][value="Enviar consulta"] {
+  webmcp-tool: "enviarConsulta";
+  webmcp-description: "Formulario legacy: Enviar consulta";
+  webmcp-param-nombre: value(form[action="/contacto.asp"] input[name="nombre"]);
+  webmcp-param-email: value(form[action="/contacto.asp"] input[name="email"]);
+  webmcp-param-comentarios: value(form[action="/contacto.asp"] textarea[name="comentarios"]);
+  webmcp-trigger: "submit" on form[action="/contacto.asp"];
+  webmcp-fingerprint: '{"tag":"input","text":"Enviar consulta","attrs":{"value":"Enviar consulta","type":"submit"}}';
+  webmcp-legacy: "true";
+  webmcp-confidence: "0.7";
+}
+
+a[title="Acceso clientes"] {
+  webmcp-tool: "iniciarSesion";
+  webmcp-description: "Acceso clientes";
+  webmcp-fingerprint: '{"tag":"a","text":"Iniciar sesión","attrs":{"href":"javascript:openLogin()","title":"Acceso clientes"}}';
+  webmcp-legacy: "true";
+  webmcp-confidence: "0.6";
+}
+
+input[onclick*="addCart"] {
+  webmcp-tool: "comprar";
+  webmcp-description: "Pulsa 'Comprar'";
+  webmcp-fingerprint: '{"tag":"input","text":"Comprar","attrs":{"alt":"Comprar"}}';
+  webmcp-legacy: "true";
+  webmcp-confidence: "0.5";
+}
+
+a[href="/carrito.asp"] {
+  webmcp-tool: "verCarrito";
+  webmcp-description: "Pulsa 'Ver carrito'";
+  webmcp-fingerprint: '{"tag":"a","text":"Ver carrito","attrs":{"href":"/carrito.asp"}}';
+  webmcp-legacy: "true";
+  webmcp-confidence: "0.65";
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Tienda IA-First",
+  "framework": "ia-first",
+  "url": "https://tienda.test",
+  "css": "webmcp.css",
+  "security": {
+    "defaultPermissions": "restricted",
+    "requireConfirmation": [
+      "contact"
+    ]
+  },
+  "a11y": {
+    "minContrast": 4.5
+  }
+}

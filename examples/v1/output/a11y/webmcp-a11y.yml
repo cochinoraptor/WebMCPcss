@@ -1,0 +1,23 @@
+name: Accesibilidad (WebMCPcss a11y)
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i -g webmcpcss@1
+      - name: Auditar
+        run: |
+          webmcpcss a11y audit --url "https://tienda.test" --min-score 85 --fail-on critical --json > a11y-$(echo "https://tienda.test" | tr -c 'a-zA-Z0-9' '_').json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: a11y-reports
+          path: a11y-*.json

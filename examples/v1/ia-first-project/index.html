@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda IA-First</title>
+  <!-- Descubrimiento WebMCP: los agentes encuentran el .webmcp.css sin escanear -->
+  <link rel="webmcp" type="text/webmcp" href="/webmcp.css">
+  <meta name="webmcp" content="/webmcp.css">
+  <link rel="stylesheet" href="/styles/base.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <nav class="ia-nav" data-tool="main-nav" aria-label="Navegación principal">
+    <ul>
+      <li><a href="/" data-tool="go-home">Inicio</a></li>
+      <li><a href="/productos" data-tool="go-products">Productos</a></li>
+      <li><a href="/contacto" data-tool="go-contact">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <section class="ia-hero" data-tool="hero" aria-label="Tienda IA-First">
+    <h1 class="ia-hero__title">Tienda IA-First</h1>
+    <p class="ia-hero__subtitle">Un sitio diseñado para personas y para agentes de IA.</p>
+    <a class="ia-button ia-hero__cta" href="/productos" data-tool="start-shopping" aria-label="Ver productos">Ver productos</a>
+  </section>
+
+  <section class="ia-grid" data-tool="products" role="list" aria-label="Productos destacados">
+    <article class="ia-grid__item" role="listitem" data-item-index="0"><h3 data-context="products-name">Producto A</h3><button type="button" class="ia-button" data-tool="add-to-cart" aria-label="Producto A">Producto A</button></article>
+    <article class="ia-grid__item" role="listitem" data-item-index="1"><h3 data-context="products-name">Producto B</h3><button type="button" class="ia-button" data-tool="add-to-cart" aria-label="Producto B">Producto B</button></article>
+    <article class="ia-grid__item" role="listitem" data-item-index="2"><h3 data-context="products-name">Producto C</h3><button type="button" class="ia-button" data-tool="add-to-cart" aria-label="Producto C">Producto C</button></article>
+  </section>
+
+  <article class="ia-card" data-tool="featured" aria-label="Oferta de la semana">
+    <h3 class="ia-card__title" data-context="featured-title">Oferta de la semana</h3>
+    <p class="ia-card__body" data-context="featured-body">Envío gratis en pedidos superiores a 50 €.</p>
+    <button type="button" class="ia-button" data-tool="apply-offer" aria-label="Aplicar oferta">Aplicar oferta</button>
+  </article>
+
+  <form id="contact-form" class="ia-form" data-tool="contact" aria-label="Enviar mensaje" novalidate>
+      <div class="ia-form__field"><label for="contact-name">Nombre</label><input id="contact-name" type="text" name="name" data-param="name" required></div>
+      <div class="ia-form__field"><label for="contact-email">Email</label><input id="contact-email" type="email" name="email" data-param="email" required></div>
+      <div class="ia-form__field"><label for="contact-message">Mensaje</label><textarea id="contact-message" name="message" data-param="message" required></textarea></div>
+      <button type="submit" class="ia-button" data-tool="contact-submit" aria-label="Enviar mensaje">Enviar mensaje</button>
+      <p class="ia-form__status" data-confirmation="contact" role="status" aria-live="polite" hidden></p>
+  </form>
+  <main id="main" aria-label="Contenido principal"></main>
+  <script type="module" src="/webmcp-runtime.js"></script>
+</body>
+</html>

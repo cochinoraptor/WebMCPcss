@@ -23,11 +23,20 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import postcss, { Declaration, Rule, Root } from 'postcss';
-import type { ContextSpec, ParamSpec, ToolMap, ToolSpec, TriggerSpec } from '../types';
+import type {
+  ContextSpec,
+  ParamSpec,
+  ToolMap,
+  ToolSpec,
+  TriggerSpec,
+  WebMCPMeta,
+} from '../types';
 
 /** Prefijo de todas las propiedades WebMCP. */
 const WEBMCP_PREFIX = 'webmcp-';
 const PARAM_PREFIX = 'webmcp-param-';
+/** Valores de `webmcp-confirmation` que son política (IA-First) y no selector. */
+const CONFIRMATION_POLICIES = new Set(['needed', 'none', 'required', 'always', 'never']);
 /** Profundidad máxima de resolución de `var()` anidadas. */
 const MAX_VAR_DEPTH = 8;
 
@@ -261,6 +270,17 @@ export function parseWebMCP(css: string, options: ParseOptions = {}): ToolMap {
           const paramName = d.prop.slice(PARAM_PREFIX.length);
           tool.params[paramName] = parseParamValue(val(d), d.source?.start?.line);
         } else if (prop === 'webmcp-confirmation') {
+          const conf = unquote(val(d));
+          // IA-First (v1.0.0): `webmcp-confirmation: needed | none` es una
+          // política, no un selector; se conserva en meta.confirmation.
+          if (CONFIRMATION_POLICIES.has(conf.toLowerCase())) {
+            (tool.meta ??= {}).confirmation = conf.toLowerCase();
+          } else {
+            tool.confirmation = conf;
+          }
+        } else if (prop === 'webmcp-confirmation-selector') {
+          // Forma explícita del selector de confirmación (IA-First lo usa
+          // cuando `webmcp-confirmation` lleva la política needed|none).
           tool.confirmation = unquote(val(d));
         } else if (prop === 'webmcp-trigger') {
           tool.trigger = parseTriggerValue(val(d));
@@ -268,6 +288,8 @@ export function parseWebMCP(css: string, options: ParseOptions = {}): ToolMap {
           tool.description = unquote(val(d));
         } else if (prop === 'webmcp-fingerprint') {
           tool.fingerprint = safeParseFingerprint(d.value);
+        } else if (prop.startsWith(WEBMCP_PREFIX)) {
+          (tool.meta ??= {})[prop.slice(WEBMCP_PREFIX.length)] = unquote(val(d));
         }
       }
       map.tools[name] = tool;
@@ -282,9 +304,11 @@ export function parseWebMCP(css: string, options: ParseOptions = {}): ToolMap {
       const ctx: ContextSpec = { selector };
       for (const d of decls) {
         const prop = d.prop.toLowerCase();
+        if (prop === 'webmcp-context') continue;
         if (prop === 'webmcp-format') ctx.format = unquote(val(d));
-        if (prop === 'webmcp-fingerprint')
+        else if (prop === 'webmcp-fingerprint')
           ctx.fingerprint = safeParseFingerprint(d.value);
+        else (ctx.meta ??= {})[prop.slice(WEBMCP_PREFIX.length)] = unquote(val(d));
       }
       map.context[name] = ctx;
     }
@@ -380,12 +404,18 @@ export function serializeToolMap(map: ToolMap): string {
         : '';
       lines.push(`  webmcp-trigger: "${t.event}"${tSel};`);
     }
-    if (tool.confirmation) lines.push(`  webmcp-confirmation: "${tool.confirmation}";`);
+    if (tool.confirmation) {
+      const prop = tool.meta?.confirmation
+        ? 'webmcp-confirmation-selector'
+        : 'webmcp-confirmation';
+      lines.push(`  ${prop}: ${quoteCss(tool.confirmation)};`);
+    }
     if (tool.fingerprint) {
       lines.push(
         `  webmcp-fingerprint: '${JSON.stringify(tool.fingerprint).replace(/'/g, "\\'")}';`,
       );
     }
+    lines.push(...serializeMeta(tool.meta));
     lines.push('}');
     blocks.push(lines.join('\n'));
   }
@@ -399,9 +429,28 @@ export function serializeToolMap(map: ToolMap): string {
         `  webmcp-fingerprint: '${JSON.stringify(ctx.fingerprint).replace(/'/g, "\\'")}';`,
       );
     }
+    lines.push(...serializeMeta(ctx.meta));
     lines.push('}');
     blocks.push(lines.join('\n'));
   }
 
   return blocks.join('\n\n') + '\n';
+}
+
+/** Cita un valor CSS eligiendo el tipo de comillas que no requiera escapes. */
+function quoteCss(value: string): string {
+  if (!value.includes('"')) return `"${value}"`;
+  if (!value.includes("'")) return `'${value}'`;
+  return `"${value.replace(/"/g, '\\"')}"`;
+}
+
+/**
+ * Serializa la bolsa de metadatos extendidos como declaraciones `webmcp-*`.
+ * @param meta Metadatos (clave sin prefijo).
+ */
+function serializeMeta(meta: WebMCPMeta | undefined): string[] {
+  if (!meta) return [];
+  return Object.entries(meta).map(
+    ([key, value]) => `  webmcp-${key}: ${quoteCss(value)};`,
+  );
 }

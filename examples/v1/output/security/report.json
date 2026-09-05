@@ -1,0 +1,155 @@
+{
+  "generatedBy": "webmcpcss@1.0.0",
+  "policies": [
+    {
+      "tool": "buscarProductos",
+      "permissions": "read-only",
+      "requires": "none",
+      "scopes": [],
+      "risk": "low",
+      "inferred": false
+    },
+    {
+      "tool": "anadirAlCarrito",
+      "permissions": "restricted",
+      "requires": "session",
+      "scopes": [],
+      "risk": "medium",
+      "inferred": false
+    },
+    {
+      "tool": "pagarPedido",
+      "permissions": "full",
+      "requires": "oauth",
+      "scopes": [
+        "orders:pay"
+      ],
+      "risk": "high",
+      "rateLimit": {
+        "count": 5,
+        "per": "min"
+      },
+      "inferred": false
+    },
+    {
+      "tool": "descargarInforme",
+      "permissions": "full",
+      "requires": "auth",
+      "scopes": [],
+      "risk": "high",
+      "inferred": false
+    },
+    {
+      "tool": "enviarConsulta",
+      "permissions": "restricted",
+      "requires": "auth",
+      "scopes": [],
+      "risk": "medium",
+      "inferred": false
+    }
+  ],
+  "findings": [
+    {
+      "severity": "info",
+      "tool": "descargarInforme",
+      "code": "no-rate-limit",
+      "message": "\"descargarInforme\" (full) sin webmcp-rate-limit.",
+      "fix": "webmcp-rate-limit: \"5/min\";"
+    }
+  ],
+  "byLevel": {
+    "read-only": 1,
+    "restricted": 2,
+    "full": 2
+  },
+  "score": 99,
+  "agent": {
+    "id": "bot",
+    "decisions": [
+      {
+        "allowed": true,
+        "tool": "buscarProductos",
+        "reasons": [],
+        "policy": {
+          "tool": "buscarProductos",
+          "permissions": "read-only",
+          "requires": "none",
+          "scopes": [],
+          "risk": "low",
+          "inferred": false
+        },
+        "requiresConfirmation": false
+      },
+      {
+        "allowed": false,
+        "tool": "anadirAlCarrito",
+        "reasons": [
+          "requiere session; el agente se autenticó con auth"
+        ],
+        "policy": {
+          "tool": "anadirAlCarrito",
+          "permissions": "restricted",
+          "requires": "session",
+          "scopes": [],
+          "risk": "medium",
+          "inferred": false
+        },
+        "requiresConfirmation": false
+      },
+      {
+        "allowed": false,
+        "tool": "pagarPedido",
+        "reasons": [
+          "requiere nivel full; el agente tiene restricted",
+          "requiere oauth; el agente se autenticó con auth",
+          "faltan scopes: orders:pay"
+        ],
+        "policy": {
+          "tool": "pagarPedido",
+          "permissions": "full",
+          "requires": "oauth",
+          "scopes": [
+            "orders:pay"
+          ],
+          "risk": "high",
+          "rateLimit": {
+            "count": 5,
+            "per": "min"
+          },
+          "inferred": false
+        },
+        "requiresConfirmation": true
+      },
+      {
+        "allowed": false,
+        "tool": "descargarInforme",
+        "reasons": [
+          "requiere nivel full; el agente tiene restricted"
+        ],
+        "policy": {
+          "tool": "descargarInforme",
+          "permissions": "full",
+          "requires": "auth",
+          "scopes": [],
+          "risk": "high",
+          "inferred": false
+        },
+        "requiresConfirmation": true
+      },
+      {
+        "allowed": true,
+        "tool": "enviarConsulta",
+        "reasons": [],
+        "policy": {
+          "tool": "enviarConsulta",
+          "permissions": "restricted",
+          "requires": "auth",
+          "scopes": [],
+          "risk": "medium",
+          "inferred": false
+        },
+        "requiresConfirmation": false
+      }
+    ]
+  }
+}

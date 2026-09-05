@@ -264,3 +264,16 @@ export {
   type FlomnyServerOptions,
   type FlomnyToolName,
 } from './exporters';
+
+// --- v1.0.0: 10 ideas innovadoras — módulos como espacios de nombres para
+// evitar colisiones (`framework.initProject`, `a11y.auditPage`, …) ---
+export * as framework from './framework';
+export * as designToWebmcp from './design-to-webmcp';
+export * as retro from './retro';
+export * as a11y from './a11y';
+export * as testing from './testing';
+export * as versioning from './versioning';
+export * as doc from './doc';
+export * as security from './security';
+export * as recommender from './recommender';
+export * as web3 from './web3';

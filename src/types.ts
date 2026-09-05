@@ -61,7 +61,21 @@ export interface ToolSpec {
   trigger?: TriggerSpec;
   /** Huella para auto-reparación. */
   fingerprint?: Fingerprint;
+  /**
+   * Propiedades `webmcp-*` adicionales (v1.0.0) que no forman parte del
+   * núcleo pero que consumen los módulos extendidos: `intent`, `component`,
+   * `accessibility`, `permissions`, `payment`, `network`, `amount`,
+   * `requires`, `risk`… Se guardan sin el prefijo `webmcp-` y con el valor
+   * ya sin comillas. Ausente si la regla no declara ninguna.
+   */
+  meta?: WebMCPMeta;
 }
+
+/**
+ * Bolsa de metadatos `webmcp-*` extendidos (clave sin prefijo → valor).
+ * Ejemplo: `webmcp-intent: "submit"` → `{ intent: 'submit' }`.
+ */
+export type WebMCPMeta = Record<string, string>;
 
 /** Especificación de un dato de contexto (solo lectura). */
 export interface ContextSpec {
@@ -71,6 +85,8 @@ export interface ContextSpec {
   format?: string;
   /** Huella para auto-reparación. */
   fingerprint?: Fingerprint;
+  /** Propiedades `webmcp-*` extendidas (ver {@link WebMCPMeta}). */
+  meta?: WebMCPMeta;
 }
 
 /** Resultado de parsear un archivo `.webmcp.css`. */

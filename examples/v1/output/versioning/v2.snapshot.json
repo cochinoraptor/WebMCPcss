@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "generatedBy": "webmcpcss@1.0.0",
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "hash": "ae92dbeccdfc858e",
+  "tools": {
+    "buscarCatalogo": {
+      "selector": "#search-btn",
+      "description": "Busca productos en el catálogo",
+      "params": {
+        "query": {
+          "source": "value",
+          "selector": "#q"
+        },
+        "categoria": {
+          "source": "value",
+          "selector": "#cat"
+        }
+      },
+      "meta": {
+        "permissions": "read-only"
+      },
+      "hash": "33b068fa22bcf325"
+    },
+    "anadirAlCarrito": {
+      "selector": "#add-to-cart",
+      "description": "Añade el producto actual al carrito",
+      "params": {
+        "cantidad": {
+          "source": "value",
+          "selector": "#qty"
+        }
+      },
+      "confirmation": ".cart-count",
+      "meta": {
+        "permissions": "restricted",
+        "requires": "session"
+      },
+      "hash": "a2ac5d0587795eab"
+    },
+    "pagarPedido": {
+      "selector": "#checkout-now",
+      "description": "Paga el pedido del carrito con un clic",
+      "params": {},
+      "confirmation": "#order-ok",
+      "meta": {
+        "permissions": "full",
+        "requires": "oauth",
+        "scope": "orders:pay",
+        "confirmation": "needed"
+      },
+      "hash": "8fc56b9ffd623103"
+    },
+    "enviarConsulta": {
+      "selector": "#contact-form button[type=\"submit\"]",
+      "description": "Envía una consulta al soporte",
+      "params": {
+        "email": {
+          "source": "value",
+          "selector": "#c-email"
+        },
+        "mensaje": {
+          "source": "value",
+          "selector": "#c-msg"
+        }
+      },
+      "meta": {
+        "permissions": "restricted"
+      },
+      "hash": "9d89d16e7c82c906"
+    }
+  },
+  "context": {
+    "precio": {
+      "selector": ".price",
+      "format": "currency",
+      "hash": "90fff57bc8ef7dd5"
+    },
+    "totalCarrito": {
+      "selector": ".total",
+      "format": "currency",
+      "hash": "39e602d5356b8c82"
+    }
+  }
+}

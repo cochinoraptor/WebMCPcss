@@ -245,6 +245,14 @@ export interface LlmRequest {
   /** Pide al proveedor salida JSON cuando lo soporta. */
   json?: boolean;
   temperature?: number;
+  /**
+   * Imágenes adjuntas (v1.0.0) como data-URLs `data:image/png;base64,…`.
+   * Se envían a modelos con visión (OpenAI `image_url`, Anthropic `image`,
+   * Ollama `images`).
+   */
+  images?: string[];
+  /** Límite de tokens de salida (si el proveedor lo soporta). */
+  maxTokens?: number;
 }
 
 /** Cliente LLM mínimo (una sola operación: completar). */

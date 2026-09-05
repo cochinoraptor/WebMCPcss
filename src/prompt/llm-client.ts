@@ -197,10 +197,17 @@ export class FetchLlmClient implements LlmClient {
           model: this.config.model,
           stream: false,
           ...(req.json ? { format: 'json' } : {}),
-          options: { temperature: req.temperature ?? 0 },
+          options: {
+            temperature: req.temperature ?? 0,
+            ...(req.maxTokens ? { num_predict: req.maxTokens } : {}),
+          },
           messages: [
             { role: 'system', content: req.system },
-            { role: 'user', content: req.user },
+            {
+              role: 'user',
+              content: req.user,
+              ...(req.images?.length ? { images: req.images.map(stripDataUrl) } : {}),
+            },
           ],
         }),
       },
@@ -225,9 +232,21 @@ export class FetchLlmClient implements LlmClient {
           model: this.config.model,
           temperature: req.temperature ?? 0,
           ...(req.json ? { response_format: { type: 'json_object' } } : {}),
+          ...(req.maxTokens ? { max_tokens: req.maxTokens } : {}),
           messages: [
             { role: 'system', content: req.system },
-            { role: 'user', content: req.user },
+            {
+              role: 'user',
+              content: req.images?.length
+                ? [
+                    { type: 'text', text: req.user },
+                    ...req.images.map((url) => ({
+                      type: 'image_url',
+                      image_url: { url },
+                    })),
+                  ]
+                : req.user,
+            },
           ],
         }),
       },
@@ -253,10 +272,26 @@ export class FetchLlmClient implements LlmClient {
         },
         body: JSON.stringify({
           model: this.config.model,
-          max_tokens: 1024,
+          max_tokens: req.maxTokens ?? 1024,
           temperature: req.temperature ?? 0,
           system: req.system,
-          messages: [{ role: 'user', content: req.user }],
+          messages: [
+            {
+              role: 'user',
+              content: req.images?.length
+                ? [
+                    ...req.images.map((url) => {
+                      const { mediaType, data } = splitDataUrl(url);
+                      return {
+                        type: 'image',
+                        source: { type: 'base64', media_type: mediaType, data },
+                      };
+                    }),
+                    { type: 'text', text: req.user },
+                  ]
+                : req.user,
+            },
+          ],
         }),
       },
       this.timeout(),
@@ -270,6 +305,21 @@ export class FetchLlmClient implements LlmClient {
       .map((c) => c.text as string)
       .join('');
   }
+}
+
+/**
+ * Separa una data-URL en tipo MIME y payload base64.
+ * @param url `data:image/png;base64,....` (o base64 crudo → image/png).
+ */
+export function splitDataUrl(url: string): { mediaType: string; data: string } {
+  const m = /^data:([^;,]+)(?:;[^,]*)?;base64,(.*)$/s.exec(url);
+  if (m) return { mediaType: m[1], data: m[2] };
+  return { mediaType: 'image/png', data: url };
+}
+
+/** Devuelve solo el base64 de una data-URL (Ollama no acepta el prefijo). */
+function stripDataUrl(url: string): string {
+  return splitDataUrl(url).data;
 }
 
 /**

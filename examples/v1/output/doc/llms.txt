@@ -1,0 +1,21 @@
+# Tienda de ejemplo
+
+> Sitio con herramientas WebMCP declaradas en examples/v1/tienda.webmcp.css. Los agentes pueden ejecutarlas con `webmcpcss run`, el servidor MCP (`webmcpcss mcp --serve`) o la API REST.
+
+## Herramientas
+
+- buscarProductos: Busca productos en el catálogo (params: query)
+- anadirAlCarrito: Añade el producto actual al carrito (params: cantidad) [requiere confirmación]
+- pagarPedido: Paga el pedido del carrito [requiere confirmación]
+- descargarInforme: Descarga el informe premium de ventas (de pago) [requiere confirmación] [pago: 0.05 USDC base]
+- enviarConsulta: Envía una consulta al soporte (params: email, mensaje)
+
+## Contexto
+
+- precio: Lee `.price` como currency
+- articulosCarrito: Lee `.cart-count` como number
+
+## Uso
+
+- MCP: webmcpcss mcp --serve --css examples/v1/tienda.webmcp.css --url https://tienda.test
+- Lenguaje natural: webmcpcss prompt "<orden>" --url https://tienda.test

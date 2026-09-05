@@ -1,0 +1,132 @@
+{
+  "generatedBy": "webmcpcss@1.0.0",
+  "source": "examples/v1/tienda.webmcp.css",
+  "cases": [
+    {
+      "id": "tc001",
+      "kind": "tool-exists",
+      "name": "tool \"buscarProductos\" existe (#search-btn)",
+      "target": "buscarProductos",
+      "selector": "#search-btn",
+      "safe": true
+    },
+    {
+      "id": "tc002",
+      "kind": "tool-params",
+      "name": "tool \"buscarProductos\" tiene sus 1 parámetro(s)",
+      "target": "buscarProductos",
+      "selector": "#search-btn",
+      "params": {
+        "query": "#q"
+      },
+      "safe": true
+    },
+    {
+      "id": "tc003",
+      "kind": "tool-exists",
+      "name": "tool \"anadirAlCarrito\" existe (#add-to-cart)",
+      "target": "anadirAlCarrito",
+      "selector": "#add-to-cart",
+      "safe": true
+    },
+    {
+      "id": "tc004",
+      "kind": "tool-params",
+      "name": "tool \"anadirAlCarrito\" tiene sus 1 parámetro(s)",
+      "target": "anadirAlCarrito",
+      "selector": "#add-to-cart",
+      "params": {
+        "cantidad": "#qty"
+      },
+      "safe": true
+    },
+    {
+      "id": "tc005",
+      "kind": "tool-confirmation",
+      "name": "tool \"anadirAlCarrito\" declara confirmación .cart-count",
+      "target": "anadirAlCarrito",
+      "selector": "#add-to-cart",
+      "confirmation": ".cart-count",
+      "safe": true
+    },
+    {
+      "id": "tc006",
+      "kind": "tool-exists",
+      "name": "tool \"pagarPedido\" existe (#checkout)",
+      "target": "pagarPedido",
+      "selector": "#checkout",
+      "safe": true
+    },
+    {
+      "id": "tc007",
+      "kind": "tool-confirmation",
+      "name": "tool \"pagarPedido\" declara confirmación #order-ok",
+      "target": "pagarPedido",
+      "selector": "#checkout",
+      "confirmation": "#order-ok",
+      "safe": true
+    },
+    {
+      "id": "tc008",
+      "kind": "tool-exists",
+      "name": "tool \"descargarInforme\" existe (#report)",
+      "target": "descargarInforme",
+      "selector": "#report",
+      "safe": true
+    },
+    {
+      "id": "tc009",
+      "kind": "tool-exists",
+      "name": "tool \"enviarConsulta\" existe (#contact-form button[type=\"submit\"])",
+      "target": "enviarConsulta",
+      "selector": "#contact-form button[type=\"submit\"]",
+      "safe": true
+    },
+    {
+      "id": "tc010",
+      "kind": "tool-params",
+      "name": "tool \"enviarConsulta\" tiene sus 2 parámetro(s)",
+      "target": "enviarConsulta",
+      "selector": "#contact-form button[type=\"submit\"]",
+      "params": {
+        "email": "#c-email",
+        "mensaje": "#c-msg"
+      },
+      "safe": true
+    },
+    {
+      "id": "tc011",
+      "kind": "context-exists",
+      "name": "contexto \"precio\" existe (.price)",
+      "target": "precio",
+      "selector": ".price",
+      "safe": true
+    },
+    {
+      "id": "tc012",
+      "kind": "context-format",
+      "name": "contexto \"precio\" tiene formato currency",
+      "target": "precio",
+      "selector": ".price",
+      "format": "currency",
+      "safe": true
+    },
+    {
+      "id": "tc013",
+      "kind": "context-exists",
+      "name": "contexto \"articulosCarrito\" existe (.cart-count)",
+      "target": "articulosCarrito",
+      "selector": ".cart-count",
+      "safe": true
+    },
+    {
+      "id": "tc014",
+      "kind": "context-format",
+      "name": "contexto \"articulosCarrito\" tiene formato number",
+      "target": "articulosCarrito",
+      "selector": ".cart-count",
+      "format": "number",
+      "safe": true
+    }
+  ]
+}

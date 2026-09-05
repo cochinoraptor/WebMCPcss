@@ -66,14 +66,22 @@ export interface DocModel {
   generatedAt: string;
   tools: DocTool[];
   context: DocContext[];
-  stats: { tools: number; context: number; params: number; withConfirmation: number; fragile: number };
+  stats: {
+    tools: number;
+    context: number;
+    params: number;
+    withConfirmation: number;
+    fragile: number;
+  };
 }
 
 /** Describe un parámetro en lenguaje natural. */
 function describeParam(name: string, spec: ParamSpec): string {
   switch (spec.source) {
     case 'value':
-      return spec.selector ? `Valor del campo \`${spec.selector}\`` : 'Valor del propio elemento';
+      return spec.selector
+        ? `Valor del campo \`${spec.selector}\``
+        : 'Valor del propio elemento';
     case 'attr':
       return `Atributo \`${spec.value ?? ''}\` del elemento`;
     case 'text':
@@ -86,7 +94,11 @@ function describeParam(name: string, spec: ParamSpec): string {
 }
 
 /** Construye los ejemplos de invocación de una herramienta. */
-function buildExamples(name: string, tool: ToolSpec, opts: DocOptions): DocTool['examples'] {
+function buildExamples(
+  name: string,
+  tool: ToolSpec,
+  opts: DocOptions,
+): DocTool['examples'] {
   const args: Record<string, string> = {};
   for (const p of Object.keys(tool.params)) args[p] = `<${p}>`;
   const url = opts.url ?? 'https://mi-sitio.com';
@@ -94,9 +106,16 @@ function buildExamples(name: string, tool: ToolSpec, opts: DocOptions): DocTool[
   const argJson = JSON.stringify(args);
   return {
     cli: `webmcpcss run ${url} ${css} ${name}${Object.keys(args).length ? ` --args '${argJson}'` : ''}`,
-    mcp: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name, arguments: args } },
+    mcp: {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: { name, arguments: args },
+    },
     rest: `curl -X POST http://localhost:8090/api/tools/${name} -H 'content-type: application/json' -d '${argJson}'`,
-    prompt: tool.description ? `webmcpcss prompt "${tool.description}" --url ${url} --css ${css}` : `webmcpcss prompt "ejecuta ${name}" --url ${url} --css ${css}`,
+    prompt: tool.description
+      ? `webmcpcss prompt "${tool.description}" --url ${url} --css ${css}`
+      : `webmcpcss prompt "ejecuta ${name}" --url ${url} --css ${css}`,
   };
 }
 
@@ -121,12 +140,18 @@ export function buildDocModel(map: ToolMap, opts: DocOptions = {}): DocModel {
         value: spec.value,
         description: describeParam(pName, spec),
       })),
-      trigger: tool.trigger ? `${tool.trigger.event}${tool.trigger.selector ? ` on ${tool.trigger.selector}` : ''}` : 'click',
+      trigger: tool.trigger
+        ? `${tool.trigger.event}${tool.trigger.selector ? ` on ${tool.trigger.selector}` : ''}`
+        : 'click',
       confirmation: tool.confirmation ?? meta.confirmation,
       intent: meta.intent,
       permissions: meta.permissions,
       payment: meta.payment
-        ? { required: meta.payment === 'required', network: meta.network, amount: meta.amount }
+        ? {
+            required: meta.payment === 'required',
+            network: meta.network,
+            amount: meta.amount,
+          }
         : undefined,
       fragility: frag ? { level: frag.level, framework: frag.framework } : undefined,
       examples: buildExamples(name, tool, opts),
@@ -150,7 +175,8 @@ export function buildDocModel(map: ToolMap, opts: DocOptions = {}): DocModel {
       tools: tools.length,
       context: context.length,
       params: tools.reduce((n, t) => n + t.params.length, 0),
-      withConfirmation: tools.filter((t) => t.confirmation && t.confirmation !== 'none').length,
+      withConfirmation: tools.filter((t) => t.confirmation && t.confirmation !== 'none')
+        .length,
       fragile: tools.filter((t) => t.fragility?.level === 'high').length,
     },
   };
@@ -158,7 +184,11 @@ export function buildDocModel(map: ToolMap, opts: DocOptions = {}): DocModel {
 
 /** Escapa HTML. */
 function esc(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 /**
@@ -182,20 +212,50 @@ export function renderMarkdown(model: DocModel): string {
     '',
   ];
   for (const t of model.tools) {
-    lines.push(`### ${t.name}`, '', t.description, '', `- **Selector:** \`${t.selector}\``, `- **Disparador:** \`${t.trigger}\``);
+    lines.push(
+      `### ${t.name}`,
+      '',
+      t.description,
+      '',
+      `- **Selector:** \`${t.selector}\``,
+      `- **Disparador:** \`${t.trigger}\``,
+    );
     if (t.confirmation) lines.push(`- **Confirmación:** \`${t.confirmation}\``);
     if (t.permissions) lines.push(`- **Permisos:** \`${t.permissions}\``);
-    if (t.payment) lines.push(`- **Pago:** ${t.payment.required ? 'requerido' : 'opcional'}${t.payment.amount ? ` · ${t.payment.amount}` : ''}${t.payment.network ? ` (${t.payment.network})` : ''}`);
-    if (t.fragility) lines.push(`- **Fragilidad:** ${t.fragility.level}${t.fragility.framework ? ` (${t.fragility.framework})` : ''}`);
+    if (t.payment)
+      lines.push(
+        `- **Pago:** ${t.payment.required ? 'requerido' : 'opcional'}${t.payment.amount ? ` · ${t.payment.amount}` : ''}${t.payment.network ? ` (${t.payment.network})` : ''}`,
+      );
+    if (t.fragility)
+      lines.push(
+        `- **Fragilidad:** ${t.fragility.level}${t.fragility.framework ? ` (${t.fragility.framework})` : ''}`,
+      );
     if (t.params.length) {
       lines.push('', '| Parámetro | Origen | Descripción |', '| --- | --- | --- |');
-      for (const p of t.params) lines.push(`| \`${p.name}\` | ${p.source} | ${p.description} |`);
+      for (const p of t.params)
+        lines.push(`| \`${p.name}\` | ${p.source} | ${p.description} |`);
     }
-    lines.push('', '```bash', t.examples.cli, '```', '', '```json', JSON.stringify(t.examples.mcp, null, 2), '```', '');
+    lines.push(
+      '',
+      '```bash',
+      t.examples.cli,
+      '```',
+      '',
+      '```json',
+      JSON.stringify(t.examples.mcp, null, 2),
+      '```',
+      '',
+    );
   }
   if (model.context.length) {
-    lines.push('## Contexto (solo lectura)', '', '| Dato | Selector | Formato |', '| --- | --- | --- |');
-    for (const c of model.context) lines.push(`| \`${c.name}\` | \`${c.selector}\` | ${c.format} |`);
+    lines.push(
+      '## Contexto (solo lectura)',
+      '',
+      '| Dato | Selector | Formato |',
+      '| --- | --- | --- |',
+    );
+    for (const c of model.context)
+      lines.push(`| \`${c.name}\` | \`${c.selector}\` | ${c.format} |`);
     lines.push('');
   }
   return lines.join('\n');
@@ -219,9 +279,21 @@ export function renderLlmsTxt(model: DocModel): string {
     ),
   ];
   if (model.context.length) {
-    lines.push('', '## Contexto', '', ...model.context.map((c) => `- ${c.name}: ${c.description}`));
+    lines.push(
+      '',
+      '## Contexto',
+      '',
+      ...model.context.map((c) => `- ${c.name}: ${c.description}`),
+    );
   }
-  lines.push('', '## Uso', '', `- MCP: webmcpcss mcp --serve --css ${model.cssPath ?? 'webmcp.css'}${model.url ? ` --url ${model.url}` : ''}`, `- Lenguaje natural: webmcpcss prompt "<orden>"${model.url ? ` --url ${model.url}` : ''}`, '');
+  lines.push(
+    '',
+    '## Uso',
+    '',
+    `- MCP: webmcpcss mcp --serve --css ${model.cssPath ?? 'webmcp.css'}${model.url ? ` --url ${model.url}` : ''}`,
+    `- Lenguaje natural: webmcpcss prompt "<orden>"${model.url ? ` --url ${model.url}` : ''}`,
+    '',
+  );
   return lines.join('\n');
 }
 
@@ -251,7 +323,9 @@ export function renderAgentsMd(model: DocModel): string {
         `- Parámetros: ${t.params.map((p) => `\`${p.name}\` (${p.description})`).join('; ') || 'ninguno'}`,
         `- Confirmación: ${t.confirmation ?? 'no'}`,
         t.permissions ? `- Permisos: ${t.permissions}` : '',
-        t.payment ? `- Pago: ${t.payment.required ? 'requerido' : 'opcional'} ${t.payment.amount ?? ''} ${t.payment.network ?? ''}`.trimEnd() : '',
+        t.payment
+          ? `- Pago: ${t.payment.required ? 'requerido' : 'opcional'} ${t.payment.amount ?? ''} ${t.payment.network ?? ''}`.trimEnd()
+          : '',
         '',
       ]
         .filter((l) => l !== '')
@@ -259,7 +333,9 @@ export function renderAgentsMd(model: DocModel): string {
     ),
     '## Contexto',
     '',
-    ...(model.context.length ? model.context.map((c) => `- \`${c.name}\` — ${c.description}`) : ['_Sin datos de contexto._']),
+    ...(model.context.length
+      ? model.context.map((c) => `- \`${c.name}\` — ${c.description}`)
+      : ['_Sin datos de contexto._']),
     '',
   ].join('\n');
 }

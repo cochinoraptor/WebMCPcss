@@ -47,11 +47,16 @@ export function createDocServer(opts: DocServerOptions): http.Server {
     try {
       if (!fs.existsSync(opts.cssPath)) throw new Error(`No existe ${opts.cssPath}`);
       const docs = generateDocs(parseWebMCPFile(opts.cssPath), opts);
-      res.writeHead(200, { 'content-type': MIME[file], 'access-control-allow-origin': '*' });
+      res.writeHead(200, {
+        'content-type': MIME[file],
+        'access-control-allow-origin': '*',
+      });
       res.end(docs[file as keyof typeof docs]);
     } catch (err) {
       res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' });
-      res.end(`Error generando documentación: ${err instanceof Error ? err.message : String(err)}`);
+      res.end(
+        `Error generando documentación: ${err instanceof Error ? err.message : String(err)}`,
+      );
     }
   });
 }
@@ -60,7 +65,9 @@ export function createDocServer(opts: DocServerOptions): http.Server {
  * Arranca el servidor de documentación.
  * @returns El servidor y la URL local.
  */
-export async function startDocServer(opts: DocServerOptions): Promise<{ server: http.Server; url: string }> {
+export async function startDocServer(
+  opts: DocServerOptions,
+): Promise<{ server: http.Server; url: string }> {
   const server = createDocServer(opts);
   const port = opts.port ?? 3000;
   const host = opts.host ?? '0.0.0.0';

@@ -240,7 +240,10 @@ export class FetchLlmClient implements LlmClient {
               content: req.images?.length
                 ? [
                     { type: 'text', text: req.user },
-                    ...req.images.map((url) => ({ type: 'image_url', image_url: { url } })),
+                    ...req.images.map((url) => ({
+                      type: 'image_url',
+                      image_url: { url },
+                    })),
                   ]
                 : req.user,
             },

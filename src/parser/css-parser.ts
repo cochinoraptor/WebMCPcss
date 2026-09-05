@@ -306,7 +306,8 @@ export function parseWebMCP(css: string, options: ParseOptions = {}): ToolMap {
         const prop = d.prop.toLowerCase();
         if (prop === 'webmcp-context') continue;
         if (prop === 'webmcp-format') ctx.format = unquote(val(d));
-        else if (prop === 'webmcp-fingerprint') ctx.fingerprint = safeParseFingerprint(d.value);
+        else if (prop === 'webmcp-fingerprint')
+          ctx.fingerprint = safeParseFingerprint(d.value);
         else (ctx.meta ??= {})[prop.slice(WEBMCP_PREFIX.length)] = unquote(val(d));
       }
       map.context[name] = ctx;
@@ -404,7 +405,9 @@ export function serializeToolMap(map: ToolMap): string {
       lines.push(`  webmcp-trigger: "${t.event}"${tSel};`);
     }
     if (tool.confirmation) {
-      const prop = tool.meta?.confirmation ? 'webmcp-confirmation-selector' : 'webmcp-confirmation';
+      const prop = tool.meta?.confirmation
+        ? 'webmcp-confirmation-selector'
+        : 'webmcp-confirmation';
       lines.push(`  ${prop}: ${quoteCss(tool.confirmation)};`);
     }
     if (tool.fingerprint) {
@@ -447,5 +450,7 @@ function quoteCss(value: string): string {
  */
 function serializeMeta(meta: WebMCPMeta | undefined): string[] {
   if (!meta) return [];
-  return Object.entries(meta).map(([key, value]) => `  webmcp-${key}: ${quoteCss(value)};`);
+  return Object.entries(meta).map(
+    ([key, value]) => `  webmcp-${key}: ${quoteCss(value)};`,
+  );
 }

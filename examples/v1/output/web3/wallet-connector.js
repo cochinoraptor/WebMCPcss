@@ -49,5 +49,5 @@ async function payTool(name){
   spent += req.amount;
   return { paid: true, txHash: tx };
 }
-window.__WEBMCP_WALLET__ = { version: '1.1.0', paidTools: PAID, limits: LIMITS, account: null, chainId: null, connect: connect, payTool: payTool, signAuthorization: signAuthorization, canSpend: canSpend, get spent(){ return spent; } };
+window.__WEBMCP_WALLET__ = { version: '1.2.0', paidTools: PAID, limits: LIMITS, account: null, chainId: null, connect: connect, payTool: payTool, signAuthorization: signAuthorization, canSpend: canSpend, get spent(){ return spent; } };
 })();

@@ -38,6 +38,6 @@
   ],
   "source": "heuristic",
   "confidence": 0.95,
-  "generatedBy": "webmcpcss@1.1.0",
+  "generatedBy": "webmcpcss@1.2.0",
   "explanation": "Para \"inicia sesión y compra 2 zapatillas rojas\" recomiendo estos 2 pasos (confianza 95 %):\n1. anadirAlCarrito con cantidad=\"2\" ⚠️ requiere confirmación (el nombre coincide con: anadir, carrito, comprar)\n2. pagarPedido ⚠️ requiere confirmación (el nombre coincide con: pagar, comprar, buy)\nVerifica el resultado leyendo: articulosCarrito."
 }

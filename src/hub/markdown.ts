@@ -25,6 +25,16 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+/**
+ * Traduce enlaces entre documentos del hub escritos para GitHub
+ * (`./component-usage.md`, `contributing.md#seccion`) a las rutas del sitio
+ * generado (`../component-usage/`), donde cada guía vive en su carpeta.
+ */
+export function rewriteDocHref(href: string): string {
+  const m = /^(?:\.\/)?([a-z0-9-]+)\.md(#.*)?$/i.exec(href);
+  return m ? `../${m[1]}/${m[2] ?? ''}` : href;
+}
+
 /** Formato en línea: código, negrita, cursiva y enlaces. */
 export function renderInline(text: string): string {
   const codes: string[] = [];
@@ -35,9 +45,12 @@ export function renderInline(text: string): string {
   out = escapeHtml(out);
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   out = out.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+  // Cursiva con guiones bajos (formato que produce Prettier): solo entre límites
+  // de palabra, para no romper identificadores como snake_case.
+  out = out.replace(/(^|[\s(>])_([^_\n]+)_(?=$|[\s.,;:)!?<])/g, '$1<em>$2</em>');
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label: string, href: string) => {
     const external = /^https?:/i.test(href);
-    return `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;
+    return `<a href="${rewriteDocHref(href)}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;
   });
   return out.replace(/\uE000(\d+)\uE001/g, (_m, i: string) => codes[Number(i)]);
 }

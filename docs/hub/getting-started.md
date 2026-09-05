@@ -1,6 +1,6 @@
 # Primeros pasos
 
-El **Component Hub** es un catálogo de componentes de interfaz *IA-First*: cada uno trae su HTML, su contrato `.webmcp.css` (qué puede hacer un agente con él) y metadatos (`component.json`). Existe en versión *core* (CSS puro) y adaptado a **Tailwind CSS**, **Bootstrap 5**, **Material UI** y **shadcn/ui**.
+El **Component Hub** es un catálogo de componentes de interfaz _IA-First_: cada uno trae su HTML, su contrato `.webmcp.css` (qué puede hacer un agente con él) y metadatos (`component.json`). Existe en versión _core_ (CSS puro) y adaptado a **Tailwind CSS**, **Bootstrap 5**, **Material UI** y **shadcn/ui**.
 
 ## Requisitos
 
@@ -25,12 +25,12 @@ npx webmcpcss components import tailwind-button-primary --output ./src/component
 
 Se crea `./src/components/tailwind-button-primary/` con:
 
-| Archivo | Para qué sirve |
-| --- | --- |
-| `button-primary.html` | Marcado listo para pegar (con `data-tool`, `aria-*`, atributos declarativos WebMCP). |
-| `button-primary.webmcp.css` | Contrato para agentes: `webmcp-tool`, parámetros, intención, confirmación, permisos. |
-| `component.json` | Metadatos: versión, controles del editor, ejemplos de prompt, relacionados. |
-| `preview.css` | Solo si el componente lo necesita para la previsualización (no lo importes en producción). |
+| Archivo                     | Para qué sirve                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| `button-primary.html`       | Marcado listo para pegar (con `data-tool`, `aria-*`, atributos declarativos WebMCP).       |
+| `button-primary.webmcp.css` | Contrato para agentes: `webmcp-tool`, parámetros, intención, confirmación, permisos.       |
+| `component.json`            | Metadatos: versión, controles del editor, ejemplos de prompt, relacionados.                |
+| `preview.css`               | Solo si el componente lo necesita para la previsualización (no lo importes en producción). |
 
 La importación se registra en `.webmcpcss/components.lock.json` (id, versión y hash) para poder actualizar después.
 
@@ -76,4 +76,4 @@ Crea una página estática con varios componentes del hub, sus contratos y el ru
 
 ## Siguiente paso
 
-Lee [Uso de componentes](../component-usage/) para adaptar estilos y contratos a tu proyecto, o [Contribuir](../contributing/) para publicar los tuyos.
+Lee [Uso de componentes](./component-usage.md) para adaptar estilos y contratos a tu proyecto, o [Contribuir](./contributing.md) para publicar los tuyos.

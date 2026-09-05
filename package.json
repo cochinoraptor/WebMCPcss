@@ -43,7 +43,7 @@
     "build:community-index": "npm run build && node dist/scripts/build-community-index.js"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^6.0.0",
     "commander": "^12.1.0",
     "postcss": "^8.4.47",
     "puppeteer": "^23.5.0"

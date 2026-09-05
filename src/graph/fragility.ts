@@ -65,10 +65,36 @@ const PATTERNS: Pattern[] = [
   {
     framework: 'CSS Modules',
     regex:
-      /\.[A-Za-z][\w-]*(__|--)[A-Za-z0-9]*_{1,2}[A-Za-z0-9]{5,}|\.[A-Za-z][\w-]*_[A-Za-z0-9]{5,}_[A-Za-z0-9]{2,}/,
+      /\.[A-Za-z][\w-]*(__|--)[A-Za-z0-9]*_{1,3}[A-Za-z0-9]{5,}|\.[A-Za-z][\w-]*_[A-Za-z0-9]{5,}_[A-Za-z0-9]{2,}/,
     severity: 3,
     critical: true,
     reason: 'Clase con hash de CSS Modules: cambia al recompilar',
+  },
+  {
+    // Next.js: `[name]_[local]__[hash:base64:5]` → .styles_button__3xK9z
+    framework: 'CSS Modules (Next.js)',
+    regex:
+      /\.[A-Za-z][A-Za-z0-9-]*_[A-Za-z][A-Za-z0-9-]*__(?=[A-Za-z0-9_-]{5}(?![A-Za-z0-9_-]))[A-Za-z_-]*[0-9A-Z]/,
+    severity: 3,
+    critical: true,
+    reason:
+      'Clase de CSS Modules de Next.js (nombre_local__hash): el hash cambia al recompilar',
+  },
+  {
+    // Vite/Astro CSS Modules: `_[local]_[hash]` → ._button_1x9j8k
+    framework: 'CSS Modules (Vite)',
+    regex:
+      /\._[A-Za-z][\w-]*_(?=[A-Za-z0-9]{4,8}(?![A-Za-z0-9_-]))[A-Za-z]*[0-9][A-Za-z0-9]*/,
+    severity: 3,
+    critical: true,
+    reason: 'Clase de CSS Modules de Vite (_local_hash): el hash cambia al recompilar',
+  },
+  {
+    framework: 'Astro',
+    regex: /\.astro-[a-z0-9]{6,}|data-astro-cid-[a-z0-9]{6,}/i,
+    severity: 3,
+    critical: true,
+    reason: 'Scoping de Astro (astro-*/data-astro-cid-*): hash regenerado por build',
   },
   {
     framework: 'JSS / MUI v4',
@@ -87,7 +113,7 @@ const PATTERNS: Pattern[] = [
   // --- Design systems (clases semiestables) ---
   {
     framework: 'MUI v5',
-    regex: /\.Mui[A-Z][A-Za-z]*-[a-z][A-Za-z]*/,
+    regex: /\.Mui(?:[A-Z][A-Za-z]*-[a-z][A-Za-z]*|-[a-z][A-Za-z]*)/,
     severity: 1,
     reason:
       'Clase de MUI (Mui*-slot): estable entre builds, pero acoplada a la versión de la librería',
@@ -98,6 +124,13 @@ const PATTERNS: Pattern[] = [
     severity: 1,
     reason:
       'Clase de Ant Design (ant-*): estable, pero puede cambiar entre versiones mayores',
+  },
+  {
+    framework: 'Element Plus',
+    regex: /\.el-[a-z][a-z0-9-]*/,
+    severity: 1,
+    reason:
+      'Clase de Element Plus (el-*): estable dentro de una versión mayor de la librería',
   },
   {
     framework: 'Bootstrap',
@@ -178,18 +211,41 @@ export function analyzeFragility(selector: string, framework?: string): Fragilit
   }
 
   // --- Señales de estabilidad (informativas, no restan) ---
-  if (/\[data-(?!v-)[\w-]+([~|^$*]?=)?/.test(selector)) {
+  if (/\[data-(?!v-|astro-cid-)[\w-]+([~|^$*]?=)?/.test(selector)) {
     reasons.push(
       'Usa atributos data-*: el patrón más estable (contrato explícito con agentes)',
     );
   }
+  if (/\[aria-[\w-]+([~|^$*]?=)?/.test(selector)) {
+    reasons.push('Usa atributos aria-*: estables y ligados a la semántica del elemento');
+  }
+  if (hasId && !forcedHigh && !/#[«:]/.test(selector)) {
+    reasons.push('Usa un id semántico: estable mientras no lo genere el framework');
+  }
 
   const level: FragilityLevel =
     forcedHigh || points >= 4 ? 'high' : points >= 2 ? 'medium' : 'low';
+  const detected = [...new Set(frameworks)];
   return {
     level,
     reasons,
-    suggestions: suggestionsFor(selector, frameworks, level, framework),
-    frameworks: [...new Set(frameworks)],
+    suggestions: suggestionsFor(selector, detected, level, framework),
+    frameworks: detected,
+    ...(detected.length > 0 ? { framework: detected[0] } : {}),
   };
+}
+
+/**
+ * Resume los frameworks detectados en una lista de puntuaciones de
+ * fragilidad (número de selectores por framework).
+ *
+ * @param scores Resultados de {@link analyzeFragility}.
+ * @returns Mapa framework → número de selectores en que aparece.
+ */
+export function summarizeFrameworks(scores: FragilityScore[]): Record<string, number> {
+  const summary: Record<string, number> = {};
+  for (const score of scores) {
+    for (const fw of score.frameworks) summary[fw] = (summary[fw] ?? 0) + 1;
+  }
+  return summary;
 }

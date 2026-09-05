@@ -1,4 +1,4 @@
-# Integración con agentes IA (40+)
+# Integración con agentes IA (45+)
 
 WebMCPcss habla **cuatro dialectos universales** — MCP (stdio), HTTP REST,
 JSON Schema y módulos Python — con los que se cubre prácticamente todo el
@@ -31,7 +31,7 @@ ecosistema de agentes. Esta tabla indica qué formato usar con cada agente.
 | 15  | LibreChat                            | LibreChat            | `mcp-config`                 | [mcp-clients](agents/mcp-clients.md)       |
 | 16  | Open WebUI                           | Open WebUI           | `mcp-config`                 | [mcp-clients](agents/mcp-clients.md)       |
 | 17  | 5ire                                 | 5ire                 | `mcp-config`                 | [mcp-clients](agents/mcp-clients.md)       |
-| 18  | Flomny                               | Flomny               | `mcp-config`                 | [mcp-clients](agents/mcp-clients.md)       |
+| 18  | Flomny                               | Flomny               | `flomny` (`mcp --flomny`)    | [flomny](agents/flomny.md)                 |
 | 19  | CrewAI                               | CrewAI Inc           | `crewai`                     | [crewai](agents/crewai.md)                 |
 | 20  | AutoGen / AG2                        | Microsoft            | `autogen`                    | [autogen](agents/autogen.md)               |
 | 21  | LangGraph                            | LangChain            | `langgraph`                  | [langgraph](agents/langgraph.md)           |
@@ -59,6 +59,7 @@ ecosistema de agentes. Esta tabla indica qué formato usar con cada agente.
 | 43  | n8n AI Agents                        | n8n                  | REST                         | [rest-api](agents/rest-api.md)             |
 | 44  | Dify                                 | LangGenius           | `json-schema` o REST         | [rest-api](agents/rest-api.md)             |
 | 45  | Obsidian (documentación)             | —                    | `graph --obsidian`           | [obsidian](agents/obsidian.md)             |
+| 46  | DeerFlow                             | ByteDance            | `deerflow`                   | [deerflow](agents/deerflow.md)             |
 
 > ¿Falta tu agente? Si habla MCP usa `mcp-config`; si hace function calling
 > usa `json-schema`; si controla un navegador usa `browser-inject`; y si no,
@@ -93,8 +94,23 @@ webmcpcss mcp --serve --http -p 8090 --css tienda.webmcp.css --url https://tiend
 webmcpcss export tienda.webmcp.css --format <formato> -o <carpeta> --url <url>
 ```
 
-Formatos: `mcp-config`, `claude-code`, `cursor`, `crewai`, `autogen`,
-`langgraph`, `browser-inject`, `json-schema`.
+Formatos: `mcp-config`, `claude-code`, `cursor`, `deerflow`, `flomny`,
+`crewai`, `autogen`, `langgraph`, `browser-inject`, `json-schema`.
+
+Novedades v0.9.0:
+
+- `claude-code`: comandos `/webmcpcss:prompt` y `/webmcpcss:animate`, skill
+  `webmcp-audit` y `.mcp.json` incluido.
+- `cursor`: snippets `webmcp:` con selectores estables, regla
+  `.cursor/rules/webmcpcss.mdc` y `--register` para escribir
+  `~/.cursor/mcp.json`.
+- `deerflow`: herramientas Python del grupo `browser`
+  (`browser_get_webmcp_graph`, `browser_validate_selector`,
+  `browser_repair_selector`, `browser_prompt`, `browser_animate`), skill y
+  `extensions_config.json`.
+- `flomny`: servidor MCP dedicado (`webmcpcss mcp --serve --flomny`) con
+  `list_tools`, `get_tool_info`, `get_selector_status`, `suggest_repair`,
+  `execute_prompt`, `apply_animation`.
 
 ### 4. Ejecución directa (para wrappers)
 

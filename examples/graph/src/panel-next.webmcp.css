@@ -1,0 +1,25 @@
+/* panel-next.webmcp.css — panel de administración en Next.js + MUI v5 */
+
+.Dashboard_saveButton__3xK9z {
+  webmcp-tool: "saveSettings";
+  webmcp-description: "Guarda la configuración del panel";
+  webmcp-param-siteName: value(.Settings_name__1Ab2C input);
+  webmcp-confirmation: ".MuiSnackbar-root";
+}
+
+.MuiButton-containedPrimary.Users_invite__9QwEr {
+  webmcp-tool: "inviteUser";
+  webmcp-description: "Invita a un usuario por email";
+  webmcp-param-email: value(#:r1:);
+  webmcp-confirmation: ".MuiAlert-standardSuccess";
+}
+
+.MuiTabs-root .MuiTab-root:nth-child(3) {
+  webmcp-tool: "openBillingTab";
+  webmcp-description: "Abre la pestaña de facturación";
+}
+
+.MuiChip-label {
+  webmcp-context: "planName";
+  webmcp-format: "text";
+}

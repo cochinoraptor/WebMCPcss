@@ -8,8 +8,15 @@
  * tool —shares-selector→ tool (selector compartido).
  */
 import * as path from 'path';
-import { analyzeFragility } from './fragility';
-import type { Graph, GraphEdge, GraphNode, ParsedFile, StatusResult } from './types';
+import { analyzeFragility, summarizeFrameworks } from './fragility';
+import type {
+  FragilityScore,
+  Graph,
+  GraphEdge,
+  GraphNode,
+  ParsedFile,
+  StatusResult,
+} from './types';
 
 /** Opciones del builder. */
 export interface BuildGraphOptions {
@@ -181,12 +188,16 @@ export function buildGraph(
   // Metadatos agregados.
   const allNodes = [...nodes.values()];
   const fragilitySummary: Record<string, number> = {};
+  const scores: FragilityScore[] = [];
   for (const n of allNodes) {
     if (n.type !== 'selector') continue;
-    const frag = n.metadata?.fragility as { level?: string } | undefined;
-    if (frag?.level)
+    const frag = n.metadata?.fragility as FragilityScore | undefined;
+    if (frag?.level) {
       fragilitySummary[frag.level] = (fragilitySummary[frag.level] ?? 0) + 1;
+      scores.push(frag);
+    }
   }
+  const frameworkSummary = summarizeFrameworks(scores);
   const okCount = edges.filter(
     (e) => e.type === 'has-status' && e.target === 'status:ok',
   ).length;
@@ -204,7 +215,7 @@ export function buildGraph(
       ...(statusResults && statusResults.length > 0
         ? { statusCounts: { ok: okCount, broken: brokenCount } }
         : {}),
-      ...(withFragility ? { fragilitySummary } : {}),
+      ...(withFragility ? { fragilitySummary, frameworkSummary } : {}),
     },
   };
 }

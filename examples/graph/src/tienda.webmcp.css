@@ -1,0 +1,28 @@
+/* tienda.webmcp.css — selectores estables (data-tool / id / aria) */
+
+[data-tool="add-to-cart"] {
+  webmcp-tool: "addToCart";
+  webmcp-description: "Añade el producto actual al carrito";
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-param-quantity: value(#qty-input);
+  webmcp-confirmation: ".cart-badge";
+  webmcp-fingerprint: '{"tag":"button","text":"Añadir al carrito","role":"button"}';
+}
+
+#checkout-button {
+  webmcp-tool: "checkout";
+  webmcp-description: "Inicia el proceso de pago";
+  webmcp-confirmation: "#checkout-form";
+}
+
+[aria-label="Buscar productos"] {
+  webmcp-tool: "search";
+  webmcp-description: "Busca productos por texto";
+  webmcp-param-query: value();
+  webmcp-trigger: "submit" on form[role="search"];
+}
+
+[data-cart-total] {
+  webmcp-context: "cartTotal";
+  webmcp-format: "currency";
+}

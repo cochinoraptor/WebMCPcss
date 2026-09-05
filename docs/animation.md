@@ -9,6 +9,7 @@ animaciones **sin pisar** las que el sitio ya tenga (GSAP, Framer Motion,
 Anime.js, animaciones CSS/WAAPI propias…).
 
 - Guía de conflictos y convivencia con otras librerías: [animation-conflicts.md](./animation-conflicts.md)
+- Referencia del resolutor, simulación en seco y `validate-conflicts` (v0.9.0): [conflict-resolution.md](./conflict-resolution.md)
 - Referencia del CLI: [cli-animate.md](./cli-animate.md)
 - Ejemplos listos para usar: [`examples/animation/`](../examples/animation/)
 

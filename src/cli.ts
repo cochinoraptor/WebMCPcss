@@ -28,6 +28,7 @@ import {
   buildGraph,
   generateObsidianVault,
   buildGraphHtml,
+  buildGraphSvg,
   serveGraphDashboard,
   type Graph,
   type ParsedFile,
@@ -46,11 +47,14 @@ import {
   createMcpHttpServer,
   EXPORT_FORMATS,
   exportForAgent,
+  FlomnyMcpCore,
+  registerCursorMcpServer,
   startMcpStdioServer,
   type PromptExecutor,
   type AnimateExecutor,
   type ToolExecutor,
 } from './exporters';
+import { VERSION } from './version';
 import { createLlmClient, PromptManager, type PromptResult } from './prompt';
 import {
   animateWithPage,
@@ -72,7 +76,7 @@ import {
   type TailwindCategory,
   type TailwindToolDescriptor,
 } from './tailwind';
-import type { ToolMap } from './types';
+import type { RepairResult, ToolMap, ValidationReport } from './types';
 import { appendHistory } from './utils/history';
 import { logger, setVerbose } from './utils/logger';
 
@@ -604,7 +608,7 @@ function cmdParse(cssPath: string) {
 /** Comando `export`: exporta el .webmcp.css al formato de un agente. */
 async function cmdExport(
   cssPath: string,
-  opts: { format: string; output: string; url?: string },
+  opts: { format: string; output: string; url?: string; register?: boolean },
 ) {
   logger.title('WebMCPcss · export');
   const toolMap = parseWebMCPFile(cssPath);
@@ -622,6 +626,21 @@ async function cmdExport(
     `Exportadas ${Object.keys(toolMap.tools).length} herramienta(s) en formato ${chalk.cyan(opts.format)}.`,
   );
   logger.info(note);
+  if (opts.register) {
+    if (opts.format !== 'cursor') {
+      logger.warn(
+        '--register solo aplica al formato cursor (~/.cursor/mcp.json); ignorado.',
+      );
+      return;
+    }
+    const { path: cfg, updated } = registerCursorMcpServer({
+      cssPath: path.resolve(cssPath),
+      url: opts.url,
+    });
+    logger.success(
+      `Servidor webmcpcss ${updated ? 'actualizado' : 'registrado'} en ${chalk.bold(cfg)}. Reinicia Cursor.`,
+    );
+  }
 }
 
 /** Construye el ejecutor real de herramientas para el servidor MCP. */
@@ -766,22 +785,22 @@ function printAnimateResult(map: AnimationMap, result: AnimateResult): void {
   else logger.error(result.message);
 }
 
-/** Comando `animate`: aplica animaciones declarativas a una página. */
-async function cmdAnimate(
-  animationFile: string,
-  opts: {
-    url?: string;
-    type?: string;
-    conflictStrategy?: string;
-    dryRun?: boolean;
-    output?: string;
-    screenshot?: string;
-    json?: boolean;
-    headless?: boolean;
-    settle: string;
-  },
-) {
-  if (!opts.json) logger.title('WebMCPcss · animate');
+/** Opciones comunes de `animate` y `validate-conflicts`. */
+interface AnimateCliOptions {
+  url?: string;
+  type?: string;
+  conflictStrategy?: string;
+  dryRun?: boolean;
+  output?: string;
+  screenshot?: string;
+  json?: boolean;
+  headless?: boolean;
+  settle: string;
+  sandbox?: boolean;
+}
+
+/** Parsea el archivo de animaciones y valida las opciones compartidas. */
+function loadAnimationMap(animationFile: string, opts: AnimateCliOptions) {
   if (!fs.existsSync(animationFile)) throw new Error(`No existe ${animationFile}`);
   const map = parseAnimationsFile(animationFile);
   const names = Object.keys(map.animations);
@@ -800,6 +819,80 @@ async function cmdAnimate(
   if (engine && !engines.includes(engine)) {
     throw new Error(`--type debe ser ${engines.join(' | ')}`);
   }
+  return { map, names, strategy, engine };
+}
+
+/**
+ * Comando `validate-conflicts`: valida un archivo de animaciones contra una
+ * página y simula los conflictos con las animaciones existentes (GSAP,
+ * Framer Motion, CSS del sitio…) **sin ejecutar nada**. Equivale a
+ * `animate --dry-run` pero con salida centrada en el informe y código de
+ * salida 1 si hay errores bloqueantes.
+ */
+async function cmdValidateConflicts(
+  animationFile: string,
+  opts: AnimateCliOptions & { strict?: boolean },
+) {
+  if (!opts.json) logger.title('WebMCPcss · validate-conflicts');
+  const { map, strategy, engine } = loadAnimationMap(animationFile, opts);
+  const browser = await launchBrowser(opts.headless ?? true);
+  let result: AnimateResult;
+  try {
+    const page = await browser.newPage();
+    await navigate(page, opts.url ?? '');
+    result = await animateWithPage(page, map, {
+      url: opts.url,
+      strategy,
+      engine,
+      dryRun: true,
+      sandbox: opts.sandbox ? 'shadow' : undefined,
+      historyFile: false,
+    });
+  } finally {
+    await browser.close();
+  }
+  const validation = result.validation;
+  const report = {
+    file: animationFile,
+    url: opts.url,
+    ok: validation?.ok ?? false,
+    strategy: strategy ?? 'queue',
+    plan: result.plan,
+    entries: validation?.entries ?? [],
+    conflicts: validation?.conflicts ?? [],
+    capabilities: validation?.capabilities,
+    external: result.result?.external ?? [],
+  };
+  if (opts.output) {
+    fs.mkdirSync(path.dirname(path.resolve(opts.output)), { recursive: true });
+    fs.writeFileSync(opts.output, JSON.stringify(report, null, 2), 'utf8');
+  }
+  if (opts.json) {
+    console.log(JSON.stringify(report, null, 2));
+  } else {
+    printAnimateResult(map, { ...result, result: undefined });
+    if (result.result?.external.length) {
+      logger.info(
+        `Animaciones externas detectadas: ${result.result.external
+          .map((e) => `${e.id} (${e.library})`)
+          .join(', ')}`,
+      );
+    }
+    const n = report.conflicts.length;
+    if (n === 0) logger.success('Sin conflictos previstos.');
+    else
+      logger.warn(
+        `${n} conflicto(s) previsto(s). Ajusta webmcp-animation-priority/-conflict o usa --conflict-strategy.`,
+      );
+    if (opts.output) logger.info(`Informe guardado en ${chalk.bold(opts.output)}`);
+  }
+  if (!report.ok || (opts.strict && report.conflicts.length > 0)) process.exitCode = 1;
+}
+
+/** Comando `animate`: aplica animaciones declarativas a una página. */
+async function cmdAnimate(animationFile: string, opts: AnimateCliOptions) {
+  if (!opts.json) logger.title('WebMCPcss · animate');
+  const { map, names, strategy, engine } = loadAnimationMap(animationFile, opts);
 
   // Sin --url: genera el runtime + el mapa JSON en --output (uso offline).
   if (!opts.url) {
@@ -814,7 +907,11 @@ async function cmdAnimate(
       `<!doctype html>\n<!-- Ejemplo de uso del runtime generado por webmcpcss animate -->\n` +
         `<script src="webmcpcss-animation.js"></script>\n<script>\n` +
         `fetch('animations.json').then(r => r.json()).then(map => webmcpcss.animation.run(map, ${JSON.stringify(
-          { strategy: strategy ?? 'queue', engine },
+          {
+            strategy: strategy ?? 'queue',
+            engine,
+            sandbox: opts.sandbox ? 'shadow' : undefined,
+          },
         )}));\n</script>\n`,
       'utf8',
     );
@@ -842,6 +939,7 @@ async function cmdAnimate(
       strategy,
       engine,
       dryRun: opts.dryRun,
+      sandbox: opts.sandbox ? 'shadow' : undefined,
       screenshot: !!opts.screenshot,
       settleMs: parseInt(opts.settle, 10) || 600,
     });
@@ -989,11 +1087,12 @@ async function cmdMcp(
     port: string;
     noPrompt?: boolean;
     noAnimate?: boolean;
+    flomny?: boolean;
   },
 ) {
   if (!opts.serve) {
     console.log(
-      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090]',
+      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090] [--flomny]',
     );
     return;
   }
@@ -1014,14 +1113,40 @@ async function cmdMcp(
     execute,
     prompt,
     animate,
-    version: '0.8.0',
+    version: VERSION,
   };
+  // --flomny: servidor dedicado con API de introspección (list_tools, get_tool_info…).
+  const core = opts.flomny
+    ? new FlomnyMcpCore({
+        ...options,
+        validateSelectors: opts.url
+          ? async (url) => {
+              let report: ValidationReport | undefined;
+              await withWebMCP(url ?? opts.url ?? '', cssPath, async (webmcp) => {
+                report = await webmcp.validate(url ?? opts.url);
+              });
+              return report as ValidationReport;
+            }
+          : undefined,
+        suggestRepairs: opts.url
+          ? async (url) => {
+              let repairs: RepairResult[] = [];
+              await withWebMCP(url ?? opts.url ?? '', cssPath, async (webmcp) => {
+                repairs = await webmcp.repairAll();
+              });
+              return repairs;
+            }
+          : undefined,
+      })
+    : undefined;
 
   if (opts.http) {
     const port = parseInt(opts.port, 10);
-    const server = createMcpHttpServer(options);
+    const server = createMcpHttpServer(core ?? options);
     await new Promise<void>((resolve) => server.listen(port, '0.0.0.0', resolve));
-    logger.success(`Servidor HTTP en http://localhost:${port}`);
+    logger.success(
+      `Servidor HTTP en http://localhost:${port}${core ? ' (modo Flomny)' : ''}`,
+    );
     logger.info(
       'Rutas: GET /api/tools · GET /api/graph · POST /api/call {"tool","args"}' +
         (prompt ? ' · POST /api/prompt {"prompt","files","dryRun"}' : '') +
@@ -1034,14 +1159,14 @@ async function cmdMcp(
 
   // Modo stdio: stdout es SOLO JSON-RPC; los avisos van a stderr.
   console.error(
-    `[webmcpcss] MCP stdio listo · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
+    `[webmcpcss] MCP stdio listo${core ? ' (Flomny: list_tools, get_tool_info, get_selector_status, suggest_repair, execute_prompt, apply_animation)' : ''} · ${Object.keys(toolMap.tools).length} herramienta(s) de ${cssPath}` +
       (prompt ? ' + webmcpcss_prompt' : '') +
       (animate ? ' + webmcpcss_animate' : '') +
       (opts.url
         ? ` · ejecución real en ${opts.url}`
         : ' · sin --url (tools/call en dry-run)'),
   );
-  await startMcpStdioServer(options);
+  await startMcpStdioServer(core ?? options);
 }
 
 /** Comando `run`: ejecuta una herramienta y escribe SOLO JSON en stdout. */
@@ -1099,7 +1224,7 @@ const program = new Command();
 program
   .name('webmcpcss')
   .description('WebMCPcss: WebMCP para cualquier web, con auto-reparación de selectores')
-  .version('0.8.0')
+  .version(VERSION)
   .option('--verbose', 'salida de depuración')
   .hook('preAction', (cmd) => setVerbose(Boolean(cmd.opts().verbose)));
 
@@ -1163,6 +1288,7 @@ program
   )
   .option('-o, --output <dir>', 'carpeta de salida', 'webmcp-export')
   .option('--url <url>', 'URL del sitio (se incrusta en los archivos generados)')
+  .option('--register', 'con --format cursor: registra el servidor en ~/.cursor/mcp.json')
   .action(cmdExport);
 
 program
@@ -1175,6 +1301,10 @@ program
   .option('-p, --port <port>', 'puerto en modo --http', '8090')
   .option('--no-prompt', 'no exponer la herramienta webmcpcss_prompt (lenguaje natural)')
   .option('--no-animate', 'no exponer la herramienta webmcpcss_animate (animaciones)')
+  .option(
+    '--flomny',
+    'servidor dedicado para Flomny: list_tools, get_tool_info, get_selector_status, suggest_repair, execute_prompt, apply_animation',
+  )
   .option(
     '--llm <provider>',
     'proveedor LLM para webmcpcss_prompt: ollama, openai, anthropic',
@@ -1233,9 +1363,33 @@ program
   )
   .option('--screenshot <file>', 'guarda una captura PNG tras animar')
   .option('--settle <ms>', 'espera antes de la captura', '600')
+  .option(
+    '--sandbox',
+    'aísla las animaciones en un shadow root (webmcp-animation-sandbox: shadow por defecto)',
+  )
   .option('--json', 'imprime SOLO el JSON del resultado en stdout')
   .option('--no-headless', 'muestra el navegador')
   .action(cmdAnimate);
+
+program
+  .command('validate-conflicts')
+  .description(
+    'Valida un archivo de animaciones contra una página y simula conflictos con las animaciones existentes (sin ejecutar)',
+  )
+  .argument('<animation-file>', 'archivo .webmcp.css con reglas webmcp-animation-*')
+  .requiredOption('--url <url>', 'URL (o HTML local) de la página')
+  .option('--type <engine>', 'forzar motor: css | waapi | three')
+  .option(
+    '--conflict-strategy <strategy>',
+    'estrategia global: replace | queue | ignore | merge (def.: queue)',
+  )
+  .option('--sandbox', 'simula con aislamiento en shadow root')
+  .option('--strict', 'código de salida 1 también si hay conflictos previstos')
+  .option('-o, --output <file>', 'guarda el informe JSON')
+  .option('--json', 'imprime SOLO el JSON del informe en stdout')
+  .option('--no-headless', 'muestra el navegador')
+  .option('--settle <ms>', '(sin efecto; compatibilidad con animate)', '0')
+  .action(cmdValidateConflicts);
 
 program
   .command('run')
@@ -1547,6 +1701,7 @@ async function cmdGraph(
     statusFile?: string;
     fragility?: boolean;
     framework?: string;
+    svg?: string;
   },
 ): Promise<void> {
   logger.title('WebMCPcss · graph');
@@ -1560,8 +1715,12 @@ async function cmdGraph(
   const parsed: ParsedFile[] = [];
   for (const file of files) {
     try {
-      parsed.push({ path: file, toolMap: parseWebMCPFile(file) });
-      logger.info(`Parseado: ${chalk.bold(path.relative(process.cwd(), file))}`);
+      // Ruta relativa al cwd cuando es posible: el grafo y el vault quedan
+      // portables (sin rutas absolutas de la máquina que los generó).
+      const rel = path.relative(process.cwd(), file);
+      const shown = rel && !rel.startsWith('..') && !path.isAbsolute(rel) ? rel : file;
+      parsed.push({ path: shown, toolMap: parseWebMCPFile(file) });
+      logger.info(`Parseado: ${chalk.bold(shown)}`);
     } catch (err) {
       logger.warn(
         `Ignorado ${file}: ${err instanceof Error ? err.message : String(err)}`,
@@ -1621,9 +1780,19 @@ async function cmdGraph(
   }
   console.log();
 
+  if (m?.frameworkSummary && Object.keys(m.frameworkSummary).length > 0) {
+    const fws = Object.entries(m.frameworkSummary)
+      .sort((a, b) => b[1] - a[1])
+      .map(([fw, n]) => `${fw} (${n})`);
+    console.log(`  ${chalk.bold('Frameworks detectados:')} ${fws.join(' · ')}\n`);
+  }
   if (opts.output) {
     fs.writeFileSync(opts.output, JSON.stringify(graph, null, 2), 'utf8');
     logger.success(`Grafo JSON: ${chalk.bold(opts.output)}`);
+  }
+  if (opts.svg) {
+    fs.writeFileSync(opts.svg, buildGraphSvg(graph), 'utf8');
+    logger.success(`Grafo SVG: ${chalk.bold(opts.svg)}`);
   }
   if (opts.obsidian) {
     const written = generateObsidianVault(graph, opts.obsidian, {
@@ -1640,7 +1809,7 @@ async function cmdGraph(
     logger.success(
       `Dashboard del grafo en ${chalk.bold(`http://localhost:${port}`)} (Ctrl+C para salir)`,
     );
-  } else if (!opts.output && !opts.obsidian) {
+  } else if (!opts.output && !opts.obsidian && !opts.svg) {
     // Sin destino explícito: escribe un HTML estático autónomo.
     const htmlPath = 'webmcp-graph.html';
     fs.writeFileSync(htmlPath, buildGraphHtml(graph), 'utf8');
@@ -1665,7 +1834,9 @@ program
   .option('-p, --port <port>', 'puerto del dashboard', '3100')
   .option('--with-status', 'incluye estado de selectores desde .webmcp-status.json')
   .option('--status-file <file>', 'archivo JSON con resultados de validate --save-status')
-  .option('--no-fragility', 'desactiva el análisis de fragilidad (activo por defecto)')
+  .option('--fragility', 'analiza la fragilidad de los selectores (activo por defecto)')
+  .option('--no-fragility', 'desactiva el análisis de fragilidad')
+  .option('--svg <file>', 'exporta el grafo como SVG estático (sin navegador)')
   .option(
     '--framework <fw>',
     'framework principal (react, vue, svelte, angular, tailwind...)',

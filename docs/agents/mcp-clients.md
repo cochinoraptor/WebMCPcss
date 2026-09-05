@@ -2,8 +2,9 @@
 
 Aplica a: **Claude Desktop, Windsurf, Goose, Cline, Roo Code, Continue,
 Zed, GitHub Copilot (VS Code), JetBrains AI, Gemini CLI, Codex CLI,
-Amazon Q, LibreChat, Open WebUI, 5ire, Flomny** y cualquier cliente que
-soporte servidores MCP por stdio.
+Amazon Q, LibreChat, Open WebUI, 5ire** y cualquier cliente que soporte
+servidores MCP por stdio. (Flomny tiene un [servidor dedicado](flomny.md) y
+Cursor su [propia guía](cursor.md).)
 
 ## 1. Genera el snippet
 

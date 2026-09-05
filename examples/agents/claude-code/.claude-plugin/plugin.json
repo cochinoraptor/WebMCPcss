@@ -1,8 +1,20 @@
 {
   "name": "webmcpcss",
-  "description": "Herramientas WebMCP: genera, valida, repara y ejecuta acciones web declaradas en .webmcp.css",
-  "version": "0.6.0",
+  "description": "Herramientas WebMCP: genera, valida, repara, ejecuta, modifica por prompt y anima sitios declarados en .webmcp.css",
+  "version": "0.9.0",
   "author": {
     "name": "WebMCPcss"
-  }
+  },
+  "homepage": "https://github.com/cochinoraptor/WebMCPcss",
+  "license": "MIT",
+  "keywords": [
+    "webmcp",
+    "mcp",
+    "css",
+    "browser-automation",
+    "selectors"
+  ],
+  "commands": "./commands",
+  "skills": "./skills",
+  "mcpServers": "./.mcp.json"
 }

@@ -5,8 +5,8 @@
 export * from './types';
 export { buildGraph } from './builder';
 export type { BuildGraphOptions } from './builder';
-export { analyzeFragility } from './fragility';
+export { analyzeFragility, summarizeFrameworks } from './fragility';
 export { suggestionsFor } from './suggestions';
 export { generateObsidianVault } from './obsidian';
-export { buildGraphHtml, serveGraphDashboard } from './dashboard';
+export { buildGraphHtml, buildGraphSvg, serveGraphDashboard } from './dashboard';
 export { sanitizeFileName, yamlEscape, wikiLink, unique, uniqueFileNames } from './utils';

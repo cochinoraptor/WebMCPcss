@@ -1,0 +1,856 @@
+{
+  "nodes": [
+    {
+      "id": "page:blog-vue",
+      "type": "page",
+      "label": "blog-vue",
+      "metadata": {
+        "path": "examples/graph/src/blog-vue.webmcp.css"
+      }
+    },
+    {
+      "id": "tool:postComment",
+      "type": "tool",
+      "label": "postComment",
+      "metadata": {
+        "kind": "tool",
+        "description": "Publica un comentario en el artículo",
+        "selector": ".comment-form[data-v-7ba5bd90] .el-button--primary",
+        "params": [
+          "body"
+        ],
+        "page": "blog-vue"
+      }
+    },
+    {
+      "id": "selector:.comment-form[data-v-7ba5bd90] .el-button--primary",
+      "type": "selector",
+      "label": ".comment-form[data-v-7ba5bd90] .el-button--primary",
+      "metadata": {
+        "fragility": {
+          "level": "high",
+          "reasons": [
+            "Atributo de scoping de Vue (data-v-*): cambia al recompilar el componente",
+            "Clase de Element Plus (el-*): estable dentro de una versión mayor de la librería"
+          ],
+          "suggestions": [
+            "Añade un atributo estable en el componente (`<button data-tool=\"add-to-cart\">`) y selecciona `[data-tool=\"add-to-cart\"]` en lugar del atributo data-v-*",
+            "Las clases el-* son estables dentro de una versión mayor; añade `data-*` propio si planeas actualizar Element Plus",
+            "Mientras migras, define webmcp-fingerprint (tag/text/attrs) para que `webmcpcss repair` pueda re-localizar el elemento"
+          ],
+          "frameworks": [
+            "Vue (scoped)",
+            "Element Plus"
+          ],
+          "framework": "Vue (scoped)"
+        }
+      }
+    },
+    {
+      "id": "param:postComment.body",
+      "type": "param",
+      "label": "body",
+      "metadata": {
+        "tool": "postComment",
+        "source": "value",
+        "selector": "textarea[data-v-7ba5bd90]"
+      }
+    },
+    {
+      "id": "status:broken",
+      "type": "status",
+      "label": "Roto",
+      "metadata": {
+        "ok": false
+      }
+    },
+    {
+      "id": "tool:subscribe",
+      "type": "tool",
+      "label": "subscribe",
+      "metadata": {
+        "kind": "tool",
+        "description": "Suscribe el email al boletín",
+        "selector": ".el-input__inner[placeholder=\"Tu email\"]",
+        "params": [
+          "email"
+        ],
+        "page": "blog-vue"
+      }
+    },
+    {
+      "id": "selector:.el-input__inner[placeholder=\"Tu email\"]",
+      "type": "selector",
+      "label": ".el-input__inner[placeholder=\"Tu email\"]",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Clase de Element Plus (el-*): estable dentro de una versión mayor de la librería"
+          ],
+          "suggestions": [
+            "Las clases el-* son estables dentro de una versión mayor; añade `data-*` propio si planeas actualizar Element Plus"
+          ],
+          "frameworks": [
+            "Element Plus"
+          ],
+          "framework": "Element Plus"
+        }
+      }
+    },
+    {
+      "id": "param:subscribe.email",
+      "type": "param",
+      "label": "email",
+      "metadata": {
+        "tool": "subscribe",
+        "source": "value"
+      }
+    },
+    {
+      "id": "status:ok",
+      "type": "status",
+      "label": "OK",
+      "metadata": {
+        "ok": true
+      }
+    },
+    {
+      "id": "tool:likeArticle",
+      "type": "tool",
+      "label": "likeArticle",
+      "metadata": {
+        "kind": "tool",
+        "description": "Marca el artículo como favorito",
+        "selector": "main > article > div:nth-of-type(2) > button",
+        "params": [],
+        "page": "blog-vue"
+      }
+    },
+    {
+      "id": "selector:main > article > div:nth-of-type(2) > button",
+      "type": "selector",
+      "label": "main > article > div:nth-of-type(2) > button",
+      "metadata": {
+        "fragility": {
+          "level": "high",
+          "reasons": [
+            "Usa :nth-child/:nth-of-type: depende del orden de los hermanos en el DOM",
+            "Cadena de 4 niveles: cualquier cambio intermedio la rompe",
+            "Selector solo de etiquetas (sin id, clase ni atributo): muy ambiguo"
+          ],
+          "suggestions": [
+            "Sustituye :nth-child por un identificador del propio elemento (id, data-*, aria-label): el orden de los hermanos cambia con facilidad",
+            "Mientras migras, define webmcp-fingerprint (tag/text/attrs) para que `webmcpcss repair` pueda re-localizar el elemento"
+          ],
+          "frameworks": []
+        }
+      }
+    },
+    {
+      "id": "tool:shareArticle",
+      "type": "tool",
+      "label": "shareArticle",
+      "metadata": {
+        "kind": "tool",
+        "description": "Comparte el artículo (widget styled-components)",
+        "selector": ".sc-bdVaJa.sc-htpNat",
+        "params": [
+          "network"
+        ],
+        "page": "blog-vue"
+      }
+    },
+    {
+      "id": "selector:.sc-bdVaJa.sc-htpNat",
+      "type": "selector",
+      "label": ".sc-bdVaJa.sc-htpNat",
+      "metadata": {
+        "fragility": {
+          "level": "high",
+          "reasons": [
+            "Clase de styled-components (sc-*): hash inestable entre builds"
+          ],
+          "suggestions": [
+            "Las clases sc-* cambian en cada build: pasa una prop `data-tool` al styled component y selecciona por ella",
+            "Mientras migras, define webmcp-fingerprint (tag/text/attrs) para que `webmcpcss repair` pueda re-localizar el elemento"
+          ],
+          "frameworks": [
+            "styled-components"
+          ],
+          "framework": "styled-components"
+        }
+      }
+    },
+    {
+      "id": "param:shareArticle.network",
+      "type": "param",
+      "label": "network",
+      "metadata": {
+        "tool": "shareArticle",
+        "source": "attr"
+      }
+    },
+    {
+      "id": "tool:views",
+      "type": "tool",
+      "label": "views",
+      "metadata": {
+        "kind": "context",
+        "selector": ".article-views",
+        "params": [],
+        "page": "blog-vue"
+      }
+    },
+    {
+      "id": "selector:.article-views",
+      "type": "selector",
+      "label": ".article-views",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [],
+          "suggestions": [],
+          "frameworks": []
+        }
+      }
+    },
+    {
+      "id": "page:panel-next",
+      "type": "page",
+      "label": "panel-next",
+      "metadata": {
+        "path": "examples/graph/src/panel-next.webmcp.css"
+      }
+    },
+    {
+      "id": "tool:saveSettings",
+      "type": "tool",
+      "label": "saveSettings",
+      "metadata": {
+        "kind": "tool",
+        "description": "Guarda la configuración del panel",
+        "selector": ".Dashboard_saveButton__3xK9z",
+        "params": [
+          "siteName"
+        ],
+        "page": "panel-next"
+      }
+    },
+    {
+      "id": "selector:.Dashboard_saveButton__3xK9z",
+      "type": "selector",
+      "label": ".Dashboard_saveButton__3xK9z",
+      "metadata": {
+        "fragility": {
+          "level": "high",
+          "reasons": [
+            "Clase de CSS Modules de Next.js (nombre_local__hash): el hash cambia al recompilar"
+          ],
+          "suggestions": [
+            "El sufijo __hash de Next.js cambia por build: añade `data-tool` en el JSX o usa `[class^=\"styles_nombre__\"]` como último recurso",
+            "Mientras migras, define webmcp-fingerprint (tag/text/attrs) para que `webmcpcss repair` pueda re-localizar el elemento"
+          ],
+          "frameworks": [
+            "CSS Modules (Next.js)"
+          ],
+          "framework": "CSS Modules (Next.js)"
+        }
+      }
+    },
+    {
+      "id": "param:saveSettings.siteName",
+      "type": "param",
+      "label": "siteName",
+      "metadata": {
+        "tool": "saveSettings",
+        "source": "value",
+        "selector": ".Settings_name__1Ab2C input"
+      }
+    },
+    {
+      "id": "tool:inviteUser",
+      "type": "tool",
+      "label": "inviteUser",
+      "metadata": {
+        "kind": "tool",
+        "description": "Invita a un usuario por email",
+        "selector": ".MuiButton-containedPrimary.Users_invite__9QwEr",
+        "params": [
+          "email"
+        ],
+        "page": "panel-next"
+      }
+    },
+    {
+      "id": "selector:.MuiButton-containedPrimary.Users_invite__9QwEr",
+      "type": "selector",
+      "label": ".MuiButton-containedPrimary.Users_invite__9QwEr",
+      "metadata": {
+        "fragility": {
+          "level": "high",
+          "reasons": [
+            "Clase de CSS Modules de Next.js (nombre_local__hash): el hash cambia al recompilar",
+            "Clase de MUI (Mui*-slot): estable entre builds, pero acoplada a la versión de la librería"
+          ],
+          "suggestions": [
+            "El sufijo __hash de Next.js cambia por build: añade `data-tool` en el JSX o usa `[class^=\"styles_nombre__\"]` como último recurso",
+            "Las clases Mui*-slot son razonablemente estables, pero fija la versión de MUI o añade `data-testid` para desacoplarte",
+            "Mientras migras, define webmcp-fingerprint (tag/text/attrs) para que `webmcpcss repair` pueda re-localizar el elemento"
+          ],
+          "frameworks": [
+            "CSS Modules (Next.js)",
+            "MUI v5"
+          ],
+          "framework": "CSS Modules (Next.js)"
+        }
+      }
+    },
+    {
+      "id": "param:inviteUser.email",
+      "type": "param",
+      "label": "email",
+      "metadata": {
+        "tool": "inviteUser",
+        "source": "value",
+        "selector": "#:r1:"
+      }
+    },
+    {
+      "id": "tool:openBillingTab",
+      "type": "tool",
+      "label": "openBillingTab",
+      "metadata": {
+        "kind": "tool",
+        "description": "Abre la pestaña de facturación",
+        "selector": ".MuiTabs-root .MuiTab-root:nth-child(3)",
+        "params": [],
+        "page": "panel-next"
+      }
+    },
+    {
+      "id": "selector:.MuiTabs-root .MuiTab-root:nth-child(3)",
+      "type": "selector",
+      "label": ".MuiTabs-root .MuiTab-root:nth-child(3)",
+      "metadata": {
+        "fragility": {
+          "level": "medium",
+          "reasons": [
+            "Clase de MUI (Mui*-slot): estable entre builds, pero acoplada a la versión de la librería",
+            "Usa :nth-child/:nth-of-type: depende del orden de los hermanos en el DOM"
+          ],
+          "suggestions": [
+            "Las clases Mui*-slot son razonablemente estables, pero fija la versión de MUI o añade `data-testid` para desacoplarte",
+            "Sustituye :nth-child por un identificador del propio elemento (id, data-*, aria-label): el orden de los hermanos cambia con facilidad"
+          ],
+          "frameworks": [
+            "MUI v5"
+          ],
+          "framework": "MUI v5"
+        }
+      }
+    },
+    {
+      "id": "tool:planName",
+      "type": "tool",
+      "label": "planName",
+      "metadata": {
+        "kind": "context",
+        "selector": ".MuiChip-label",
+        "params": [],
+        "page": "panel-next"
+      }
+    },
+    {
+      "id": "selector:.MuiChip-label",
+      "type": "selector",
+      "label": ".MuiChip-label",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Clase de MUI (Mui*-slot): estable entre builds, pero acoplada a la versión de la librería"
+          ],
+          "suggestions": [
+            "Las clases Mui*-slot son razonablemente estables, pero fija la versión de MUI o añade `data-testid` para desacoplarte"
+          ],
+          "frameworks": [
+            "MUI v5"
+          ],
+          "framework": "MUI v5"
+        }
+      }
+    },
+    {
+      "id": "page:tienda",
+      "type": "page",
+      "label": "tienda",
+      "metadata": {
+        "path": "examples/graph/src/tienda.webmcp.css"
+      }
+    },
+    {
+      "id": "tool:addToCart",
+      "type": "tool",
+      "label": "addToCart",
+      "metadata": {
+        "kind": "tool",
+        "description": "Añade el producto actual al carrito",
+        "selector": "[data-tool=\"add-to-cart\"]",
+        "params": [
+          "productId",
+          "quantity"
+        ],
+        "page": "tienda"
+      }
+    },
+    {
+      "id": "selector:[data-tool=\"add-to-cart\"]",
+      "type": "selector",
+      "label": "[data-tool=\"add-to-cart\"]",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Usa atributos data-*: el patrón más estable (contrato explícito con agentes)"
+          ],
+          "suggestions": [],
+          "frameworks": []
+        }
+      }
+    },
+    {
+      "id": "param:addToCart.productId",
+      "type": "param",
+      "label": "productId",
+      "metadata": {
+        "tool": "addToCart",
+        "source": "attr"
+      }
+    },
+    {
+      "id": "param:addToCart.quantity",
+      "type": "param",
+      "label": "quantity",
+      "metadata": {
+        "tool": "addToCart",
+        "source": "value",
+        "selector": "#qty-input"
+      }
+    },
+    {
+      "id": "tool:checkout",
+      "type": "tool",
+      "label": "checkout",
+      "metadata": {
+        "kind": "tool",
+        "description": "Inicia el proceso de pago",
+        "selector": "#checkout-button",
+        "params": [],
+        "page": "tienda"
+      }
+    },
+    {
+      "id": "selector:#checkout-button",
+      "type": "selector",
+      "label": "#checkout-button",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Usa un id semántico: estable mientras no lo genere el framework"
+          ],
+          "suggestions": [],
+          "frameworks": []
+        }
+      }
+    },
+    {
+      "id": "tool:search",
+      "type": "tool",
+      "label": "search",
+      "metadata": {
+        "kind": "tool",
+        "description": "Busca productos por texto",
+        "selector": "[aria-label=\"Buscar productos\"]",
+        "params": [
+          "query"
+        ],
+        "page": "tienda"
+      }
+    },
+    {
+      "id": "selector:[aria-label=\"Buscar productos\"]",
+      "type": "selector",
+      "label": "[aria-label=\"Buscar productos\"]",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Usa atributos aria-*: estables y ligados a la semántica del elemento"
+          ],
+          "suggestions": [],
+          "frameworks": []
+        }
+      }
+    },
+    {
+      "id": "param:search.query",
+      "type": "param",
+      "label": "query",
+      "metadata": {
+        "tool": "search",
+        "source": "value"
+      }
+    },
+    {
+      "id": "tool:cartTotal",
+      "type": "tool",
+      "label": "cartTotal",
+      "metadata": {
+        "kind": "context",
+        "selector": "[data-cart-total]",
+        "params": [],
+        "page": "tienda"
+      }
+    },
+    {
+      "id": "selector:[data-cart-total]",
+      "type": "selector",
+      "label": "[data-cart-total]",
+      "metadata": {
+        "fragility": {
+          "level": "low",
+          "reasons": [
+            "Usa atributos data-*: el patrón más estable (contrato explícito con agentes)"
+          ],
+          "suggestions": [],
+          "frameworks": []
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "tool:postComment",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:postComment",
+      "target": "selector:.comment-form[data-v-7ba5bd90] .el-button--primary",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.comment-form[data-v-7ba5bd90] .el-button--primary",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:postComment",
+      "target": "param:postComment.body",
+      "type": "requires"
+    },
+    {
+      "source": "tool:postComment",
+      "target": "status:broken",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:subscribe",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:subscribe",
+      "target": "selector:.el-input__inner[placeholder=\"Tu email\"]",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.el-input__inner[placeholder=\"Tu email\"]",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:subscribe",
+      "target": "param:subscribe.email",
+      "type": "requires"
+    },
+    {
+      "source": "tool:subscribe",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:likeArticle",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:likeArticle",
+      "target": "selector:main > article > div:nth-of-type(2) > button",
+      "type": "uses"
+    },
+    {
+      "source": "selector:main > article > div:nth-of-type(2) > button",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:likeArticle",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:shareArticle",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:shareArticle",
+      "target": "selector:.sc-bdVaJa.sc-htpNat",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.sc-bdVaJa.sc-htpNat",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:shareArticle",
+      "target": "param:shareArticle.network",
+      "type": "requires"
+    },
+    {
+      "source": "tool:shareArticle",
+      "target": "status:broken",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:views",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:views",
+      "target": "selector:.article-views",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.article-views",
+      "target": "page:blog-vue",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:views",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:saveSettings",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:saveSettings",
+      "target": "selector:.Dashboard_saveButton__3xK9z",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.Dashboard_saveButton__3xK9z",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:saveSettings",
+      "target": "param:saveSettings.siteName",
+      "type": "requires"
+    },
+    {
+      "source": "tool:saveSettings",
+      "target": "status:broken",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:inviteUser",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:inviteUser",
+      "target": "selector:.MuiButton-containedPrimary.Users_invite__9QwEr",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.MuiButton-containedPrimary.Users_invite__9QwEr",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:inviteUser",
+      "target": "param:inviteUser.email",
+      "type": "requires"
+    },
+    {
+      "source": "tool:inviteUser",
+      "target": "status:broken",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:openBillingTab",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:openBillingTab",
+      "target": "selector:.MuiTabs-root .MuiTab-root:nth-child(3)",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.MuiTabs-root .MuiTab-root:nth-child(3)",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:openBillingTab",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:planName",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:planName",
+      "target": "selector:.MuiChip-label",
+      "type": "uses"
+    },
+    {
+      "source": "selector:.MuiChip-label",
+      "target": "page:panel-next",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:planName",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:addToCart",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:addToCart",
+      "target": "selector:[data-tool=\"add-to-cart\"]",
+      "type": "uses"
+    },
+    {
+      "source": "selector:[data-tool=\"add-to-cart\"]",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:addToCart",
+      "target": "param:addToCart.productId",
+      "type": "requires"
+    },
+    {
+      "source": "tool:addToCart",
+      "target": "param:addToCart.quantity",
+      "type": "requires"
+    },
+    {
+      "source": "tool:addToCart",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:checkout",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:checkout",
+      "target": "selector:#checkout-button",
+      "type": "uses"
+    },
+    {
+      "source": "selector:#checkout-button",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:checkout",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:search",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:search",
+      "target": "selector:[aria-label=\"Buscar productos\"]",
+      "type": "uses"
+    },
+    {
+      "source": "selector:[aria-label=\"Buscar productos\"]",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:search",
+      "target": "param:search.query",
+      "type": "requires"
+    },
+    {
+      "source": "tool:search",
+      "target": "status:ok",
+      "type": "has-status"
+    },
+    {
+      "source": "tool:cartTotal",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:cartTotal",
+      "target": "selector:[data-cart-total]",
+      "type": "uses"
+    },
+    {
+      "source": "selector:[data-cart-total]",
+      "target": "page:tienda",
+      "type": "belongs-to"
+    },
+    {
+      "source": "tool:cartTotal",
+      "target": "status:ok",
+      "type": "has-status"
+    }
+  ],
+  "metadata": {
+    "totalTools": 13,
+    "totalSelectors": 13,
+    "totalPages": 3,
+    "statusCounts": {
+      "ok": 9,
+      "broken": 4
+    },
+    "fragilitySummary": {
+      "high": 5,
+      "low": 7,
+      "medium": 1
+    },
+    "frameworkSummary": {
+      "Vue (scoped)": 1,
+      "Element Plus": 2,
+      "styled-components": 1,
+      "CSS Modules (Next.js)": 2,
+      "MUI v5": 3
+    }
+  }
+}

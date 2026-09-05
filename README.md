@@ -110,8 +110,9 @@ webmcpcss tailwind generate https://mi-sitio.com -o my-tools   # → my-tools.js
 webmcpcss tailwind export https://mi-sitio.com -s "#card" -o Card.jsx
 
 # 8) Mapas de Contenido: grafo de conocimiento, Obsidian y fragilidad
-webmcpcss graph examples/ --obsidian ./vault --output graph.json
-webmcpcss graph examples/ --dashboard                          # Cytoscape en :3100
+webmcpcss graph examples/ --obsidian ./vault --output graph.json --fragility
+webmcpcss graph examples/ --dashboard                          # Cytoscape en :3100 (filtros + export PNG/SVG/JSON)
+webmcpcss graph examples/ --svg graph.svg                      # v0.9.0: SVG estático sin navegador
 webmcpcss validate https://mi-tienda.com webmcp.css --save-status --graph
 
 # 9) v0.5.0 — Generación automática SIN grabación (escaneo headless)
@@ -123,12 +124,16 @@ webmcpcss generate ./src/components --from-source -o webmcp.css
 # 10) v0.5.0 — Exportar para cualquier agente IA
 webmcpcss export webmcp.css --format claude-code -o ./claude-plugin --url https://mi-tienda.com
 webmcpcss export webmcp.css --format crewai -o ./crew --url https://mi-tienda.com
-# formatos: mcp-config, claude-code, cursor, crewai, autogen, langgraph,
-#           browser-inject, json-schema
+webmcpcss export webmcp.css --format cursor --register          # v0.9.0: escribe ~/.cursor/mcp.json
+webmcpcss export webmcp.css --format deerflow -o ./deerflow     # v0.9.0: tools browser_* + skill
+webmcpcss export webmcp.css --format flomny -o ./flomny         # v0.9.0: servidor MCP dedicado
+# formatos: mcp-config, claude-code, cursor, deerflow, flomny, crewai, autogen,
+#           langgraph, browser-inject, json-schema
 
 # 11) v0.5.0 — Servidor MCP (stdio) o API REST
 webmcpcss mcp --serve --css webmcp.css --url https://mi-tienda.com
 webmcpcss mcp --serve --http -p 8090 --css webmcp.css --url https://mi-tienda.com
+webmcpcss mcp --serve --flomny --css webmcp.css --url https://mi-tienda.com   # v0.9.0: list_tools, get_selector_status…
 
 # 12) v0.5.0 — Ejecutar una herramienta y obtener JSON (para wrappers)
 webmcpcss run https://mi-tienda.com webmcp.css addToCart --args '{"quantity":"2"}'
@@ -145,6 +150,10 @@ webmcpcss prompt "oculta el popup de cookies" --url https://mi-sitio.com --execu
 webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --dry-run          # plan + conflictos
 webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --screenshot hero.png
 webmcpcss animate animations.webmcp.css -o ./public/webmcp-animation                  # runtime para el sitio
+webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --sandbox          # v0.9.0: aislado en shadow root
+
+# 16) v0.9.0 — Validar conflictos con GSAP/Framer/CSS del sitio sin ejecutar nada (CI)
+webmcpcss validate-conflicts animations.webmcp.css --url https://mi-sitio.com --strict -o informe.json
 
 # Extra: parsear a JSON sin navegador, e inyectar (descubrimiento → comunidad)
 webmcpcss parse webmcp.css
@@ -332,27 +341,36 @@ Tailwind, Bootstrap, MUI y Ant Design**, clasifica cada selector
 | `.bg-blue-500.px-4` (Tailwind), `:nth-child(3)`             | 🟡 medium | añade id/data-*                    |
 | `[data-v-7ba5bd90]`, `.sc-bdVaJa`, `.css-1q2w3e4`, `.jss42` | 🔴 high   | hash de build: migra a `data-tool` |
 
-Documentación completa en [docs/GRAPH.md](docs/GRAPH.md); demo en
-`examples/graph-demo/`.
+Desde v0.9.0 cada selector lleva además el **framework detectado**
+(`CSS Modules (Next.js)`, `Vue (scoped)`, `styled-components`, `MUI v5`,
+`Element Plus`, `Bootstrap`…), el grafo incluye `frameworkSummary`, el
+dashboard filtra por estado/fragilidad/página/framework y exporta PNG/SVG/JSON,
+y `--svg` genera el grafo estático sin navegador.
+
+Documentación completa en [docs/GRAPH.md](docs/GRAPH.md); demos en
+`examples/graph-demo/` y vault de referencia en
+[`examples/graph/`](examples/graph/README.md).
 
 ## Integración universal con agentes (v0.5.0)
 
 WebMCPcss habla los cuatro dialectos que cubren el ecosistema de agentes:
 **MCP (stdio)**, **API REST**, **JSON Schema** y **módulos Python**. Más de
-**40 agentes soportados** — tabla completa y guías en
+**45 agentes soportados** — tabla completa y guías en
 [docs/AGENTS.md](docs/AGENTS.md).
 
-| Agente                                                                              | Integración                                                                                          |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Claude Desktop, Windsurf, Goose, Cline, Continue, Copilot, Gemini CLI, Codex CLI... | `export --format mcp-config` + `mcp --serve` ([guía](docs/agents/mcp-clients.md))                    |
-| Claude Code                                                                         | `export --format claude-code` → plugin con `/webmcpcss:*` ([guía](docs/agents/claude-code.md))       |
-| Cursor                                                                              | `export --format cursor` → `~/.cursor/mcp.json` ([guía](docs/agents/cursor.md))                      |
-| CrewAI                                                                              | `export --format crewai` → módulo Python `@tool` ([guía](docs/agents/crewai.md))                     |
-| AutoGen / AG2                                                                       | `export --format autogen` → JSON Schema + registro ([guía](docs/agents/autogen.md))                  |
-| LangGraph / LangChain                                                               | `export --format langgraph` → `TOOLS` listos ([guía](docs/agents/langgraph.md))                      |
-| ChatGPT Atlas, Operator, Mariner, Comet, Skyvern...                                 | `export --format browser-inject` → `window.__WEBMCP_GRAPH__` ([guía](docs/agents/browser-agents.md)) |
-| LlamaIndex, Semantic Kernel, function calling genérico                              | `export --format json-schema` ([guía](docs/agents/json-schema.md))                                   |
-| Manus, Devin, n8n, Dify, agentes propios                                            | `mcp --serve --http` → REST ([guía](docs/agents/rest-api.md))                                        |
+| Agente                                                                              | Integración                                                                                                                                                              |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Claude Desktop, Windsurf, Goose, Cline, Continue, Copilot, Gemini CLI, Codex CLI... | `export --format mcp-config` + `mcp --serve` ([guía](docs/agents/mcp-clients.md))                                                                                        |
+| Claude Code                                                                         | `export --format claude-code` → plugin con `/webmcpcss:*` (generate, validate, repair, run, prompt, animate) + skill `webmcp-audit` ([guía](docs/agents/claude-code.md)) |
+| Cursor                                                                              | `export --format cursor [--register]` → `~/.cursor/mcp.json`, snippets `webmcp:` y regla `.mdc` ([guía](docs/agents/cursor.md))                                          |
+| DeerFlow (ByteDance)                                                                | `export --format deerflow` → tools Python `browser_*` + skill + `extensions_config.json` ([guía](docs/agents/deerflow.md))                                               |
+| Flomny                                                                              | `export --format flomny` + `mcp --serve --flomny` → servidor MCP dedicado ([guía](docs/agents/flomny.md))                                                                |
+| CrewAI                                                                              | `export --format crewai` → módulo Python `@tool` ([guía](docs/agents/crewai.md))                                                                                         |
+| AutoGen / AG2                                                                       | `export --format autogen` → JSON Schema + registro ([guía](docs/agents/autogen.md))                                                                                      |
+| LangGraph / LangChain                                                               | `export --format langgraph` → `TOOLS` listos ([guía](docs/agents/langgraph.md))                                                                                          |
+| ChatGPT Atlas, Operator, Mariner, Comet, Skyvern...                                 | `export --format browser-inject` → `window.__WEBMCP_GRAPH__` ([guía](docs/agents/browser-agents.md))                                                                     |
+| LlamaIndex, Semantic Kernel, function calling genérico                              | `export --format json-schema` ([guía](docs/agents/json-schema.md))                                                                                                       |
+| Manus, Devin, n8n, Dify, agentes propios                                            | `mcp --serve --http` → REST ([guía](docs/agents/rest-api.md))                                                                                                            |
 
 Además, `generate --auto` crea el `.webmcp.css` inicial **sin grabar nada**:
 escanea la página headless, detecta formularios/botones/campos, infiere
@@ -445,8 +463,14 @@ webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --conflict-st
   `AnimationOrchestrator`). Cero dependencias nuevas (Three.js se carga desde
   la página o por URL solo si se usa).
 
+- v0.9.0: `validate-conflicts` simula los conflictos con las animaciones del
+  sitio y devuelve un informe JSON (`--strict` para CI), `--sandbox` aísla
+  todo en un shadow root y el resolutor se documenta en
+  [docs/conflict-resolution.md](docs/conflict-resolution.md).
+
 Guías: [docs/animation.md](docs/animation.md) ·
 [docs/animation-conflicts.md](docs/animation-conflicts.md) ·
+[docs/conflict-resolution.md](docs/conflict-resolution.md) ·
 [docs/cli-animate.md](docs/cli-animate.md) · ejemplos:
 [`examples/animation/`](examples/animation/).
 

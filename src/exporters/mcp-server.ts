@@ -15,6 +15,7 @@ import * as http from 'http';
 import * as readline from 'readline';
 import type { ToolMap } from '../types';
 import { toolMapToJsonSchemas, type ToolJsonSchema } from './schema';
+import { VERSION } from '../version';
 
 /** Firma del ejecutor de herramientas que provee el CLI. */
 export type ToolExecutor = (
@@ -172,10 +173,25 @@ interface RpcRequest {
  * (o lanza `{code,message}` para errores JSON-RPC).
  */
 export class McpCore {
-  private readonly schemas: ToolJsonSchema[];
+  protected readonly schemas: ToolJsonSchema[];
 
-  constructor(private readonly options: McpServerOptions) {
+  constructor(protected readonly options: McpServerOptions) {
     this.schemas = toolMapToJsonSchemas(options.toolMap);
+  }
+
+  /** ¿Está habilitada la herramienta `webmcpcss_prompt`? */
+  get promptEnabled(): boolean {
+    return Boolean(this.options.prompt);
+  }
+
+  /** ¿Está habilitada la herramienta `webmcpcss_animate`? */
+  get animateEnabled(): boolean {
+    return Boolean(this.options.animate);
+  }
+
+  /** Nombre y versión que anuncia `initialize`. */
+  protected serverInfo(): { name: string; version: string } {
+    return { name: 'webmcpcss', version: this.options.version ?? VERSION };
   }
 
   /** Lista de herramientas en formato MCP (+ `webmcpcss_prompt` si está habilitada). */
@@ -420,7 +436,7 @@ export class McpCore {
         return {
           protocolVersion: (params.protocolVersion as string) ?? '2024-11-05',
           capabilities: { tools: {}, resources: {} },
-          serverInfo: { name: 'webmcpcss', version: this.options.version ?? '0.5.0' },
+          serverInfo: this.serverInfo(),
         };
       case 'ping':
         return {};
@@ -445,17 +461,18 @@ export class McpCore {
  * Arranca el servidor MCP por stdio (JSON-RPC delimitado por líneas).
  * No cierra el proceso: queda escuchando hasta EOF de stdin.
  *
- * @param options Configuración del servidor.
+ * @param options Configuración del servidor o un núcleo ya construido (p. ej.
+ *   {@link FlomnyMcpCore} de `./flomny`).
  * @param input Stream de entrada (por defecto `process.stdin`).
  * @param output Stream de salida (por defecto `process.stdout`).
  * @returns Promesa que resuelve cuando la entrada se cierra.
  */
 export function startMcpStdioServer(
-  options: McpServerOptions,
+  options: McpServerOptions | McpCore,
   input: NodeJS.ReadableStream = process.stdin,
   output: NodeJS.WritableStream = process.stdout,
 ): Promise<void> {
-  const core = new McpCore(options);
+  const core = options instanceof McpCore ? options : new McpCore(options);
   const rl = readline.createInterface({ input, terminal: false });
 
   const send = (msg: Record<string, unknown>): void => {
@@ -511,8 +528,8 @@ export function startMcpStdioServer(
  * @param options Configuración del servidor.
  * @returns Servidor `http.Server` sin arrancar (llama a `.listen`).
  */
-export function createMcpHttpServer(options: McpServerOptions): http.Server {
-  const core = new McpCore(options);
+export function createMcpHttpServer(options: McpServerOptions | McpCore): http.Server {
+  const core = options instanceof McpCore ? options : new McpCore(options);
   return http.createServer((req, res) => {
     const respond = (status: number, body: unknown): void => {
       res.writeHead(status, {
@@ -567,7 +584,7 @@ export function createMcpHttpServer(options: McpServerOptions): http.Server {
           try {
             const parsed = JSON.parse(body || '{}') as Record<string, unknown>;
             const result = await core.callPrompt(parsed);
-            respond(result.isError ? (options.prompt ? 422 : 404) : 200, result);
+            respond(result.isError ? (core.promptEnabled ? 422 : 404) : 200, result);
           } catch (err) {
             respond(400, { error: (err as Error).message });
           }
@@ -583,7 +600,7 @@ export function createMcpHttpServer(options: McpServerOptions): http.Server {
           try {
             const parsed = JSON.parse(body || '{}') as Record<string, unknown>;
             const result = await core.callAnimate(parsed);
-            respond(result.isError ? (options.animate ? 422 : 404) : 200, result);
+            respond(result.isError ? (core.animateEnabled ? 422 : 404) : 200, result);
           } catch (err) {
             respond(400, { error: (err as Error).message });
           }

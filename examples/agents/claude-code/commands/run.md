@@ -2,7 +2,7 @@
 description: Ejecuta una herramienta WebMCP en el sitio (addToCart, login...)
 ---
 
-Ejecuta `webmcpcss run <url> examples/shopping-cart/webmcp.css <herramienta> --args '<json>'`
+Ejecuta `webmcpcss run https://tienda.example.com examples/shopping-cart/webmcp.css <herramienta> --args '<json>'`
 con Bash usando los argumentos del usuario ($ARGUMENTS) y devuelve el
 resultado JSON.
 

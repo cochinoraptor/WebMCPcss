@@ -1,0 +1,39 @@
+[
+  {
+    "url": "https://tienda.example.com",
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "entries": [
+      { "name": "addToCart", "kind": "tool", "selector": "[data-tool=\"add-to-cart\"]", "ok": true },
+      { "name": "checkout", "kind": "tool", "selector": "#checkout-button", "ok": true },
+      { "name": "search", "kind": "tool", "selector": "[aria-label=\"Buscar productos\"]", "ok": true },
+      { "name": "cartTotal", "kind": "context", "selector": "[data-cart-total]", "ok": true }
+    ]
+  },
+  {
+    "url": "https://panel.example.com",
+    "total": 4,
+    "passed": 2,
+    "failed": 2,
+    "entries": [
+      { "name": "saveSettings", "kind": "tool", "selector": ".Dashboard_saveButton__3xK9z", "ok": false },
+      { "name": "inviteUser", "kind": "tool", "selector": ".MuiButton-containedPrimary.Users_invite__9QwEr", "ok": false },
+      { "name": "openBillingTab", "kind": "tool", "selector": ".MuiTabs-root .MuiTab-root:nth-child(3)", "ok": true },
+      { "name": "planName", "kind": "context", "selector": ".MuiChip-label", "ok": true }
+    ]
+  },
+  {
+    "url": "https://blog.example.com",
+    "total": 5,
+    "passed": 3,
+    "failed": 2,
+    "entries": [
+      { "name": "postComment", "kind": "tool", "selector": ".comment-form[data-v-7ba5bd90] .el-button--primary", "ok": false },
+      { "name": "subscribe", "kind": "tool", "selector": ".el-input__inner[placeholder=\"Tu email\"]", "ok": true },
+      { "name": "likeArticle", "kind": "tool", "selector": "main > article > div:nth-of-type(2) > button", "ok": true },
+      { "name": "shareArticle", "kind": "tool", "selector": ".sc-bdVaJa.sc-htpNat", "ok": false },
+      { "name": "views", "kind": "context", "selector": ".article-views", "ok": true }
+    ]
+  }
+]

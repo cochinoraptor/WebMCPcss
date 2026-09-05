@@ -2,7 +2,7 @@
 
 > Haz que **cualquier sitio web** sea nativo para agentes de IA — sin tocar su código fuente — y con **auto-reparación** de selectores cuando el sitio se rediseña.
 
-🌐 **Sitio web:** [cochinoraptor.github.io/WebMCPcss](https://cochinoraptor.github.io/WebMCPcss/)
+🌐 **Sitio web:** [cochinoraptor.github.io/WebMCPcss](https://cochinoraptor.github.io/WebMCPcss/) · 🇬🇧 **English:** [README.en.md](README.en.md)
 
 [![CI](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml/badge.svg)](https://github.com/cochinoraptor/WebMCPcss/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/webmcpcss.svg)](https://www.npmjs.com/package/webmcpcss)
@@ -90,7 +90,7 @@ webmcpcss generate https://mi-tienda.com --ai        # + nombres/descripciones c
 
 # 2) Validar que los selectores existan en la página
 webmcpcss validate https://mi-tienda.com webmcp.css
-webmcpcss validate https://mi-tienda.com webmcp.css --api   # + herramientas de navigator.modelContext
+webmcpcss validate https://mi-tienda.com webmcp.css --api   # + herramientas de document.modelContext
 
 # 3) Reparar automáticamente los selectores rotos (reescribe el archivo)
 webmcpcss repair https://mi-tienda.com webmcp.css
@@ -154,6 +154,12 @@ webmcpcss animate animations.webmcp.css --url https://mi-sitio.com --sandbox    
 
 # 16) v0.9.0 — Validar conflictos con GSAP/Framer/CSS del sitio sin ejecutar nada (CI)
 webmcpcss validate-conflicts animations.webmcp.css --url https://mi-sitio.com --strict -o informe.json
+
+# 18) v1.1.0 — Estándar WebMCP: API declarativa (toolname/tooldescription) ⇄ .webmcp.css y document.modelContext
+webmcpcss standard scan https://mi-tienda.com -o webmcp.css                            # lee <form toolname …> y genera el contrato
+webmcpcss standard compile webmcp.css --html index.html -o index.webmcp.html           # añade toolname/tooldescription/toolparamtitle al HTML
+webmcpcss standard compile webmcp.css --script webmcp-declarative.js                   # o los aplica en tiempo de ejecución
+webmcpcss standard check https://mi-tienda.com                                         # ¿document.modelContext? ¿qué tools expone la página?
 
 # 17) v1.0.0 — Las diez ideas: framework IA-First, diseño, legacy, a11y, tests, versiones, docs, seguridad, recomendador, Web3
 webmcpcss init mi-tienda --framework ia-first                                          # proyecto con componentes WebMCP
@@ -265,17 +271,48 @@ El parser soporta **reglas anidadas** (con `&`), **variables CSS** y **`@import`
 }
 ```
 
-## Integración con el estándar WebMCP (navigator.modelContext)
+## Integración con el estándar WebMCP (`document.modelContext`)
 
-WebMCPcss es un **puente bidireccional** con la API imperativa de WebMCP que
-está llegando a Chrome:
+WebMCPcss es un **puente bidireccional** con el estándar WebMCP (W3C WebML CG)
+que ya se prueba en Chrome. Sigue el borrador actual: la API vive en
+**`document.modelContext`** y todo el código que genera usa el patrón
+recomendado `document.modelContext || navigator.modelContext` (el nombre
+antiguo, `navigator.modelContext`, es un alias obsoleto desde Chromium 150).
+Guía completa: [docs/standard.md](docs/standard.md).
 
-**CSS → API:** genera el código `registerTool()` desde tu `.webmcp.css`:
+**CSS → API imperativa:** genera el código `registerTool()` desde tu `.webmcp.css`:
 
 ```bash
 webmcpcss generate --api webmcp.css -o webmcp-tools.js
 # luego en tu sitio: <script src="webmcp-tools.js"></script>
 ```
+
+**CSS ⇄ API declarativa (v1.1.0):** el estándar también permite anotar
+formularios con `toolname`, `tooldescription`, `toolautosubmit`,
+`toolparamtitle` y `toolparamdescription`; el navegador deriva el JSON Schema
+del propio formulario. WebMCPcss compila en ambos sentidos:
+
+```bash
+webmcpcss standard scan index.html -o webmcp.css             # atributos → .webmcp.css
+webmcpcss standard compile webmcp.css --html index.html      # .webmcp.css → atributos en el HTML
+webmcpcss standard compile webmcp.css --script decl.js       # … o aplicados en tiempo de ejecución
+webmcpcss standard check https://mi-tienda.com               # dónde está modelContext y qué tools expone la página
+```
+
+```css
+/* Lo que produce `standard scan` para <form id="search" toolname="searchProducts" …> */
+#search button[type='submit'] {
+  webmcp-tool: 'searchProducts';
+  webmcp-description: 'Busca productos en el catálogo';
+  webmcp-param-q: value(#search input[name= 'q']);
+  webmcp-trigger: 'submit' on #search;
+  webmcp-source: 'declarative';
+  webmcp-doc-q: 'Palabras clave del producto'; /* ⇄ toolparamdescription */
+}
+```
+
+`generate --auto` y `retro scan` también detectan los formularios ya anotados y
+conservan su nombre, descripción y parámetros en el contrato generado.
 
 **API → WebMCPcss:** consume herramientas que el sitio ya registró:
 
@@ -382,7 +419,7 @@ Documentación completa en [docs/GRAPH.md](docs/GRAPH.md); demos en
 
 WebMCPcss habla los cuatro dialectos que cubren el ecosistema de agentes:
 **MCP (stdio)**, **API REST**, **JSON Schema** y **módulos Python**. Más de
-**45 agentes soportados** — tabla completa y guías en
+**46 agentes soportados** — tabla completa y guías en
 [docs/AGENTS.md](docs/AGENTS.md).
 
 | Agente                                                                              | Integración                                                                                                                                                              |
@@ -533,6 +570,7 @@ import {
   security,
   recommender,
   web3,
+  standard, // v1.1.0: document.modelContext + API declarativa
 } from 'webmcpcss';
 ```
 
@@ -568,7 +606,8 @@ Estructura relevante:
 - `src/core/` — clase `WebMCPcss`, reparación (`repair.ts`) y visión (`vision.ts`).
 - `src/adapters/` — `PageAdapter` (interfaz), `PuppeteerAdapter`, `DomAdapter`.
 - `src/proxy/` — proxy comunitario e inyección de estilos.
-- `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`…; `src/cli-v1.ts` — comandos v1.0.0.
+- `src/cli.ts` — comandos `generate`, `validate`, `repair`, `inject`, `parse`…; `src/cli-v1.ts` — comandos v1.0.0; `src/cli-standard.ts` — `standard scan|compile|check` (v1.1.0).
+- `src/standard/` — alineación con el estándar WebMCP: `document.modelContext` (con fallback) y API declarativa (`toolname`/`tooldescription`…).
 - `src/framework/`, `src/design-to-webmcp/`, `src/retro/`, `src/a11y/`, `src/testing/`, `src/versioning/`, `src/doc/`, `src/security/`, `src/recommender/`, `src/web3/` — los diez módulos v1.0.0.
 
 ## Contribuir

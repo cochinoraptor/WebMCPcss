@@ -420,7 +420,7 @@ function registerRetro(program: Command, deps: V1Deps): void {
     .argument('<url>', 'URL origen del sitio legacy')
     .requiredOption('--css <file>', 'archivo .webmcp.css a inyectar')
     .option('-p, --port <port>', 'puerto local', '8080')
-    .option('--no-model-context', 'no registrar en navigator.modelContext')
+    .option('--no-model-context', 'no registrar en document.modelContext')
     .action(
       async (url: string, o: { css: string; port: string; modelContext?: boolean }) => {
         logger.title('WebMCPcss · retro proxy');

@@ -10,6 +10,10 @@
  */
 import { extractJsonObject } from '../prompt/llm-client';
 import type { LlmClient } from '../prompt/types';
+import {
+  declarativeToolsToToolMap,
+  extractDeclarativeTools,
+} from '../standard/declarative';
 import type { ToolMap, ToolSpec } from '../types';
 
 /** Señal de sitio legacy detectada. */
@@ -68,6 +72,12 @@ export interface RetroScan {
   toolMap: ToolMap;
   /** Notas para el humano/agente. */
   notes: string[];
+  /**
+   * Herramientas ya declaradas en el HTML con la API declarativa WebMCP
+   * (`toolname`/`tooldescription`, v1.1.0). Se incorporan al tool map con
+   * prioridad sobre las inferidas.
+   */
+  declarative: string[];
 }
 
 /** Parsea atributos HTML de una etiqueta de apertura. */
@@ -533,8 +543,25 @@ export function extractTitle(html: string): string {
 export function scanLegacyHtml(html: string, url?: string): RetroScan {
   const signals = detectLegacySignals(html);
   const { forms, actions } = extractLegacyElements(html);
-  const toolMap = buildRetroToolMap(forms, actions);
+  let toolMap = buildRetroToolMap(forms, actions);
   const notes: string[] = [];
+  // Formularios ya anotados con la API declarativa del estándar: conservan
+  // nombre, descripción y parámetros y desplazan a la herramienta inferida
+  // para el mismo formulario.
+  const declarativeScan = extractDeclarativeTools(html);
+  const declarative = declarativeScan.tools.map((t) => t.name);
+  if (declarativeScan.tools.length > 0) {
+    const declaredForms = new Set(declarativeScan.tools.map((t) => t.formSelector));
+    for (const [n, t] of Object.entries(toolMap.tools)) {
+      if (t.trigger?.selector && declaredForms.has(t.trigger.selector))
+        delete toolMap.tools[n];
+    }
+    toolMap = declarativeToolsToToolMap(declarativeScan.tools, toolMap);
+    notes.push(
+      `${declarativeScan.tools.length} formulario(s) ya usan la API declarativa WebMCP (${declarative.join(', ')}): se han conservado tal cual.`,
+    );
+  }
+  notes.push(...declarativeScan.warnings);
   const lowConf = Object.entries(toolMap.tools).filter(
     ([, t]) => Number(t.meta?.confidence ?? 1) < 0.5,
   );
@@ -563,6 +590,7 @@ export function scanLegacyHtml(html: string, url?: string): RetroScan {
     actions,
     toolMap,
     notes,
+    declarative,
   };
 }
 

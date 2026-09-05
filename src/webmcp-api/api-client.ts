@@ -1,14 +1,16 @@
 /**
- * Cliente de la API imperativa de WebMCP (`navigator.modelContext`).
+ * Cliente de la API imperativa de WebMCP (`document.modelContext`).
  *
  * El estándar WebMCP propone que los sitios registren herramientas con
- * `navigator.modelContext.registerTool({ name, description, inputSchema, execute })`.
- * Este módulo permite a WebMCPcss:
+ * `document.modelContext.registerTool({ name, description, inputSchema, execute })`
+ * (`navigator.modelContext` fue la ubicación original y sigue como alias
+ * obsoleto desde Chromium 150). Este módulo permite a WebMCPcss:
  *
  * 1. Instalar un **shim de captura** ANTES de que cargue la página: si el
- *    navegador no implementa `navigator.modelContext` aún (o sí lo hace),
- *    las llamadas a `registerTool()`/`provideContext()` quedan registradas
- *    en `window.__webmcpApiRegistry`, de donde podemos leerlas e invocarlas.
+ *    navegador no implementa `modelContext` aún (o sí lo hace, en cualquiera
+ *    de las dos ubicaciones), las llamadas a `registerTool()`/`provideContext()`
+ *    quedan registradas en `window.__webmcpApiRegistry`, de donde podemos
+ *    leerlas e invocarlas.
  * 2. Listar las herramientas registradas ({@link readRegisteredTools}).
  * 3. Invocar una herramienta registrada ({@link invokeRegisteredTool}).
  *
@@ -33,12 +35,17 @@ interface ApiRegistry {
 }
 
 /**
- * Instala el shim de `navigator.modelContext` sobre una `window`.
+ * Instala el shim de `modelContext` sobre una `window`.
  *
- * - Si el navegador ya implementa la API, envuelve `registerTool` para
- *   además anotar cada herramienta en el registro (modo espejo).
+ * - Si el navegador ya implementa la API (en `document.modelContext` o en el
+ *   alias obsoleto `navigator.modelContext`), envuelve `registerTool` para
+ *   además anotar cada herramienta en el registro (modo espejo) y expone la
+ *   misma instancia en la otra ubicación, de modo que el código del sitio
+ *   funcione use el nombre que use.
  * - Si no existe, crea un polyfill mínimo compatible con la superficie
- *   `registerTool()` / `provideContext()` del estándar propuesto.
+ *   `registerTool()` / `unregisterTool()` / `provideContext()` /
+ *   `clearContext()` / `getTools()` / `executeTool()` del estándar y lo
+ *   publica en **ambas** ubicaciones.
  *
  * AUTO-CONTENIDA: apta para `page.evaluateOnNewDocument(installModelContextShim)`.
  *
@@ -54,8 +61,15 @@ export function installModelContextShim(win?: Window & { [k: string]: unknown })
   };
   w[KEY] = registry;
 
-  const nav = w.navigator as Navigator & { modelContext?: Record<string, unknown> };
-  const native = nav.modelContext;
+  type MC = Record<string, unknown> & { registerTool?: unknown };
+  const doc = w.document as unknown as { modelContext?: MC } | undefined;
+  const nav = w.navigator as unknown as { modelContext?: MC } | undefined;
+  const native: MC | undefined =
+    doc && doc.modelContext && typeof doc.modelContext.registerTool === 'function'
+      ? doc.modelContext
+      : nav && nav.modelContext && typeof nav.modelContext.registerTool === 'function'
+        ? nav.modelContext
+        : undefined;
 
   const record = (tool: { name: string }): void => {
     const idx = registry.tools.findIndex((t) => t.name === tool.name);
@@ -63,17 +77,42 @@ export function installModelContextShim(win?: Window & { [k: string]: unknown })
     else registry.tools.push(tool);
   };
 
-  if (native && typeof native.registerTool === 'function') {
+  const publish = (value: unknown): void => {
+    const targets: Array<object | undefined> = [
+      doc as object | undefined,
+      nav as object | undefined,
+    ];
+    for (const target of targets) {
+      if (!target) continue;
+      if ((target as { modelContext?: unknown }).modelContext === value) continue;
+      try {
+        Object.defineProperty(target, 'modelContext', {
+          value,
+          configurable: true,
+          writable: true,
+        });
+      } catch {
+        try {
+          (target as Record<string, unknown>).modelContext = value;
+        } catch {
+          /* objeto no extensible */
+        }
+      }
+    }
+  };
+
+  if (native) {
     // Modo espejo: la API nativa existe; interceptamos para poder listar.
-    const nativeRegister = native.registerTool.bind(native) as (t: unknown) => unknown;
+    const nativeRegister = (native.registerTool as (t: unknown) => unknown).bind(native);
     native.registerTool = (tool: { name: string }) => {
       record(tool);
       return nativeRegister(tool);
     };
+    publish(native);
     return;
   }
 
-  // Polyfill mínimo del estándar propuesto.
+  // Polyfill mínimo del estándar.
   const shim = {
     registerTool(tool: { name: string }): void {
       if (!tool || typeof tool.name !== 'string') {
@@ -84,19 +123,30 @@ export function installModelContextShim(win?: Window & { [k: string]: unknown })
     provideContext(ctx: unknown): void {
       registry.context.push(ctx);
     },
+    clearContext(): void {
+      registry.context.length = 0;
+      registry.tools.length = 0;
+    },
     unregisterTool(name: string): void {
       const idx = registry.tools.findIndex((t) => t.name === name);
       if (idx >= 0) registry.tools.splice(idx, 1);
     },
+    getTools(): Array<{ name: string; description?: unknown; inputSchema?: unknown }> {
+      return registry.tools.map((t) => ({
+        name: t.name,
+        description: t.description,
+        inputSchema: t.inputSchema,
+      }));
+    },
+    async executeTool(name: string, args: unknown): Promise<unknown> {
+      const tool = registry.tools.find((t) => t.name === name);
+      if (!tool || typeof tool.execute !== 'function') {
+        throw new Error('Herramienta no registrada: ' + name);
+      }
+      return await (tool.execute as (a: unknown) => unknown)(args);
+    },
   };
-  try {
-    Object.defineProperty(nav, 'modelContext', {
-      value: shim,
-      configurable: true,
-    });
-  } catch {
-    (nav as unknown as Record<string, unknown>).modelContext = shim;
-  }
+  publish(shim);
 }
 
 /**

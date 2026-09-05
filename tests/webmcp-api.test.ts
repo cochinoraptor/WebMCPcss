@@ -164,7 +164,7 @@ describe('WebMCPcss + API imperativa', () => {
     const webmcp = new WebMCPcss(parseWebMCP(''), new TestApiAdapter(win));
     const report = await webmcp.validate('test', { includeApi: true });
     expect(report.entries).toEqual([
-      { name: 'apiTool', kind: 'api', selector: '(navigator.modelContext)', ok: true },
+      { name: 'apiTool', kind: 'api', selector: '(document.modelContext)', ok: true },
     ]);
   });
 });

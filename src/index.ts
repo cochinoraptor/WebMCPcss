@@ -278,3 +278,7 @@ export * as doc from './doc';
 export * as security from './security';
 export * as recommender from './recommender';
 export * as web3 from './web3';
+
+// --- v1.1.0: alineación con el estándar WebMCP (document.modelContext y API
+// declarativa toolname/tooldescription) ---
+export * as standard from './standard';

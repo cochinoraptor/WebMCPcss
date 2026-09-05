@@ -54,6 +54,13 @@ $CLI recommend "inicia sesión y compra 2 zapatillas rojas" --css "$CSS" --url h
 $CLI web3 validate --file "$CSS" --connector "$OUT/web3/wallet-connector.js" --json > "$OUT/web3/validate.json" 2> /dev/null
 $CLI web3 deploy --export-sol "$OUT/web3/WebMCPPayments.sol" > /dev/null
 
+# 11. Estándar WebMCP (v1.1.0): .webmcp.css → API declarativa y viceversa
+mkdir -p "$OUT/standard"
+$CLI standard compile "$CSS" --html examples/v1/tienda.html -o "$OUT/standard/tienda.declarative.html" --script "$OUT/standard/webmcp-declarative.js" > /dev/null
+$CLI standard compile "$CSS" --json > "$OUT/standard/compile.json"
+$CLI standard scan "$OUT/standard/tienda.declarative.html" -o "$OUT/standard/from-declarative.webmcp.css" > /dev/null 2>&1
+$CLI generate --api "$CSS" -o "$OUT/standard/webmcp-tools.js" > /dev/null
+
 # Elimina marcas de tiempo para que la salida sea determinista.
 node - "$OUT" <<'JS'
 const fs = require('fs'), path = require('path');

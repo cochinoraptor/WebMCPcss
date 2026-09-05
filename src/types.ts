@@ -136,7 +136,7 @@ export interface ExecuteResult {
 
 /**
  * Metadatos de una herramienta registrada mediante la API imperativa de
- * WebMCP (`navigator.modelContext.registerTool()`).
+ * WebMCP (`document.modelContext.registerTool()`).
  */
 export interface RegisteredToolInfo {
   /** Nombre de la herramienta. */

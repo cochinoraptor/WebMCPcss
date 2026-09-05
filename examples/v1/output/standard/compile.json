@@ -1,0 +1,71 @@
+{
+  "css": "examples/v1/tienda.webmcp.css",
+  "patches": [
+    {
+      "tool": "buscarProductos",
+      "formSelector": "#search-btn",
+      "inferred": true,
+      "formAttrs": {
+        "toolname": "buscarProductos",
+        "tooldescription": "Busca productos en el catálogo",
+        "toolautosubmit": ""
+      },
+      "fieldAttrs": [
+        {
+          "selector": "#q",
+          "attrs": {
+            "toolparamtitle": "query"
+          }
+        }
+      ],
+      "note": "la herramienta se dispara por click en #search-btn; la API declarativa envía el formulario contenedor: comprueba que su submit realice la misma acción"
+    },
+    {
+      "tool": "anadirAlCarrito",
+      "formSelector": "#add-to-cart",
+      "inferred": true,
+      "formAttrs": {
+        "toolname": "anadirAlCarrito",
+        "tooldescription": "Añade el producto actual al carrito"
+      },
+      "fieldAttrs": [
+        {
+          "selector": "#qty",
+          "attrs": {
+            "toolparamtitle": "cantidad"
+          }
+        }
+      ],
+      "note": "la herramienta se dispara por click en #add-to-cart; la API declarativa envía el formulario contenedor: comprueba que su submit realice la misma acción"
+    },
+    {
+      "tool": "enviarConsulta",
+      "formSelector": "#contact-form button[type=\"submit\"]",
+      "inferred": true,
+      "formAttrs": {
+        "toolname": "enviarConsulta",
+        "tooldescription": "Envía una consulta al soporte",
+        "toolautosubmit": ""
+      },
+      "fieldAttrs": [
+        {
+          "selector": "#c-email",
+          "attrs": {
+            "toolparamtitle": "email"
+          }
+        },
+        {
+          "selector": "#c-msg",
+          "attrs": {
+            "toolparamtitle": "mensaje"
+          }
+        }
+      ],
+      "note": "la herramienta se dispara por click en #contact-form button[type=\"submit\"]; la API declarativa envía el formulario contenedor: comprueba que su submit realice la misma acción"
+    }
+  ],
+  "imperativeOnly": [
+    "pagarPedido",
+    "descargarInforme"
+  ]
+}

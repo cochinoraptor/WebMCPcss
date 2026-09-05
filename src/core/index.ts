@@ -60,7 +60,7 @@ export class WebMCPcss {
 
   /**
    * Lista las herramientas registradas mediante la API imperativa de WebMCP
-   * (`navigator.modelContext.registerTool()`), si el adaptador la soporta.
+   * (`document.modelContext.registerTool()`), si el adaptador la soporta.
    *
    * @returns Herramientas de la API, o `[]` si el adaptador no la soporta.
    */
@@ -252,7 +252,7 @@ export class WebMCPcss {
    *
    * @param url URL informativa para el reporte.
    * @param options `includeApi: true` añade al reporte las herramientas
-   *   registradas vía `navigator.modelContext` (si el adaptador lo soporta).
+   *   registradas vía `document.modelContext` (si el adaptador lo soporta).
    * @returns Reporte con el estado de cada selector.
    */
   async validate(
@@ -292,13 +292,13 @@ export class WebMCPcss {
       await check(name, 'context', ctx.selector);
     }
 
-    // Herramientas de la API imperativa (navigator.modelContext).
+    // Herramientas de la API imperativa (document.modelContext).
     if (options.includeApi && hasApiTools(this.adapter)) {
       for (const apiTool of await this.adapter.listApiTools()) {
         entries.push({
           name: apiTool.name,
           kind: 'api',
-          selector: '(navigator.modelContext)',
+          selector: '(document.modelContext)',
           ok: true,
         });
       }

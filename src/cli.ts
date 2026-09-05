@@ -58,6 +58,11 @@ import {
 } from './exporters';
 import { VERSION } from './version';
 import { registerV1Commands } from './cli-v1';
+import { registerStandardCommands } from './cli-standard';
+import {
+  declarativeToolsToToolMap,
+  extractDeclarativeToolsFromDocument,
+} from './standard';
 import { createLlmClient, PromptManager, type PromptResult } from './prompt';
 import {
   animateWithPage,
@@ -255,7 +260,7 @@ function installRecorder(): void {
 
 /** Comando `generate`: graba interacciones y escribe un `.webmcp.css`.
  *  Con `--api`, el argumento es un `.webmcp.css` y genera el script JS
- *  equivalente para `navigator.modelContext.registerTool()`.
+ *  equivalente para `document.modelContext.registerTool()`.
  *  Con `--ai`, mejora nombres/descripciones con un modelo de lenguaje. */
 async function cmdGenerate(
   url: string,
@@ -311,7 +316,27 @@ async function cmdGenerate(
         `Framework detectado: ${chalk.cyan(frameworks.join(', '))} · ` +
           `${scan.forms.length} formulario(s), ${scan.actions.length} acción(es)`,
       );
-      const toolMap = buildAutoToolMap(scan);
+      // v1.1.0: los formularios ya anotados con la API declarativa del
+      // estándar (toolname/tooldescription) conservan su nombre y descripción.
+      const declarative = (await page.evaluate(
+        `(${extractDeclarativeToolsFromDocument.toString()})(document)`,
+      )) as import('./standard').DeclarativeScan;
+      let toolMap = buildAutoToolMap(scan);
+      if (declarative.tools.length > 0) {
+        logger.info(
+          `API declarativa WebMCP: ${chalk.cyan(String(declarative.tools.length))} formulario(s) con toolname (${declarative.tools
+            .map((t) => t.name)
+            .join(', ')})`,
+        );
+        // Sustituye las tools autogeneradas que apuntan al mismo formulario.
+        const declaredForms = new Set(declarative.tools.map((t) => t.formSelector));
+        for (const [n, t] of Object.entries(toolMap.tools)) {
+          if (t.trigger?.selector && declaredForms.has(t.trigger.selector))
+            delete toolMap.tools[n];
+        }
+        toolMap = declarativeToolsToToolMap(declarative.tools, toolMap);
+      }
+      for (const w of declarative.warnings) logger.warn(w);
       if (Object.keys(toolMap.tools).length === 0) {
         logger.warn('No se detectaron elementos interactivos; no se generó archivo.');
         return;
@@ -1244,7 +1269,7 @@ program
     '--from-source',
     'analiza código fuente React/Vue/Svelte (archivo o carpeta) sin navegador',
   )
-  .option('--api', 'genera código JS para navigator.modelContext.registerTool()')
+  .option('--api', 'genera código JS para document.modelContext.registerTool()')
   .option('--ai', 'mejora nombres y descripciones con IA (requiere WEBMCPCSS_AI_API_KEY)')
   .action(cmdGenerate);
 
@@ -1253,7 +1278,7 @@ program
   .description('Valida que los selectores del .webmcp.css existan en la página')
   .argument('<url>', 'URL o ruta a un HTML local')
   .argument('<css>', 'ruta al archivo .webmcp.css')
-  .option('--api', 'incluye las herramientas registradas vía navigator.modelContext')
+  .option('--api', 'incluye las herramientas registradas vía document.modelContext')
   .option(
     '--save-status [file]',
     'guarda el resultado en JSON (def. .webmcp-status.json) para usarlo con graph',
@@ -1851,6 +1876,7 @@ program
 /* security, recommend, web3 (definidos en cli-v1.ts)                   */
 /* ------------------------------------------------------------------ */
 registerV1Commands(program, { launchBrowser, navigate });
+registerStandardCommands(program, { launchBrowser, navigate });
 
 program.parseAsync(process.argv).catch((err: unknown) => {
   logger.error(err instanceof Error ? err.message : String(err));

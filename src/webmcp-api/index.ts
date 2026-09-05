@@ -1,6 +1,6 @@
 /**
  * Módulo de integración con la API imperativa de WebMCP
- * (`navigator.modelContext`).
+ * (`document.modelContext`).
  *
  * @example
  * ```ts
@@ -24,7 +24,7 @@ export {
 
 /**
  * Recupera todas las herramientas registradas vía
- * `navigator.modelContext.registerTool()` en la página asociada a la fuente.
+ * `document.modelContext.registerTool()` en la página asociada a la fuente.
  *
  * @param source Cualquier adaptador que implemente {@link ApiToolSource}
  *   (p. ej. `WebMCPApiAdapter`).

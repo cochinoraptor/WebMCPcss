@@ -44,7 +44,7 @@ export function exportMcpConfig(ctx: ExportContext): string {
  * Genera un script de inyección para agentes de navegador (ChatGPT Atlas,
  * Operator, Project Mariner, Comet, Skyvern...): expone
  * `window.__WEBMCP_GRAPH__` con las herramientas y sus esquemas, y además
- * las registra en `navigator.modelContext` si la API existe.
+ * las registra en `document.modelContext` si la API existe.
  *
  * @param toolMap Tool map parseado.
  * @param ctx Ruta CSS y URL.
@@ -79,8 +79,8 @@ export function exportBrowserInject(toolMap: ToolMap, ctx: ExportContext): strin
   } catch (e) {
     window.__WEBMCP_GRAPH__ = GRAPH;
   }
-  // Registro opcional en navigator.modelContext (estándar WebMCP).
-  var mc = typeof navigator !== 'undefined' ? navigator.modelContext : undefined;
+  // Registro opcional en document.modelContext (estándar WebMCP; navigator.modelContext = alias obsoleto).
+  var mc = (typeof document !== 'undefined' && document.modelContext) || (typeof navigator !== 'undefined' && navigator.modelContext) || undefined;
   if (mc && typeof mc.registerTool === 'function') {
     GRAPH.tools.forEach(function (t) {
       mc.registerTool({

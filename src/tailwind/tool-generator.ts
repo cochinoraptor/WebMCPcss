@@ -7,7 +7,7 @@
  * del elemento en tiempo real.
  *
  * También puede emitir un script JS standalone (sin dependencias) que
- * registra esas herramientas vía `navigator.modelContext.registerTool()`.
+ * registra esas herramientas vía `document.modelContext.registerTool()`.
  */
 import type {
   TailwindCategory,
@@ -149,7 +149,7 @@ export function applyToolArgs(
 
 /**
  * Genera un script JS standalone que registra las herramientas en
- * `navigator.modelContext` (con guard defensivo si la API no existe).
+ * `document.modelContext` (con guard defensivo si la API no existe).
  *
  * @param tools Descriptores generados por `generateTailwindTools()`.
  * @returns Código JavaScript listo para incluir con `<script src>`.
@@ -172,9 +172,9 @@ export function buildTailwindToolsScript(tools: TailwindToolDescriptor[]): strin
  */
 (function () {
   'use strict';
-  var mc = typeof navigator !== 'undefined' ? navigator.modelContext : undefined;
+  var mc = (typeof document !== 'undefined' && document.modelContext) || (typeof navigator !== 'undefined' && navigator.modelContext) || undefined;
   if (!mc || typeof mc.registerTool !== 'function') {
-    console.warn('[WebMCPcss] navigator.modelContext no disponible; herramientas Tailwind no registradas.');
+    console.warn('[WebMCPcss] document.modelContext no disponible; herramientas Tailwind no registradas.');
     return;
   }
 

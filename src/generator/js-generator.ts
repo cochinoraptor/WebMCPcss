@@ -2,12 +2,13 @@
  * Generador de código JavaScript para la API imperativa de WebMCP.
  *
  * Convierte un {@link ToolMap} (parseado de un `.webmcp.css`) en un script
- * que registra cada herramienta con `navigator.modelContext.registerTool()`,
+ * que registra cada herramienta con `document.modelContext.registerTool()`,
  * siguiendo el estándar WebMCP propuesto para Chrome. Así, un sitio puede
  * empezar declarando sus herramientas en CSS y "graduarse" a la API nativa
  * sin reescribir nada a mano.
  */
 import type { ParamSpec, ToolMap, ToolSpec } from '../types';
+import { MODEL_CONTEXT_EXPR, MODEL_CONTEXT_MISSING_MSG } from '../standard/model-context';
 
 /** Opciones del generador de código. */
 export interface JsGeneratorOptions {
@@ -33,11 +34,16 @@ export function buildInputSchema(tool: ToolSpec): {
   const required: string[] = [];
   for (const [name, spec] of Object.entries(tool.params)) {
     if (spec.source === 'value') {
+      // `webmcp-doc-<param>` (v1.1.0) documenta el parámetro como
+      // `toolparamdescription` en la API declarativa.
+      const documented = tool.meta?.[`doc-${name}`];
       properties[name] = {
         type: 'string',
-        description: spec.selector
-          ? `Valor para el campo ${spec.selector}`
-          : 'Valor para el propio elemento',
+        description:
+          documented ||
+          (spec.selector
+            ? `Valor para el campo ${spec.selector}`
+            : 'Valor para el propio elemento'),
       };
       required.push(name);
     }
@@ -125,10 +131,11 @@ function emitExecuteBody(tool: ToolSpec): string {
 
 /**
  * Genera un script JavaScript autoejecutable que registra todas las
- * herramientas del tool map con `navigator.modelContext.registerTool()`.
+ * herramientas del tool map con `document.modelContext.registerTool()`
+ * (estándar WebMCP; cae a `navigator.modelContext` en navegadores antiguos).
  *
  * El script generado:
- * - Comprueba que `navigator.modelContext` exista (con aviso si no).
+ * - Comprueba que `modelContext` exista (con aviso si no).
  * - Registra cada herramienta con nombre, descripción, `inputSchema` y una
  *   función `execute` que reproduce la semántica del `.webmcp.css`.
  * - Devuelve resultados en el formato `{ content: [{ type, text }] }` del
@@ -170,7 +177,7 @@ export function generateApiScript(
           .slice(0, 1)
           .map(
             (n) =>
-              ` *   const result = await navigator.modelContext.tools?.["${n}"]?.execute({...});`,
+              ` *   const result = await document.modelContext.executeTool?.("${n}", {...});`,
           )
           .join('\n'),
         ' *   // o deja que el agente del navegador descubra las herramientas registradas.',
@@ -183,9 +190,10 @@ export function generateApiScript(
     example,
     `(function () {`,
     `  'use strict';`,
-    `  const mc = navigator.modelContext;`,
+    `  // Estándar WebMCP: document.modelContext (canónico); navigator.modelContext es el alias obsoleto (Chrome < 150).`,
+    `  const mc = ${MODEL_CONTEXT_EXPR};`,
     `  if (!mc || typeof mc.registerTool !== 'function') {`,
-    `    console.warn('[WebMCPcss] navigator.modelContext no está disponible; las herramientas no se registraron.');`,
+    `    console.warn('[WebMCPcss] ${MODEL_CONTEXT_MISSING_MSG}; las herramientas no se registraron.');`,
     `    return;`,
     `  }`,
     toolBlocks.join('\n\n'),

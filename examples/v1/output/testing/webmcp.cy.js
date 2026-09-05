@@ -1,4 +1,4 @@
-// Generado por webmcpcss test generate (webmcpcss@1.0.1) desde examples/v1/tienda.webmcp.css
+// Generado por webmcpcss test generate (webmcpcss@1.1.0) desde examples/v1/tienda.webmcp.css
 // Ejecuta: npx cypress run --spec webmcp.cy.js   (CYPRESS_BASE_URL=https://tienda.test)
 const BASE_URL = Cypress.env('BASE_URL') || "https://tienda.test";
 

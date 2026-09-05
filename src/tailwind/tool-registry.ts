@@ -1,5 +1,6 @@
 /**
- * Registro en memoria de herramientas Tailwind vía `navigator.modelContext`.
+ * Registro en memoria de herramientas Tailwind vía `document.modelContext`
+ * (estándar WebMCP; `navigator.modelContext` como alias obsoleto).
  *
  * A diferencia del script generado (`buildTailwindToolsScript`), este módulo
  * registra las herramientas directamente sobre un objeto `Window` vivo
@@ -9,18 +10,10 @@
 import { applyToolArgs } from './tool-generator';
 import type { TailwindToolDescriptor } from './types';
 
-/** Forma mínima de `navigator.modelContext` que necesitamos. */
-interface ModelContextLike {
-  registerTool(tool: {
-    name: string;
-    description: string;
-    inputSchema: unknown;
-    execute(args: Record<string, unknown>): Promise<unknown>;
-  }): void;
-}
+import { getModelContext } from '../standard/model-context';
 
 /**
- * Registra herramientas de edición Tailwind en `navigator.modelContext`.
+ * Registra herramientas de edición Tailwind en `document.modelContext`.
  *
  * @param win Ventana objetivo (navegador real o jsdom con shim).
  * @param tools Descriptores generados por `generateTailwindTools()`.
@@ -30,9 +23,8 @@ export function registerTailwindTools(
   win: Window,
   tools: TailwindToolDescriptor[],
 ): number {
-  const nav = win.navigator as Navigator & { modelContext?: ModelContextLike };
-  const mc = nav.modelContext;
-  if (!mc || typeof mc.registerTool !== 'function') return 0;
+  const mc = getModelContext(win);
+  if (!mc) return 0;
 
   let count = 0;
   for (const tool of tools) {
@@ -40,7 +32,8 @@ export function registerTailwindTools(
       name: tool.name,
       description: tool.description,
       inputSchema: tool.inputSchema,
-      execute: async (args: Record<string, unknown>) => {
+      execute: async (raw: unknown) => {
+        const args = (raw ?? {}) as Record<string, unknown>;
         const el = win.document.querySelector(tool.selector);
         if (!el) {
           return {

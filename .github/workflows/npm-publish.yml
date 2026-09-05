@@ -1,33 +1,108 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+# Publica el paquete en npm cuando se publica una release de GitHub.
+#
+# Usa **trusted publishing (OIDC)**: no hay tokens npm de larga duración en los
+# secrets. Requisitos (una sola vez, en npmjs.com → paquete → Settings →
+# Trusted publisher): GitHub Actions · owner `cochinoraptor` · repo `WebMCPcss`
+# · workflow `npm-publish.yml`. Con OIDC npm genera además la attestation de
+# **provenance** automáticamente (visible en la página del paquete).
+#
+# Ejecución manual: Actions → "Publish to npm" → Run workflow (usa el commit
+# elegido; útil para reintentar una release ya creada).
 
-name: Node.js Package
+name: Publish to npm
 
 on:
   release:
-    types: [created]
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  verify:
+    name: Build, test & check tarball
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm test
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies (sin descargar Chromium)
+        run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+
+      - name: Lint, build & test
+        run: |
+          npm run lint
+          npm run build
+          npm test
+
+      - name: La versión del paquete coincide con el tag de la release
+        if: github.event_name == 'release'
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          TAG="${{ github.event.release.tag_name }}"
+          test "v$PKG" = "$TAG" || { echo "package.json=$PKG pero tag=$TAG"; exit 1; }
+
+      - name: Instalar el tarball en limpio y comprobar exports + CLI
+        run: |
+          npm pack --ignore-scripts
+          TGZ=$(ls webmcpcss-*.tgz)
+          mkdir -p /tmp/smoke && cd /tmp/smoke && npm init -y >/dev/null
+          PUPPETEER_SKIP_DOWNLOAD=true npm install "$GITHUB_WORKSPACE/$TGZ" --ignore-scripts >/dev/null
+          node -e "
+            const api = require('webmcpcss');
+            for (const n of ['parseWebMCP','WebMCPcss','framework','design','retro','a11y','testing','versioning','doc','security','recommender','web3','standard'])
+              if (!(n in api)) { console.error('Falta export', n); process.exit(1); }
+            if (api.standard.MODEL_CONTEXT_CANONICAL !== 'document.modelContext') process.exit(1);
+          "
+          npx webmcpcss --version
+          npx webmcpcss parse "$GITHUB_WORKSPACE/examples/shopping-cart/webmcp.css" >/dev/null
+          npx webmcpcss standard compile "$GITHUB_WORKSPACE/examples/shopping-cart/webmcp.css" --json >/dev/null
+
+  publish:
+    name: Publish (OIDC trusted publishing + provenance)
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write # necesario para OIDC / provenance
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+
+      # Trusted publishing requiere npm >= 11.5.1
+      - name: Update npm
+        run: npm install -g npm@latest && npm --version
+
+      - name: Install dependencies (sin descargar Chromium)
+        run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish --access public --provenance --ignore-scripts
+
+      - name: Verify on the registry
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          for i in 1 2 3 4 5 6; do
+            SEEN=$(npm view webmcpcss@"$PKG" version 2>/dev/null || true)
+            [ "$SEEN" = "$PKG" ] && { echo "webmcpcss@$PKG publicado"; exit 0; }
+            sleep 15
+          done
+          echo "El registro aún no muestra $PKG"; exit 1

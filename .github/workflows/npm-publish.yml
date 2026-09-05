@@ -94,10 +94,24 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Si la versión ya está publicada (p. ej. se publicó a mano), no falla: la salta.
+      - name: Already on the registry?
+        id: exists
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          if [ "$(npm view webmcpcss@"$PKG" version 2>/dev/null || true)" = "$PKG" ]; then
+            echo "webmcpcss@$PKG ya está en npm; no se vuelve a publicar."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish
+        if: steps.exists.outputs.skip != 'true'
         run: npm publish --access public --provenance --ignore-scripts
 
       - name: Verify on the registry
+        if: steps.exists.outputs.skip != 'true'
         run: |
           PKG=$(node -p "require('./package.json').version")
           for i in 1 2 3 4 5 6; do

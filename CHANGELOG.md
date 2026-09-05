@@ -4,6 +4,20 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [Unreleased]
+
+### Cambiado
+
+- **Dependencias** (sin cambios de API): `commander` 12 → **13.1** (última versión
+  CommonJS compatible con Node 18; 14 exige Node 20 y 15 es ESM-only), `eslint` 8 → 9
+  (flat config `eslint.config.js` con `typescript-eslint` 8 y `@eslint/js`),
+  `vitest` 2 → 3, `jsdom` 24 → 26, `typescript` → 5.9, `prettier` → 3.9,
+  `eslint-config-prettier` → 10. Se mantienen `chalk` 4 (5/6 son ESM-only) y
+  `@types/node` 20 para seguir soportando Node 18.
+- CI/CD: `actions/setup-node` v7, `actions/configure-pages` v6,
+  `actions/upload-pages-artifact` v5, `actions/deploy-pages` v5,
+  `github/codeql-action` v4 (PRs de Dependabot #8–#12).
+
 ## [1.2.0] - 2026-09-05
 
 **WebMCPcss Component Hub**: catálogo visual e interactivo de componentes

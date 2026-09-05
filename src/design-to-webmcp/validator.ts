@@ -22,7 +22,11 @@ import { toDataUrl } from './analyzer';
 /** Sonda de página mínima. */
 export interface DesignPageProbe {
   /** Devuelve datos del primer elemento que case, o `null`. */
-  probe(selector: string): Promise<{ text: string; box?: { x: number; y: number; width: number; height: number }; visible: boolean } | null>;
+  probe(selector: string): Promise<{
+    text: string;
+    box?: { x: number; y: number; width: number; height: number };
+    visible: boolean;
+  } | null>;
   /** Captura PNG de la página (opcional, para comparación visual). */
   screenshot?(): Promise<Buffer>;
   /** Tamaño del viewport (para normalizar posiciones). */
@@ -75,7 +79,8 @@ export function similarity(a: string, b: string): number {
   if (na === nb || na.includes(nb) || nb.includes(na)) return 1;
   const grams = (s: string) => {
     const g = new Map<string, number>();
-    for (let i = 0; i < s.length - 1; i++) g.set(s.slice(i, i + 2), (g.get(s.slice(i, i + 2)) ?? 0) + 1);
+    for (let i = 0; i < s.length - 1; i++)
+      g.set(s.slice(i, i + 2), (g.get(s.slice(i, i + 2)) ?? 0) + 1);
     return g;
   };
   const ga = grams(na);
@@ -92,15 +97,28 @@ export function similarity(a: string, b: string): number {
  * @param design Estructura de diseño (para etiquetas/cajas).
  * @param url URL (informativa).
  */
-export async function validateDesign(map: ToolMap, probe: DesignPageProbe, design?: DesignStructure, url = ''): Promise<DesignValidationReport> {
-  const byDesignId = new Map<string, DesignElement>((design?.elements ?? []).map((e) => [e.id, e]));
+export async function validateDesign(
+  map: ToolMap,
+  probe: DesignPageProbe,
+  design?: DesignStructure,
+  url = '',
+): Promise<DesignValidationReport> {
+  const byDesignId = new Map<string, DesignElement>(
+    (design?.elements ?? []).map((e) => [e.id, e]),
+  );
   const viewport = probe.viewport ? await probe.viewport() : undefined;
   const checks: DesignCheck[] = [];
   for (const [name, tool] of Object.entries(map.tools)) {
     const designId = tool.meta?.['design-id'];
     const el = designId ? byDesignId.get(designId) : undefined;
     const found = await probe.probe(tool.selector);
-    const check: DesignCheck = { tool: name, selector: tool.selector, elementId: designId, exists: Boolean(found), status: 'missing' };
+    const check: DesignCheck = {
+      tool: name,
+      selector: tool.selector,
+      elementId: designId,
+      exists: Boolean(found),
+      status: 'missing',
+    };
     if (!found) {
       checks.push(check);
       continue;
@@ -113,7 +131,13 @@ export async function validateDesign(map: ToolMap, probe: DesignPageProbe, desig
       check.labelMatch = similarity(el.label, found.text) >= 0.6;
       if (!check.labelMatch && found.text) check.status = 'relabeled';
     }
-    if (el?.box && found.box && design?.source.width && design.source.height && viewport) {
+    if (
+      el?.box &&
+      found.box &&
+      design?.source.width &&
+      design.source.height &&
+      viewport
+    ) {
       const dx = el.box.x / design.source.width - found.box.x / viewport.width;
       const dy = el.box.y / design.source.height - found.box.y / viewport.height;
       check.positionDelta = Math.round(Math.hypot(dx, dy) * 1000) / 1000;
@@ -131,7 +155,9 @@ export async function validateDesign(map: ToolMap, probe: DesignPageProbe, desig
     missing: count('missing'),
     moved: count('moved'),
     relabeled: count('relabeled'),
-    score: total ? Math.round(((ok + 0.5 * (count('moved') + count('relabeled'))) / total) * 100) : 100,
+    score: total
+      ? Math.round(((ok + 0.5 * (count('moved') + count('relabeled'))) / total) * 100)
+      : 100,
     checks,
   };
 }
@@ -144,7 +170,12 @@ const DIFF_SYSTEM = `Comparas dos imágenes: la primera es el diseño (mockup) y
  * @param screenshot Captura real.
  * @param client LLM con visión.
  */
-export async function compareVisually(designImage: Buffer, designMime: string, screenshot: Buffer, client: LlmClient): Promise<{ summary: string; differences: string[] }> {
+export async function compareVisually(
+  designImage: Buffer,
+  designMime: string,
+  screenshot: Buffer,
+  client: LlmClient,
+): Promise<{ summary: string; differences: string[] }> {
   const raw = await client.complete({
     system: DIFF_SYSTEM,
     user: 'Primera imagen: diseño. Segunda imagen: implementación. Enumera diferencias.',
@@ -155,6 +186,8 @@ export async function compareVisually(designImage: Buffer, designMime: string, s
   const obj = extractJsonObject(raw);
   return {
     summary: String(obj?.summary ?? 'Sin resumen'),
-    differences: Array.isArray(obj?.differences) ? (obj?.differences as unknown[]).map(String).slice(0, 12) : [],
+    differences: Array.isArray(obj?.differences)
+      ? (obj?.differences as unknown[]).map(String).slice(0, 12)
+      : [],
   };
 }

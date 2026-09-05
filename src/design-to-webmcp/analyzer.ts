@@ -61,7 +61,13 @@ export interface DesignElement {
 
 /** Estructura de diseño. */
 export interface DesignStructure {
-  source: { type: 'image' | 'figma' | 'text'; ref: string; width?: number; height?: number; format?: string };
+  source: {
+    type: 'image' | 'figma' | 'text';
+    ref: string;
+    width?: number;
+    height?: number;
+    format?: string;
+  };
   title: string;
   /** Todos los elementos (planos; `parent` da la jerarquía). */
   elements: DesignElement[];
@@ -87,7 +93,13 @@ export interface ImageInfo {
 export function readImageInfo(buf: Buffer): ImageInfo {
   const bytes = buf.length;
   if (bytes >= 24 && buf.toString('ascii', 1, 4) === 'PNG') {
-    return { format: 'png', width: buf.readUInt32BE(16), height: buf.readUInt32BE(20), bytes, mime: 'image/png' };
+    return {
+      format: 'png',
+      width: buf.readUInt32BE(16),
+      height: buf.readUInt32BE(20),
+      bytes,
+      mime: 'image/png',
+    };
   }
   if (bytes >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
     let off = 2;
@@ -98,7 +110,13 @@ export function readImageInfo(buf: Buffer): ImageInfo {
       }
       const marker = buf[off + 1];
       if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
-        return { format: 'jpeg', height: buf.readUInt16BE(off + 5), width: buf.readUInt16BE(off + 7), bytes, mime: 'image/jpeg' };
+        return {
+          format: 'jpeg',
+          height: buf.readUInt16BE(off + 5),
+          width: buf.readUInt16BE(off + 7),
+          bytes,
+          mime: 'image/jpeg',
+        };
       }
       const len = buf.readUInt16BE(off + 2);
       off += 2 + len;
@@ -106,16 +124,49 @@ export function readImageInfo(buf: Buffer): ImageInfo {
     return { format: 'jpeg', bytes, mime: 'image/jpeg' };
   }
   if (bytes >= 10 && buf.toString('ascii', 0, 3) === 'GIF') {
-    return { format: 'gif', width: buf.readUInt16LE(6), height: buf.readUInt16LE(8), bytes, mime: 'image/gif' };
+    return {
+      format: 'gif',
+      width: buf.readUInt16LE(6),
+      height: buf.readUInt16LE(8),
+      bytes,
+      mime: 'image/gif',
+    };
   }
-  if (bytes >= 30 && buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
+  if (
+    bytes >= 30 &&
+    buf.toString('ascii', 0, 4) === 'RIFF' &&
+    buf.toString('ascii', 8, 12) === 'WEBP'
+  ) {
     const chunk = buf.toString('ascii', 12, 16);
-    if (chunk === 'VP8 ') return { format: 'webp', width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff, bytes, mime: 'image/webp' };
+    if (chunk === 'VP8 ')
+      return {
+        format: 'webp',
+        width: buf.readUInt16LE(26) & 0x3fff,
+        height: buf.readUInt16LE(28) & 0x3fff,
+        bytes,
+        mime: 'image/webp',
+      };
     if (chunk === 'VP8L') {
-      const b0 = buf[21], b1 = buf[22], b2 = buf[23], b3 = buf[24];
-      return { format: 'webp', width: 1 + (((b1 & 0x3f) << 8) | b0), height: 1 + (((b3 & 0xf) << 10) | (b2 << 2) | ((b1 & 0xc0) >> 6)), bytes, mime: 'image/webp' };
+      const b0 = buf[21],
+        b1 = buf[22],
+        b2 = buf[23],
+        b3 = buf[24];
+      return {
+        format: 'webp',
+        width: 1 + (((b1 & 0x3f) << 8) | b0),
+        height: 1 + (((b3 & 0xf) << 10) | (b2 << 2) | ((b1 & 0xc0) >> 6)),
+        bytes,
+        mime: 'image/webp',
+      };
     }
-    if (chunk === 'VP8X') return { format: 'webp', width: 1 + buf.readUIntLE(24, 3), height: 1 + buf.readUIntLE(27, 3), bytes, mime: 'image/webp' };
+    if (chunk === 'VP8X')
+      return {
+        format: 'webp',
+        width: 1 + buf.readUIntLE(24, 3),
+        height: 1 + buf.readUIntLE(27, 3),
+        bytes,
+        mime: 'image/webp',
+      };
     return { format: 'webp', bytes, mime: 'image/webp' };
   }
   return { format: 'unknown', bytes, mime: 'application/octet-stream' };
@@ -133,27 +184,66 @@ Reglas: ids cortos y únicos en kebab-case; agrupa inputs dentro de un elemento 
 /** Valida y normaliza la salida del LLM a `DesignElement[]`. */
 export function normalizeElements(raw: unknown): DesignElement[] {
   if (!Array.isArray(raw)) return [];
-  const kinds: DesignElementKind[] = ['button', 'link', 'input', 'textarea', 'select', 'checkbox', 'form', 'nav', 'card', 'hero', 'list', 'price', 'heading', 'text', 'image', 'other'];
+  const kinds: DesignElementKind[] = [
+    'button',
+    'link',
+    'input',
+    'textarea',
+    'select',
+    'checkbox',
+    'form',
+    'nav',
+    'card',
+    'hero',
+    'list',
+    'price',
+    'heading',
+    'text',
+    'image',
+    'other',
+  ];
   const seen = new Set<string>();
   const out: DesignElement[] = [];
   raw.forEach((e, i) => {
     if (!e || typeof e !== 'object') return;
     const r = e as Record<string, unknown>;
-    const kind = kinds.includes(r.kind as DesignElementKind) ? (r.kind as DesignElementKind) : 'other';
-    let id = String(r.id ?? `${kind}-${i + 1}`).toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '') || `${kind}-${i + 1}`;
+    const kind = kinds.includes(r.kind as DesignElementKind)
+      ? (r.kind as DesignElementKind)
+      : 'other';
+    let id =
+      String(r.id ?? `${kind}-${i + 1}`)
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/^-+|-+$/g, '') || `${kind}-${i + 1}`;
     while (seen.has(id)) id = `${id}-${i + 1}`;
     seen.add(id);
-    const box = r.box && typeof r.box === 'object' ? (r.box as Record<string, unknown>) : null;
+    const box =
+      r.box && typeof r.box === 'object' ? (r.box as Record<string, unknown>) : null;
     out.push({
       id,
       kind,
       label: String(r.label ?? '').slice(0, 120),
-      intent: ['submit', 'cancel', 'navigate', 'action', 'read'].includes(String(r.intent)) ? (r.intent as DesignElement['intent']) : undefined,
+      intent: ['submit', 'cancel', 'navigate', 'action', 'read'].includes(
+        String(r.intent),
+      )
+        ? (r.intent as DesignElement['intent'])
+        : undefined,
       parent: r.parent ? String(r.parent) : undefined,
-      box: box && ['x', 'y', 'width', 'height'].every((k) => typeof box[k] === 'number') ? { x: box.x as number, y: box.y as number, width: box.width as number, height: box.height as number } : undefined,
+      box:
+        box && ['x', 'y', 'width', 'height'].every((k) => typeof box[k] === 'number')
+          ? {
+              x: box.x as number,
+              y: box.y as number,
+              width: box.width as number,
+              height: box.height as number,
+            }
+          : undefined,
       placeholder: r.placeholder ? String(r.placeholder) : undefined,
-      fieldName: r.fieldName ? String(r.fieldName).replace(/[^a-zA-Z0-9]/g, '') : undefined,
-      confidence: typeof r.confidence === 'number' ? Math.max(0, Math.min(1, r.confidence)) : 0.6,
+      fieldName: r.fieldName
+        ? String(r.fieldName).replace(/[^a-zA-Z0-9]/g, '')
+        : undefined,
+      confidence:
+        typeof r.confidence === 'number' ? Math.max(0, Math.min(1, r.confidence)) : 0.6,
     });
   });
   return out;
@@ -164,11 +254,21 @@ export function normalizeElements(raw: unknown): DesignElement[] {
  * @param imagePath Ruta de la imagen.
  * @param client LLM con visión (opcional).
  */
-export async function analyzeImage(imagePath: string, client: LlmClient | null): Promise<DesignStructure> {
+export async function analyzeImage(
+  imagePath: string,
+  client: LlmClient | null,
+): Promise<DesignStructure> {
   const buf = fs.readFileSync(imagePath);
   const info = readImageInfo(buf);
-  if (info.format === 'unknown') throw new Error(`Formato de imagen no reconocido: ${imagePath}`);
-  const source: DesignStructure['source'] = { type: 'image', ref: imagePath, width: info.width, height: info.height, format: info.format };
+  if (info.format === 'unknown')
+    throw new Error(`Formato de imagen no reconocido: ${imagePath}`);
+  const source: DesignStructure['source'] = {
+    type: 'image',
+    ref: imagePath,
+    width: info.width,
+    height: info.height,
+    format: info.format,
+  };
   const title = path.basename(imagePath, path.extname(imagePath));
   if (!client) {
     return {
@@ -196,7 +296,11 @@ export async function analyzeImage(imagePath: string, client: LlmClient | null):
     title: String(obj?.title ?? title),
     elements,
     method: 'llm-vision',
-    notes: elements.length ? [] : ['El modelo no devolvió elementos; prueba con una imagen más nítida o un modelo con visión.'],
+    notes: elements.length
+      ? []
+      : [
+          'El modelo no devolvió elementos; prueba con una imagen más nítida o un modelo con visión.',
+        ],
   };
 }
 
@@ -215,7 +319,8 @@ interface FigmaNode {
 export function classifyFigmaNode(node: FigmaNode): DesignElementKind | null {
   const name = node.name.toLowerCase();
   if (/button|btn|cta/.test(name)) return 'button';
-  if (/input|field|textfield|text field/.test(name)) return /textarea|multiline/.test(name) ? 'textarea' : 'input';
+  if (/input|field|textfield|text field/.test(name))
+    return /textarea|multiline/.test(name) ? 'textarea' : 'input';
   if (/select|dropdown|combobox/.test(name)) return 'select';
   if (/checkbox|toggle|switch/.test(name)) return 'checkbox';
   if (/form/.test(name)) return 'form';
@@ -243,7 +348,12 @@ export function figmaTreeToElements(root: FigmaNode, maxElements = 200): DesignE
     const kind = classifyFigmaNode(node);
     let myId = parent;
     if (kind) {
-      let id = node.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || kind;
+      let id =
+        node.name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 40) || kind;
       let n = 2;
       const base = id;
       while (ids.has(id)) id = `${base}-${n++}`;
@@ -256,9 +366,38 @@ export function figmaTreeToElements(root: FigmaNode, maxElements = 200): DesignE
         label,
         parent,
         box: node.absoluteBoundingBox,
-        intent: kind === 'button' ? (/submit|send|enviar|buy|comprar|pay|pagar|save|guardar|login|sign/i.test(label) ? 'submit' : /cancel|cancelar|close|cerrar/i.test(label) ? 'cancel' : 'action') : kind === 'link' || kind === 'nav' ? 'navigate' : undefined,
-        placeholder: kind === 'input' || kind === 'textarea' ? labelNode?.characters?.trim() : undefined,
-        fieldName: kind === 'input' || kind === 'textarea' || kind === 'select' || kind === 'checkbox' ? camelField(label || node.name) : undefined,
+        intent:
+          kind === 'button'
+            ? /submit|send|enviar|buy|comprar|pay|pagar|save|guardar|login|sign|entrar|acceder|registr|reservar|book|confirmar|continuar|continue|next|siguiente/i.test(
+                `${label} ${parent ?? ''}`,
+              )
+              ? 'submit'
+              : /cancel|cancelar|close|cerrar/i.test(label)
+                ? 'cancel'
+                : 'action'
+            : kind === 'link' || kind === 'nav'
+              ? 'navigate'
+              : undefined,
+        placeholder:
+          kind === 'input' || kind === 'textarea'
+            ? labelNode?.characters?.trim()
+            : undefined,
+        // El nombre de campo sale del nombre de la capa («Input Email» →
+        // email), no del placeholder («tu@email.com»).
+        fieldName:
+          kind === 'input' ||
+          kind === 'textarea' ||
+          kind === 'select' ||
+          kind === 'checkbox'
+            ? camelField(
+                node.name
+                  .replace(
+                    /\b(input|field|textfield|text field|select|dropdown|combobox|checkbox|toggle|switch|textarea)\b/gi,
+                    '',
+                  )
+                  .trim() || label,
+              )
+            : undefined,
         confidence: node.type === 'INSTANCE' || node.type === 'COMPONENT' ? 0.85 : 0.65,
       };
       out.push(el);
@@ -292,7 +431,9 @@ function camelField(text: string): string {
     .split(/\s+/)
     .slice(0, 3);
   if (!words.length) return 'value';
-  return words.map((w, i) => (i ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w.toLowerCase())).join('');
+  return words
+    .map((w, i) => (i ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w.toLowerCase()))
+    .join('');
 }
 
 /**
@@ -301,45 +442,114 @@ function camelField(text: string): string {
  * @param token Token personal (`FIGMA_TOKEN`).
  * @param fetchImpl fetch (tests).
  */
-export async function analyzeFigma(fileRef: string, token: string, fetchImpl: typeof fetch = fetch): Promise<DesignStructure> {
+export async function analyzeFigma(
+  fileRef: string,
+  token: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<DesignStructure> {
   const m = /figma\.com\/(?:file|design)\/([a-zA-Z0-9]+)/.exec(fileRef);
   const key = m ? m[1] : fileRef.split('#')[0];
-  const nodeId = /node-id=([^&]+)/.exec(fileRef)?.[1]?.replace('-', ':') ?? fileRef.split('#')[1];
-  const url = nodeId ? `https://api.figma.com/v1/files/${key}/nodes?ids=${encodeURIComponent(nodeId)}` : `https://api.figma.com/v1/files/${key}?depth=6`;
+  const nodeId =
+    /node-id=([^&]+)/.exec(fileRef)?.[1]?.replace('-', ':') ?? fileRef.split('#')[1];
+  const url = nodeId
+    ? `https://api.figma.com/v1/files/${key}/nodes?ids=${encodeURIComponent(nodeId)}`
+    : `https://api.figma.com/v1/files/${key}?depth=6`;
   const res = await fetchImpl(url, { headers: { 'X-Figma-Token': token } });
-  if (!res.ok) throw new Error(`Figma API ${res.status}: ${await res.text().catch(() => '')}`.trim());
-  const body = (await res.json()) as { name?: string; document?: FigmaNode; nodes?: Record<string, { document: FigmaNode }> };
-  const root: FigmaNode | undefined = body.document ?? Object.values(body.nodes ?? {})[0]?.document;
+  if (!res.ok)
+    throw new Error(
+      `Figma API ${res.status}: ${await res.text().catch(() => '')}`.trim(),
+    );
+  const body = (await res.json()) as {
+    name?: string;
+    document?: FigmaNode;
+    nodes?: Record<string, { document: FigmaNode }>;
+  };
+  const root: FigmaNode | undefined =
+    body.document ?? Object.values(body.nodes ?? {})[0]?.document;
   if (!root) throw new Error('Respuesta de Figma sin documento');
   const elements = figmaTreeToElements(root);
   return {
-    source: { type: 'figma', ref: fileRef, width: root.absoluteBoundingBox?.width, height: root.absoluteBoundingBox?.height },
+    source: {
+      type: 'figma',
+      ref: fileRef,
+      width: root.absoluteBoundingBox?.width,
+      height: root.absoluteBoundingBox?.height,
+    },
     title: body.name ?? root.name,
     elements,
     method: 'figma-api',
-    notes: elements.length ? [] : ['No se detectaron elementos interactivos: nombra las capas (Button/Input/Nav…) o usa componentes.'],
+    notes: elements.length
+      ? []
+      : [
+          'No se detectaron elementos interactivos: nombra las capas (Button/Input/Nav…) o usa componentes.',
+        ],
   };
 }
 
 /** Vocabulario para descripciones textuales. */
-const TEXT_PATTERNS: Array<{ re: RegExp; kind: DesignElementKind; label: string; intent?: DesignElement['intent']; fieldName?: string }> = [
-  { re: /buscador|barra de b[uú]squeda|search/i, kind: 'input', label: 'Buscar', fieldName: 'query' },
+const TEXT_PATTERNS: Array<{
+  re: RegExp;
+  kind: DesignElementKind;
+  label: string;
+  intent?: DesignElement['intent'];
+  fieldName?: string;
+}> = [
+  {
+    re: /buscador|barra de b[uú]squeda|search/i,
+    kind: 'input',
+    label: 'Buscar',
+    fieldName: 'query',
+  },
   { re: /email|correo/i, kind: 'input', label: 'Email', fieldName: 'email' },
-  { re: /contrase[ñn]a|password/i, kind: 'input', label: 'Contraseña', fieldName: 'password' },
+  {
+    re: /contrase[ñn]a|password/i,
+    kind: 'input',
+    label: 'Contraseña',
+    fieldName: 'password',
+  },
   { re: /nombre|name/i, kind: 'input', label: 'Nombre', fieldName: 'name' },
   { re: /tel[eé]fono|phone/i, kind: 'input', label: 'Teléfono', fieldName: 'phone' },
-  { re: /mensaje|comentario|message/i, kind: 'textarea', label: 'Mensaje', fieldName: 'message' },
-  { re: /login|iniciar sesi[oó]n|acceder/i, kind: 'button', label: 'Iniciar sesión', intent: 'submit' },
-  { re: /registr|crear cuenta|sign ?up/i, kind: 'button', label: 'Crear cuenta', intent: 'submit' },
-  { re: /a[ñn]adir al carrito|add to cart|comprar/i, kind: 'button', label: 'Añadir al carrito', intent: 'action' },
-  { re: /checkout|pagar|finalizar compra/i, kind: 'button', label: 'Pagar', intent: 'submit' },
+  {
+    re: /mensaje|comentario|message/i,
+    kind: 'textarea',
+    label: 'Mensaje',
+    fieldName: 'message',
+  },
+  {
+    re: /login|iniciar sesi[oó]n|acceder/i,
+    kind: 'button',
+    label: 'Iniciar sesión',
+    intent: 'submit',
+  },
+  {
+    re: /registr|crear cuenta|sign ?up/i,
+    kind: 'button',
+    label: 'Crear cuenta',
+    intent: 'submit',
+  },
+  {
+    re: /a[ñn]adir al carrito|add to cart|comprar/i,
+    kind: 'button',
+    label: 'Añadir al carrito',
+    intent: 'action',
+  },
+  {
+    re: /checkout|pagar|finalizar compra/i,
+    kind: 'button',
+    label: 'Pagar',
+    intent: 'submit',
+  },
   { re: /enviar|submit|contactar/i, kind: 'button', label: 'Enviar', intent: 'submit' },
   { re: /cancelar|cancel/i, kind: 'button', label: 'Cancelar', intent: 'cancel' },
   { re: /suscri|newsletter/i, kind: 'button', label: 'Suscribirme', intent: 'submit' },
   { re: /men[uú]|navegaci[oó]n|navbar|header/i, kind: 'nav', label: 'Navegación' },
   { re: /hero|portada|banner/i, kind: 'hero', label: 'Hero' },
   { re: /precio|price|total/i, kind: 'price', label: 'Precio' },
-  { re: /lista|listado|cat[aá]logo|grid|productos|art[ií]culos/i, kind: 'list', label: 'Listado' },
+  {
+    re: /lista|listado|cat[aá]logo|grid|productos|art[ií]culos/i,
+    kind: 'list',
+    label: 'Listado',
+  },
   { re: /tarjeta|card/i, kind: 'card', label: 'Tarjeta' },
 ];
 
@@ -348,13 +558,31 @@ const TEXT_PATTERNS: Array<{ re: RegExp; kind: DesignElementKind; label: string;
  * @param description Texto («landing con buscador, login y lista de productos con botón comprar»).
  * @param client LLM opcional.
  */
-export async function analyzeDescription(description: string, client: LlmClient | null): Promise<DesignStructure> {
+export async function analyzeDescription(
+  description: string,
+  client: LlmClient | null,
+): Promise<DesignStructure> {
   if (client) {
     try {
-      const raw = await client.complete({ system: VISION_SYSTEM.replace('la captura o mockup de una pantalla web', 'la descripción textual de una pantalla web'), user: description, json: true, maxTokens: 3000 });
+      const raw = await client.complete({
+        system: VISION_SYSTEM.replace(
+          'la captura o mockup de una pantalla web',
+          'la descripción textual de una pantalla web',
+        ),
+        user: description,
+        json: true,
+        maxTokens: 3000,
+      });
       const obj = extractJsonObject(raw);
       const elements = normalizeElements(obj?.elements);
-      if (elements.length) return { source: { type: 'text', ref: description.slice(0, 80) }, title: String(obj?.title ?? 'Diseño'), elements, method: 'llm-text', notes: [] };
+      if (elements.length)
+        return {
+          source: { type: 'text', ref: description.slice(0, 80) },
+          title: String(obj?.title ?? 'Diseño'),
+          elements,
+          method: 'llm-text',
+          notes: [],
+        };
     } catch {
       /* cae a heurísticas */
     }
@@ -379,7 +607,12 @@ export async function analyzeDescription(description: string, client: LlmClient 
     if (p.fieldName === 'query') {
       // El buscador es un formulario propio (input + botón).
       searchFormId = 'form-search';
-      elements.push({ id: searchFormId, kind: 'form', label: 'Buscar', confidence: 0.55 });
+      elements.push({
+        id: searchFormId,
+        kind: 'form',
+        label: 'Buscar',
+        confidence: 0.55,
+      });
       parent = searchFormId;
     } else if (p.kind === 'input' || p.kind === 'textarea') {
       if (!formId) {
@@ -388,14 +621,46 @@ export async function analyzeDescription(description: string, client: LlmClient 
       }
       parent = formId;
     }
-    elements.push({ id, kind: p.kind, label: p.label, intent: p.intent ?? (p.kind === 'nav' ? 'navigate' : undefined), fieldName: p.fieldName, parent, confidence: 0.55 });
+    elements.push({
+      id,
+      kind: p.kind,
+      label: p.label,
+      intent: p.intent ?? (p.kind === 'nav' ? 'navigate' : undefined),
+      fieldName: p.fieldName,
+      parent,
+      confidence: 0.55,
+    });
   }
-  if (searchFormId) elements.push({ id: 'button-search', kind: 'button', label: 'Buscar', intent: 'submit', parent: searchFormId, confidence: 0.55 });
+  if (searchFormId)
+    elements.push({
+      id: 'button-search',
+      kind: 'button',
+      label: 'Buscar',
+      intent: 'submit',
+      parent: searchFormId,
+      confidence: 0.55,
+    });
   // Un botón submit dentro del form si hay campos pero ningún botón submit.
   if (formId) {
-    const submit = elements.find((e) => e.kind === 'button' && e.intent === 'submit' && !e.parent);
+    const submit = elements.find(
+      (e) => e.kind === 'button' && e.intent === 'submit' && !e.parent,
+    );
     if (submit) submit.parent = formId;
-    else elements.push({ id: 'button-submit', kind: 'button', label: 'Enviar', intent: 'submit', parent: formId, confidence: 0.5 });
+    else
+      elements.push({
+        id: 'button-submit',
+        kind: 'button',
+        label: 'Enviar',
+        intent: 'submit',
+        parent: formId,
+        confidence: 0.5,
+      });
   }
-  return { source: { type: 'text', ref: description.slice(0, 80) }, title: 'Diseño', elements, method: 'heuristic', notes: elements.length ? [] : ['No se reconoció ningún elemento en la descripción.'] };
+  return {
+    source: { type: 'text', ref: description.slice(0, 80) },
+    title: 'Diseño',
+    elements,
+    method: 'heuristic',
+    notes: elements.length ? [] : ['No se reconoció ningún elemento en la descripción.'],
+  };
 }

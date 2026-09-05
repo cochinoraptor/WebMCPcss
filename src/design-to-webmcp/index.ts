@@ -22,4 +22,9 @@ export {
   type DesignPageProbe,
   type DesignValidationReport,
 } from './validator';
-export { iaFriendlyScore, optimizeToolMap, type OptimizationResult, type OptimizationSuggestion } from './optimizer';
+export {
+  iaFriendlyScore,
+  optimizeToolMap,
+  type OptimizationResult,
+  type OptimizationSuggestion,
+} from './optimizer';

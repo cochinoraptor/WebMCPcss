@@ -7,7 +7,12 @@
  * un HTML de andamiaje con esos mismos `data-tool`, para que diseño y código
  * nazcan alineados.
  */
-import { renderComponent, toKebab, toToolName, type IaField } from '../framework/components';
+import {
+  renderComponent,
+  toKebab,
+  toToolName,
+  type IaField,
+} from '../framework/components';
 import { serializeToolMap } from '../parser';
 import type { ToolMap, ToolSpec } from '../types';
 import type { DesignElement, DesignStructure } from './analyzer';
@@ -19,7 +24,12 @@ export interface DesignGeneration {
   /** HTML de andamiaje con los `data-tool` esperados. */
   scaffoldHtml: string;
   /** Correspondencia elemento de diseño → herramienta. */
-  mapping: Array<{ elementId: string; tool: string; selector: string; confidence: number }>;
+  mapping: Array<{
+    elementId: string;
+    tool: string;
+    selector: string;
+    confidence: number;
+  }>;
   warnings: string[];
 }
 
@@ -28,7 +38,11 @@ function toolNameFor(el: DesignElement, used: Set<string>): string {
   let base: string;
   if (el.kind === 'button') {
     base = toToolName(el.label || el.id, 'doAction');
-    if (el.intent === 'submit' && !/submit|send|login|register|pay|buy|checkout|subscribe/i.test(base)) base = `submit${base[0].toUpperCase()}${base.slice(1)}`;
+    if (
+      el.intent === 'submit' &&
+      !/submit|send|login|register|pay|buy|checkout|subscribe/i.test(base)
+    )
+      base = `submit${base[0].toUpperCase()}${base.slice(1)}`;
   } else if (el.kind === 'link' || el.kind === 'nav') {
     base = toToolName(`go ${el.label || el.id}`, 'navigate');
   } else if (el.kind === 'form') {
@@ -46,7 +60,11 @@ function toolNameFor(el: DesignElement, used: Set<string>): string {
 /** ¿La acción debería pedir confirmación? */
 function needsConfirmation(el: DesignElement): boolean {
   if (/buscar|search|filtrar|filter|ordenar|sort/i.test(el.label)) return false;
-  return /pagar|pay|checkout|comprar|buy|eliminar|delete|borrar|remove|cancelar suscripci|unsubscribe|transfer/i.test(el.label) || el.intent === 'submit';
+  return (
+    /pagar|pay|checkout|comprar|buy|eliminar|delete|borrar|remove|cancelar suscripci|unsubscribe|transfer/i.test(
+      el.label,
+    ) || el.intent === 'submit'
+  );
 }
 
 /**
@@ -66,8 +84,12 @@ export function generateFromDesign(design: DesignStructure): DesignGeneration {
   // 1) Formularios: campos → params, botón submit → selector.
   for (const form of design.elements.filter((e) => e.kind === 'form')) {
     const kids = childrenOf(form.id);
-    const fields = kids.filter((k) => ['input', 'textarea', 'select', 'checkbox'].includes(k.kind));
-    const submit = kids.find((k) => k.kind === 'button' && (k.intent === 'submit' || !k.intent)) ?? kids.find((k) => k.kind === 'button');
+    const fields = kids.filter((k) =>
+      ['input', 'textarea', 'select', 'checkbox'].includes(k.kind),
+    );
+    const submit =
+      kids.find((k) => k.kind === 'button' && (k.intent === 'submit' || !k.intent)) ??
+      kids.find((k) => k.kind === 'button');
     if (fields.length === 0 && !submit) continue;
     const label = submit?.label || form.label || 'Enviar';
     const name = toolNameFor({ ...form, label: submit?.label || form.label }, used);
@@ -75,12 +97,31 @@ export function generateFromDesign(design: DesignStructure): DesignGeneration {
     const params: ToolSpec['params'] = {};
     const iaFields: IaField[] = [];
     fields.forEach((f, i) => {
-      const fname = (f.fieldName ?? toToolName(f.label, `field${i + 1}`)).replace(/[^a-zA-Z0-9]/g, '') || `field${i + 1}`;
+      const fname =
+        (f.fieldName ?? toToolName(f.label, `field${i + 1}`)).replace(
+          /[^a-zA-Z0-9]/g,
+          '',
+        ) || `field${i + 1}`;
       let key = fname;
       let k = 2;
       while (params[key]) key = `${fname}${k++}`;
       params[key] = { source: 'value', selector: `#${kebab}-${toKebab(key)}` };
-      iaFields.push({ name: key, label: f.label || key, type: f.kind === 'textarea' ? 'textarea' : f.kind === 'select' ? 'select' : /email/i.test(key) ? 'email' : /password|contrase/i.test(key) ? 'password' : 'text', placeholder: f.placeholder, required: f.confidence > 0.5 });
+      iaFields.push({
+        name: key,
+        label: f.label || key,
+        type:
+          f.kind === 'textarea'
+            ? 'textarea'
+            : f.kind === 'select'
+              ? 'select'
+              : /email/i.test(key)
+                ? 'email'
+                : /password|contrase/i.test(key)
+                  ? 'password'
+                  : 'text',
+        placeholder: f.placeholder,
+        required: f.confidence > 0.5,
+      });
       consumed.add(f.id);
     });
     if (submit) consumed.add(submit.id);
@@ -92,26 +133,65 @@ export function generateFromDesign(design: DesignStructure): DesignGeneration {
       params,
       trigger: { event: 'submit', selector: `#${kebab}-form` },
       confirmation: `[data-confirmation="${kebab}"]`,
-      meta: { component: 'form', intent: 'submit', confirmation: needsConfirmation(submit ?? form) ? 'needed' : 'none', accessibility: `aria-label: ${label.replace(/"/g, "'")}`, 'design-id': form.id },
+      meta: {
+        component: 'form',
+        intent: 'submit',
+        confirmation: needsConfirmation(submit ?? form) ? 'needed' : 'none',
+        accessibility: `aria-label: ${label.replace(/"/g, "'")}`,
+        'design-id': form.id,
+      },
     };
-    mapping.push({ elementId: form.id, tool: name, selector, confidence: Math.min(form.confidence, submit?.confidence ?? 1) });
-    htmlParts.push(renderComponent('form', { tool: name, label, fields: iaFields, description: label }).html);
+    mapping.push({
+      elementId: form.id,
+      tool: name,
+      selector,
+      confidence: Math.min(form.confidence, submit?.confidence ?? 1),
+    });
+    htmlParts.push(
+      renderComponent('form', { tool: name, label, fields: iaFields, description: label })
+        .html,
+    );
   }
 
   // 2) Navegación: enlaces hijos → herramientas navigate.
   for (const nav of design.elements.filter((e) => e.kind === 'nav')) {
-    const links = childrenOf(nav.id).filter((k) => k.kind === 'link' || k.kind === 'button' || k.kind === 'text');
+    const links = childrenOf(nav.id).filter(
+      (k) => k.kind === 'link' || k.kind === 'button' || k.kind === 'text',
+    );
     const items: Array<{ label: string; href?: string; tool?: string }> = [];
     for (const link of links) {
       const name = toolNameFor({ ...link, kind: 'link' }, used);
       const selector = `[data-tool="${toKebab(name)}"]`;
-      map.tools[name] = { selector, description: `Navega a ${link.label}`, params: {}, meta: { component: 'nav', intent: 'navigate', confirmation: 'none', accessibility: `aria-label: ${link.label.replace(/"/g, "'")}`, 'design-id': link.id } };
-      mapping.push({ elementId: link.id, tool: name, selector, confidence: link.confidence });
+      map.tools[name] = {
+        selector,
+        description: `Navega a ${link.label}`,
+        params: {},
+        meta: {
+          component: 'nav',
+          intent: 'navigate',
+          confirmation: 'none',
+          accessibility: `aria-label: ${link.label.replace(/"/g, "'")}`,
+          'design-id': link.id,
+        },
+      };
+      mapping.push({
+        elementId: link.id,
+        tool: name,
+        selector,
+        confidence: link.confidence,
+      });
       consumed.add(link.id);
       items.push({ label: link.label, href: `/${toKebab(link.label)}`, tool: name });
     }
     consumed.add(nav.id);
-    if (items.length) htmlParts.push(renderComponent('nav', { tool: toToolName(nav.label || 'main nav', 'mainNav'), label: nav.label || 'Navegación', items }).html);
+    if (items.length)
+      htmlParts.push(
+        renderComponent('nav', {
+          tool: toToolName(nav.label || 'main nav', 'mainNav'),
+          label: nav.label || 'Navegación',
+          items,
+        }).html,
+      );
   }
 
   // 3) Botones y enlaces sueltos.
@@ -125,23 +205,56 @@ export function generateFromDesign(design: DesignStructure): DesignGeneration {
       selector,
       description: el.kind === 'link' ? `Navega a ${el.label}` : `Pulsa '${el.label}'`,
       params: {},
-      meta: { component: 'button', intent, confirmation: needsConfirmation(el) ? 'needed' : 'none', accessibility: `aria-label: ${el.label.replace(/"/g, "'")}`, 'design-id': el.id },
+      meta: {
+        component: 'button',
+        intent,
+        confirmation: needsConfirmation(el) ? 'needed' : 'none',
+        accessibility: `aria-label: ${el.label.replace(/"/g, "'")}`,
+        'design-id': el.id,
+      },
     };
     mapping.push({ elementId: el.id, tool: name, selector, confidence: el.confidence });
     consumed.add(el.id);
-    htmlParts.push(renderComponent('button', { tool: name, label: el.label, intent, confirmation: needsConfirmation(el) ? 'needed' : 'none' }).html);
+    htmlParts.push(
+      renderComponent('button', {
+        tool: name,
+        label: el.label,
+        intent,
+        confirmation: needsConfirmation(el) ? 'needed' : 'none',
+      }).html,
+    );
   }
 
   // 4) Inputs huérfanos (sin form): herramienta fill.
   for (const el of design.elements) {
-    if (consumed.has(el.id) || !['input', 'textarea', 'select'].includes(el.kind)) continue;
+    if (consumed.has(el.id) || !['input', 'textarea', 'select'].includes(el.kind))
+      continue;
     const field = el.fieldName ?? toToolName(el.label, 'value');
     const name = toolNameFor({ ...el, label: `set ${field}` }, used);
     const selector = `[data-tool="${toKebab(name)}"]`;
-    map.tools[name] = { selector, description: `Rellena ${el.label || field}`, params: { [field]: { source: 'value' } }, trigger: { event: 'change' }, meta: { component: 'button', intent: 'action', confirmation: 'none', accessibility: `aria-label: ${(el.label || field).replace(/"/g, "'")}`, 'design-id': el.id } };
-    mapping.push({ elementId: el.id, tool: name, selector, confidence: el.confidence * 0.8 });
+    map.tools[name] = {
+      selector,
+      description: `Rellena ${el.label || field}`,
+      params: { [field]: { source: 'value' } },
+      trigger: { event: 'change' },
+      meta: {
+        component: 'button',
+        intent: 'action',
+        confirmation: 'none',
+        accessibility: `aria-label: ${(el.label || field).replace(/"/g, "'")}`,
+        'design-id': el.id,
+      },
+    };
+    mapping.push({
+      elementId: el.id,
+      tool: name,
+      selector,
+      confidence: el.confidence * 0.8,
+    });
     consumed.add(el.id);
-    warnings.push(`El campo '${el.label || el.id}' no pertenece a ningún formulario; se generó la herramienta ${name} (change).`);
+    warnings.push(
+      `El campo '${el.label || el.id}' no pertenece a ningún formulario; se generó la herramienta ${name} (change).`,
+    );
   }
 
   // 5) Precios y textos destacados → contexto.
@@ -152,18 +265,33 @@ export function generateFromDesign(design: DesignStructure): DesignGeneration {
     let n = 2;
     while (map.context[key] || map.tools[key]) key = `${name}${n++}`;
     const selector = `[data-context="${toKebab(key)}"]`;
-    map.context[key] = { selector, format: el.kind === 'price' ? 'currency' : 'text', meta: { 'design-id': el.id } };
+    map.context[key] = {
+      selector,
+      format: el.kind === 'price' ? 'currency' : 'text',
+      meta: { 'design-id': el.id },
+    };
     consumed.add(el.id);
   }
 
-  if (Object.keys(map.tools).length === 0) warnings.push('El diseño no contiene elementos interactivos reconocibles.');
+  if (Object.keys(map.tools).length === 0)
+    warnings.push('El diseño no contiene elementos interactivos reconocibles.');
   const lowConf = mapping.filter((m) => m.confidence < 0.5);
-  if (lowConf.length) warnings.push(`${lowConf.length} herramienta(s) con confianza < 0.5: ${lowConf.map((m) => m.tool).join(', ')}.`);
-  const unusedParents = design.elements.filter((e) => !consumed.has(e.id) && byId.has(e.id) && ['card', 'hero', 'list'].includes(e.kind)).length;
-  if (unusedParents) warnings.push(`${unusedParents} región(es) (card/hero/list) sin acciones detectadas.`);
+  if (lowConf.length)
+    warnings.push(
+      `${lowConf.length} herramienta(s) con confianza < 0.5: ${lowConf.map((m) => m.tool).join(', ')}.`,
+    );
+  const unusedParents = design.elements.filter(
+    (e) =>
+      !consumed.has(e.id) && byId.has(e.id) && ['card', 'hero', 'list'].includes(e.kind),
+  ).length;
+  if (unusedParents)
+    warnings.push(
+      `${unusedParents} región(es) (card/hero/list) sin acciones detectadas.`,
+    );
 
   const header = `/* Generado por webmcpcss design analyze — fuente: ${design.source.type} ${design.source.ref} (${design.method}) */\n/* Los selectores [data-tool] son la propuesta: añade esos atributos al implementar el diseño. */\n\n`;
-  const css = header + serializeToolMap(map).replace(/^\/\* Generado por WebMCPcss[^\n]*\n\n?/, '');
+  const css =
+    header + serializeToolMap(map).replace(/^\/\* Generado por WebMCPcss[^\n]*\n\n?/, '');
   const scaffoldHtml = `<!-- Andamiaje generado desde el diseño "${design.title}". Los data-tool coinciden con ${design.title}.webmcp.css -->\n${htmlParts.join('\n\n')}\n`;
   return { toolMap: map, css, scaffoldHtml, mapping, warnings };
 }

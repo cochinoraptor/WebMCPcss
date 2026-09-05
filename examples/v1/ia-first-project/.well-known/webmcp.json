@@ -2,7 +2,7 @@
   "version": "1",
   "css": "/webmcp.css",
   "framework": "ia-first",
-  "generator": "webmcpcss@1.0.0",
+  "generator": "webmcpcss@1.0.1",
   "mcp": {
     "command": "webmcpcss",
     "args": [

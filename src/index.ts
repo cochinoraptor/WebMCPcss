@@ -269,6 +269,7 @@ export {
 // evitar colisiones (`framework.initProject`, `a11y.auditPage`, …) ---
 export * as framework from './framework';
 export * as designToWebmcp from './design-to-webmcp';
+export * as design from './design-to-webmcp';
 export * as retro from './retro';
 export * as a11y from './a11y';
 export * as testing from './testing';

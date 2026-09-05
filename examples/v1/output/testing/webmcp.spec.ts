@@ -1,4 +1,4 @@
-// Generado por webmcpcss test generate (webmcpcss@1.0.0) desde examples/v1/tienda.webmcp.css
+// Generado por webmcpcss test generate (webmcpcss@1.0.1) desde examples/v1/tienda.webmcp.css
 // Ejecuta: npx playwright test webmcp.spec.ts   (BASE_URL=https://tienda.test)
 import { test, expect } from '@playwright/test';
 

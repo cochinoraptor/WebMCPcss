@@ -4,7 +4,15 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
-## [1.0.0] - Sin publicar
+## [1.0.1] - 2026-09-05
+
+### Corregido
+
+- `import { design } from 'webmcpcss'` funciona como documentan el README y
+  `docs/design-to-webmcp.md`: `design` es un alias del namespace
+  `designToWebmcp` (que se mantiene).
+
+## [1.0.0] - 2026-09-05
 
 Las **diez ideas innovadoras**: diez módulos independientes que convierten
 WebMCPcss en una plataforma completa para sitios nativos de IA. Sin
@@ -115,7 +123,7 @@ read-only|restricted|full`, `webmcp-requires: none|auth|oauth|jwt|session`,
   (HTTP 402 + autorización USDC firmada sin gas para el agente); ver
   `docs/web3.md`.
 
-## [0.9.0] - Sin publicar
+## [0.9.0] - 2026-09-04
 
 Cierra los huecos pendientes de las especificaciones de Mapas de Contenido,
 integración con agentes y conflictos de animación. Sin dependencias nuevas.
@@ -187,7 +195,7 @@ integración con agentes y conflictos de animación. Sin dependencias nuevas.
 - `docs/AGENTS.md`: Flomny usa el formato `flomny`; se añade DeerFlow
   (46 entradas).
 
-## [0.8.0] - Sin publicar
+## [0.8.0] - 2026-09-04
 
 ### Añadido
 
@@ -233,7 +241,7 @@ integración con agentes y conflictos de animación. Sin dependencias nuevas.
 - Las animaciones externas se registran con prioridad `high`: una animación
   `normal` nunca las pisa; `critical` (o `high` + `replace`) las sustituye.
 
-## [0.7.0] - Sin publicar
+## [0.7.0] - 2026-09-03
 
 ### Añadido
 

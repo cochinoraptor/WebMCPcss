@@ -1,0 +1,52 @@
+{
+  "id": "core-parallax-scene",
+  "name": "Parallax Scene (2.5D)",
+  "category": "intelligent",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Escena 2.5D isométrica IA-First con Three.js (webmcp-animation-type: three-scene): capas de color con parallax al ratón, botón para reproducirla y contexto con el estado; todo declarado en CSS.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "animation",
+    "three",
+    "2.5d",
+    "parallax",
+    "scene",
+    "intelligent",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#7c6cf0"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "18px",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el color de la capa naranja a rosa",
+    "oculta el botón Reproducir de la escena"
+  ],
+  "animateExamples": [
+    "haz que la escena reaccione también al scroll",
+    "añade una cuarta capa a la escena isométrica"
+  ],
+  "related": [
+    "core-checkout-form",
+    "core-smart-product-card",
+    "core-hero-section"
+  ],
+  "preview": "preview.css",
+  "css": "parallax-scene.webmcp.css",
+  "html": "parallax-scene.html"
+}

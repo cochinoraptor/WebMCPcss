@@ -1,0 +1,16 @@
+<form data-form="contact-form" toolname="sendMessage" tooldescription="Envía un mensaje de contacto con nombre, correo y texto" toolautosubmit action="#" method="post" novalidate class="w-full max-w-sm space-y-4 rounded-[var(--wm-radius,0.5rem)] border border-slate-200 bg-white p-6 shadow-sm">
+  <h2 class="text-xl font-semibold text-slate-900">Contacto</h2>
+  <div>
+    <label for="name" class="mb-1 block text-sm font-medium text-slate-700">Nombre</label>
+    <input id="name" name="name" type="text" required autocomplete="name" toolparamtitle="name" toolparamdescription="Nombre de quien escribe" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <div>
+    <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico</label>
+    <input id="email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para responder" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30">
+  </div>
+  <div>
+    <label for="message" class="mb-1 block text-sm font-medium text-slate-700">Mensaje</label>
+    <textarea id="message" name="message" rows="4" required toolparamtitle="message" toolparamdescription="Texto del mensaje" class="w-full rounded-[var(--wm-radius,0.5rem)] border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[var(--wm-primary,#2563eb)] focus:outline-none focus:ring-2 focus:ring-[var(--wm-primary,#2563eb)]/30"></textarea>
+  </div>
+  <button type="submit" class="inline-flex min-h-[44px] w-full items-center justify-center rounded-[var(--wm-radius,0.5rem)] bg-[var(--wm-primary,#2563eb)] px-5 text-sm font-semibold text-[var(--wm-on-primary,#fff)] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--wm-primary,#2563eb)]">Enviar mensaje</button>
+</form>

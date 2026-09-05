@@ -1,0 +1,61 @@
+{
+  "id": "shadcn-hero",
+  "name": "Hero",
+  "category": "layout",
+  "library": "shadcn",
+  "version": "1.0.0",
+  "description": "Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "hero",
+    "landing",
+    "cta",
+    "shadcn"
+  ],
+  "controls": [
+    {
+      "variable": "--primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#18181b"
+    },
+    {
+      "variable": "--primary-foreground",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#fafafa"
+    },
+    {
+      "variable": "--radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.625rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "cambia el título del hero a “Componentes nativos para agentes”",
+    "pon el botón Empezar ahora en verde"
+  ],
+  "animateExamples": [
+    "aplica parallax al fondo del hero",
+    "haz que el subtítulo aparezca con retardo"
+  ],
+  "related": [
+    "core-hero",
+    "tailwind-hero",
+    "bootstrap-hero",
+    "mui-hero"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<section data-component=\"hero\" className=\"rounded-xl border bg-card px-7 py-14 text-center\">\n  <Badge variant=\"outline\">Nuevo · Component Hub</Badge>\n  <h1 className=\"mx-auto mt-4 max-w-[16ch] text-5xl font-extrabold\" data-context=\"hero-title\">…</h1>\n  <p className=\"mx-auto my-6 max-w-[56ch] text-lg text-muted-foreground\" data-context=\"hero-subtitle\">…</p>\n  <div className=\"flex justify-center gap-3\">\n    <Button size=\"lg\" asChild data-tool=\"startNow\"><a href=\"/empezar\">Empezar ahora</a></Button>\n    <Button size=\"lg\" variant=\"outline\" data-tool=\"watchDemo\" onClick={openDemo}>▶ Ver demo</Button>\n  </div>\n</section>"
+  },
+  "preview": "preview.css",
+  "css": "hero.webmcp.css",
+  "html": "hero.html"
+}

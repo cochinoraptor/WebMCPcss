@@ -1,0 +1,61 @@
+{
+  "id": "shadcn-product-card",
+  "name": "Product Card",
+  "category": "cards",
+  "library": "shadcn",
+  "version": "1.0.0",
+  "description": "Tarjeta de producto IA-First: imagen, nombre, precio y acciones addToCart / viewDetails; expone nombre y precio como contexto para agentes.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "card",
+    "product",
+    "ecommerce",
+    "cart",
+    "shadcn"
+  ],
+  "controls": [
+    {
+      "variable": "--primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#18181b"
+    },
+    {
+      "variable": "--primary-foreground",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#fafafa"
+    },
+    {
+      "variable": "--radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "0.625rem",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.125,
+      "unit": "rem"
+    }
+  ],
+  "promptExamples": [
+    "cambia el precio de la tarjeta a 39,90 €",
+    "pon el botón Añadir al carrito en verde"
+  ],
+  "animateExamples": [
+    "haz que la tarjeta de producto aparezca con slide-up",
+    "añade una elevación al pasar el ratón por la tarjeta"
+  ],
+  "related": [
+    "core-product-card",
+    "tailwind-product-card",
+    "bootstrap-product-card",
+    "mui-product-card"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Card data-component=\"product-card\" data-product-id={product.id}>\n  <img src={product.image} alt={product.name} className=\"aspect-[16/10] w-full object-cover\" />\n  <CardContent>\n    <CardTitle data-context=\"product-name\">{product.name}</CardTitle>\n    <CardDescription>{product.meta}</CardDescription>\n    <p className=\"mt-3 text-xl font-bold\" data-context=\"product-price\">{product.price}</p>\n  </CardContent>\n  <CardFooter className=\"gap-2\">\n    <Button data-tool=\"addToCart\">Añadir al carrito</Button>\n    <Button variant=\"outline\" asChild data-tool=\"viewDetails\"><a href={product.url}>Ver detalles</a></Button>\n  </CardFooter>\n</Card>"
+  },
+  "preview": "preview.css",
+  "css": "product-card.webmcp.css",
+  "html": "product-card.html"
+}

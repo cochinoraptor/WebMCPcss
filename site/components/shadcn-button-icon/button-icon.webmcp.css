@@ -1,0 +1,14 @@
+/* Componente: Button Icon */
+/* Categoría: buttons · Librería: shadcn · Versión: 1.0.0 */
+/* Botón con icono IA-First: acción puntual (descargar, compartir) con texto accesible y confirmación requerida; herramienta downloadReport. */
+/* Importar: npx webmcpcss components import shadcn-button-icon */
+
+/* shadcn/ui: el HTML es el DOM que renderiza <Button …> (data-slot="button"); pasa data-tool como prop. */
+[data-slot="button"][data-tool="downloadReport"] {
+  webmcp-tool: "downloadReport";
+  webmcp-description: "Descarga el informe en PDF (requiere confirmación del usuario)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

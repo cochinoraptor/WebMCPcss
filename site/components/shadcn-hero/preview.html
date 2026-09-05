@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Hero</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{border:'var(--border)',input:'var(--input)',ring:'var(--ring)',background:'var(--background)',foreground:'var(--foreground)',primary:{DEFAULT:'var(--primary)',foreground:'var(--primary-foreground)'},secondary:{DEFAULT:'var(--secondary)',foreground:'var(--secondary-foreground)'},destructive:{DEFAULT:'var(--destructive)',foreground:'#fff'},muted:{DEFAULT:'var(--muted)',foreground:'var(--muted-foreground)'},accent:{DEFAULT:'var(--accent)',foreground:'var(--accent-foreground)'},popover:{DEFAULT:'var(--popover)',foreground:'var(--popover-foreground)'},card:{DEFAULT:'var(--card)',foreground:'var(--card-foreground)'}},borderRadius:{lg:'var(--radius)',md:'calc(var(--radius) - 2px)',sm:'calc(var(--radius) - 4px)'}}}}</script>
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="hero.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="layout" data-kind="layout">
+<section data-component="hero" class="rounded-xl border bg-card px-7 py-14 text-center text-card-foreground shadow-sm">
+  <span data-slot="badge" class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium">Nuevo · Component Hub</span>
+  <h1 class="mx-auto mt-4 mb-4 max-w-[16ch] text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl" data-context="hero-title">Componentes nativos para agentes de IA</h1>
+  <p class="mx-auto mb-7 max-w-[56ch] text-lg text-muted-foreground" data-context="hero-subtitle">Botones, tarjetas y formularios que declaran qué puede hacer un agente, listos para Tailwind, Bootstrap, MUI y shadcn/ui.</p>
+  <div class="flex flex-wrap justify-center gap-3">
+    <a data-slot="button" data-tool="startNow" href="#empezar" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90">Empezar ahora</a>
+    <button data-slot="button" data-variant="outline" data-tool="watchDemo" type="button" class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-6 text-sm font-medium shadow-sm hover:bg-accent">▶ Ver demo</button>
+  </div>
+</section>
+
+</div>
+
+<script src="../assets/webmcp-animation.js"></script>
+<script>window.__WEBMCP_ANIMATIONS__ = {"animations":{"heroTitleIn":{"name":"heroTitleIn","type":"keyframes","priority":"normal","selector":"[data-component=\"hero\"] [data-context=\"hero-title\"]","parameters":{"keyframes":[{"opacity":0,"transform":"translateY(18px)"},{"opacity":1,"transform":"none"}],"duration":"900ms","easing":"cubic-bezier(.2, .8, .2, 1)"},"line":26,"trigger":"load"}},"warnings":[]};</script>
+<script src="../assets/preview.js"></script>
+</body>
+</html>

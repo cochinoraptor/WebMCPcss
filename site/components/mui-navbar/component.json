@@ -1,0 +1,61 @@
+{
+  "id": "mui-navbar",
+  "name": "Navbar",
+  "category": "layout",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "navigation",
+    "navbar",
+    "header",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace “Precios” a la barra de navegación",
+    "cambia el color de fondo de la navbar"
+  ],
+  "animateExamples": [
+    "haz que la navbar aparezca deslizándose desde arriba",
+    "añade fade-in a los enlaces del menú"
+  ],
+  "related": [
+    "core-navbar",
+    "tailwind-navbar",
+    "bootstrap-navbar",
+    "shadcn-navbar"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<AppBar position=\"static\" data-component=\"navbar\">\n  <Toolbar>\n    <IconButton edge=\"start\" color=\"inherit\" aria-label=\"Abrir menú\" data-tool=\"openMenu\" onClick={toggleDrawer}><MenuIcon /></IconButton>\n    <Typography variant=\"h6\" sx={{ flexGrow: 1 }}><Link href=\"/\" color=\"inherit\" underline=\"none\" data-tool=\"goHome\">◆ Marca</Link></Typography>\n    {links.map((l) => <Button key={l.href} color=\"inherit\" href={l.href} aria-current={l.active ? \"page\" : undefined}>{l.label}</Button>)}\n    <Button variant=\"contained\" color=\"inherit\" href=\"/registro\" data-tool=\"signUp\">Crear cuenta</Button>\n  </Toolbar>\n</AppBar>"
+  },
+  "preview": "preview.css",
+  "css": "navbar.webmcp.css",
+  "html": "navbar.html"
+}

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Navbar (Material UI) · WebMCPcss Component Hub</title>
+<meta name="description" content="Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Navbar (Material UI) · WebMCPcss Component Hub">
+<meta property="og:description" content="Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/mui-navbar/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/mui-navbar/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Navbar","identifier":"mui-navbar","description":"Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/mui-navbar/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/mui/navbar","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Material UI","license":"https://opensource.org/licenses/MIT","keywords":"layout, mui, layout, navigation, navbar, header, mui","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"goHome","description":"Vuelve a la página de inicio"},{"@type":"Action","name":"openMenu","description":"Abre o cierra el menú de navegación (móvil)"},{"@type":"Action","name":"signUp","description":"Abre el registro de cuenta (llamada a la acción de la barra)"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import mui-navbar","files":{"css":"components/mui-navbar/navbar.webmcp.css","html":"components/mui-navbar/navbar.html","meta":"components/mui-navbar/component.json","page":"components/mui-navbar/"},"tools":[{"name":"goHome","selector":".MuiAppBar-root[data-component=\"navbar\"] [data-tool=\"goHome\"]","description":"Vuelve a la página de inicio","params":[],"intent":"navigate","confirmation":"none"},{"name":"openMenu","selector":".MuiAppBar-root[data-component=\"navbar\"] [data-tool=\"openMenu\"]","description":"Abre o cierra el menú de navegación (móvil)","params":[],"intent":"action","confirmation":"none"},{"name":"signUp","selector":".MuiAppBar-root[data-component=\"navbar\"] [data-tool=\"signUp\"]","description":"Abre el registro de cuenta (llamada a la acción de la barra)","params":[],"intent":"navigate","confirmation":"none"}]}}</script>
+</head>
+<body data-component="mui-navbar" data-root-selector=":root">
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/" aria-current="page">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="crumbs"><a href="../">Hub</a><span>›</span><a href="../catalog/">Catálogo</a><span>›</span><a href="../catalog/?category=layout">Layout</a><span>›</span><span>Navbar</span></div>
+<div class="detail-head">
+  <div>
+    <h1>Navbar</h1>
+    <div class="badges"><span class="badge cat">Layout</span><span class="badge lib">Material UI</span><span class="badge v">v1.0.0</span><span class="badge">layout</span><span class="badge">navigation</span><span class="badge">navbar</span><span class="badge">header</span><span class="badge">mui</span></div>
+    <p class="lead">Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.</p>
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" data-fav="mui-navbar" data-name="Navbar" aria-pressed="false"><span class="star" aria-hidden="true">☆</span> <span class="fav-text">Favorito</span></button>
+    <a class="btn" href="preview.html" target="_blank" rel="noopener">Abrir preview ↗</a>
+    <a class="btn" href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components/adapters/mui/navbar" target="_blank" rel="noopener">Fuente ↗</a>
+  </div>
+</div>
+<div class="import" aria-label="Comando de importación"><code>npx webmcpcss components import mui-navbar</code><button type="button" class="btn small" data-copy="npx webmcpcss components import mui-navbar" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button></div>
+
+<div class="studio">
+  <section class="preview-box" aria-labelledby="h-preview">
+    <div class="preview-bar">
+      <strong id="h-preview">Previsualización</strong>
+      <span class="spacer"></span>
+      <button class="btn small" type="button" data-viewport="desktop" aria-pressed="true">Escritorio</button>
+      <button class="btn small" type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+      <button class="btn small" type="button" data-viewport="mobile" aria-pressed="false">Móvil</button>
+    </div>
+    <div class="preview-frame" id="preview-frame" data-viewport="desktop">
+      <iframe id="preview" src="preview.html" title="Previsualización de Navbar" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    <div class="preview-bar"><span>La previsualización emula el DOM y los estilos que renderiza Material UI; en tu app React usa los componentes de @mui/material y pasa los atributos data-* como props.</span></div>
+  </section>
+  <aside class="editor" aria-labelledby="h-editor">
+    <h2 id="h-editor">Editor en vivo</h2>
+    <div class="control"><label for="ctl-wm-primary">Color primario <output>#1976d2</output></label><input id="ctl-wm-primary" type="color" value="#1976d2" data-var="--wm-primary" data-default="#1976d2"></div>
+<div class="control"><label for="ctl-wm-on-primary">Texto sobre primario <output>#ffffff</output></label><input id="ctl-wm-on-primary" type="color" value="#ffffff" data-var="--wm-on-primary" data-default="#ffffff"></div>
+<div class="control"><label for="ctl-wm-radius">Radio <output>4px</output></label><input id="ctl-wm-radius" type="range" min="0" max="24" step="1" value="4" data-var="--wm-radius" data-unit="px" data-default="4"></div>
+    <div class="control"><label for="anim-select">Animación</label>
+      <select id="anim-select"><option value="none">Sin animación</option><option value="fade-in">fade-in</option><option value="slide-up">slide-up</option><option value="pulse">pulse</option><option value="hover-glow">hover-glow</option></select></div>
+    <div class="row"><button class="btn small" type="button" id="anim-replay">▶ Reproducir</button><button class="btn small" type="button" id="editor-reset">Restablecer</button></div>
+    <div><label class="results-meta" for="override-css">CSS generado</label><pre><code id="override-css"></code></pre><button type="button" class="btn small" data-copy-target="#override-css" aria-label="Copiar CSS"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar CSS</button></div>
+  </aside>
+</div>
+
+<section class="tabs" aria-label="Código">
+  <div role="tablist" aria-label="Archivos del componente">
+    <button role="tab" id="tab-css" aria-selected="true" aria-controls="panel-css" tabindex="0">navbar.webmcp.css</button>
+    <button role="tab" id="tab-html" aria-selected="false" aria-controls="panel-html" tabindex="-1">HTML</button>
+    <button role="tab" id="tab-usage" aria-selected="false" aria-controls="panel-usage" tabindex="-1">React / JSX</button>
+    <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
+  </div>
+  <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Navbar */
+/* Categoría: layout · Librería: mui · Versión: 1.0.0 */
+/* Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection. */
+/* Importar: npx webmcpcss components import mui-navbar */
+
+/* Material UI: el HTML es el DOM que renderiza &lt;AppBar&gt;&lt;Toolbar&gt;…; pasa data-tool como prop. */
+/* Contrato WebMCP */
+.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;goHome&quot;] {
+  webmcp-tool: &quot;goHome&quot;;
+  webmcp-description: &quot;Vuelve a la página de inicio&quot;;
+  webmcp-intent: &quot;navigate&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;read-only&quot;;
+}
+.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;openMenu&quot;] {
+  webmcp-tool: &quot;openMenu&quot;;
+  webmcp-description: &quot;Abre o cierra el menú de navegación (móvil)&quot;;
+  webmcp-intent: &quot;action&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;read-only&quot;;
+  webmcp-accessibility: &quot;aria-expanded: reflejar estado; aria-controls: menú&quot;;
+}
+.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;signUp&quot;] {
+  webmcp-tool: &quot;signUp&quot;;
+  webmcp-description: &quot;Abre el registro de cuenta (llamada a la acción de la barra)&quot;;
+  webmcp-intent: &quot;navigate&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;read-only&quot;;
+}
+.MuiAppBar-root[data-component=&quot;navbar&quot;] [aria-current=&quot;page&quot;] { webmcp-context: &quot;activeSection&quot;; webmcp-format: &quot;text&quot;; }
+</code></pre></div>
+  <div role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-html" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-html">&lt;header class=&quot;MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic&quot; data-component=&quot;navbar&quot;&gt;
+  &lt;div class=&quot;MuiToolbar-root&quot;&gt;
+    &lt;button class=&quot;MuiButtonBase-root MuiIconButton-root&quot; type=&quot;button&quot; data-tool=&quot;openMenu&quot; aria-label=&quot;Abrir menú&quot; aria-expanded=&quot;false&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; width=&quot;22&quot; height=&quot;22&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;line x1=&quot;4&quot; y1=&quot;7&quot; x2=&quot;20&quot; y2=&quot;7&quot;/&gt;&lt;line x1=&quot;4&quot; y1=&quot;12&quot; x2=&quot;20&quot; y2=&quot;12&quot;/&gt;&lt;line x1=&quot;4&quot; y1=&quot;17&quot; x2=&quot;20&quot; y2=&quot;17&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+    &lt;h6 class=&quot;MuiTypography-root MuiTypography-h6&quot;&gt;&lt;a data-tool=&quot;goHome&quot; href=&quot;#/&quot; style=&quot;color:inherit;text-decoration:none&quot;&gt;◆ Marca&lt;/a&gt;&lt;/h6&gt;
+    &lt;a class=&quot;MuiButtonBase-root MuiButton-root MuiButton-text&quot; href=&quot;#inicio&quot; aria-current=&quot;page&quot;&gt;Inicio&lt;/a&gt;
+    &lt;a class=&quot;MuiButtonBase-root MuiButton-root MuiButton-text&quot; href=&quot;#componentes&quot;&gt;Componentes&lt;/a&gt;
+    &lt;a class=&quot;MuiButtonBase-root MuiButton-root MuiButton-text&quot; href=&quot;#docs&quot;&gt;Docs&lt;/a&gt;
+    &lt;a class=&quot;MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary&quot; data-tool=&quot;signUp&quot; href=&quot;#registro&quot;&gt;Crear cuenta&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+</code></pre></div>
+  <div role="tabpanel" id="panel-usage" aria-labelledby="tab-usage" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-usage" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-usage">&lt;AppBar position=&quot;static&quot; data-component=&quot;navbar&quot;&gt;
+  &lt;Toolbar&gt;
+    &lt;IconButton edge=&quot;start&quot; color=&quot;inherit&quot; aria-label=&quot;Abrir menú&quot; data-tool=&quot;openMenu&quot; onClick={toggleDrawer}&gt;&lt;MenuIcon /&gt;&lt;/IconButton&gt;
+    &lt;Typography variant=&quot;h6&quot; sx={{ flexGrow: 1 }}&gt;&lt;Link href=&quot;/&quot; color=&quot;inherit&quot; underline=&quot;none&quot; data-tool=&quot;goHome&quot;&gt;◆ Marca&lt;/Link&gt;&lt;/Typography&gt;
+    {links.map((l) =&gt; &lt;Button key={l.href} color=&quot;inherit&quot; href={l.href} aria-current={l.active ? &quot;page&quot; : undefined}&gt;{l.label}&lt;/Button&gt;)}
+    &lt;Button variant=&quot;contained&quot; color=&quot;inherit&quot; href=&quot;/registro&quot; data-tool=&quot;signUp&quot;&gt;Crear cuenta&lt;/Button&gt;
+  &lt;/Toolbar&gt;
+&lt;/AppBar&gt;</code></pre></div>
+  <div role="tabpanel" id="panel-meta" aria-labelledby="tab-meta" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-meta" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-meta">{
+  &quot;id&quot;: &quot;mui-navbar&quot;,
+  &quot;name&quot;: &quot;Navbar&quot;,
+  &quot;category&quot;: &quot;layout&quot;,
+  &quot;library&quot;: &quot;mui&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.&quot;,
+  &quot;author&quot;: &quot;WebMCPcss Team&quot;,
+  &quot;tags&quot;: [
+    &quot;layout&quot;,
+    &quot;navigation&quot;,
+    &quot;navbar&quot;,
+    &quot;header&quot;,
+    &quot;mui&quot;
+  ],
+  &quot;controls&quot;: [
+    {
+      &quot;variable&quot;: &quot;--wm-primary&quot;,
+      &quot;label&quot;: &quot;Color primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#1976d2&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-on-primary&quot;,
+      &quot;label&quot;: &quot;Texto sobre primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#ffffff&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-radius&quot;,
+      &quot;label&quot;: &quot;Radio&quot;,
+      &quot;type&quot;: &quot;range&quot;,
+      &quot;default&quot;: &quot;4px&quot;,
+      &quot;min&quot;: 0,
+      &quot;max&quot;: 24,
+      &quot;step&quot;: 1,
+      &quot;unit&quot;: &quot;px&quot;
+    }
+  ],
+  &quot;promptExamples&quot;: [
+    &quot;añade un enlace “Precios” a la barra de navegación&quot;,
+    &quot;cambia el color de fondo de la navbar&quot;
+  ],
+  &quot;animateExamples&quot;: [
+    &quot;haz que la navbar aparezca deslizándose desde arriba&quot;,
+    &quot;añade fade-in a los enlaces del menú&quot;
+  ],
+  &quot;related&quot;: [
+    &quot;core-navbar&quot;,
+    &quot;tailwind-navbar&quot;,
+    &quot;bootstrap-navbar&quot;,
+    &quot;shadcn-navbar&quot;
+  ],
+  &quot;usage&quot;: {
+    &quot;framework&quot;: &quot;react&quot;,
+    &quot;code&quot;: &quot;&lt;AppBar position=\&quot;static\&quot; data-component=\&quot;navbar\&quot;&gt;\n  &lt;Toolbar&gt;\n    &lt;IconButton edge=\&quot;start\&quot; color=\&quot;inherit\&quot; aria-label=\&quot;Abrir menú\&quot; data-tool=\&quot;openMenu\&quot; onClick={toggleDrawer}&gt;&lt;MenuIcon /&gt;&lt;/IconButton&gt;\n    &lt;Typography variant=\&quot;h6\&quot; sx={{ flexGrow: 1 }}&gt;&lt;Link href=\&quot;/\&quot; color=\&quot;inherit\&quot; underline=\&quot;none\&quot; data-tool=\&quot;goHome\&quot;&gt;◆ Marca&lt;/Link&gt;&lt;/Typography&gt;\n    {links.map((l) =&gt; &lt;Button key={l.href} color=\&quot;inherit\&quot; href={l.href} aria-current={l.active ? \&quot;page\&quot; : undefined}&gt;{l.label}&lt;/Button&gt;)}\n    &lt;Button variant=\&quot;contained\&quot; color=\&quot;inherit\&quot; href=\&quot;/registro\&quot; data-tool=\&quot;signUp\&quot;&gt;Crear cuenta&lt;/Button&gt;\n  &lt;/Toolbar&gt;\n&lt;/AppBar&gt;&quot;
+  },
+  &quot;preview&quot;: &quot;preview.css&quot;,
+  &quot;css&quot;: &quot;navbar.webmcp.css&quot;,
+  &quot;html&quot;: &quot;navbar.html&quot;
+}</code></pre></div>
+</section>
+
+<section class="section" aria-labelledby="h-use">
+  <h2 id="h-use">Cómo usarlo</h2>
+  <ol class="steps">
+    <li>Importa el componente a tu proyecto (HTML + <code>.webmcp.css</code> + <code>component.json</code>):<pre><code>npx webmcpcss components import mui-navbar --output ./src/components</code></pre></li>
+    <li>O añade solo el contrato a tu <code>webmcp.css</code> existente (bloque delimitado y actualizable):<pre><code>npx webmcpcss components import mui-navbar --merge ./webmcp.css</code></pre></li>
+    <li>Publícalo para los agentes: MCP (<code>webmcpcss mcp --serve --css ./webmcp.css</code>), <code>document.modelContext</code> (<code>webmcpcss standard compile ./webmcp.css --html index.html</code>) o exporta a tu agente favorito (<code>webmcpcss export --agent claude-code</code>).</li>
+  </ol>
+</section>
+
+<section class="section">
+<h2 id="tools">Herramientas para agentes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Herramienta</th><th>Descripción</th><th>Parámetros</th><th>Intención</th><th>Confirmación</th><th>Selector</th></tr></thead>
+<tbody><tr><td><code>goHome</code></td><td>Vuelve a la página de inicio</td><td>—</td><td><span class="pill">navigate</span></td><td><span class="pill none">none</span></td><td><code>.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;goHome&quot;]</code></td></tr><tr><td><code>openMenu</code></td><td>Abre o cierra el menú de navegación (móvil)</td><td>—</td><td><span class="pill">action</span></td><td><span class="pill none">none</span></td><td><code>.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;openMenu&quot;]</code></td></tr><tr><td><code>signUp</code></td><td>Abre el registro de cuenta (llamada a la acción de la barra)</td><td>—</td><td><span class="pill">navigate</span></td><td><span class="pill none">none</span></td><td><code>.MuiAppBar-root[data-component=&quot;navbar&quot;] [data-tool=&quot;signUp&quot;]</code></td></tr></tbody></table></div>
+<h2 id="context">Contexto que publica</h2>
+<div class="table-wrap"><table><thead><tr><th>Dato</th><th>Formato</th><th>Selector</th></tr></thead><tbody><tr><td><code>activeSection</code></td><td>text</td><td><code>.MuiAppBar-root[data-component=&quot;navbar&quot;] [aria-current=&quot;page&quot;]</code></td></tr></tbody></table></div>
+<h2 id="examples">Ejemplos con la CLI</h2>
+<div class="examples">
+  <div class="example"><h3><code>webmcpcss prompt</code> — lenguaje natural sobre el componente</h3><ul><li><code>añade un enlace “Precios” a la barra de navegación</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;añade un enlace “Precios” a la barra de navegación&quot; --url https://tu-sitio --files ./navbar.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>cambia el color de fondo de la navbar</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;cambia el color de fondo de la navbar&quot; --url https://tu-sitio --files ./navbar.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+  <div class="example"><h3><code>webmcpcss animate</code> — animaciones declarativas</h3><ul><li><code>haz que la navbar aparezca deslizándose desde arriba</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;haz que la navbar aparezca deslizándose desde arriba&quot; --url https://tu-sitio --files ./navbar.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>añade fade-in a los enlaces del menú</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;añade fade-in a los enlaces del menú&quot; --url https://tu-sitio --files ./navbar.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="h-rel"><h2 id="h-rel">Mismo componente en otras librerías</h2><div class="tiles"><a class="tile" href="../core-navbar/"><strong>Core (sin librería)</strong><span>Navbar · v1.0.0</span></a><a class="tile" href="../tailwind-navbar/"><strong>Tailwind CSS</strong><span>Navbar · v1.0.0</span></a><a class="tile" href="../bootstrap-navbar/"><strong>Bootstrap</strong><span>Navbar · v1.0.0</span></a><a class="tile" href="../shadcn-navbar/"><strong>shadcn/ui</strong><span>Navbar · v1.0.0</span></a></div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

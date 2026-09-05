@@ -1,0 +1,30 @@
+/* Componente: Navbar */
+/* Categoría: layout · Librería: shadcn · Versión: 1.0.0 */
+/* Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection. */
+/* Importar: npx webmcpcss components import shadcn-navbar */
+
+/* shadcn/ui: NavigationMenu + Button; pasa data-tool como prop. */
+/* Contrato WebMCP */
+nav[data-component="navbar"] [data-tool="goHome"] {
+  webmcp-tool: "goHome";
+  webmcp-description: "Vuelve a la página de inicio";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [data-tool="openMenu"] {
+  webmcp-tool: "openMenu";
+  webmcp-description: "Abre o cierra el menú de navegación (móvil)";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+  webmcp-accessibility: "aria-expanded: reflejar estado; aria-controls: menú";
+}
+nav[data-component="navbar"] [data-tool="signUp"] {
+  webmcp-tool: "signUp";
+  webmcp-description: "Abre el registro de cuenta (llamada a la acción de la barra)";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+nav[data-component="navbar"] [aria-current="page"] { webmcp-context: "activeSection"; webmcp-format: "text"; }

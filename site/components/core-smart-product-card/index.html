@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Product Card (Core (sin librería)) · WebMCPcss Component Hub</title>
+<meta name="description" content="Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Smart Product Card (Core (sin librería)) · WebMCPcss Component Hub">
+<meta property="og:description" content="Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/core-smart-product-card/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/core-smart-product-card/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Smart Product Card","identifier":"core-smart-product-card","description":"Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/core-smart-product-card/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/smart-product-card","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Core (sin librería)","license":"https://opensource.org/licenses/MIT","keywords":"intelligent, core, card, product, context, security, a11y, intelligent, core","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"buyNow","description":"Compra el producto de la tarjeta en la cantidad indicada (va directo al pago)"},{"@type":"Action","name":"openProduct","description":"Abre la ficha completa del producto"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import core-smart-product-card","files":{"css":"components/core-smart-product-card/smart-product-card.webmcp.css","html":"components/core-smart-product-card/smart-product-card.html","meta":"components/core-smart-product-card/component.json","page":"components/core-smart-product-card/"},"tools":[{"name":"buyNow","selector":"[data-component=\"smart-product-card\"] [data-tool=\"buyNow\"]","description":"Compra el producto de la tarjeta en la cantidad indicada (va directo al pago)","params":["productId","quantity"],"intent":"action","confirmation":"needed"},{"name":"openProduct","selector":"[data-component=\"smart-product-card\"] [data-tool=\"openProduct\"]","description":"Abre la ficha completa del producto","params":["productId"],"intent":"navigate","confirmation":"none"}]}}</script>
+</head>
+<body data-component="core-smart-product-card" data-root-selector=".wm-smart">
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/" aria-current="page">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="crumbs"><a href="../">Hub</a><span>›</span><a href="../catalog/">Catálogo</a><span>›</span><a href="../catalog/?category=intelligent">Inteligentes</a><span>›</span><span>Smart Product Card</span></div>
+<div class="detail-head">
+  <div>
+    <h1>Smart Product Card</h1>
+    <div class="badges"><span class="badge cat">Inteligentes</span><span class="badge lib">Core (sin librería)</span><span class="badge v">v1.0.0</span><span class="badge">card</span><span class="badge">product</span><span class="badge">context</span><span class="badge">security</span><span class="badge">a11y</span><span class="badge">intelligent</span><span class="badge">core</span></div>
+    <p class="lead">Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.</p>
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" data-fav="core-smart-product-card" data-name="Smart Product Card" aria-pressed="false"><span class="star" aria-hidden="true">☆</span> <span class="fav-text">Favorito</span></button>
+    <a class="btn" href="preview.html" target="_blank" rel="noopener">Abrir preview ↗</a>
+    <a class="btn" href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/smart-product-card" target="_blank" rel="noopener">Fuente ↗</a>
+  </div>
+</div>
+<div class="import" aria-label="Comando de importación"><code>npx webmcpcss components import core-smart-product-card</code><button type="button" class="btn small" data-copy="npx webmcpcss components import core-smart-product-card" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button></div>
+
+<div class="studio">
+  <section class="preview-box" aria-labelledby="h-preview">
+    <div class="preview-bar">
+      <strong id="h-preview">Previsualización</strong>
+      <span class="spacer"></span>
+      <button class="btn small" type="button" data-viewport="desktop" aria-pressed="true">Escritorio</button>
+      <button class="btn small" type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+      <button class="btn small" type="button" data-viewport="mobile" aria-pressed="false">Móvil</button>
+    </div>
+    <div class="preview-frame" id="preview-frame" data-viewport="desktop">
+      <iframe id="preview" src="preview.html" title="Previsualización de Smart Product Card" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    
+  </section>
+  <aside class="editor" aria-labelledby="h-editor">
+    <h2 id="h-editor">Editor en vivo</h2>
+    <div class="control"><label for="ctl-wm-primary">Color primario <output>#2563eb</output></label><input id="ctl-wm-primary" type="color" value="#2563eb" data-var="--wm-primary" data-default="#2563eb"></div>
+<div class="control"><label for="ctl-wm-on-primary">Texto sobre primario <output>#ffffff</output></label><input id="ctl-wm-on-primary" type="color" value="#ffffff" data-var="--wm-on-primary" data-default="#ffffff"></div>
+<div class="control"><label for="ctl-wm-radius">Radio <output>14px</output></label><input id="ctl-wm-radius" type="range" min="0" max="28" step="1" value="14" data-var="--wm-radius" data-unit="px" data-default="14"></div>
+<div class="control"><label for="ctl-wm-surface">Fondo de la superficie <output>#ffffff</output></label><input id="ctl-wm-surface" type="color" value="#ffffff" data-var="--wm-surface" data-default="#ffffff"></div>
+    <div class="control"><label for="anim-select">Animación</label>
+      <select id="anim-select"><option value="none">Sin animación</option><option value="declared">Declaradas en el .webmcp.css</option><option value="fade-in">fade-in</option><option value="slide-up">slide-up</option><option value="pulse">pulse</option><option value="hover-glow">hover-glow</option></select></div>
+    <div class="row"><button class="btn small" type="button" id="anim-replay">▶ Reproducir</button><button class="btn small" type="button" id="editor-reset">Restablecer</button></div>
+    <div><label class="results-meta" for="override-css">CSS generado</label><pre><code id="override-css"></code></pre><button type="button" class="btn small" data-copy-target="#override-css" aria-label="Copiar CSS"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar CSS</button></div>
+  </aside>
+</div>
+
+<section class="tabs" aria-label="Código">
+  <div role="tablist" aria-label="Archivos del componente">
+    <button role="tab" id="tab-css" aria-selected="true" aria-controls="panel-css" tabindex="0">smart-product-card.webmcp.css</button>
+    <button role="tab" id="tab-html" aria-selected="false" aria-controls="panel-html" tabindex="-1">HTML</button>
+    <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
+  </div>
+  <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Smart Product Card */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón. */
+/* Importar: npx webmcpcss components import core-smart-product-card */
+
+.wm-smart { display: grid; gap: 12px; max-width: 340px; padding: 16px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
+.wm-smart__media { position: relative; aspect-ratio: 16 / 10; border-radius: calc(var(--wm-radius, 14px) - 4px); background: linear-gradient(135deg, #fde68a, #f59e0b); }
+.wm-smart__badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 999px; background: #111827; color: #fff; font-size: 12px; font-weight: 700; }
+.wm-smart__title { margin: 0; font-size: 18px; }
+.wm-smart__rating, .wm-smart__stock { margin: 0; color: #6b7280; font-size: 13px; }
+.wm-smart__rating span[aria-hidden] { color: #f59e0b; }
+.wm-smart__price { margin: 4px 0 0; font-size: 20px; }
+.wm-smart__price s { color: #9ca3af; font-size: 14px; margin-right: 6px; }
+.wm-smart__qty { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
+.wm-smart__qty input { width: 64px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 8px; }
+.wm-smart__actions { display: flex; gap: 8px; }
+.wm-btn { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 14px) - 4px); font: 600 14px/1 system-ui, sans-serif; cursor: pointer; text-decoration: none; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
+.wm-btn--outline { background: transparent; color: var(--wm-primary, #2563eb); border-color: var(--wm-primary, #2563eb); }
+
+/* Contrato WebMCP */
+[data-component=&quot;smart-product-card&quot;] [data-tool=&quot;buyNow&quot;] {
+  webmcp-tool: &quot;buyNow&quot;;
+  webmcp-description: &quot;Compra el producto de la tarjeta en la cantidad indicada (va directo al pago)&quot;;
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-param-quantity: value([data-component=&quot;smart-product-card&quot;] [name=&quot;qty&quot;]);
+  webmcp-intent: &quot;action&quot;;
+  webmcp-confirmation: &quot;needed&quot;;
+  webmcp-permissions: &quot;restricted&quot;;
+  webmcp-rate-limit: &quot;10/min&quot;;
+  webmcp-accessibility: &quot;min-target: 44px; focus-visible: ring&quot;;
+  webmcp-doc-quantity: &quot;Unidades (1–stock disponible)&quot;;
+}
+[data-component=&quot;smart-product-card&quot;] [data-tool=&quot;openProduct&quot;] {
+  webmcp-tool: &quot;openProduct&quot;;
+  webmcp-description: &quot;Abre la ficha completa del producto&quot;;
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-intent: &quot;navigate&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;read-only&quot;;
+}
+[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-name&quot;] { webmcp-context: &quot;featuredName&quot;; webmcp-format: &quot;text&quot;; }
+[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-price&quot;] { webmcp-context: &quot;featuredPrice&quot;; webmcp-format: &quot;currency&quot;; }
+[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-stock&quot;] { webmcp-context: &quot;featuredStock&quot;; webmcp-format: &quot;number&quot;; }
+[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-rating&quot;] { webmcp-context: &quot;featuredRating&quot;; webmcp-format: &quot;number&quot;; }
+
+/* Elevación al pasar el ratón (runtime de animaciones) */
+[data-component=&quot;smart-product-card&quot;] {
+  webmcp-animation: &quot;smartCardLift&quot;;
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: hover;
+  webmcp-animation-duration: 220ms;
+  webmcp-animation-easing: ease-out;
+  webmcp-animation-fill: forwards;
+  webmcp-animation-keyframes: &#39;[{&quot;transform&quot;:&quot;none&quot;},{&quot;transform&quot;:&quot;translateY(-4px)&quot;}]&#39;;
+}
+</code></pre></div>
+  <div role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-html" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-html">&lt;article class=&quot;wm-smart&quot; data-component=&quot;smart-product-card&quot; data-product-id=&quot;SKU-7&quot; data-in-stock=&quot;12&quot;&gt;
+  &lt;div class=&quot;wm-smart__media&quot; role=&quot;img&quot; aria-label=&quot;Auriculares Studio One&quot;&gt;
+    &lt;span class=&quot;wm-smart__badge&quot;&gt;-20 %&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;wm-smart__body&quot;&gt;
+    &lt;h3 class=&quot;wm-smart__title&quot; data-context=&quot;featured-name&quot;&gt;Auriculares Studio One&lt;/h3&gt;
+    &lt;p class=&quot;wm-smart__rating&quot; aria-label=&quot;Valoración 4,7 de 5&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;★★★★★&lt;/span&gt; &lt;span data-context=&quot;featured-rating&quot;&gt;4,7&lt;/span&gt; · 1.204 opiniones&lt;/p&gt;
+    &lt;p class=&quot;wm-smart__stock&quot;&gt;Quedan &lt;span data-context=&quot;featured-stock&quot;&gt;12&lt;/span&gt; unidades&lt;/p&gt;
+    &lt;p class=&quot;wm-smart__price&quot;&gt;&lt;s&gt;199 €&lt;/s&gt; &lt;strong data-context=&quot;featured-price&quot;&gt;159 €&lt;/strong&gt;&lt;/p&gt;
+    &lt;label class=&quot;wm-smart__qty&quot;&gt;Cantidad &lt;input name=&quot;qty&quot; type=&quot;number&quot; min=&quot;1&quot; max=&quot;12&quot; value=&quot;1&quot;&gt;&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;wm-smart__actions&quot;&gt;
+    &lt;button class=&quot;wm-btn wm-btn--primary&quot; data-tool=&quot;buyNow&quot; type=&quot;button&quot;&gt;Comprar ahora&lt;/button&gt;
+    &lt;a class=&quot;wm-btn wm-btn--outline&quot; data-tool=&quot;openProduct&quot; href=&quot;#producto/SKU-7&quot;&gt;Detalles&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre></div>
+  <div role="tabpanel" id="panel-meta" aria-labelledby="tab-meta" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-meta" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-meta">{
+  &quot;id&quot;: &quot;core-smart-product-card&quot;,
+  &quot;name&quot;: &quot;Smart Product Card&quot;,
+  &quot;category&quot;: &quot;intelligent&quot;,
+  &quot;library&quot;: &quot;core&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón.&quot;,
+  &quot;author&quot;: &quot;WebMCPcss Team&quot;,
+  &quot;tags&quot;: [
+    &quot;card&quot;,
+    &quot;product&quot;,
+    &quot;context&quot;,
+    &quot;security&quot;,
+    &quot;a11y&quot;,
+    &quot;intelligent&quot;,
+    &quot;core&quot;
+  ],
+  &quot;controls&quot;: [
+    {
+      &quot;variable&quot;: &quot;--wm-primary&quot;,
+      &quot;label&quot;: &quot;Color primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#2563eb&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-on-primary&quot;,
+      &quot;label&quot;: &quot;Texto sobre primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#ffffff&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-radius&quot;,
+      &quot;label&quot;: &quot;Radio&quot;,
+      &quot;type&quot;: &quot;range&quot;,
+      &quot;default&quot;: &quot;14px&quot;,
+      &quot;min&quot;: 0,
+      &quot;max&quot;: 28,
+      &quot;step&quot;: 1,
+      &quot;unit&quot;: &quot;px&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-surface&quot;,
+      &quot;label&quot;: &quot;Fondo de la superficie&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#ffffff&quot;
+    }
+  ],
+  &quot;promptExamples&quot;: [
+    &quot;cambia el descuento de la tarjeta a -30 %&quot;,
+    &quot;oculta la valoración de la tarjeta inteligente&quot;
+  ],
+  &quot;animateExamples&quot;: [
+    &quot;haz que la tarjeta se eleve más al pasar el ratón&quot;,
+    &quot;añade fade-in a la tarjeta inteligente&quot;
+  ],
+  &quot;related&quot;: [
+    &quot;core-checkout-form&quot;,
+    &quot;core-hero-section&quot;,
+    &quot;core-parallax-scene&quot;
+  ],
+  &quot;preview&quot;: &quot;preview.css&quot;,
+  &quot;css&quot;: &quot;smart-product-card.webmcp.css&quot;,
+  &quot;html&quot;: &quot;smart-product-card.html&quot;
+}</code></pre></div>
+</section>
+
+<section class="section" aria-labelledby="h-use">
+  <h2 id="h-use">Cómo usarlo</h2>
+  <ol class="steps">
+    <li>Importa el componente a tu proyecto (HTML + <code>.webmcp.css</code> + <code>component.json</code>):<pre><code>npx webmcpcss components import core-smart-product-card --output ./src/components</code></pre></li>
+    <li>O añade solo el contrato a tu <code>webmcp.css</code> existente (bloque delimitado y actualizable):<pre><code>npx webmcpcss components import core-smart-product-card --merge ./webmcp.css</code></pre></li>
+    <li>Publícalo para los agentes: MCP (<code>webmcpcss mcp --serve --css ./webmcp.css</code>), <code>document.modelContext</code> (<code>webmcpcss standard compile ./webmcp.css --html index.html</code>) o exporta a tu agente favorito (<code>webmcpcss export --agent claude-code</code>).</li>
+  </ol>
+</section>
+
+<section class="section">
+<h2 id="tools">Herramientas para agentes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Herramienta</th><th>Descripción</th><th>Parámetros</th><th>Intención</th><th>Confirmación</th><th>Selector</th></tr></thead>
+<tbody><tr><td><code>buyNow</code></td><td>Compra el producto de la tarjeta en la cantidad indicada (va directo al pago)</td><td><code>productId</code> <code>quantity</code></td><td><span class="pill">action</span></td><td><span class="pill needed">needed</span></td><td><code>[data-component=&quot;smart-product-card&quot;] [data-tool=&quot;buyNow&quot;]</code></td></tr><tr><td><code>openProduct</code></td><td>Abre la ficha completa del producto</td><td><code>productId</code></td><td><span class="pill">navigate</span></td><td><span class="pill none">none</span></td><td><code>[data-component=&quot;smart-product-card&quot;] [data-tool=&quot;openProduct&quot;]</code></td></tr></tbody></table></div>
+<h2 id="context">Contexto que publica</h2>
+<div class="table-wrap"><table><thead><tr><th>Dato</th><th>Formato</th><th>Selector</th></tr></thead><tbody><tr><td><code>featuredName</code></td><td>text</td><td><code>[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-name&quot;]</code></td></tr><tr><td><code>featuredPrice</code></td><td>currency</td><td><code>[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-price&quot;]</code></td></tr><tr><td><code>featuredStock</code></td><td>number</td><td><code>[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-stock&quot;]</code></td></tr><tr><td><code>featuredRating</code></td><td>number</td><td><code>[data-component=&quot;smart-product-card&quot;] [data-context=&quot;featured-rating&quot;]</code></td></tr></tbody></table></div>
+<h2 id="animations">Animaciones declaradas</h2>
+<div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Tipo</th><th>Selector</th></tr></thead><tbody><tr><td><code>smartCardLift</code></td><td>keyframes</td><td><code>[data-component=&quot;smart-product-card&quot;]</code></td></tr></tbody></table></div>
+<p class="results-meta">Ejecútalas con <code>npx webmcpcss animate smart-product-card.webmcp.css --url https://tu-sitio</code> o incluye el runtime en tu página (<code>npx webmcpcss animate smart-product-card.webmcp.css -o ./public/webmcp-animation</code>).</p>
+<h2 id="examples">Ejemplos con la CLI</h2>
+<div class="examples">
+  <div class="example"><h3><code>webmcpcss prompt</code> — lenguaje natural sobre el componente</h3><ul><li><code>cambia el descuento de la tarjeta a -30 %</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;cambia el descuento de la tarjeta a -30 %&quot; --url https://tu-sitio --files ./smart-product-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>oculta la valoración de la tarjeta inteligente</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;oculta la valoración de la tarjeta inteligente&quot; --url https://tu-sitio --files ./smart-product-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+  <div class="example"><h3><code>webmcpcss animate</code> — animaciones declarativas</h3><ul><li><code>haz que la tarjeta se eleve más al pasar el ratón</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;haz que la tarjeta se eleve más al pasar el ratón&quot; --url https://tu-sitio --files ./smart-product-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>añade fade-in a la tarjeta inteligente</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;añade fade-in a la tarjeta inteligente&quot; --url https://tu-sitio --files ./smart-product-card.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="h-rel"><h2 id="h-rel">Mismo componente en otras librerías</h2><div class="tiles"><a class="tile" href="../core-checkout-form/"><strong>Core (sin librería)</strong><span>Checkout Form · v1.0.0</span></a><a class="tile" href="../core-hero-section/"><strong>Core (sin librería)</strong><span>Hero Section (parallax) · v1.0.0</span></a><a class="tile" href="../core-parallax-scene/"><strong>Core (sin librería)</strong><span>Parallax Scene (2.5D) · v1.0.0</span></a></div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

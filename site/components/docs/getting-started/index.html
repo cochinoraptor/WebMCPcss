@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es" data-hub-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Primeros pasos · WebMCPcss Component Hub</title>
+<meta name="description" content="El Component Hub es un catálogo de componentes de interfaz IA-First: cada uno trae su HTML, su contrato .webmcp.css (qué puede hacer un agente con él) y metadat">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Primeros pasos · WebMCPcss Component Hub">
+<meta property="og:description" content="El Component Hub es un catálogo de componentes de interfaz IA-First: cada uno trae su HTML, su contrato .webmcp.css (qué puede hacer un agente con él) y metadat">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/docs/getting-started/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/docs/getting-started/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../../api/components.json">
+<link rel="icon" type="image/png" href="../../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Primeros pasos","url":"https://cochinoraptor.github.io/WebMCPcss/components/docs/getting-started/","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../"><img src="../../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../../">Inicio</a>
+      <a href="../../catalog/">Catálogo</a>
+      <a href="../../search/">Buscar</a>
+      <a href="../../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="docs">
+
+<aside aria-label="Documentación">
+  <h4>Guías</h4>
+  <a href="../getting-started/" aria-current="page">Primeros pasos</a>
+  <a href="../component-usage/">Uso de componentes</a>
+  <a href="../contributing/">Contribuir</a>
+  <h4>En esta página</h4><div class="toc"><a href="#requisitos">Requisitos</a><a href="#1-explora-el-catalogo">1. Explora el catálogo</a><a href="#2-importa-un-componente">2. Importa un componente</a><a href="#3-sirvelo-a-los-agentes">3. Sírvelo a los agentes</a><a href="#4-manten-los-componentes-al-dia">4. Mantén los componentes al día</a><a href="#5-genera-un-sitio-de-demostracion">5. Genera un sitio de demostración</a><a href="#siguiente-paso">Siguiente paso</a></div>
+  <h4>Más</h4>
+  <a href="../../../">Documentación general de WebMCPcss</a>
+  <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/hub.md" target="_blank" rel="noopener">docs/hub.md en GitHub</a>
+</aside>
+<article class="prose">
+<div class="crumbs"><a href="../">Docs</a><span>›</span><span>Primeros pasos</span></div>
+<h1 id="primeros-pasos">Primeros pasos</h1>
+<p>El <strong>Component Hub</strong> es un catálogo de componentes de interfaz <em>IA-First</em>: cada uno trae su HTML, su contrato <code>.webmcp.css</code> (qué puede hacer un agente con él) y metadatos (<code>component.json</code>). Existe en versión <em>core</em> (CSS puro) y adaptado a <strong>Tailwind CSS</strong>, <strong>Bootstrap 5</strong>, <strong>Material UI</strong> y <strong>shadcn/ui</strong>.</p>
+<h2 id="requisitos">Requisitos</h2>
+<ul><li>Node.js 18 o superior (usa <code>fetch</code> nativo).</li><li><code>npx webmcpcss</code> (no hace falta instalar nada globalmente) o <code>npm i -g webmcpcss</code>.</li></ul>
+<h2 id="1-explora-el-catalogo">1. Explora el catálogo</h2>
+<pre><code class="language-bash">npx webmcpcss components list
+npx webmcpcss components list --category forms --library tailwind
+npx webmcpcss components list --search &quot;checkout&quot; --json</code></pre>
+<p>La lista se descarga de <code>https://cochinoraptor.github.io/WebMCPcss/api/components.json</code>. Si no hay conexión, la CLI usa el catálogo incluido en el paquete npm (<code>--offline</code> fuerza ese modo). Puedes apuntar a otro hub con <code>--hub &lt;url&gt;</code> o la variable <code>WEBMCPCSS_HUB_URL</code>.</p>
+<h2 id="2-importa-un-componente">2. Importa un componente</h2>
+<pre><code class="language-bash">npx webmcpcss components import tailwind-button-primary --output ./src/components</code></pre>
+<p>Se crea <code>./src/components/tailwind-button-primary/</code> con:</p>
+<table><thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead><tbody><tr><td><code>button-primary.html</code></td><td>Marcado listo para pegar (con <code>data-tool</code>, <code>aria-*</code>, atributos declarativos WebMCP).</td></tr><tr><td><code>button-primary.webmcp.css</code></td><td>Contrato para agentes: <code>webmcp-tool</code>, parámetros, intención, confirmación, permisos.</td></tr><tr><td><code>component.json</code></td><td>Metadatos: versión, controles del editor, ejemplos de prompt, relacionados.</td></tr><tr><td><code>preview.css</code></td><td>Solo si el componente lo necesita para la previsualización (no lo importes en producción).</td></tr></tbody></table>
+<p>La importación se registra en <code>.webmcpcss/components.lock.json</code> (id, versión y hash) para poder actualizar después.</p>
+<p>Si prefieres mantener un único <code>webmcp.css</code>, fusiona el contrato en él:</p>
+<pre><code class="language-bash">npx webmcpcss components import core-checkout-form --merge ./webmcp.css</code></pre>
+<p>El bloque queda delimitado por <code>/* @webmcpcss-component core-checkout-form v1.0.0 */ … /* @end webmcpcss-component core-checkout-form */</code> y se reemplaza al actualizar.</p>
+<h2 id="3-sirvelo-a-los-agentes">3. Sírvelo a los agentes</h2>
+<p>El <code>.webmcp.css</code> es la fuente de verdad. Con él puedes:</p>
+<pre><code class="language-bash"># Servidor MCP (stdio) para Claude, Cursor, Gemini CLI…
+npx webmcpcss mcp --serve --css ./webmcp.css --url https://tu-sitio
+
+# Estándar WebMCP del navegador: document.modelContext + atributos declarativos
+npx webmcpcss standard compile ./webmcp.css --html ./index.html -o ./index.webmcp.html
+
+# Exportar para un agente concreto
+npx webmcpcss export ./webmcp.css --agent claude-code -o ./.claude</code></pre>
+<p>Añade <code>--hub</code> al servidor MCP para que los agentes también puedan <strong>descubrir e importar</strong> componentes del catálogo (<code>list_components</code>, <code>get_component</code>, <code>import_component</code>).</p>
+<h2 id="4-manten-los-componentes-al-dia">4. Mantén los componentes al día</h2>
+<pre><code class="language-bash">npx webmcpcss components update --dry-run   # ¿qué ha cambiado?
+npx webmcpcss components update             # descarga las versiones nuevas</code></pre>
+<h2 id="5-genera-un-sitio-de-demostracion">5. Genera un sitio de demostración</h2>
+<pre><code class="language-bash">npx webmcpcss components demo --output ./demo-site --library tailwind</code></pre>
+<p>Crea una página estática con varios componentes del hub, sus contratos y el runtime de animaciones, ideal para probar un agente de punta a punta.</p>
+<h2 id="siguiente-paso">Siguiente paso</h2>
+<p>Lee <a href="../component-usage/">Uso de componentes</a> para adaptar estilos y contratos a tu proyecto, o <a href="../contributing/">Contribuir</a> para publicar los tuyos.</p>
+</article>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../../">WebMCPcss</a>
+      <a href="../../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../../assets/index.js" defer></script>
+<script src="../../assets/hub.js" defer></script>
+</body>
+</html>

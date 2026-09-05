@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Navbar</title>
+<meta name="robots" content="noindex">
+
+
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="navbar.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="layout" data-kind="layout">
+<nav class="wm-nav" data-component="navbar" aria-label="Principal">
+  <a class="wm-nav__brand" data-tool="goHome" href="#/">◆ Marca</a>
+  <button class="wm-nav__toggle" data-tool="openMenu" type="button" aria-expanded="false" aria-controls="wm-nav-menu" aria-label="Abrir menú" onclick="const o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!o));this.closest('.wm-nav').classList.toggle('is-open',!o)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+  <ul class="wm-nav__menu" id="wm-nav-menu">
+    <li><a href="#inicio" aria-current="page">Inicio</a></li>
+    <li><a href="#componentes">Componentes</a></li>
+    <li><a href="#docs">Docs</a></li>
+  </ul>
+  <a class="wm-nav__cta" data-tool="signUp" href="#registro">Crear cuenta</a>
+</nav>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

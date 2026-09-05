@@ -1,0 +1,56 @@
+/* Componente: Smart Product Card */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Tarjeta de producto inteligente IA-First: además de comprar y ver detalles expone stock, valoración y precio como contexto, declara permisos por herramienta, accesibilidad y una elevación animada al pasar el ratón. */
+/* Importar: npx webmcpcss components import core-smart-product-card */
+
+.wm-smart { display: grid; gap: 12px; max-width: 340px; padding: 16px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
+.wm-smart__media { position: relative; aspect-ratio: 16 / 10; border-radius: calc(var(--wm-radius, 14px) - 4px); background: linear-gradient(135deg, #fde68a, #f59e0b); }
+.wm-smart__badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 999px; background: #111827; color: #fff; font-size: 12px; font-weight: 700; }
+.wm-smart__title { margin: 0; font-size: 18px; }
+.wm-smart__rating, .wm-smart__stock { margin: 0; color: #6b7280; font-size: 13px; }
+.wm-smart__rating span[aria-hidden] { color: #f59e0b; }
+.wm-smart__price { margin: 4px 0 0; font-size: 20px; }
+.wm-smart__price s { color: #9ca3af; font-size: 14px; margin-right: 6px; }
+.wm-smart__qty { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
+.wm-smart__qty input { width: 64px; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 8px; }
+.wm-smart__actions { display: flex; gap: 8px; }
+.wm-btn { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 14px) - 4px); font: 600 14px/1 system-ui, sans-serif; cursor: pointer; text-decoration: none; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
+.wm-btn--outline { background: transparent; color: var(--wm-primary, #2563eb); border-color: var(--wm-primary, #2563eb); }
+
+/* Contrato WebMCP */
+[data-component="smart-product-card"] [data-tool="buyNow"] {
+  webmcp-tool: "buyNow";
+  webmcp-description: "Compra el producto de la tarjeta en la cantidad indicada (va directo al pago)";
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-param-quantity: value([data-component="smart-product-card"] [name="qty"]);
+  webmcp-intent: "action";
+  webmcp-confirmation: "needed";
+  webmcp-permissions: "restricted";
+  webmcp-rate-limit: "10/min";
+  webmcp-accessibility: "min-target: 44px; focus-visible: ring";
+  webmcp-doc-quantity: "Unidades (1–stock disponible)";
+}
+[data-component="smart-product-card"] [data-tool="openProduct"] {
+  webmcp-tool: "openProduct";
+  webmcp-description: "Abre la ficha completa del producto";
+  webmcp-param-productId: attr(data-product-id);
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="smart-product-card"] [data-context="featured-name"] { webmcp-context: "featuredName"; webmcp-format: "text"; }
+[data-component="smart-product-card"] [data-context="featured-price"] { webmcp-context: "featuredPrice"; webmcp-format: "currency"; }
+[data-component="smart-product-card"] [data-context="featured-stock"] { webmcp-context: "featuredStock"; webmcp-format: "number"; }
+[data-component="smart-product-card"] [data-context="featured-rating"] { webmcp-context: "featuredRating"; webmcp-format: "number"; }
+
+/* Elevación al pasar el ratón (runtime de animaciones) */
+[data-component="smart-product-card"] {
+  webmcp-animation: "smartCardLift";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: hover;
+  webmcp-animation-duration: 220ms;
+  webmcp-animation-easing: ease-out;
+  webmcp-animation-fill: forwards;
+  webmcp-animation-keyframes: '[{"transform":"none"},{"transform":"translateY(-4px)"}]';
+}

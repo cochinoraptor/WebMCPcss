@@ -1,0 +1,27 @@
+/* Componente: Button Primary */
+/* Categoría: buttons · Librería: core · Versión: 1.0.0 */
+/* Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton. */
+/* Importar: npx webmcpcss components import core-button-primary */
+
+/* Estilos base (variables --wm-* = API de personalización) */
+.wm-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 10px 22px; border: 1.5px solid transparent;
+  border-radius: var(--wm-radius, 10px); font: 600 var(--wm-btn-size, 15px)/1 system-ui, sans-serif;
+  cursor: pointer; transition: filter .15s, transform .15s, background .15s, box-shadow .15s;
+}
+.wm-btn:hover { transform: translateY(-1px); }
+.wm-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--wm-primary, #2563eb) 40%, white); outline-offset: 2px; }
+.wm-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); box-shadow: 0 6px 16px -8px var(--wm-primary, #2563eb); }
+.wm-btn--primary:hover { filter: brightness(1.08); }
+
+/* Contrato WebMCP */
+.wm-btn--primary {
+  webmcp-tool: "clickButton";
+  webmcp-description: "Ejecuta la acción principal del bloque (enviar, guardar o continuar)";
+  webmcp-intent: "submit";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "restricted";
+  webmcp-accessibility: "focus-visible: ring; min-target: 44px";
+}

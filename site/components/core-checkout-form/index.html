@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es" data-hub-base="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout Form (Core (sin librería)) · WebMCPcss Component Hub</title>
+<meta name="description" content="Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Checkout Form (Core (sin librería)) · WebMCPcss Component Hub">
+<meta property="og:description" content="Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/core-checkout-form/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/core-checkout-form/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../api/components.json">
+<link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Checkout Form","identifier":"core-checkout-form","description":"Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.","version":"1.0.0","url":"https://cochinoraptor.github.io/WebMCPcss/components/core-checkout-form/","codeRepository":"https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/checkout-form","programmingLanguage":["CSS","HTML"],"runtimePlatform":"Core (sin librería)","license":"https://opensource.org/licenses/MIT","keywords":"intelligent, core, form, checkout, payment, security, declarative, intelligent, core","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"},"author":{"@type":"Organization","name":"WebMCPcss Team"},"about":[{"@type":"Action","name":"placeOrder","description":"Confirma el pedido con la dirección y el método de envío indicados"},{"@type":"Action","name":"applyCoupon","description":"Aplica un cupón de descuento al pedido"}],"installUrl":"https://cochinoraptor.github.io/WebMCPcss/api/components.json","_webmcp":{"importCommand":"npx webmcpcss components import core-checkout-form","files":{"css":"components/core-checkout-form/checkout-form.webmcp.css","html":"components/core-checkout-form/checkout-form.html","meta":"components/core-checkout-form/component.json","page":"components/core-checkout-form/"},"tools":[{"name":"placeOrder","selector":"form[data-form=\"checkout\"] button[type=\"submit\"]","description":"Confirma el pedido con la dirección y el método de envío indicados","params":["email","address","shipping"],"intent":"submit","confirmation":"needed"},{"name":"applyCoupon","selector":"form[data-form=\"checkout\"] [data-tool=\"applyCoupon\"]","description":"Aplica un cupón de descuento al pedido","params":["code"],"intent":"action","confirmation":"none"}]}}</script>
+</head>
+<body data-component="core-checkout-form" data-root-selector=".wm-checkout">
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../">Inicio</a>
+      <a href="../catalog/" aria-current="page">Catálogo</a>
+      <a href="../search/">Buscar</a>
+      <a href="../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="crumbs"><a href="../">Hub</a><span>›</span><a href="../catalog/">Catálogo</a><span>›</span><a href="../catalog/?category=intelligent">Inteligentes</a><span>›</span><span>Checkout Form</span></div>
+<div class="detail-head">
+  <div>
+    <h1>Checkout Form</h1>
+    <div class="badges"><span class="badge cat">Inteligentes</span><span class="badge lib">Core (sin librería)</span><span class="badge v">v1.0.0</span><span class="badge">form</span><span class="badge">checkout</span><span class="badge">payment</span><span class="badge">security</span><span class="badge">declarative</span><span class="badge">intelligent</span><span class="badge">core</span></div>
+    <p class="lead">Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.</p>
+  </div>
+  <div class="actions">
+    <button class="btn" type="button" data-fav="core-checkout-form" data-name="Checkout Form" aria-pressed="false"><span class="star" aria-hidden="true">☆</span> <span class="fav-text">Favorito</span></button>
+    <a class="btn" href="preview.html" target="_blank" rel="noopener">Abrir preview ↗</a>
+    <a class="btn" href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components/intelligent/checkout-form" target="_blank" rel="noopener">Fuente ↗</a>
+  </div>
+</div>
+<div class="import" aria-label="Comando de importación"><code>npx webmcpcss components import core-checkout-form</code><button type="button" class="btn small" data-copy="npx webmcpcss components import core-checkout-form" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button></div>
+
+<div class="studio">
+  <section class="preview-box" aria-labelledby="h-preview">
+    <div class="preview-bar">
+      <strong id="h-preview">Previsualización</strong>
+      <span class="spacer"></span>
+      <button class="btn small" type="button" data-viewport="desktop" aria-pressed="true">Escritorio</button>
+      <button class="btn small" type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+      <button class="btn small" type="button" data-viewport="mobile" aria-pressed="false">Móvil</button>
+    </div>
+    <div class="preview-frame" id="preview-frame" data-viewport="desktop">
+      <iframe id="preview" src="preview.html" title="Previsualización de Checkout Form" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    
+  </section>
+  <aside class="editor" aria-labelledby="h-editor">
+    <h2 id="h-editor">Editor en vivo</h2>
+    <div class="control"><label for="ctl-wm-primary">Color primario <output>#2563eb</output></label><input id="ctl-wm-primary" type="color" value="#2563eb" data-var="--wm-primary" data-default="#2563eb"></div>
+<div class="control"><label for="ctl-wm-on-primary">Texto sobre primario <output>#ffffff</output></label><input id="ctl-wm-on-primary" type="color" value="#ffffff" data-var="--wm-on-primary" data-default="#ffffff"></div>
+<div class="control"><label for="ctl-wm-radius">Radio <output>14px</output></label><input id="ctl-wm-radius" type="range" min="0" max="28" step="1" value="14" data-var="--wm-radius" data-unit="px" data-default="14"></div>
+<div class="control"><label for="ctl-wm-surface">Fondo de la superficie <output>#ffffff</output></label><input id="ctl-wm-surface" type="color" value="#ffffff" data-var="--wm-surface" data-default="#ffffff"></div>
+    <div class="control"><label for="anim-select">Animación</label>
+      <select id="anim-select"><option value="none">Sin animación</option><option value="fade-in">fade-in</option><option value="slide-up">slide-up</option><option value="pulse">pulse</option><option value="hover-glow">hover-glow</option></select></div>
+    <div class="row"><button class="btn small" type="button" id="anim-replay">▶ Reproducir</button><button class="btn small" type="button" id="editor-reset">Restablecer</button></div>
+    <div><label class="results-meta" for="override-css">CSS generado</label><pre><code id="override-css"></code></pre><button type="button" class="btn small" data-copy-target="#override-css" aria-label="Copiar CSS"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar CSS</button></div>
+  </aside>
+</div>
+
+<section class="tabs" aria-label="Código">
+  <div role="tablist" aria-label="Archivos del componente">
+    <button role="tab" id="tab-css" aria-selected="true" aria-controls="panel-css" tabindex="0">checkout-form.webmcp.css</button>
+    <button role="tab" id="tab-html" aria-selected="false" aria-controls="panel-html" tabindex="-1">HTML</button>
+    <button role="tab" id="tab-meta" aria-selected="false" aria-controls="panel-meta" tabindex="-1">component.json</button>
+  </div>
+  <div role="tabpanel" id="panel-css" aria-labelledby="tab-css"><button type="button" class="btn small copy-abs" data-copy-target="#code-css" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-css">/* Componente: Checkout Form */
+/* Categoría: intelligent · Librería: core · Versión: 1.0.0 */
+/* Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto. */
+/* Importar: npx webmcpcss components import core-checkout-form */
+
+.wm-checkout { display: grid; gap: 14px; width: min(100%, 420px); padding: 24px; background: var(--wm-surface, #fff); border: 1px solid #e5e7eb; border-radius: var(--wm-radius, 14px); box-shadow: 0 10px 30px -18px rgba(17, 24, 39, .35); font-family: system-ui, sans-serif; }
+.wm-checkout__head h2 { margin: 0 0 4px; font-size: 20px; }
+.wm-checkout__head p { margin: 0; color: #6b7280; font-size: 14px; }
+.wm-field { display: grid; gap: 6px; }
+.wm-field label, .wm-checkout__coupon label { font-size: 13px; font-weight: 600; color: #374151; }
+.wm-field input, .wm-field select, .wm-checkout__coupon input { padding: 10px 12px; border: 1px solid #d1d5db; border-radius: calc(var(--wm-radius, 14px) - 6px); font: 15px system-ui, sans-serif; background: #fff; }
+.wm-checkout__coupon { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; }
+.wm-checkout__note { margin: 0; font-size: 12px; color: #6b7280; text-align: center; }
+.wm-btn { min-height: 44px; padding: 10px 18px; border: 1.5px solid transparent; border-radius: calc(var(--wm-radius, 14px) - 4px); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; }
+.wm-btn--primary { background: var(--wm-primary, #2563eb); color: var(--wm-on-primary, #fff); }
+.wm-btn--outline { background: transparent; color: var(--wm-primary, #2563eb); border-color: var(--wm-primary, #2563eb); }
+
+/* Contrato WebMCP: pago = permisos máximos, autenticación, límite y confirmación */
+form[data-form=&quot;checkout&quot;] button[type=&quot;submit&quot;] {
+  webmcp-tool: &quot;placeOrder&quot;;
+  webmcp-description: &quot;Confirma el pedido con la dirección y el método de envío indicados&quot;;
+  webmcp-param-email: value(form[data-form=&quot;checkout&quot;] [name=&quot;email&quot;]);
+  webmcp-param-address: value(form[data-form=&quot;checkout&quot;] [name=&quot;address&quot;]);
+  webmcp-param-shipping: value(form[data-form=&quot;checkout&quot;] [name=&quot;shipping&quot;]);
+  webmcp-trigger: &quot;submit&quot; on form[data-form=&quot;checkout&quot;];
+  webmcp-intent: &quot;submit&quot;;
+  webmcp-confirmation: &quot;needed&quot;;
+  webmcp-permissions: &quot;full&quot;;
+  webmcp-requires: &quot;auth&quot;;
+  webmcp-scope: &quot;orders:pay&quot;;
+  webmcp-rate-limit: &quot;5/min&quot;;
+  webmcp-risk: &quot;high&quot;;
+  webmcp-doc-email: &quot;Correo para el recibo&quot;;
+  webmcp-doc-address: &quot;Calle, número, ciudad y código postal&quot;;
+  webmcp-doc-shipping: &quot;standard (3-5 días, gratis) o express (24 h, 6,90 €)&quot;;
+}
+form[data-form=&quot;checkout&quot;] [data-tool=&quot;applyCoupon&quot;] {
+  webmcp-tool: &quot;applyCoupon&quot;;
+  webmcp-description: &quot;Aplica un cupón de descuento al pedido&quot;;
+  webmcp-param-code: value(form[data-form=&quot;checkout&quot;] [name=&quot;coupon&quot;]);
+  webmcp-intent: &quot;action&quot;;
+  webmcp-confirmation: &quot;none&quot;;
+  webmcp-permissions: &quot;restricted&quot;;
+  webmcp-rate-limit: &quot;10/min&quot;;
+}
+form[data-form=&quot;checkout&quot;] [data-context=&quot;order-total&quot;] { webmcp-context: &quot;orderTotal&quot;; webmcp-format: &quot;currency&quot;; }
+form[data-form=&quot;checkout&quot;] [data-context=&quot;cart-count&quot;] { webmcp-context: &quot;cartCount&quot;; webmcp-format: &quot;number&quot;; }
+</code></pre></div>
+  <div role="tabpanel" id="panel-html" aria-labelledby="tab-html" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-html" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-html">&lt;form class=&quot;wm-checkout&quot; data-form=&quot;checkout&quot; toolname=&quot;placeOrder&quot; tooldescription=&quot;Confirma el pedido con la dirección y el método de envío indicados&quot; action=&quot;#&quot; method=&quot;post&quot; novalidate&gt;
+  &lt;header class=&quot;wm-checkout__head&quot;&gt;
+    &lt;h2&gt;Finalizar compra&lt;/h2&gt;
+    &lt;p&gt;&lt;span data-context=&quot;cart-count&quot;&gt;3&lt;/span&gt; artículos · Total &lt;strong data-context=&quot;order-total&quot;&gt;129,70 €&lt;/strong&gt;&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;div class=&quot;wm-field&quot;&gt;&lt;label for=&quot;ck-email&quot;&gt;Correo&lt;/label&gt;&lt;input id=&quot;ck-email&quot; name=&quot;email&quot; type=&quot;email&quot; required autocomplete=&quot;email&quot; toolparamtitle=&quot;email&quot; toolparamdescription=&quot;Correo para el recibo&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;wm-field&quot;&gt;&lt;label for=&quot;ck-address&quot;&gt;Dirección de envío&lt;/label&gt;&lt;input id=&quot;ck-address&quot; name=&quot;address&quot; type=&quot;text&quot; required autocomplete=&quot;street-address&quot; toolparamtitle=&quot;address&quot; toolparamdescription=&quot;Calle, número, ciudad y código postal&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;wm-field&quot;&gt;&lt;label for=&quot;ck-shipping&quot;&gt;Envío&lt;/label&gt;
+    &lt;select id=&quot;ck-shipping&quot; name=&quot;shipping&quot; required toolparamtitle=&quot;shipping&quot; toolparamdescription=&quot;Método de envío&quot;&gt;
+      &lt;option value=&quot;standard&quot;&gt;Estándar (3-5 días) · gratis&lt;/option&gt;
+      &lt;option value=&quot;express&quot;&gt;Exprés (24 h) · 6,90 €&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;wm-checkout__coupon&quot;&gt;
+    &lt;label for=&quot;ck-coupon&quot;&gt;Cupón&lt;/label&gt;
+    &lt;input id=&quot;ck-coupon&quot; name=&quot;coupon&quot; type=&quot;text&quot; placeholder=&quot;AGENTE10&quot;&gt;
+    &lt;button class=&quot;wm-btn wm-btn--outline&quot; data-tool=&quot;applyCoupon&quot; type=&quot;button&quot;&gt;Aplicar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;wm-btn wm-btn--primary&quot; type=&quot;submit&quot;&gt;Pagar 129,70 €&lt;/button&gt;
+  &lt;p class=&quot;wm-checkout__note&quot;&gt;Pago seguro · Se pedirá confirmación antes de cobrar.&lt;/p&gt;
+&lt;/form&gt;
+</code></pre></div>
+  <div role="tabpanel" id="panel-meta" aria-labelledby="tab-meta" hidden><button type="button" class="btn small copy-abs" data-copy-target="#code-meta" aria-label="Copiar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar</button><pre><code id="code-meta">{
+  &quot;id&quot;: &quot;core-checkout-form&quot;,
+  &quot;name&quot;: &quot;Checkout Form&quot;,
+  &quot;category&quot;: &quot;intelligent&quot;,
+  &quot;library&quot;: &quot;core&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Formulario de pago IA-First: dirección, envío y cupón con API declarativa, permisos full, autenticación requerida, límite de uso y confirmación obligatoria; expone total y artículos como contexto.&quot;,
+  &quot;author&quot;: &quot;WebMCPcss Team&quot;,
+  &quot;tags&quot;: [
+    &quot;form&quot;,
+    &quot;checkout&quot;,
+    &quot;payment&quot;,
+    &quot;security&quot;,
+    &quot;declarative&quot;,
+    &quot;intelligent&quot;,
+    &quot;core&quot;
+  ],
+  &quot;controls&quot;: [
+    {
+      &quot;variable&quot;: &quot;--wm-primary&quot;,
+      &quot;label&quot;: &quot;Color primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#2563eb&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-on-primary&quot;,
+      &quot;label&quot;: &quot;Texto sobre primario&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#ffffff&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-radius&quot;,
+      &quot;label&quot;: &quot;Radio&quot;,
+      &quot;type&quot;: &quot;range&quot;,
+      &quot;default&quot;: &quot;14px&quot;,
+      &quot;min&quot;: 0,
+      &quot;max&quot;: 28,
+      &quot;step&quot;: 1,
+      &quot;unit&quot;: &quot;px&quot;
+    },
+    {
+      &quot;variable&quot;: &quot;--wm-surface&quot;,
+      &quot;label&quot;: &quot;Fondo de la superficie&quot;,
+      &quot;type&quot;: &quot;color&quot;,
+      &quot;default&quot;: &quot;#ffffff&quot;
+    }
+  ],
+  &quot;promptExamples&quot;: [
+    &quot;añade un campo de teléfono al formulario de pago&quot;,
+    &quot;cambia el texto del botón a Confirmar pedido&quot;
+  ],
+  &quot;animateExamples&quot;: [
+    &quot;agita el formulario si el cupón no es válido&quot;,
+    &quot;haz que el total pulse al cambiar&quot;
+  ],
+  &quot;related&quot;: [
+    &quot;core-smart-product-card&quot;,
+    &quot;core-hero-section&quot;,
+    &quot;core-parallax-scene&quot;
+  ],
+  &quot;preview&quot;: &quot;preview.css&quot;,
+  &quot;css&quot;: &quot;checkout-form.webmcp.css&quot;,
+  &quot;html&quot;: &quot;checkout-form.html&quot;
+}</code></pre></div>
+</section>
+
+<section class="section" aria-labelledby="h-use">
+  <h2 id="h-use">Cómo usarlo</h2>
+  <ol class="steps">
+    <li>Importa el componente a tu proyecto (HTML + <code>.webmcp.css</code> + <code>component.json</code>):<pre><code>npx webmcpcss components import core-checkout-form --output ./src/components</code></pre></li>
+    <li>O añade solo el contrato a tu <code>webmcp.css</code> existente (bloque delimitado y actualizable):<pre><code>npx webmcpcss components import core-checkout-form --merge ./webmcp.css</code></pre></li>
+    <li>Publícalo para los agentes: MCP (<code>webmcpcss mcp --serve --css ./webmcp.css</code>), <code>document.modelContext</code> (<code>webmcpcss standard compile ./webmcp.css --html index.html</code>) o exporta a tu agente favorito (<code>webmcpcss export --agent claude-code</code>).</li>
+  </ol>
+</section>
+
+<section class="section">
+<h2 id="tools">Herramientas para agentes</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Herramienta</th><th>Descripción</th><th>Parámetros</th><th>Intención</th><th>Confirmación</th><th>Selector</th></tr></thead>
+<tbody><tr><td><code>placeOrder</code></td><td>Confirma el pedido con la dirección y el método de envío indicados</td><td><code>email</code> <code>address</code> <code>shipping</code></td><td><span class="pill">submit</span></td><td><span class="pill needed">needed</span></td><td><code>form[data-form=&quot;checkout&quot;] button[type=&quot;submit&quot;]</code></td></tr><tr><td><code>applyCoupon</code></td><td>Aplica un cupón de descuento al pedido</td><td><code>code</code></td><td><span class="pill">action</span></td><td><span class="pill none">none</span></td><td><code>form[data-form=&quot;checkout&quot;] [data-tool=&quot;applyCoupon&quot;]</code></td></tr></tbody></table></div>
+<h2 id="context">Contexto que publica</h2>
+<div class="table-wrap"><table><thead><tr><th>Dato</th><th>Formato</th><th>Selector</th></tr></thead><tbody><tr><td><code>orderTotal</code></td><td>currency</td><td><code>form[data-form=&quot;checkout&quot;] [data-context=&quot;order-total&quot;]</code></td></tr><tr><td><code>cartCount</code></td><td>number</td><td><code>form[data-form=&quot;checkout&quot;] [data-context=&quot;cart-count&quot;]</code></td></tr></tbody></table></div>
+<h2 id="examples">Ejemplos con la CLI</h2>
+<div class="examples">
+  <div class="example"><h3><code>webmcpcss prompt</code> — lenguaje natural sobre el componente</h3><ul><li><code>añade un campo de teléfono al formulario de pago</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;añade un campo de teléfono al formulario de pago&quot; --url https://tu-sitio --files ./checkout-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>cambia el texto del botón a Confirmar pedido</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;cambia el texto del botón a Confirmar pedido&quot; --url https://tu-sitio --files ./checkout-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+  <div class="example"><h3><code>webmcpcss animate</code> — animaciones declarativas</h3><ul><li><code>agita el formulario si el cupón no es válido</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;agita el formulario si el cupón no es válido&quot; --url https://tu-sitio --files ./checkout-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li><li><code>haz que el total pulse al cambiar</code><button type="button" class="btn small icon" data-copy="npx webmcpcss prompt &quot;haz que el total pulse al cambiar&quot; --url https://tu-sitio --files ./checkout-form.webmcp.css" aria-label="Copiar comando"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copiar comando</button></li></ul></div>
+</div>
+</section>
+
+<section class="section" aria-labelledby="h-rel"><h2 id="h-rel">Mismo componente en otras librerías</h2><div class="tiles"><a class="tile" href="../core-smart-product-card/"><strong>Core (sin librería)</strong><span>Smart Product Card · v1.0.0</span></a><a class="tile" href="../core-hero-section/"><strong>Core (sin librería)</strong><span>Hero Section (parallax) · v1.0.0</span></a><a class="tile" href="../core-parallax-scene/"><strong>Core (sin librería)</strong><span>Parallax Scene (2.5D) · v1.0.0</span></a></div></section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../">WebMCPcss</a>
+      <a href="../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../assets/index.js" defer></script>
+<script src="../assets/hub.js" defer></script>
+</body>
+</html>

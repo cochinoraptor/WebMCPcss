@@ -1,0 +1,16 @@
+<form data-form="contact-form" toolname="sendMessage" tooldescription="Envía un mensaje de contacto con nombre, correo y texto" toolautosubmit action="#" method="post" novalidate class="card card-body shadow-sm" style="max-width: 24rem">
+  <h2 class="h4 mb-3">Contacto</h2>
+  <div class="mb-3">
+    <label for="name" class="form-label">Nombre</label>
+    <input type="text" class="form-control" id="name" name="name" required autocomplete="name" toolparamtitle="name" toolparamdescription="Nombre de quien escribe">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo electrónico</label>
+    <input type="email" class="form-control" id="email" name="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para responder">
+  </div>
+  <div class="mb-3">
+    <label for="message" class="form-label">Mensaje</label>
+    <textarea class="form-control" id="message" name="message" rows="4" required toolparamtitle="message" toolparamdescription="Texto del mensaje"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Enviar mensaje</button>
+</form>

@@ -1,0 +1,63 @@
+{
+  "id": "core-navbar",
+  "name": "Navbar",
+  "category": "layout",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Barra de navegación IA-First: logo, enlaces con aria-current, menú móvil y CTA; herramientas goHome / openMenu / signUp y contexto activeSection.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "layout",
+    "navigation",
+    "navbar",
+    "header",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#2563eb"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "10px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "variable": "--wm-surface",
+      "label": "Fondo de la superficie",
+      "type": "color",
+      "default": "#ffffff"
+    }
+  ],
+  "promptExamples": [
+    "añade un enlace “Precios” a la barra de navegación",
+    "cambia el color de fondo de la navbar"
+  ],
+  "animateExamples": [
+    "haz que la navbar aparezca deslizándose desde arriba",
+    "añade fade-in a los enlaces del menú"
+  ],
+  "related": [
+    "tailwind-navbar",
+    "bootstrap-navbar",
+    "mui-navbar",
+    "shadcn-navbar"
+  ],
+  "preview": "preview.css",
+  "css": "navbar.webmcp.css",
+  "html": "navbar.html"
+}

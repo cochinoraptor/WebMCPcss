@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es" data-hub-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uso de componentes · WebMCPcss Component Hub</title>
+<meta name="description" content="Cada componente del hub está formado por tres archivos que trabajan juntos. Esta guía explica cómo integrarlos en un proyecto real sin perder la capa &amp;quot;para">
+<meta name="webmcp-hub" content="true">
+<meta name="webmcp-hub-version" content="1.2.0">
+<meta name="webmcp-hub-index" content="https://cochinoraptor.github.io/WebMCPcss/api/components.json">
+<meta name="generator" content="webmcpcss 1.2.0">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Uso de componentes · WebMCPcss Component Hub">
+<meta property="og:description" content="Cada componente del hub está formado por tres archivos que trabajan juntos. Esta guía explica cómo integrarlos en un proyecto real sin perder la capa &amp;quot;para">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cochinoraptor.github.io/WebMCPcss/components/docs/component-usage/">
+<meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png">
+<link rel="canonical" href="https://cochinoraptor.github.io/WebMCPcss/components/docs/component-usage/">
+<link rel="alternate" type="application/json" title="Índice de componentes" href="../../../api/components.json">
+<link rel="icon" type="image/png" href="../../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/hub.css">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Uso de componentes","url":"https://cochinoraptor.github.io/WebMCPcss/components/docs/component-usage/","isPartOf":{"@type":"WebSite","name":"WebMCPcss Component Hub","url":"https://cochinoraptor.github.io/WebMCPcss/components/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="grid-bg" aria-hidden="true"></div><div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../"><img src="../../../logo.png" alt="" width="30" height="30">WebMCP<em>css</em><span class="hub">Component Hub</span></a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="../../">Inicio</a>
+      <a href="../../catalog/">Catálogo</a>
+      <a href="../../search/">Buscar</a>
+      <a href="../../favorites/">Favoritos <span class="n">(<span data-fav-count>0</span>)</span></a>
+      <a href="../../docs/" aria-current="page">Docs</a>
+      <a href="../../about/">Acerca de</a>
+      <a class="gh" href="https://github.com/cochinoraptor/WebMCPcss" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+
+<div class="docs">
+
+<aside aria-label="Documentación">
+  <h4>Guías</h4>
+  <a href="../getting-started/">Primeros pasos</a>
+  <a href="../component-usage/" aria-current="page">Uso de componentes</a>
+  <a href="../contributing/">Contribuir</a>
+  <h4>En esta página</h4><div class="toc"><a href="#anatomia-de-un-componente">Anatomía de un componente</a><a href="#identificadores-estables">Identificadores estables</a><a href="#parametros">Parámetros</a><a href="#formularios-y-api-declarativa">Formularios y API declarativa</a><a href="#personalizacion-visual">Personalización visual</a><a href="#animaciones">Animaciones</a><a href="#seguridad-y-confirmaciones">Seguridad y confirmaciones</a><a href="#actualizaciones">Actualizaciones</a></div>
+  <h4>Más</h4>
+  <a href="../../../">Documentación general de WebMCPcss</a>
+  <a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/hub.md" target="_blank" rel="noopener">docs/hub.md en GitHub</a>
+</aside>
+<article class="prose">
+<div class="crumbs"><a href="../">Docs</a><span>›</span><span>Uso de componentes</span></div>
+<h1 id="uso-de-componentes">Uso de componentes</h1>
+<p>Cada componente del hub está formado por tres archivos que trabajan juntos. Esta guía explica cómo integrarlos en un proyecto real sin perder la capa &quot;para agentes&quot;.</p>
+<h2 id="anatomia-de-un-componente">Anatomía de un componente</h2>
+<pre><code>tailwind-button-primary/
+├── button-primary.html         ← marcado (clases de tu librería + data-tool)
+├── button-primary.webmcp.css   ← contrato para agentes (propiedades webmcp-*)
+└── component.json              ← metadatos (versión, controles, ejemplos, relacionados)</code></pre>
+<p>El contrato mínimo de un botón:</p>
+<pre><code class="language-css">[data-tool=&quot;clickButton&quot;] {
+  webmcp-tool: &quot;clickButton&quot;;
+  webmcp-description: &quot;Ejecuta la acción principal del bloque&quot;;
+  webmcp-intent: &quot;submit&quot;;          /* submit | navigate | action | cancel */
+  webmcp-confirmation: &quot;none&quot;;      /* none | needed */
+  webmcp-permissions: &quot;restricted&quot;; /* read-only | restricted | full */
+  webmcp-accessibility: &quot;focus-visible: ring; min-target: 44px&quot;;
+}</code></pre>
+<p>Las propiedades <code>webmcp-*</code> no afectan al render (el navegador las ignora) y se pueden mezclar con CSS normal en el mismo archivo.</p>
+<h2 id="identificadores-estables">Identificadores estables</h2>
+<p>Los selectores del contrato apuntan a atributos <code>data-tool</code>, <code>data-context</code>, <code>data-component</code> y <code>data-form</code>, no a clases de estilo. Así puedes cambiar utilidades de Tailwind o variantes de MUI sin romper el contrato. Regla práctica: <strong>si renombras un <code>data-*</code>, actualiza el <code>.webmcp.css</code></strong>.</p>
+<h2 id="parametros">Parámetros</h2>
+<p>Los parámetros se declaran con <code>webmcp-param-&lt;nombre&gt;</code> y una fuente:</p>
+<table><thead><tr><th>Fuente</th><th>Ejemplo</th><th>Lee…</th></tr></thead><tbody><tr><td><code>attr(...)</code></td><td><code>webmcp-param-productId: attr(data-product-id);</code></td><td>un atributo del elemento</td></tr><tr><td><code>value(sel)</code></td><td><code>webmcp-param-email: value(form [name=&quot;email&quot;]);</code></td><td>el <code>value</code> de un campo</td></tr><tr><td><code>text(sel)</code></td><td><code>webmcp-param-total: text(.total);</code></td><td>el texto de un elemento</td></tr><tr><td>literal</td><td><code>webmcp-param-currency: &quot;EUR&quot;;</code></td><td>un valor fijo</td></tr></tbody></table>
+<p>Documenta cada parámetro con <code>webmcp-doc-&lt;nombre&gt;: &quot;…&quot;</code>; el servidor MCP lo usa como descripción del JSON Schema.</p>
+<h2 id="formularios-y-api-declarativa">Formularios y API declarativa</h2>
+<p>Los formularios del hub llevan además los atributos del estándar WebMCP (<code>toolname</code>, <code>tooldescription</code>, <code>toolparamtitle</code>, <code>toolparamdescription</code>, <code>toolautosubmit</code>). Un navegador compatible (Chrome 149+ con el origin trial) registra la herramienta automáticamente; el <code>.webmcp.css</code> expresa lo mismo para MCP y para navegadores sin soporte. <code>webmcpcss standard scan index.html</code> te muestra ambos lados sincronizados.</p>
+<h2 id="personalizacion-visual">Personalización visual</h2>
+<p>Los componentes <em>core</em> y <em>Tailwind</em> exponen variables CSS (<code>--wm-primary</code>, <code>--wm-on-primary</code>, <code>--wm-radius</code>, <code>--wm-surface</code>, …). Cambia su valor en tu hoja de estilos:</p>
+<pre><code class="language-css">:root { --wm-primary: #16a34a; --wm-radius: 12px; }</code></pre>
+<ul><li><strong>Bootstrap</strong>: el <code>preview.css</code> del hub mapea <code>--wm-*</code> a las variables <code>--bs-*</code>; en tu proyecto puedes usar directamente las de Bootstrap.</li><li><strong>MUI</strong>: el HTML es el DOM que renderiza <code>&lt;Button&gt;</code>/<code>&lt;Card&gt;</code>; en React pasa <code>data-tool</code> como prop y personaliza con <code>sx</code> o el tema.</li><li><strong>shadcn/ui</strong>: usa los tokens de <code>globals.css</code> (<code>--primary</code>, <code>--radius</code>). El snippet React del detalle (<code>usage.code</code>) muestra el JSX equivalente.</li></ul>
+<p>El <strong>editor en vivo</strong> del sitio genera el bloque CSS con los valores que elijas; cópialo y pégalo en tu proyecto.</p>
+<h2 id="animaciones">Animaciones</h2>
+<p>Los componentes de la categoría <em>animations</em> y algunos inteligentes declaran animaciones con el estándar de WebMCPcss:</p>
+<pre><code class="language-css">[data-animation=&quot;fade-in&quot;] {
+  webmcp-animation: &quot;fadeIn&quot;;
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: visible;
+  webmcp-animation-duration: 800ms;
+  webmcp-animation-keyframes: &#39;[{&quot;opacity&quot;:0},{&quot;opacity&quot;:1}]&#39;;
+}</code></pre>
+<p>Para reproducirlas en tu página incluye el runtime y ejecuta el mapa:</p>
+<pre><code class="language-bash">npx webmcpcss animate fade-in.webmcp.css -o ./public/webmcp-animation</code></pre>
+<pre><code class="language-html">&lt;script src=&quot;/webmcp-animation/webmcp-animation.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;webmcpcss.animation.run(window.__WEBMCP_ANIMATIONS__, { strategy: &#39;queue&#39; });&lt;/script&gt;</code></pre>
+<p>Conviven con GSAP, Framer Motion o Anime.js: registra tus animaciones externas con <code>webmcpcss.animation.registerExternal(...)</code> y el orquestador evitará conflictos.</p>
+<h2 id="seguridad-y-confirmaciones">Seguridad y confirmaciones</h2>
+<p>Los componentes de pago y acciones sociales usan <code>webmcp-confirmation: &quot;needed&quot;</code>, <code>webmcp-permissions: &quot;full&quot;</code>, <code>webmcp-requires: &quot;auth&quot;</code>, <code>webmcp-rate-limit</code> y <code>webmcp-risk</code>. <code>webmcpcss security validate --file tu.webmcp.css</code> audita esas políticas antes de publicar.</p>
+<h2 id="actualizaciones">Actualizaciones</h2>
+<p><code>webmcpcss components update</code> compara el hash de tus archivos con el del hub. Si has editado un componente localmente, usa <code>--dry-run</code> para revisar y decide si reimportar con <code>--force</code> (tus cambios se sobrescriben) o mantener tu versión.</p>
+</article>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>WebMCPcss Component Hub · v1.2.0 · MIT</span>
+    <nav aria-label="Pie">
+      <a href="../../../">WebMCPcss</a>
+      <a href="../../../api/components.json">API JSON</a>
+      <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/components" target="_blank" rel="noopener">Fuente de los componentes</a>
+      <a href="https://www.npmjs.com/package/webmcpcss" target="_blank" rel="noopener">npm</a>
+    </nav>
+  </div>
+</footer>
+<script src="../../assets/index.js" defer></script>
+<script src="../../assets/hub.js" defer></script>
+</body>
+</html>

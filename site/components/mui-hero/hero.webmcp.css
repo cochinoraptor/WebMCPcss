@@ -1,0 +1,33 @@
+/* Componente: Hero */
+/* Categoría: layout · Librería: mui · Versión: 1.0.0 */
+/* Sección hero IA-First: título, subtítulo y dos llamadas a la acción; herramientas startNow / watchDemo, contexto heroTitle y animación de entrada del título. */
+/* Importar: npx webmcpcss components import mui-hero */
+
+/* Material UI: Container + Typography + Button; pasa data-* como props. */
+/* Contrato WebMCP */
+[data-component="hero"] [data-tool="startNow"] {
+  webmcp-tool: "startNow";
+  webmcp-description: "Llamada a la acción principal del hero: empieza el registro o la prueba";
+  webmcp-intent: "navigate";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-tool="watchDemo"] {
+  webmcp-tool: "watchDemo";
+  webmcp-description: "Abre la demostración en vídeo";
+  webmcp-intent: "action";
+  webmcp-confirmation: "none";
+  webmcp-permissions: "read-only";
+}
+[data-component="hero"] [data-context="hero-title"] { webmcp-context: "heroTitle"; webmcp-format: "text"; }
+[data-component="hero"] [data-context="hero-subtitle"] { webmcp-context: "heroSubtitle"; webmcp-format: "text"; }
+
+/* Animación de entrada del título (estándar de animaciones de WebMCPcss) */
+[data-component="hero"] [data-context="hero-title"] {
+  webmcp-animation: "heroTitleIn";
+  webmcp-animation-type: keyframes;
+  webmcp-animation-trigger: load;
+  webmcp-animation-duration: 900ms;
+  webmcp-animation-easing: cubic-bezier(.2, .8, .2, 1);
+  webmcp-animation-keyframes: '[{"opacity":0,"transform":"translateY(18px)"},{"opacity":1,"transform":"none"}]';
+}

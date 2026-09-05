@@ -1,0 +1,61 @@
+{
+  "id": "mui-button-outline",
+  "name": "Button Outline",
+  "category": "buttons",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Botón outline IA-First: navegación secundaria (saber más, ver detalles) con menor peso visual; herramienta learnMore con intención navigate.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "button",
+    "outline",
+    "navigate",
+    "link",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el borde del botón Saber más a morado",
+    "convierte el botón outline en relleno"
+  ],
+  "animateExamples": [
+    "añade un brillo al pasar el ratón por el botón outline",
+    "aplica fade-in al botón Saber más"
+  ],
+  "related": [
+    "core-button-outline",
+    "tailwind-button-outline",
+    "bootstrap-button-outline",
+    "shadcn-button-outline"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Button variant=\"outlined\" data-tool=\"learnMore\">Saber más</Button>"
+  },
+  "preview": "preview.css",
+  "css": "button-outline.webmcp.css",
+  "html": "button-outline.html"
+}

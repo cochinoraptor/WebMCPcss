@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Contact Form</title>
+<meta name="robots" content="noindex">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="contact-form.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="forms" data-kind="forms">
+<form data-form="contact-form" toolname="sendMessage" tooldescription="Envía un mensaje de contacto con nombre, correo y texto" toolautosubmit action="#" method="post" novalidate class="MuiPaper-root" style="max-width: 24rem; padding: 24px; display: grid; gap: 8px">
+  <h2 class="MuiTypography-root MuiTypography-h5">Contacto</h2>
+  <div class="MuiFormControl-root MuiTextField-root">
+    <label class="MuiInputLabel-root" for="name">Nombre</label>
+    <div class="MuiInputBase-root MuiOutlinedInput-root"><input class="MuiInputBase-input MuiOutlinedInput-input" id="name" name="name" type="text" required autocomplete="name" toolparamtitle="name" toolparamdescription="Nombre de quien escribe"></div>
+  </div>
+  <div class="MuiFormControl-root MuiTextField-root">
+    <label class="MuiInputLabel-root" for="email">Correo electrónico</label>
+    <div class="MuiInputBase-root MuiOutlinedInput-root"><input class="MuiInputBase-input MuiOutlinedInput-input" id="email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para responder"></div>
+  </div>
+  <div class="MuiFormControl-root MuiTextField-root">
+    <label class="MuiInputLabel-root" for="message">Mensaje</label>
+    <div class="MuiInputBase-root MuiOutlinedInput-root"><textarea class="MuiInputBase-input MuiOutlinedInput-input" id="message" name="message" rows="4" required toolparamtitle="message" toolparamdescription="Texto del mensaje"></textarea></div>
+  </div>
+  <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-fullWidth" type="submit">Enviar mensaje</button>
+</form>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

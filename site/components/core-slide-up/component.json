@@ -1,0 +1,38 @@
+{
+  "id": "core-slide-up",
+  "name": "Slide Up",
+  "category": "animations",
+  "library": "core",
+  "version": "1.0.0",
+  "description": "Animación reutilizable de entrada deslizando hacia arriba (translateY 32px → 0 con fade) declarada con webmcp-animation.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "animation",
+    "slide",
+    "entrance",
+    "core"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color del elemento",
+      "type": "color",
+      "default": "#2563eb"
+    }
+  ],
+  "promptExamples": [
+    "aplica la animación slide-up al botón Comprar"
+  ],
+  "animateExamples": [
+    "cambia el slide-up por un slide desde la izquierda",
+    "añade 200 ms de retardo al slide-up"
+  ],
+  "related": [
+    "core-fade-in",
+    "core-pulse",
+    "core-isometric-2-5d"
+  ],
+  "preview": "preview.css",
+  "css": "slide-up.webmcp.css",
+  "html": "slide-up.html"
+}

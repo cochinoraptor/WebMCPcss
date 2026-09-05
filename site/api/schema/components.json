@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cochinoraptor.github.io/WebMCPcss/api/schema/components.json",
+  "title": "WebMCPcss Component Hub index",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "baseUrl",
+    "components"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "baseUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "libraries": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "category",
+          "library",
+          "version",
+          "description",
+          "files",
+          "importCommand"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "buttons",
+              "cards",
+              "forms",
+              "layout",
+              "animations",
+              "intelligent"
+            ]
+          },
+          "library": {
+            "type": "string",
+            "enum": [
+              "core",
+              "tailwind",
+              "bootstrap",
+              "mui",
+              "shadcn"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "animations": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "hash": {
+            "type": "string"
+          },
+          "files": {
+            "type": "object",
+            "properties": {
+              "css": {
+                "type": "string"
+              },
+              "html": {
+                "type": "string"
+              },
+              "meta": {
+                "type": "string"
+              },
+              "page": {
+                "type": "string"
+              }
+            }
+          },
+          "importCommand": {
+            "type": "string"
+          },
+          "promptExamples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "animateExamples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

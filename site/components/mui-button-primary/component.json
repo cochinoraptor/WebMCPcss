@@ -1,0 +1,61 @@
+{
+  "id": "mui-button-primary",
+  "name": "Button Primary",
+  "category": "buttons",
+  "library": "mui",
+  "version": "1.0.0",
+  "description": "Botón primario IA-First: ejecuta la acción principal del bloque (enviar, guardar, continuar) y la declara como herramienta clickButton.",
+  "author": "WebMCPcss Team",
+  "tags": [
+    "button",
+    "primary",
+    "submit",
+    "cta",
+    "mui"
+  ],
+  "controls": [
+    {
+      "variable": "--wm-primary",
+      "label": "Color primario",
+      "type": "color",
+      "default": "#1976d2"
+    },
+    {
+      "variable": "--wm-on-primary",
+      "label": "Texto sobre primario",
+      "type": "color",
+      "default": "#ffffff"
+    },
+    {
+      "variable": "--wm-radius",
+      "label": "Radio",
+      "type": "range",
+      "default": "4px",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "promptExamples": [
+    "cambia el color del botón primario a verde",
+    "haz el botón Enviar más grande"
+  ],
+  "animateExamples": [
+    "aplica una animación de pulsación al botón primario",
+    "haz que el botón Enviar aparezca con fade-in"
+  ],
+  "related": [
+    "core-button-primary",
+    "tailwind-button-primary",
+    "bootstrap-button-primary",
+    "shadcn-button-primary"
+  ],
+  "usage": {
+    "framework": "react",
+    "code": "<Button variant=\"contained\" type=\"submit\" data-tool=\"clickButton\">Enviar</Button>"
+  },
+  "preview": "preview.css",
+  "css": "button-primary.webmcp.css",
+  "html": "button-primary.html"
+}

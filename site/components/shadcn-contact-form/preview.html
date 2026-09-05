@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview · Contact Form</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{border:'var(--border)',input:'var(--input)',ring:'var(--ring)',background:'var(--background)',foreground:'var(--foreground)',primary:{DEFAULT:'var(--primary)',foreground:'var(--primary-foreground)'},secondary:{DEFAULT:'var(--secondary)',foreground:'var(--secondary-foreground)'},destructive:{DEFAULT:'var(--destructive)',foreground:'#fff'},muted:{DEFAULT:'var(--muted)',foreground:'var(--muted-foreground)'},accent:{DEFAULT:'var(--accent)',foreground:'var(--accent-foreground)'},popover:{DEFAULT:'var(--popover)',foreground:'var(--popover-foreground)'},card:{DEFAULT:'var(--card)',foreground:'var(--card-foreground)'}},borderRadius:{lg:'var(--radius)',md:'calc(var(--radius) - 2px)',sm:'calc(var(--radius) - 4px)'}}}}</script>
+
+<link rel="stylesheet" href="../assets/preview.css">
+<link rel="stylesheet" href="preview.css">
+<link rel="stylesheet" href="contact-form.webmcp.css">
+</head>
+<body>
+<div data-preview-root data-category="forms" data-kind="forms">
+<form data-form="contact-form" toolname="sendMessage" tooldescription="Envía un mensaje de contacto con nombre, correo y texto" toolautosubmit action="#" method="post" novalidate data-slot="card" class="grid w-full max-w-sm gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm">
+  <h2 data-slot="card-title" class="text-xl font-semibold leading-none">Contacto</h2>
+  <div class="grid gap-2">
+    <label data-slot="label" for="name" class="text-sm font-medium leading-none">Nombre</label>
+    <input data-slot="input" id="name" name="name" type="text" required autocomplete="name" toolparamtitle="name" toolparamdescription="Nombre de quien escribe" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring">
+  </div>
+  <div class="grid gap-2">
+    <label data-slot="label" for="email" class="text-sm font-medium leading-none">Correo electrónico</label>
+    <input data-slot="input" id="email" name="email" type="email" required autocomplete="email" toolparamtitle="email" toolparamdescription="Correo para responder" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring">
+  </div>
+  <div class="grid gap-2">
+    <label data-slot="label" for="message" class="text-sm font-medium leading-none">Mensaje</label>
+    <textarea data-slot="textarea" id="message" name="message" rows="4" required toolparamtitle="message" toolparamdescription="Texto del mensaje" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring h-auto min-h-16"></textarea>
+  </div>
+  <button data-slot="button" type="submit" class="inline-flex h-9 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 focus-visible:ring-[3px] focus-visible:ring-ring">Enviar mensaje</button>
+</form>
+
+</div>
+
+
+<script src="../assets/preview.js"></script>
+</body>
+</html>

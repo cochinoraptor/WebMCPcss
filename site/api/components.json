@@ -1,8 +1,8 @@
 {
   "$schema": "https://cochinoraptor.github.io/WebMCPcss/api/schema/components.json",
   "name": "WebMCPcss Component Hub",
-  "version": "1.2.1",
-  "generatedAt": "2026-09-05T19:03:07.229Z",
+  "version": "1.3.0",
+  "generatedAt": "2026-09-13T23:39:44.107Z",
   "baseUrl": "https://cochinoraptor.github.io/WebMCPcss",
   "categories": [
     {

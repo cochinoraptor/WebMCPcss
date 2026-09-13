@@ -189,7 +189,7 @@ webmcpcss inject https://example.com --dir ./community-styles
 
 Every command accepts `http(s)://` URLs, local HTML paths and `--verbose`.
 Run `webmcpcss <command> --help` for all options.
-📚 Full CLI reference (29 commands, every flag): [docs/CLI.md](docs/CLI.md).
+📚 Full CLI reference (30 commands, every flag): [docs/CLI.md](docs/CLI.md).
 
 ## Library usage (API)
 
@@ -241,6 +241,50 @@ Parameter sources: `attr(attribute-name)`, `data(x)` (alias of `attr(data-x)`),
 and **`@import`**. Extra `webmcp-*` properties (`webmcp-permissions`,
 `webmcp-payment`, `webmcp-accessibility`, `webmcp-intent`…) are documented in
 each module guide under [`docs/`](docs/).
+
+## Gasless Blockchain Trust Layer (v1.3.0)
+
+**On-chain verifiable permissions** and **gasless transactions** for agents,
+declared in the same `.webmcp.css`. Mitigates prompt injection, runaway
+spending and calls to unauthorized contracts. Zero new dependencies: keccak,
+secp256k1, EIP-712, BLAKE2b, Ed25519 and BCS are implemented in-house and
+verified against `ethers` and `@mysten/sui`.
+
+```css
+.checkout-button {
+  webmcp-tool: "purchase";
+  webmcp-auth: "erc8004";                 /* ERC-8004 identity (owner, wallet, reputation) */
+  webmcp-payment: "x402";                 /* signed EIP-3009 authorization (USDC) */
+  webmcp-chain: "base-sepolia";           /* sui | base | evm | skale or a network id */
+  webmcp-spending-limit: "100 USDC/day";
+  webmcp-rate-limit: "5 actions/minute";
+  webmcp-allowed-contracts: "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+  webmcp-requires-human-proof: true;      /* World ID / Self.xyz */
+}
+```
+
+- 🔐 **Identity**: ERC-8004 on Base/Ethereum (+ session keys delegated by the
+  owner), Sui registry, ZK proofs of personhood.
+- ⛽ **Gasless**: protocol-level stablecoin transfers on **Sui** (zero gas, no
+  SUI needed), EIP-3009 / ERC-4337 with paymaster on EVM, free gas on SKALE;
+  Seal/MPC as an external signer.
+- 🧾 Hash-chained **audit log** (`trust audit-log --verify`) with optional
+  on-chain anchoring.
+- 🤖 MCP tools `trust_verify_identity`, `trust_check_permission`,
+  `trust_execute_gasless`, `trust_get_audit_log`; REST `POST /api/trust/verify`
+  - `X-Trust-Token`; `window.__WEBMCP_TRUST__` for browser agents.
+
+```bash
+webmcpcss trust verify-identity --agent "#1" --chain base --network base-sepolia
+webmcpcss trust check-permission --tool purchase --file webmcp.css --agent "#7" --proof proof.json --amount "0.5 USDC"
+webmcpcss trust execute-gasless --chain sui --tx '{"kind":"transfer","to":"0x…","amount":"1 USDC"}'
+```
+
+Guides (Spanish): [trust-layer.md](docs/trust-layer.md) ·
+[trust-policies.md](docs/trust-policies.md) ·
+[gasless-guide.md](docs/gasless-guide.md) ·
+[agent-identity.md](docs/agent-identity.md) ·
+[audit-logs.md](docs/audit-logs.md) · examples: [`examples/trust/`](examples/trust/).
 
 ## Component Hub (v1.2.0)
 

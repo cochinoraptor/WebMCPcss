@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WebMCPcss — Convierte cualquier web en herramientas para agentes IA</title>
-<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.2.0: Component Hub con componentes IA-First para Tailwind, Bootstrap, MUI y shadcn; alineado con el estándar WebMCP (document.modelContext y API declarativa toolname/tooldescription); framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
+<meta name="description" content="Declara herramientas para agentes de IA en un archivo CSS. v1.3.0: capa de confianza blockchain gasless (identidad ERC-8004 y Sui, permisos firmados, pagos x402, transacciones sin gas, auditoría); v1.2.0: Component Hub con componentes IA-First para Tailwind, Bootstrap, MUI y shadcn; alineado con el estándar WebMCP (document.modelContext y API declarativa toolname/tooldescription); framework IA-First, diseño a WebMCP, sitios legacy, accesibilidad, tests, versionado, documentación, seguridad, recomendador y pagos Web3. Generación automática, servidor MCP, auto-reparación de selectores, modificación con lenguaje natural, animaciones declarativas (parallax, 3D, Three.js) y exportadores para 46 agentes (Claude, Cursor, CrewAI, AutoGen, LangGraph, DeerFlow...)." />
 <meta property="og:title" content="WebMCPcss — herramientas web para agentes IA, declaradas en CSS" />
-<meta property="og:description" content="v1.2.1 · npm i -g webmcpcss · Component Hub · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
+<meta property="og:description" content="v1.3.0 · npm i -g webmcpcss · Capa de confianza blockchain gasless (ERC-8004, Sui, x402) · Component Hub · estándar WebMCP (document.modelContext + API declarativa) · MCP server · auto-reparación · lenguaje natural · animaciones · IA-First · retro · a11y · tests · seguridad · Web3 · 46 agentes soportados" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://cochinoraptor.github.io/WebMCPcss/logo.png" />
 <link rel="icon" type="image/png" href="favicon.png" />
@@ -287,6 +287,7 @@
       <a href="#features">Funciones</a>
       <a href="components/" style="color:var(--acc2)">🧩 Componentes</a>
       <a href="#v1">Novedades 1.0</a>
+      <a href="#trust" style="color:var(--acc)">🔐 Confianza</a>
       <a href="#prompt">Prompt</a>
       <a href="#animaciones">Animaciones</a>
       <a href="#agentes">Agentes</a>
@@ -304,7 +305,7 @@
 <div class="hero">
   <div class="wrap">
     <img class="mark" src="logo.png" alt="Logo WebMCPcss" />
-    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.2.1</span></div>
+    <div><span class="eyebrow">⚡ Open source · MIT · Node 18+ · v1.3.0</span></div>
     <h1>Convierte <span class="grad">cualquier web</span> en herramientas para agentes de IA</h1>
     <p class="lead">Un archivo <code>.webmcp.css</code> mapea selectores a acciones como <code>addToCart</code> o <code>login</code>. Sin permisos del sitio, con <strong style="color:var(--text)">auto-reparación</strong> cuando el sitio se rediseña, órdenes en <strong style="color:var(--text)">lenguaje natural</strong>, <strong style="color:var(--text)">animaciones declarativas</strong> y, desde la 1.0, <strong style="color:var(--text)">permisos, accesibilidad, tests, versionado y pagos</strong> declarados en el mismo CSS.</p>
     <div class="cta">
@@ -320,8 +321,8 @@
     <div class="stats">
       <div class="stat"><b>46</b><span>agentes soportados</span></div>
       <div class="stat"><b>10</b><span>formatos de exportación</span></div>
-      <div class="stat"><b>29</b><span>comandos CLI</span></div>
-      <div class="stat"><b>571</b><span>tests automatizados</span></div>
+      <div class="stat"><b>30</b><span>comandos CLI</span></div>
+      <div class="stat"><b>656</b><span>tests automatizados</span></div>
       <div class="stat"><b>0</b><span>dependencias de pago</span></div>
     </div>
   </div>
@@ -516,6 +517,48 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
   </div>
 </section>
 
+<section id="trust">
+  <div class="wrap">
+    <div class="sec-eyebrow">Novedad v1.3.0 · blockchain gasless</div>
+    <h2>Confianza verificable on-chain, sin gas para el agente</h2>
+    <p class="sub">Declara en el mismo <code>.webmcp.css</code> qué identidad, permisos, pagos y límites exige cada herramienta. El servidor MCP <strong style="color:var(--text)">verifica antes de ejecutar</strong> (ERC-8004, claves de sesión, pruebas ZK de humanidad, x402), ejecuta <strong style="color:var(--text)">sin gas</strong> (stablecoins nativas en Sui, EIP-3009 / ERC-4337 en Base y Ethereum, gas gratuito en SKALE) y deja un registro de auditoría encadenado por hash. Cero dependencias nuevas: keccak, secp256k1, EIP-712, BLAKE2b, Ed25519 y BCS propios, verificados contra <code>ethers</code> y <code>@mysten/sui</code>.</p>
+    <div class="props" aria-label="Propiedades CSS de confianza">
+      <code class="a">webmcp-auth: erc8004|zk-proof|session-key|none</code><code class="a">webmcp-payment: x402|eip3009|sponsored|none</code><code class="a">webmcp-chain: sui|base|evm|skale</code>
+      <code>webmcp-spending-limit: "100 USDC/day"</code><code>webmcp-rate-limit: "5 actions/minute"</code><code>webmcp-allowed-contracts</code><code>webmcp-allowed-hours</code><code>webmcp-requires-human-proof</code>
+    </div>
+    <div class="split">
+      <div class="term">
+        <div class="term-bar"><i></i><i></i><i></i><span>zsh — trust</span></div>
+<pre>webmcpcss trust verify-identity --agent <span class="s">"#1"</span> --chain base --network base-sepolia
+<span class="g">  ✔ verificado eip155:84532:0x8004A818…BD9e#1</span>
+<span class="c">  owner: 0x21fd…e235 · nombre: Test Agent 004 · reputación: 50/100 (74 feedbacks)</span>
+
+webmcpcss trust check-permission --tool purchase --file tienda.webmcp.css \
+  --agent <span class="s">"#7"</span> --proof proof.json --amount <span class="s">"0.5 USDC"</span>
+<span class="g">  ✔ identity · ✔ expiry · ✔ nonce · ✔ signature · ✔ signer-authorized</span>
+<span class="g">  ✔ scope · ✔ rate-limit 1/5 · ✔ spending-limit 0.5 de 100 USDC/day</span>
+<span class="g">  ✔ permitido · restante 99.5 USDC/day</span>
+
+webmcpcss trust execute-gasless --chain sui --tx <span class="s">'{"kind":"transfer","to":"0xab…","amount":"1 USDC"}'</span>
+<span class="g">  ✔ gasless en sui-mainnet · digest 7Kq…  (gas 0, sin SUI)</span></pre>
+      </div>
+      <div>
+        <div class="flow">
+          <span class="on">identidad</span><i>→</i><span class="on">permiso firmado</span><i>→</i><span class="on">pago x402</span><i>→</i><span class="on">límites</span><i>→</i><span>tx sin gas</span><i>→</i><span>auditoría</span>
+        </div>
+        <ul class="ticks">
+          <li><strong style="color:var(--text)">Identidad</strong>: ERC-8004 (owner, billetera verificada, reputación anti-Sybil) o clave de sesión <em>delegada por el owner</em>; registro Sui; World ID / Self.xyz.</li>
+          <li><strong style="color:var(--text)">Gasless</strong>: transferencias de USDC a nivel de protocolo en Sui, autorizaciones EIP-3009 (X-PAYMENT), UserOperations ERC-4337 con paymaster, SKALE sin coste; Seal/MPC como firmante externo.</li>
+          <li><strong style="color:var(--text)">Políticas</strong>: rate limit, gasto por ventana y por sesión, listas blancas de contratos, horario, reglas propias; la cuota solo se consume si la acción tiene éxito.</li>
+          <li>Herramientas MCP <code>trust_verify_identity</code>, <code>trust_check_permission</code>, <code>trust_execute_gasless</code>, <code>trust_get_audit_log</code>; REST <code>POST /api/trust/verify</code> + <code>X-Trust-Token</code>; <code>window.__WEBMCP_TRUST__</code> para agentes de navegación.</li>
+          <li>Auditoría inmutable: <code>webmcpcss trust audit-log --verify</code> recalcula la cadena keccak; anclaje on-chain opcional.</li>
+        </ul>
+        <p style="margin-top:18px"><a href="https://github.com/cochinoraptor/WebMCPcss/blob/main/docs/trust-layer.md">Guía de la capa de confianza →</a> · <a href="https://github.com/cochinoraptor/WebMCPcss/tree/main/examples/trust">ejemplos</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="prompt">
   <div class="wrap">
     <div class="sec-eyebrow">Lenguaje natural · v0.7</div>
@@ -691,7 +734,7 @@ webmcpcss recommend <span class="s">"inicia sesión y compra 2 zapatillas rojas"
     <div class="final">
       <img src="logo.png" alt="" style="width:72px;height:72px;margin-bottom:18px" />
       <h2>Haz tu web nativa para agentes hoy</h2>
-      <p>Un comando para empezar. v1.2.1 · MIT · sin dependencias de pago · 571 tests · listo para producción.</p>
+      <p>Un comando para empezar. v1.3.0 · MIT · sin dependencias de pago · 656 tests · listo para producción.</p>
       <div class="cta">
         <a class="btn primary" href="https://www.npmjs.com/package/webmcpcss">npm install -g webmcpcss</a>
         <a class="btn ghost" href="https://github.com/cochinoraptor/WebMCPcss">⭐ Dale una estrella</a>

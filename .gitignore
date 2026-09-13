@@ -22,3 +22,7 @@ examples/prompt/output/
 
 # El ejemplo del Component Hub versiona su lock a propósito
 !examples/component-hub/.webmcpcss/
+
+# Salidas de examples/trust/demo.sh (pruebas firmadas y script generado)
+examples/trust/proof-*.json
+examples/trust/trust-inject.js

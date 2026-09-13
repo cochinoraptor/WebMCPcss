@@ -1,6 +1,6 @@
 # Referencia de la CLI `webmcpcss`
 
-Referencia completa de los **29 comandos** (v1.2.1). Todos aceptan `--help`;
+Referencia completa de los **30 comandos** (v1.3.0). Todos aceptan `--help`;
 los que reciben una URL aceptan también rutas locales a HTML. La opción global
 `--verbose` muestra depuración. Los comandos con `--json` escriben **solo** JSON
 en `stdout` (pensados para agentes y CI). Códigos de salida: `0` OK, `1` error
@@ -8,42 +8,43 @@ o validación fallida.
 
 ```bash
 npm i -g webmcpcss        # o: npx webmcpcss <comando>
-webmcpcss --version       # 1.2.1
+webmcpcss --version       # 1.3.0
 ```
 
 Guías temáticas: [estándar WebMCP](standard.md) · [animaciones](animation.md) ·
 [prompt](PROMPT.md) · [agentes](agents/) · [Component Hub](hub.md) ·
-[seguridad](security.md) · [Web3](web3.md).
+[seguridad](security.md) · [Web3](web3.md) · [confianza blockchain](trust-layer.md).
 
 ## Índice
 
-| Comando                                                             | Qué hace                                                    | Navegador |
-| ------------------------------------------------------------------- | ----------------------------------------------------------- | --------- |
-| [`generate`](#generate)                                             | Graba/escanea un sitio y genera `.webmcp.css`; `--api` → JS | Sí\*      |
-| [`validate`](#validate)                                             | Comprueba que los selectores existen                        | Sí        |
-| [`repair`](#repair)                                                 | Repara selectores rotos (visión) y reescribe el archivo     | Sí        |
-| [`discover`](#discover)                                             | ¿Publica el sitio WebMCP? (meta / `.well-known`)            | No        |
-| [`parse`](#parse)                                                   | `.webmcp.css` → tool map JSON                               | No        |
-| [`export`](#export)                                                 | Exporta a 10 formatos de agente                             | No        |
-| [`mcp`](#mcp)                                                       | Servidor MCP (stdio o HTTP)                                 | Opcional  |
-| [`run`](#run)                                                       | Ejecuta una herramienta y devuelve JSON                     | Sí        |
-| [`prompt`](#prompt)                                                 | Modifica una página con lenguaje natural                    | Sí        |
-| [`animate`](#animate) / [`validate-conflicts`](#validate-conflicts) | Animaciones declarativas y sus conflictos                   | Opcional  |
-| [`publish`](#publish) / [`inject`](#inject)                         | Repositorio comunitario de estilos                          | No / Sí   |
-| [`dashboard`](#dashboard) / [`graph`](#graph)                       | Dashboard web y grafo de conocimiento                       | No        |
-| [`tailwind`](#tailwind)                                             | Inspección/edición/exportación Tailwind                     | Sí        |
-| [`init`](#init) / [`assist`](#assist)                               | Framework IA-First                                          | No        |
-| [`design`](#design)                                                 | Design-to-WebMCP                                            | Opcional  |
-| [`retro`](#retro)                                                   | Sitios legacy sin tocar su código                           | Sí        |
-| [`a11y`](#a11y)                                                     | Auditoría y corrección de accesibilidad                     | Sí        |
-| [`test`](#test)                                                     | Genera/ejecuta pruebas desde el contrato                    | Opcional  |
-| [`version`](#version)                                               | Snapshots, diffs semver y migraciones                       | Opcional  |
-| [`doc`](#doc)                                                       | Documentación HTML/MD/JSON/llms.txt/AGENTS.md               | No        |
-| [`security`](#security)                                             | Permisos por tool, JWT de agentes                           | No        |
-| [`recommend`](#recommend)                                           | Recomendador de tools con historial                         | Opcional  |
-| [`web3`](#web3)                                                     | Pagos x402/USDC y billeteras de agente                      | No        |
-| [`standard`](#standard)                                             | API declarativa ⇄ `.webmcp.css`, `document.modelContext`    | `check`   |
-| [`components`](#components)                                         | Component Hub: list/import/update/demo/publish              | No        |
+| Comando                                                             | Qué hace                                                     | Navegador |
+| ------------------------------------------------------------------- | ------------------------------------------------------------ | --------- |
+| [`generate`](#generate)                                             | Graba/escanea un sitio y genera `.webmcp.css`; `--api` → JS  | Sí\*      |
+| [`validate`](#validate)                                             | Comprueba que los selectores existen                         | Sí        |
+| [`repair`](#repair)                                                 | Repara selectores rotos (visión) y reescribe el archivo      | Sí        |
+| [`discover`](#discover)                                             | ¿Publica el sitio WebMCP? (meta / `.well-known`)             | No        |
+| [`parse`](#parse)                                                   | `.webmcp.css` → tool map JSON                                | No        |
+| [`export`](#export)                                                 | Exporta a 10 formatos de agente                              | No        |
+| [`mcp`](#mcp)                                                       | Servidor MCP (stdio o HTTP)                                  | Opcional  |
+| [`run`](#run)                                                       | Ejecuta una herramienta y devuelve JSON                      | Sí        |
+| [`prompt`](#prompt)                                                 | Modifica una página con lenguaje natural                     | Sí        |
+| [`animate`](#animate) / [`validate-conflicts`](#validate-conflicts) | Animaciones declarativas y sus conflictos                    | Opcional  |
+| [`publish`](#publish) / [`inject`](#inject)                         | Repositorio comunitario de estilos                           | No / Sí   |
+| [`dashboard`](#dashboard) / [`graph`](#graph)                       | Dashboard web y grafo de conocimiento                        | No        |
+| [`tailwind`](#tailwind)                                             | Inspección/edición/exportación Tailwind                      | Sí        |
+| [`init`](#init) / [`assist`](#assist)                               | Framework IA-First                                           | No        |
+| [`design`](#design)                                                 | Design-to-WebMCP                                             | Opcional  |
+| [`retro`](#retro)                                                   | Sitios legacy sin tocar su código                            | Sí        |
+| [`a11y`](#a11y)                                                     | Auditoría y corrección de accesibilidad                      | Sí        |
+| [`test`](#test)                                                     | Genera/ejecuta pruebas desde el contrato                     | Opcional  |
+| [`version`](#version)                                               | Snapshots, diffs semver y migraciones                        | Opcional  |
+| [`doc`](#doc)                                                       | Documentación HTML/MD/JSON/llms.txt/AGENTS.md                | No        |
+| [`security`](#security)                                             | Permisos por tool, JWT de agentes                            | No        |
+| [`recommend`](#recommend)                                           | Recomendador de tools con historial                          | Opcional  |
+| [`web3`](#web3)                                                     | Pagos x402/USDC y billeteras de agente                       | No        |
+| [`standard`](#standard)                                             | API declarativa ⇄ `.webmcp.css`, `document.modelContext`     | `check`   |
+| [`components`](#components)                                         | Component Hub: list/import/update/demo/publish               | No        |
+| [`trust`](#trust)                                                   | Confianza blockchain gasless: identidad, permisos, auditoría | No        |
 
 \* `generate --from-source` y `generate --api` no necesitan navegador.
 
@@ -128,6 +129,7 @@ Formatos: `mcp-config`, `claude-code`, `cursor`, `deerflow`, `flomny`, `crewai`,
 webmcpcss mcp --serve [--css <file>] [--url <url>] [--http] [-p <port>]
               [--no-prompt] [--no-animate] [--flomny]
               [--hub] [--hub-url <url>] [--hub-output <dir>] [--hub-offline]
+              [--trust] [--trust-key <hex>]
               [--llm <provider>] [--model <model>] [--llm-base-url <url>]
 ```
 
@@ -139,6 +141,11 @@ webmcpcss mcp --serve [--css <file>] [--url <url>] [--http] [-p <port>]
   `GET /api/components[/:id]`; con `--hub` el `.webmcp.css` es opcional.
 - `--flomny` sirve el conjunto dedicado (`list_tools`, `get_tool_info`,
   `get_selector_status`, `suggest_repair`, `execute_prompt`, `apply_animation`).
+- `--trust` (automático si el CSS declara `webmcp-auth`/`webmcp-chain`) añade
+  `trust_verify_identity`, `trust_check_permission`, `trust_execute_gasless`,
+  `trust_get_audit_log`, `trust_get_policies`, las rutas `/api/trust/*` y aplica
+  las políticas de confianza antes de ejecutar cada tool (contexto en el
+  argumento `_trust` o cabecera `X-Trust-Token`). Guía: [trust-layer.md](trust-layer.md).
 
 ```bash
 webmcpcss mcp --serve --css webmcp.css --url https://mi-tienda.com
@@ -352,6 +359,42 @@ incluido en el paquete). Categorías: `buttons`, `cards`, `forms`, `layout`,
 `animations`, `intelligent`; librerías: `core`, `tailwind`, `bootstrap`, `mui`,
 `shadcn`. Guía: [docs/hub.md](hub.md).
 
+## `trust`
+
+```
+webmcpcss trust networks [--json]
+webmcpcss trust policies --file <css> [--json]
+webmcpcss trust set-policy --file <css> --tool <name> [--auth <t>] [--payment <t>] [--chain <c>]
+                           [--network <n>] [--spending-limit <l>] [--rate-limit <l>]
+                           [--allowed-contracts <a,b>] [--allowed-hours <HH:MM-HH:MM>]
+                           [--requires-human-proof [bool]] [--output <css>] [--json]
+webmcpcss trust verify-identity --agent <agentId> --chain <c> [--network <n>] [--no-cache] [--json]
+webmcpcss trust check-permission --tool <name> --file <css> [--agent <id>] [--proof <json|file>]
+                                 [--human-proof <json|file>] [--payment <header|json|file>]
+                                 [--amount <a>] [--target <contract>] [--origin <url>] [--json]
+webmcpcss trust sign-proof --agent <id> --scope <a,b|*> --chain <c> [--network <n>] [--key <hex>]
+                           [--ttl <s>] [--max-spend <a>] [--allowed-contracts <a,b>] [--origin <url>]
+                           [--output <file>]
+webmcpcss trust execute-gasless --chain <c> --tx <json|file> [--network <n>] [--file <css> --tool <name>]
+                                [--agent <id>] [--proof <json|file>] [--key <hex>] [--dry-run] [--json]
+webmcpcss trust audit-log [--agent <id>] [--limit <n>] [--verify] [--json]
+webmcpcss trust balance --address <addr> --chain <c> [--network <n>] [--token <t|native>] [--json]
+webmcpcss trust inject --file <css> [--api <url>] [--origin <url>] [--output <js>]
+```
+
+- Cadenas: `sui`, `evm`, `base`, `skale`; redes: `sui-mainnet`, `sui-testnet`,
+  `base`, `base-sepolia`, `ethereum`, `sepolia`, `skale-europa`,
+  `skale-europa-testnet`.
+- `verify-identity` consulta ERC-8004 (owner, billetera, nombre, reputación) o el
+  registro Sui; `check-permission` aplica toda la política sin ejecutar y sale
+  con `1` si se deniega; `execute-gasless` usa transferencias gasless nativas
+  (Sui), EIP-3009/ERC-4337 (EVM) o gas gratuito (SKALE) y, sin clave, devuelve
+  la carga a firmar; `audit-log --verify` comprueba la cadena de hashes.
+- Sin dependencias adicionales (`ethers`/`@mysten/sui` no son necesarios).
+  Guías: [trust-layer.md](trust-layer.md), [trust-policies.md](trust-policies.md),
+  [gasless-guide.md](gasless-guide.md), [agent-identity.md](agent-identity.md),
+  [audit-logs.md](audit-logs.md).
+
 ---
 
 ## Variables de entorno
@@ -363,6 +406,10 @@ incluido en el paquete). Categorías: `buttons`, `cards`, `forms`, `layout`,
 | `WEBMCPCSS_AI_API_KEY`, `WEBMCPCSS_AI_BASE_URL`, `WEBMCPCSS_AI_MODEL`             | `generate --ai`                                          |
 | `WEBMCP_LLM_PROVIDER`, `WEBMCP_OLLAMA_*`, `WEBMCP_OPENAI_*`, `WEBMCP_ANTHROPIC_*` | LLM de `prompt`/`assist`/`recommend`/MCP                 |
 | `WEBMCP_JWT_SECRET`                                                               | `security token` / validación Bearer                     |
+| `WEBMCP_TRUST_KEY`, `WEBMCP_TRUST_SECRET`, `WEBMCP_TRUST_RPC[_<RED>]`             | clave, secreto de tokens y RPC de `trust`                |
+| `WEBMCP_TRUST_BUNDLER`, `WEBMCP_TRUST_PAYMASTER`, `WEBMCP_TRUST_RELAYER`          | ERC-4337 / EIP-3009 gasless en EVM                       |
+| `WEBMCP_TRUST_SUI_REGISTRY`, `WEBMCP_TRUST_SUI_GAS_STATION`                       | registro de identidad y gas station en Sui               |
+| `WEBMCP_TRUST_WORLD_APP_ID`, `WEBMCP_TRUST_SELF_VERIFIER_URL`                     | pruebas de humanidad (World ID / Self.xyz)               |
 | `PUPPETEER_SKIP_DOWNLOAD=true`                                                    | instalar sin descargar Chromium (comandos sin navegador) |
 | `PUPPETEER_EXECUTABLE_PATH`                                                       | usar un Chrome/Chromium ya instalado en el sistema       |
 

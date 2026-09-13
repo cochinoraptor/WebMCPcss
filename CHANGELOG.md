@@ -4,6 +4,73 @@ Todas las novedades relevantes de WebMCPcss. Formato basado en
 [Keep a Changelog](https://keepachangelog.com/es/1.1.0/); versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [1.3.0] - 2026-09-13
+
+Módulo de **Confianza Blockchain Gasless**: los agentes operan en sitios
+WebMCPcss con permisos verificables on-chain y transacciones sin gas, con
+auditoría inmutable. Cero dependencias nuevas; Node ≥ 18. Sin cambios rompientes.
+
+### Añadido
+
+- **Namespace `trust`** (`src/trust/`): `TrustEngine` (verificar → ejecutar →
+  auditar), `IdentityVerifier` (ERC-8004 con owner/`agentWallet`/`tokenURI`/
+  reputación, registro Sui, World ID y Self.xyz, caché con TTL),
+  `PermissionVerifier` (pruebas de permiso EIP-712 en EVM y mensaje personal
+  Ed25519 en Sui, vigencia, anti-replay, scope, origen, delegación de claves de
+  sesión firmada por el owner), `PaymentVerifier` (x402 / EIP-3009 / sponsored),
+  `PolicyEngine` (rate limit, límites de gasto por ventana, límite de sesión,
+  listas blancas de contratos, ventana horaria, reglas personalizadas; stores en
+  memoria, archivo o Redis), `GaslessExecutor`, `SponsoredExecutor` y
+  `AuditLogger` (JSONL encadenado por keccak con verificación de integridad y
+  anclaje on-chain opcional).
+- **Políticas en `.webmcp.css`**: `webmcp-auth`, `webmcp-payment`,
+  `webmcp-chain`, `webmcp-spending-limit`, `webmcp-rate-limit`,
+  `webmcp-allowed-contracts`, `webmcp-allowed-hours`,
+  `webmcp-requires-human-proof`, `webmcp-identity-registry` (+ alias `-type`,
+  `-method`). Parser (`parseTrustPolicies`, `policyFromTool`), validación de
+  esquemas sin dependencias y edición en sitio (`setPolicyInCss`).
+- **Adaptadores de cadena** sin SDKs: `EvmAdapter` (JSON-RPC, ABI propio,
+  ERC-8004, EIP-3009 `transferWithAuthorization` vía relayer o cabecera
+  `X-PAYMENT`, ERC-4337 v0.7 con `pm_sponsorUserOperation`, transacciones
+  legacy RLP para SKALE) y `SuiAdapter` (GraphQL de los fullnodes, transferencia
+  gasless de stablecoins a nivel de protocolo construida en BCS —
+  `balance::redeem_funds` + `balance::send_funds`, gas 0 —, `verifySignature`
+  del nodo para zkLogin/passkeys/MultiSig, gas station para Move calls y
+  firmante externo Seal/MPC). Redes: `sui-mainnet`, `sui-testnet`, `base`,
+  `base-sepolia`, `ethereum`, `sepolia`, `skale-europa`,
+  `skale-europa-testnet`.
+- **Primitivas criptográficas propias** (`src/trust/crypto/`): keccak-256,
+  secp256k1 (firma RFC 6979, recuperación, EIP-191), EIP-712, codificador ABI,
+  BLAKE2b, Ed25519 (nativo de Node) y BCS, verificadas byte a byte contra
+  `ethers` 6 y `@mysten/sui` 2 (`tests/fixtures/trust-vectors.json`).
+- **Herramientas MCP** `trust_verify_identity`, `trust_check_permission`,
+  `trust_execute_gasless`, `trust_get_audit_log`, `trust_get_policies`;
+  `tools/call` aplica la política de la tool con el argumento `_trust`.
+- **API REST**: `GET /api/trust/policies|identity|audit`,
+  `POST /api/trust/verify` (emite un token de confianza HMAC) y
+  `POST /api/trust/execute`; `POST /api/call` acepta `X-Trust-Token`.
+- **CLI `webmcpcss trust`** (comando 30): `networks`, `policies`,
+  `set-policy`, `verify-identity`, `check-permission`, `sign-proof`,
+  `execute-gasless`, `audit-log`, `balance`, `inject`; `mcp --serve --trust`
+  (automático si el CSS declara políticas) y `--trust-key`.
+- **Navegador**: `buildTrustBrowserScript` / `trust inject` →
+  `window.__WEBMCP_TRUST__` con políticas, `buildProof`, `signProofEvm`
+  (`eth_signTypedData_v4`), `signProofSui` (Wallet Standard) y `verify`.
+- Documentación: `docs/trust-layer.md`, `docs/trust-policies.md`,
+  `docs/gasless-guide.md`, `docs/agent-identity.md`, `docs/audit-logs.md`;
+  ejemplos en `examples/trust/` (CSS, demo CLI, cliente REST, cliente MCP,
+  página con billeteras). Variables `WEBMCP_TRUST_*` en `.env.example`.
+- Tests: 4 suites nuevas (crypto, parser, adaptadores con nodos simulados,
+  motor/MCP/REST/CLI) + integración opcional contra Base Sepolia y Sui testnet
+  (`WEBMCP_TRUST_LIVE=1`). Cobertura del módulo ≈ 89 % de líneas.
+
+### Cambiado
+
+- `McpServerOptions.trust` y `McpCore.callTrust`/`trustEnabled`; la cabecera
+  CORS permite `X-Trust-Token`; el 404 de la API menciona `/api/trust/*`.
+- `docs/CLI.md` documenta 30 comandos; README/README.en.md con la nueva
+  sección; landing con la capa de confianza.
+
 ## [1.2.1] - 2026-09-05
 
 Versión de mantenimiento: sitio web responsive, referencia completa de la CLI,

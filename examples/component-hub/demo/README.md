@@ -1,6 +1,6 @@
 # Demo WebMCPcss
 
-Generada con `webmcpcss components demo` (v1.2.1).
+Generada con `webmcpcss components demo` (v1.3.0).
 
 - `index.html` — todos los componentes.
 - `webmcp.css` — contratos concatenados (bloques `@webmcpcss-component`).

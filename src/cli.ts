@@ -60,6 +60,8 @@ import { VERSION } from './version';
 import { registerV1Commands } from './cli-v1';
 import { registerStandardCommands } from './cli-standard';
 import { registerComponentCommands } from './cli-components';
+import { registerTrustCommands, buildCliTrustEngine } from './cli-trust';
+import { extractTrustPolicies } from './trust/parser/trust-parser';
 import {
   declarativeToolsToToolMap,
   extractDeclarativeToolsFromDocument,
@@ -1124,11 +1126,13 @@ async function cmdMcp(
     hubUrl?: string;
     hubOutput?: string;
     hubOffline?: boolean;
+    trust?: boolean;
+    trustKey?: string;
   },
 ) {
   if (!opts.serve) {
     console.log(
-      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090] [--flomny] [--hub]',
+      'Usa: webmcpcss mcp --serve [--css <file>] [--url <url>] [--http -p 8090] [--flomny] [--hub] [--trust]',
     );
     return;
   }
@@ -1155,6 +1159,11 @@ async function cmdMcp(
   const hub = opts.hub
     ? { hubUrl: opts.hubUrl, offline: opts.hubOffline, outputDir: opts.hubOutput }
     : undefined;
+  // --trust (o políticas declaradas en el CSS): capa de confianza blockchain.
+  const trustEngine =
+    opts.trust || Object.keys(extractTrustPolicies(toolMap)).length
+      ? buildCliTrustEngine(cssExists ? cssPath : undefined, { key: opts.trustKey })
+      : undefined;
   const options = {
     toolMap,
     cssSource,
@@ -1164,6 +1173,7 @@ async function cmdMcp(
     prompt,
     animate,
     hub,
+    trust: trustEngine,
     version: VERSION,
   };
   // --flomny: servidor dedicado con API de introspección (list_tools, get_tool_info…).
@@ -1206,6 +1216,9 @@ async function cmdMcp(
           : '') +
         (hub
           ? ' · GET /api/components[?category&library&search] · GET /api/components/:id'
+          : '') +
+        (trustEngine
+          ? ' · POST /api/trust/verify · POST /api/trust/execute · GET /api/trust/policies|audit|identity'
           : ''),
     );
     return new Promise<void>(() => undefined); // queda sirviendo
@@ -1217,6 +1230,9 @@ async function cmdMcp(
       (prompt ? ' + webmcpcss_prompt' : '') +
       (animate ? ' + webmcpcss_animate' : '') +
       (hub ? ' + hub (list_components, get_component, import_component)' : '') +
+      (trustEngine
+        ? ` + trust (${Object.keys(trustEngine.policies).length} política(s): trust_verify_identity, trust_check_permission, trust_execute_gasless, trust_get_audit_log)`
+        : '') +
       (opts.url
         ? ` · ejecución real en ${opts.url}`
         : ' · sin --url (tools/call en dry-run)'),
@@ -1371,6 +1387,14 @@ program
     'webmcp-components',
   )
   .option('--hub-offline', 'usar solo el catálogo empaquetado')
+  .option(
+    '--trust',
+    'habilitar la capa de confianza blockchain (trust_* y /api/trust/*; automático si el CSS declara políticas)',
+  )
+  .option(
+    '--trust-key <hex>',
+    'clave privada del agente/patrocinador (o WEBMCP_TRUST_KEY)',
+  )
   .option(
     '--llm <provider>',
     'proveedor LLM para webmcpcss_prompt: ollama, openai, anthropic',
@@ -1916,6 +1940,7 @@ program
 registerV1Commands(program, { launchBrowser, navigate });
 registerStandardCommands(program, { launchBrowser, navigate });
 registerComponentCommands(program);
+registerTrustCommands(program);
 
 program.parseAsync(process.argv).catch((err: unknown) => {
   logger.error(err instanceof Error ? err.message : String(err));

@@ -22,6 +22,13 @@ import {
   isHubTool,
   type HubMcpOptions,
 } from '../hub/mcp-tools';
+import {
+  TRUST_TOOL_SCHEMAS,
+  callTrustTool,
+  contextFromArgs,
+  isTrustTool,
+} from '../trust/mcp/trust-tools';
+import type { TrustEngine } from '../trust/engine';
 
 /** Firma del ejecutor de herramientas que provee el CLI. */
 export type ToolExecutor = (
@@ -168,6 +175,14 @@ export interface McpServerOptions {
    * `GET /api/components` y `GET /api/components/:id`.
    */
   hub?: HubMcpOptions;
+  /**
+   * Capa de confianza blockchain (v1.3.0). Si está definida, el servidor expone
+   * `trust_verify_identity`, `trust_check_permission`, `trust_execute_gasless`,
+   * `trust_get_audit_log`, `trust_get_policies`, las rutas `POST /api/trust/verify`,
+   * `POST /api/trust/execute`, `GET /api/trust/policies`, `GET /api/trust/audit`,
+   * y aplica las políticas declaradas en el CSS antes de ejecutar cada tool.
+   */
+  trust?: TrustEngine;
   /** Versión del servidor a anunciar. */
   version?: string;
 }
@@ -206,6 +221,16 @@ export class McpCore {
     return Boolean(this.options.hub);
   }
 
+  /** ¿Está habilitada la capa de confianza? */
+  get trustEnabled(): boolean {
+    return Boolean(this.options.trust);
+  }
+
+  /** Motor de confianza (si está habilitado). */
+  get trust(): TrustEngine | undefined {
+    return this.options.trust;
+  }
+
   /** Nombre y versión que anuncia `initialize`. */
   protected serverInfo(): { name: string; version: string } {
     return { name: 'webmcpcss', version: this.options.version ?? VERSION };
@@ -221,7 +246,27 @@ export class McpCore {
     if (this.options.prompt) tools.push({ ...PROMPT_TOOL_SCHEMA });
     if (this.options.animate) tools.push({ ...ANIMATE_TOOL_SCHEMA });
     if (this.options.hub) tools.push(...HUB_TOOL_SCHEMAS.map((s) => ({ ...s })));
+    if (this.options.trust) tools.push(...TRUST_TOOL_SCHEMAS.map((s) => ({ ...s })));
     return { tools };
+  }
+
+  /** Ejecuta una herramienta de la capa de confianza (si está habilitada). */
+  async callTrust(
+    name: string,
+    args: Record<string, unknown>,
+  ): Promise<{ content: Array<Record<string, unknown>>; isError?: boolean }> {
+    if (!this.options.trust || !isTrustTool(name)) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: 'text',
+            text: 'La capa de confianza no está habilitada. Arranca el servidor con --trust.',
+          },
+        ],
+      };
+    }
+    return callTrustTool(name, args, this.options.trust);
   }
 
   /** Ejecuta una herramienta del Component Hub (si está habilitado). */
@@ -370,11 +415,69 @@ export class McpCore {
     if (name === PROMPT_TOOL_NAME) return this.callPrompt(args);
     if (name === ANIMATE_TOOL_NAME) return this.callAnimate(args);
     if (this.options.hub && isHubTool(name)) return this.callHub(name, args);
+    if (this.options.trust && isTrustTool(name)) return this.callTrust(name, args);
     const tool = this.options.toolMap.tools[name];
     if (!tool) {
       return {
         isError: true,
         content: [{ type: 'text', text: `Herramienta desconocida: ${name}` }],
+      };
+    }
+    // Capa de confianza: si la tool declara política, verificar → ejecutar → auditar.
+    const trust = this.options.trust;
+    if (trust && trust.getTrustPolicy(name)) {
+      const { _trust, ...params } = args as { _trust?: Record<string, unknown> } & Record<
+        string,
+        unknown
+      >;
+      let ctx;
+      try {
+        ctx = contextFromArgs(_trust ?? {});
+      } catch (err) {
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `Contexto de confianza inválido: ${(err as Error).message}`,
+            },
+          ],
+        };
+      }
+      const res = await trust.executeTool(name, params, ctx, this.options.execute);
+      if (!res.ok) {
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify({
+                success: false,
+                tool: name,
+                error: res.error,
+                code: res.verification?.code,
+                checks: res.verification?.checks,
+                audit: res.audit?.hash,
+              }),
+            },
+          ],
+        };
+      }
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({
+              success: true,
+              tool: name,
+              dryRun: !this.options.execute && !res.transaction ? true : undefined,
+              result: res.result,
+              transaction: res.transaction,
+              remainingLimit: res.verification?.remainingLimit,
+              audit: res.audit?.hash,
+            }),
+          },
+        ],
       };
     }
     if (!this.options.execute) {
@@ -573,7 +676,7 @@ export function createMcpHttpServer(options: McpServerOptions | McpCore): http.S
       res.writeHead(status, {
         'Content-Type': 'application/json; charset=utf-8',
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, X-Trust-Token',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       });
       res.end(JSON.stringify(body, null, 2));
@@ -620,6 +723,93 @@ export function createMcpHttpServer(options: McpServerOptions | McpCore): http.S
       })();
       return;
     }
+    if (req.url?.startsWith('/api/trust')) {
+      if (!core.trustEnabled) {
+        respond(404, { error: 'Capa de confianza no habilitada (usa --trust)' });
+        return;
+      }
+      const u = new URL(req.url, 'http://localhost');
+      const route = u.pathname.replace(/\/+$/, '');
+      const readBody = (cb: (parsed: Record<string, unknown>) => Promise<void>): void => {
+        let body = '';
+        req.on('data', (chunk) => (body += chunk));
+        req.on('end', () => {
+          void (async () => {
+            try {
+              await cb(JSON.parse(body || '{}') as Record<string, unknown>);
+            } catch (err) {
+              respond(400, { error: (err as Error).message });
+            }
+          })();
+        });
+      };
+      const unwrap = (
+        r: { content: Array<Record<string, unknown>>; isError?: boolean },
+        errStatus: number,
+      ): void => {
+        const t = (r.content[0] as { text?: string } | undefined)?.text ?? '';
+        try {
+          respond(r.isError ? errStatus : 200, JSON.parse(t));
+        } catch {
+          respond(r.isError ? errStatus : 200, r.isError ? { error: t } : { result: t });
+        }
+      };
+      if (req.method === 'GET' && route === '/api/trust/policies') {
+        void core
+          .callTrust('trust_get_policies', {
+            tool: u.searchParams.get('tool') ?? undefined,
+          })
+          .then((r) => unwrap(r, 500));
+        return;
+      }
+      if (req.method === 'GET' && route === '/api/trust/audit') {
+        void core
+          .callTrust('trust_get_audit_log', {
+            agentId: u.searchParams.get('agentId') ?? undefined,
+            limit: u.searchParams.get('limit') ?? undefined,
+            verify: u.searchParams.get('verify') === '1',
+          })
+          .then((r) => unwrap(r, 500));
+        return;
+      }
+      if (req.method === 'GET' && route === '/api/trust/identity') {
+        void core
+          .callTrust('trust_verify_identity', {
+            agentId: u.searchParams.get('agentId') ?? '',
+            chain: u.searchParams.get('chain') ?? 'sui',
+            network: u.searchParams.get('network') ?? undefined,
+          })
+          .then((r) => unwrap(r, 422));
+        return;
+      }
+      if (req.method === 'POST' && route === '/api/trust/verify') {
+        readBody(async (parsed) => {
+          const r = await core.callTrust('trust_check_permission', {
+            ...parsed,
+            toolName: parsed.toolName ?? parsed.tool,
+          });
+          const t = (r.content[0] as { text?: string }).text ?? '{}';
+          if (r.isError) {
+            respond(422, { error: t });
+            return;
+          }
+          const data = JSON.parse(t) as { allowed?: boolean };
+          respond(data.allowed ? 200 : 403, data);
+        });
+        return;
+      }
+      if (req.method === 'POST' && route === '/api/trust/execute') {
+        readBody(async (parsed) =>
+          unwrap(await core.callTrust('trust_execute_gasless', parsed), 422),
+        );
+        return;
+      }
+      respond(404, {
+        error:
+          'Ruta trust no encontrada: GET /api/trust/policies|audit|identity, POST /api/trust/verify|execute',
+      });
+      return;
+    }
     if (req.method === 'GET' && (req.url === '/api/graph' || req.url === '/')) {
       respond(200, core.graphPayload());
       return;
@@ -638,7 +828,17 @@ export function createMcpHttpServer(options: McpServerOptions | McpCore): http.S
               respond(400, { error: 'Falta "tool" en el cuerpo' });
               return;
             }
-            const result = await core.callTool(parsed.tool, parsed.args ?? {});
+            const trustHeader = req.headers['x-trust-token'];
+            const args = { ...(parsed.args ?? {}) } as Record<string, unknown>;
+            if (typeof trustHeader === 'string' && core.trust && !args._trust) {
+              const tk = core.trust.verifyToken(trustHeader, parsed.tool);
+              if (!tk.valid) {
+                respond(403, { error: `X-Trust-Token inválido: ${tk.reason}` });
+                return;
+              }
+              args._trust = { agentId: tk.agentId, trustToken: trustHeader };
+            }
+            const result = await core.callTool(parsed.tool, args);
             respond(result.isError ? 500 : 200, result);
           } catch (err) {
             respond(400, { error: (err as Error).message });
@@ -681,7 +881,7 @@ export function createMcpHttpServer(options: McpServerOptions | McpCore): http.S
     }
     respond(404, {
       error:
-        'Ruta no encontrada. Usa /api/tools, /api/graph, POST /api/call, POST /api/prompt o POST /api/animate.',
+        'Ruta no encontrada. Usa /api/tools, /api/graph, POST /api/call, POST /api/prompt, POST /api/animate o /api/trust/*.',
     });
   });
 }

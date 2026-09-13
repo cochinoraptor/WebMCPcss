@@ -278,6 +278,8 @@ export * as doc from './doc';
 export * as security from './security';
 export * as recommender from './recommender';
 export * as web3 from './web3';
+/** Módulo de Confianza Blockchain Gasless (v1.3.0): identidad ERC-8004/Sui, permisos firmados, gasless y auditoría. */
+export * as trust from './trust';
 
 // --- v1.1.0: alineación con el estándar WebMCP (document.modelContext y API
 // declarativa toolname/tooldescription) ---

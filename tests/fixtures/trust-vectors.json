@@ -1,0 +1,242 @@
+{
+ "keccak": [
+  [
+   "",
+   "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+  ],
+  [
+   "abc",
+   "0x4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"
+  ],
+  [
+   "The quick brown fox jumps over the lazy dog",
+   "0x4d741b6f1eb29cb2a9b9911c82f56fa8d73b04959d3d9d222895df6c0b28aa15"
+  ],
+  [
+   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "0x96ea54061def936c4be90b518992fdc6f12f535068a256229aca54267b4d084d"
+  ]
+ ],
+ "selectors": [
+  [
+   "ownerOf(uint256)",
+   "0x6352211e"
+  ],
+  [
+   "tokenURI(uint256)",
+   "0xc87b56dd"
+  ],
+  [
+   "getAgentWallet(uint256)",
+   "0x00339509"
+  ],
+  [
+   "getMetadata(uint256,string)",
+   "0xcb4799f2"
+  ],
+  [
+   "balanceOf(address)",
+   "0x70a08231"
+  ],
+  [
+   "getSummary(uint256,address[],string,string)",
+   "0x81bbba58"
+  ],
+  [
+   "totalSupply()",
+   "0x18160ddd"
+  ],
+  [
+   "getIdentityRegistry()",
+   "0xbc4d861b"
+  ],
+  [
+   "nonces(address)",
+   "0x7ecebe00"
+  ],
+  [
+   "name()",
+   "0x06fdde03"
+  ],
+  [
+   "transferWithAuthorization(address,address,uint256,uint256,uint256,bytes32,uint8,bytes32,bytes32)",
+   "0xe3ee160e"
+  ],
+  [
+   "getNonce(address,uint192)",
+   "0x35567e1a"
+  ],
+  [
+   "remaining(address)",
+   "0xb399b0bc"
+  ],
+  [
+   "recordAction(bytes32,bytes32,string)",
+   "0xec99ea07"
+  ],
+  [
+   "anchor(bytes32,uint256)",
+   "0x8f5bae2e"
+  ]
+ ],
+ "evm": {
+  "privateKey": "0x1111111111111111111111111111111111111111111111111111111111111111",
+  "address": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+  "publicKey": "0x044f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa385b6b1b8ead809ca67454d9683fcf2ba03456d6fe2c4abe2b07f0fbdbb2f1c1",
+  "personal": {
+   "message": "WebMCPcss permission test",
+   "signature": "0xf29e13b5e9cf6b4bb06f43141b106785b282527457a7f6163be0d563c56e97713f5699a4a59935377b89ec7357d7fc585f9d763a4cffef05c0623ab149657b9d1b",
+   "hash": "0xa44f757ede0f11f62ed5d72357119e3308bb840c5df42908085488b1c5ceea5e"
+  },
+  "typed": {
+   "domain": {
+    "name": "WebMCPcss Trust",
+    "version": "1",
+    "chainId": 84532
+   },
+   "types": {
+    "Permission": [
+     {
+      "name": "agentId",
+      "type": "string"
+     },
+     {
+      "name": "signer",
+      "type": "address"
+     },
+     {
+      "name": "scope",
+      "type": "string"
+     },
+     {
+      "name": "nonce",
+      "type": "bytes32"
+     },
+     {
+      "name": "issuedAt",
+      "type": "uint256"
+     },
+     {
+      "name": "expiresAt",
+      "type": "uint256"
+     },
+     {
+      "name": "maxSpend",
+      "type": "string"
+     },
+     {
+      "name": "allowedContracts",
+      "type": "string"
+     },
+     {
+      "name": "origin",
+      "type": "string"
+     }
+    ]
+   },
+   "value": {
+    "agentId": "eip155:84532:0x8004A818BFB912233c491871b3d84c89A494BD9e#1",
+    "signer": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+    "scope": "purchase,add_to_cart",
+    "nonce": "0xabababababababababababababababababababababababababababababababab",
+    "issuedAt": 1757700000,
+    "expiresAt": 1757786400,
+    "maxSpend": "100 USDC",
+    "allowedContracts": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "origin": "https://shop.example"
+   },
+   "signature": "0x00dc2094019f10a2b5f4cff0d01391db3227a9ac1c10a1ad9cefd0a4d81206760a96184ce3098a10067a9bd0c8fd0db093dc60ca0e585566ce71bb639d38f0991c",
+   "hash": "0x0d5c763ab2a4388f86b65735280ce5b2737b781ffc56a3b2bc5da641685025ae",
+   "domainSeparator": "0xa3445e66da1e24428db1987daafa46f5f2d547c5d91e99136e3ab38ef9c9f963",
+   "structHash": "0xa01c026bb32a8b0ab724de88a5999b1706a161a1a4241ca67d811995308a18e7"
+  },
+  "eip3009": {
+   "domain": {
+    "name": "USD Coin",
+    "version": "2",
+    "chainId": 84532,
+    "verifyingContract": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+   },
+   "types": {
+    "TransferWithAuthorization": [
+     {
+      "name": "from",
+      "type": "address"
+     },
+     {
+      "name": "to",
+      "type": "address"
+     },
+     {
+      "name": "value",
+      "type": "uint256"
+     },
+     {
+      "name": "validAfter",
+      "type": "uint256"
+     },
+     {
+      "name": "validBefore",
+      "type": "uint256"
+     },
+     {
+      "name": "nonce",
+      "type": "bytes32"
+     }
+    ]
+   },
+   "value": {
+    "from": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+    "to": "0x000000000000000000000000000000000000dEaD",
+    "value": "1000000",
+    "validAfter": "0",
+    "validBefore": "1999999999",
+    "nonce": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+   },
+   "signature": "0xbfeecb22c090d6dace508c638d7565580818806fea003ac4b2e6910e196b88e540f86c27aed0b16d48f888da8f27da11db1791b619d054760d635345fcdb2f581c",
+   "hash": "0x5611af3677938ece68e35340b540168ee5ea34f58316aceb8af6741c656b7a7f"
+  }
+ },
+ "abi": {
+  "ownerOf1": "0x6352211e0000000000000000000000000000000000000000000000000000000000000001",
+  "getMetadata": "0xcb4799f200000000000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000b6167656e7457616c6c6574000000000000000000000000000000000000000000",
+  "getSummary": "0x81bbba580000000000000000000000000000000000000000000000000000000000000007000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000000200000000000000000000000019e7e376e7c213b7e7e7e46cc70a5dd086daff2a000000000000000000000000000000000000000000000000000000000000dead000000000000000000000000000000000000000000000000000000000000000773746172726564000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "stringDecode": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001d697066733a2f2f626166796578616d706c652f6167656e742e6a736f6e000000",
+  "bytesDecode": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002000000000000000000000000019e7e376e7c213b7e7e7e46cc70a5dd086daff2a",
+  "summaryDecode": "0x0000000000000000000000000000000000000000000000000000000000000003ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe70000000000000000000000000000000000000000000000000000000000000001"
+ },
+ "sui": {
+  "address": "0x48936240c871663e6ba416724158736101ccab29436f72ae3ae4c8fa1ce7e45f",
+  "publicKeyBase64": "oJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=",
+  "message": "WebMCPcss permission test",
+  "signature": "AKDfK521wHtmkeGHchqdTjmzb8SsnPqP1fBeGkKOAFTociaWjyNfGv+6bGwHIOY/Ft3DYc33bLmQhmrGyfy8DwqgmqX0emdZgC/5VfjcLSoUpcmdI76X+GQSf/k4NFWk8A==",
+  "verifiedBy": "0x48936240c871663e6ba416724158736101ccab29436f72ae3ae4c8fa1ce7e45f"
+ },
+ "blake2b": [
+  [
+   "",
+   "0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8"
+  ],
+  [
+   "abc",
+   "bddd813c634239723171ef3fee98579b94964e3bb1cb3e427262c8c068d52319"
+  ],
+  [
+   "The quick brown fox jumps over the lazy dog",
+   "01718cec35cd3d796dd00020e0bfecb473ad23457d063b75eff29c0ffa2e58a9"
+  ]
+ ],
+ "suiTx": {
+  "sender": "0x48936240c871663e6ba416724158736101ccab29436f72ae3ae4c8fa1ce7e45f",
+  "recipient": "0xabababababababababababababababababababababababababababababababab",
+  "usdc": "0xa1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29::usdc::USDC",
+  "amountUnits": "1000000",
+  "minEpoch": 1222,
+  "maxEpoch": 1223,
+  "chainIdentifier": "69WiPg3DAQiwdxfncX6wYQ2siKwAe6L9BZthQea3JNMD",
+  "nonce": 7,
+  "hex": "0000020020abababababababababababababababababababababababababababababababab020040420f00000000000007a1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29047573646304555344430000020000000000000000000000000000000000000000000000000000000000000000020762616c616e63650c72656465656d5f66756e64730107a1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e290475736463045553444300010101000000000000000000000000000000000000000000000000000000000000000000020762616c616e63650a73656e645f66756e64730107a1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29047573646304555344430002030000000001000048936240c871663e6ba416724158736101ccab29436f72ae3ae4c8fa1ce7e45f0048936240c871663e6ba416724158736101ccab29436f72ae3ae4c8fa1ce7e45f000000000000000000000000000000000201c60400000000000001c7040000000000000000204c78adacf2a2f5ad80f27ed7d54aa69d3a78f1ca67fdef9ecf5754f5b8bb77b007000000",
+  "digest": "DczbJDMaLtEE1xc6VRXHbcGhwRPhamZNgQL47dEaN4MR",
+  "signature": "ABZnju8jz90BcDrXybjVVMuUi0lbbGJgb4NSXY0bN1C9+yvbdPHBHGOoyJ+lRnaj2tLYL6MepdHzmFjGXCsRBwegmqX0emdZgC/5VfjcLSoUpcmdI76X+GQSf/k4NFWk8A=="
+ }
+}

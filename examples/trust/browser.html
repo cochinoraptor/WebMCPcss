@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>WebMCPcss · demo de confianza en el navegador</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #172033; }
+    button { padding: .6rem 1rem; border-radius: .5rem; border: 1px solid #94a3b8; background: #fff; cursor: pointer; margin-right: .5rem; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: .5rem; overflow: auto; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <h1>Tienda de ejemplo</h1>
+  <p>Total del carrito: <strong class="cart-total">$12.00</strong></p>
+  <button class="checkout-button">Comprar</button>
+  <button class="tip-button">Propina</button>
+  <button class="newsletter-form">Suscribirme</button>
+
+  <h2>Capa de confianza</h2>
+  <p>
+    <button id="evm">Firmar prueba con MetaMask</button>
+    <button id="sui">Firmar prueba con Sui Wallet</button>
+  </p>
+  <pre id="out">Genera el script con:  webmcpcss trust inject --file shop.webmcp.css --api http://localhost:8090 --output trust-inject.js</pre>
+
+  <!-- Generado por `webmcpcss trust inject` -->
+  <script src="trust-inject.js"></script>
+  <script>
+    const out = document.getElementById('out');
+    const show = (v) => (out.textContent = typeof v === 'string' ? v : JSON.stringify(v, null, 2));
+    window.addEventListener('webmcp:trust-ready', (ev) => show({ ready: ev.detail, purchase: window.__WEBMCP_TRUST__.requires('purchase') }));
+
+    document.getElementById('evm').onclick = async () => {
+      try {
+        const T = window.__WEBMCP_TRUST__;
+        const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const proof = T.buildProof('#7', account, ['purchase'], 900, { maxSpend: '50 USDC' });
+        const signed = await T.signProofEvm(proof, 84532);
+        show(signed);
+        if (T.apiBase) show(await T.verify('purchase', { proof: signed, amount: '0.5 USDC' }));
+      } catch (e) { show(String(e)); }
+    };
+
+    document.getElementById('sui').onclick = async () => {
+      try {
+        const T = window.__WEBMCP_TRUST__;
+        // Wallet Standard: window.navigator.wallets o el registro de @mysten/wallet-standard
+        const wallets = (navigator.wallets && navigator.wallets.get && navigator.wallets.get()) || [];
+        const wallet = wallets.find((w) => w.features['sui:signPersonalMessage']);
+        if (!wallet) throw new Error('No hay billetera Sui con sui:signPersonalMessage');
+        const { accounts } = await wallet.features['standard:connect'].connect();
+        const account = accounts[0];
+        const proof = T.buildProof(account.address, account.address, ['tip'], 900);
+        const signed = await T.signProofSui(proof, wallet, account);
+        show(signed);
+        if (T.apiBase) show(await T.verify('tip', { proof: signed, amount: '1 USDC' }));
+      } catch (e) { show(String(e)); }
+    };
+  </script>
+</body>
+</html>

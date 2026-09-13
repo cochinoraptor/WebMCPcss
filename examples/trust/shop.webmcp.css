@@ -1,0 +1,69 @@
+/* Tienda de ejemplo con capa de confianza blockchain gasless (WebMCPcss 1.3.0)
+ *
+ * Tres niveles de exigencia:
+ *   purchase  → identidad ERC-8004 en Base Sepolia + pago x402 (USDC) + límites
+ *   tip       → clave de sesión en Sui testnet, propina gasless en USDC
+ *   subscribe → sin política (se ejecuta como cualquier tool)
+ */
+
+:root {
+  --usdc-base-sepolia: 0x036CbD53842c5426634e7929541eC2318f3dCF7e;
+}
+
+.checkout-button {
+  webmcp-tool: "purchase";
+  webmcp-description: "Compra el carrito actual";
+  webmcp-confirmation: needed;
+  webmcp-auth: "erc8004";
+  webmcp-payment: "x402";
+  webmcp-chain: "base-sepolia";
+  webmcp-spending-limit: "100 USDC/day";
+  webmcp-rate-limit: "5 actions/minute";
+  webmcp-allowed-contracts: "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+  webmcp-allowed-hours: "06:00-23:00";
+  webmcp-pay-to: "0x000000000000000000000000000000000000dEaD";
+  webmcp-amount: "0.5 USDC";
+}
+
+.tip-button {
+  webmcp-tool: "tip";
+  webmcp-description: "Deja una propina al creador (USDC en Sui, sin gas)";
+  webmcp-param-amount: "number";
+  webmcp-auth: "session-key";
+  webmcp-payment: "none";
+  webmcp-chain: "sui-testnet";
+  webmcp-spending-limit: "5 USDC/day";
+  webmcp-rate-limit: "10 actions/minute";
+  webmcp-allowed-contracts: "0xa1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29::usdc";
+}
+
+.vote-button {
+  webmcp-tool: "vote";
+  webmcp-description: "Vota una reseña (una persona, un voto)";
+  webmcp-param-review-id: "string";
+  webmcp-auth: "zk-proof";
+  webmcp-chain: "base";
+  webmcp-rate-limit: "20 actions/hour";
+}
+
+.donate-button {
+  webmcp-tool: "donate";
+  webmcp-description: "Donación patrocinada por el sitio en SKALE (gas gratuito)";
+  webmcp-auth: "none";
+  webmcp-payment: "sponsored";
+  webmcp-chain: "skale-europa";
+  webmcp-requires-human-proof: true;
+  webmcp-spending-limit: "10 USDC/day";
+}
+
+.newsletter-form {
+  webmcp-tool: "subscribe";
+  webmcp-description: "Suscribe un email al boletín";
+  webmcp-param-email: "string";
+  webmcp-trigger: submit;
+}
+
+.cart-total {
+  webmcp-context: "cart_total";
+  webmcp-format: "currency";
+}
